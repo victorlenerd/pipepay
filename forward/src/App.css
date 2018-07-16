@@ -1,0 +1,107 @@
+body{
+            background-color: black;
+    }
+
+    #container{
+      background-color: white;
+      width: 414px;
+      height: 662px;
+      margin: auto;
+      font-family: Mallanna;
+    }
+
+    #content{
+      border: 1px solid;
+      width: 412px;
+      height: 150px;
+      box-shadow: 0 0 4px 0 rgba(0,0,0,0.5);
+      background-color: #FFFFFF;
+      color: #FFFFFF;
+      margin-bottom: 372px;
+    }
+
+    #amount{
+      border: 1px solid;
+      float: right;
+      margin-right: 18px;
+      width: 105px;
+      height: 21px;
+      margin-top: 40px;
+    }
+
+    #amount p{
+      margin-top: 0;
+      color: #71CA99;
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.23px;
+      line-height: 21px;
+    }
+
+    #name{
+      border: 1px solid;
+      margin-left: 23px;
+      width: 126px;
+      height: 21px;
+      margin-top: 26px;
+    }
+
+    #name p{
+      margin-top: 0;
+      color: rgba(44,62,80,0.75);
+      font-size: 18px;
+      font-weight: 600;
+      letter-spacing: 0.23px;
+      line-height: 21px;
+    }
+
+    #email{
+      border: 1px solid;
+      margin-left: 23px;
+      width: 205px;
+      height: 21px;
+      margin-top: 3px;
+      margin-bottom: 22px;
+    }
+
+    #email p{
+      margin-top: 0;
+      color: rgba(44,62,80,0.75);
+      font-size: 18px;
+      font-weight: 100;
+      letter-spacing: 0.23px;
+      line-height: 21px;
+    }
+
+    #link{  
+      width: 224px;
+      height: 20px;
+      margin-left: 23px;
+    }
+
+    #link a{
+      outline: none;
+      color: rgba(44,62,80,0.75);
+      font-size: 16px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      line-height: 20px;
+      font-family: "Mallanna";
+    }
+
+    #add{
+      border: none;
+      background: linear-gradient(241.41deg, #9AE6CD 0%, #96E3C9 7.62%, #95E3C9 8.96%, #80D8B7 45.82%, #61C89E 100%);
+      width: 60px;
+      height: 60px;
+      border-radius: 100%; 
+      box-shadow: 0 0 20px 15px rgba(113,202,153,0.3), 0 2px 4px 0 rgba(0,0,0,0.5), 0 2px 4px 0 rgba(0,0,0,0.5), 0 2px 4px 0 rgba(0,0,0,0.5);
+      margin: auto;
+    }
+
+    #add img{
+      width: 25px;
+      height: 25px; 
+      margin-top: 17.5px;
+      margin-left: 17.5px;
+    }
