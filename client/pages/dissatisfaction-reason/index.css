@@ -1,0 +1,96 @@
+body{
+  background-color: #ffffff;
+}
+
+#container{
+  border: 1px solid #ffffff;
+    background-color: #ffffff;
+    width: 98%;
+    height: auto;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 600px;
+  font-family: Mallanna;
+  max-width: 414px;
+}
+
+    .container{
+  border: 1px solid #ffffff;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 1fr 5fr;
+}
+
+.header{
+border: 1px solid #ffffff;
+margin-top: 17px;  /**21px **/
+margin-bottom: 5px;
+}
+
+h2{
+text-align: center;
+font-size: 22px;
+color: rgba(44,62,80,0.75);
+font-weight: bold;
+line-height: 24px;
+    letter-spacing: 0.25px;
+}
+
+.form{
+border: 1px solid #ffffff;
+}
+
+textarea{
+width: 99%;
+    height: 111px;
+    resize: none;
+    color: rgba(44,62,80,0.75);
+    border: none;
+    border-bottom: 2px solid;
+    margin-bottom: 29px;
+    outline: none;
+    font-size: 18px;
+    font-family: Mallanna;
+    line-height: 24px;
+}
+
+input{
+outline: none;
+border: none;
+letter-spacing: 0.38px;
+}
+
+input:nth-child(3), input:nth-child(4){	
+border-bottom: 2px solid #576D7A;
+width: 100%;
+height: 32px;
+  font-size: 16px;
+}
+
+input:nth-child(3){
+margin-bottom: 28px;
+}
+
+input:nth-child(4){
+margin-bottom: 60px;
+}
+
+input:nth-child(5){
+cursor: pointer;
+width: 70%;
+height: 38px;
+margin-left: 15%;
+border-radius: 3px;
+background: linear-gradient(241.41deg, #9AE6CD 0%, #96E3C9 7.62%, #95E3C9 8.96%, #80D8B7 45.82%, #61C89E 100%);
+box-shadow: 3px 5px 15px 0 rgba(111,208,170,0.79);
+color: #FFFFFF;
+font-weight: bold;
+font-size: 14px;
+}
+
+#header2 h2{
+margin-left: -60px; 
+}
+

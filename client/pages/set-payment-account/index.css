@@ -1,0 +1,84 @@
+body{
+  background-color: #ffffff;
+}
+
+#container{
+  border: 1px solid #ffffff;
+    background-color: #ffffff;
+    width: 98%;
+    height: auto;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 500px;
+  font-family: Mallanna;
+  max-width: 414px;
+}
+
+.container{
+  border: 1px solid #ffffff;
+    width: 100%;
+    display: grid;
+    grid-template-columns: 100%;
+    grid-template-rows: 1fr 0.5fr 3fr;
+}
+
+.header{
+border: 1px solid #ffffff;
+margin-top: 21px;
+}
+
+h2{
+font-size: 22px;
+color: rgba(44,62,80,0.75);
+font-weight: bold;
+}
+
+#instruction{
+border: 1px solid #ffffff;
+margin-bottom: 50px;
+}
+
+#instruction p{
+font-size: 15px;
+color: rgba(44,62,80,0.75);
+margin-top: 0;
+}
+
+.form{
+border: 1px solid #ffffff;
+}
+
+input{
+outline: none;
+border: none;
+letter-spacing: 0.38px;
+}
+
+input:nth-child(1), input:nth-child(2){
+
+border-bottom: 2px solid #576D7A;
+width: 100%;
+height: 32px;
+  font-size: 16px;
+}
+
+input:nth-child(1){
+margin-bottom: 28px;
+}
+
+input:nth-child(2){
+margin-bottom: 60px;
+}
+
+input:nth-child(3){
+cursor: pointer;
+width: 70%;
+height: 38px;
+margin-left: 15%;
+border-radius: 3px;
+background: linear-gradient(241.41deg, #9AE6CD 0%, #96E3C9 7.62%, #95E3C9 8.96%, #80D8B7 45.82%, #61C89E 100%);
+box-shadow: 3px 5px 15px 0 rgba(111,208,170,0.79);
+color: #FFFFFF;
+font-weight: bold;
+}	
