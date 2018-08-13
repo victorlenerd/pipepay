@@ -5,8 +5,8 @@ export let cognitoUser;
 
 export const init = () => {
     userPool = new CognitoUserPool({
-        UserPoolId : '',
-        ClientId : ''
+        UserPoolId : 'us-east-2_ZAwetvcgl',
+        ClientId : '5igeiircu8gvq2vgc1uj004qvf'
     });
 
     return userPool;
