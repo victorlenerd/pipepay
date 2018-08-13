@@ -6,21 +6,17 @@ class SetPaymentAccount extends Component{
   render(){
     return (
       <div id="container">
-	<div className="container">
-	<div className="header">
-		<h2>Account Details</h2>
-	</div>
-	<div id="instruction">
-		<p>Please set account to be used for payments.</p>
-	</div>
-	<div className="form">
-	<form>
-		<input type="text" name="choose bank" placeholder="Choose Bank"></input>
-			<input type="text" name="account number" placeholder="Account Number"></input>
-			<input type="submit" name="send" value="DONE"></input>
-	</form>
-	</div>
-	</div>
+  <div id="heading">
+    <h2>Account Details</h2>
+  </div>
+  <div id="instruction">
+    <p>Please set account to be used for payments.</p>
+  </div>
+  <form>
+    <input type="text" name="choose bank" placeholder="Choose Bank"></input>
+      <input type="text" name="account number" placeholder="Account Number"></input>
+      <input type="submit" name="send" value="DONE"></input>
+  </form>
 </div>
       );
   }

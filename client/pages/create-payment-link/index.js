@@ -5,22 +5,18 @@ class CreatePaymentLink extends Component{
   render(){
     return (
       <div id="container">
-		<div className="container">
-<div className="header">
-	<h2>
+<div id="title">
 Create Payment<br></br>Link.
-</h2>
 </div>
-<div className="form">
+<div id="form">
 <form>
-	<input type="text" name="customer-email" 
-	placeholder="Customer Email" id="c-email"></input>
-	<textarea placeholder="Description"></textarea>
-	<input type="text" name="" placeholder="Purchase Price"></input>
-	<input type="text" name="" placeholder="Delivery Price"></input>
-	<input type="submit" name="" value="SEND" id="send"></input>
+  <input type="text" name="customer-email" 
+  placeholder="Customer Email" id="c-email"></input>
+  <textarea placeholder="Description"></textarea>
+  <input type="text" name="" placeholder="Purchase Price"></input>
+  <input type="text" name="" placeholder="Delivery Price"></input>
+  <input type="submit" name="" value="SEND" id="send"></input>
 </form>
-</div>
 </div>
 </div>
       );

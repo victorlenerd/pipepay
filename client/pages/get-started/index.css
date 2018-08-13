@@ -1,90 +1,96 @@
 body{
-  background-color: #ffffff;
-  font-family: Mallanna;
-}
+            background-color: black;
+            font-family: Mallanna;
+    }
 
-#container{
-border: 1px solid #ffffff;
-background-color: #ffffff;
-width: 98%;
-height: auto;
-margin: auto;
-display: grid;
-grid-template-columns: 100%;
-grid-template-rows: 600px;
-font-family: Mallanna;
-max-width: 414px;
-}
+    #container{
+      background-color: #FFFFFF;
+            width: 414px;
+            height: 736px;
+            margin: auto;
+            border: 1px solid #FFFFFF;
+    }
 
-.container{
-border: 1px solid #ffffff;
-width: 100%;
-display: grid;
-grid-template-columns: 100%;
-grid-template-rows: 1fr 1.5fr 1fr 2fr 1fr;
-}
+    #heading{
+            width: 159px;
+            height: 33px;
+            margin: auto;
+            margin-bottom: 35px;
+            margin-top: 50px;
+    }
 
-.header{
-border: 1px solid #ffffff;
-margin-top: 21px;  /**17px **/
-margin-bottom: 5px;
-}
+    #heading h2{
+      margin-top: 0px;
+      color: rgba(44,62,80,0.75);
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: 0.35px;
+      line-height: 33px;
+      text-align: center;
+      
+    }
 
-h2{
-text-align: center;
-font-size: 22px;
-color: rgba(44,62,80,0.75);
-font-weight: bold;
-line-height: 24px;
-letter-spacing: 0.25px;
-}
+    #logo{
+      width: 40px;
+      height: 110px;
+      margin: auto;
+      margin-top: 36px;
+      margin-bottom: 36px;
+    }
 
-#logo{
-border:1px solid;
-width: 40px;
-height: 83px;
-margin: auto;
-}
+    #motto{
+      width: 301px;
+      height: 63px;
+      margin: auto;
+    }
 
-#motto{
-width: 250px;
-height: 63px;
-margin: auto;
-}
+    #motto p{
+      color: rgba(44,62,80,0.75);
+      font-size: 24px;
+      font-weight: 100;
+      letter-spacing: 0.45px;
+      text-align: center;
+      line-height: 29px;
+      margin-top: 0px;
+    }
 
-#motto p{
-color: rgba(44,62,80,0.75);
-font-size: 20px;
-font-weight: 100;
-letter-spacing: 0.45px;
-text-align: center;
-line-height: 29px;
-}
+    #signing_options{
+      width: 260px;
+      margin: auto;
+      margin-top: 60px;
+    }
 
-#signing_options{
-border: 1px solid #ffffff;
-width: 70%;
-margin: auto;
-}
+    button{
+      border: none;
+      width: 260px;
+      height: 51px;
+      border-radius: 5px;
+      background: linear-gradient(241.41deg, #9AE6CD 0%, #96E3C9 7.62%, #95E3C9 8.96%, #80D8B7 45.82%, #61C89E 100%);
+      box-shadow: 3px 5px 15px 0 rgba(111,208,170,0.79);
+      color: #FFFFFF;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 20px;
+    }
 
-button{
-cursor: pointer;
-width: 100%;
-border: none;
-height: 38px;
-border-radius: 3px;
-background: linear-gradient(241.41deg, #9AE6CD 0%, #96E3C9 7.62%, #95E3C9 8.96%, #80D8B7 45.82%, #61C89E 100%);
-box-shadow: 3px 5px 15px 0 rgba(111,208,170,0.79);
-color: #FFFFFF;
-font-weight: bold;
-font-size: 14px;
-}
+    button:nth-child(1){
+      margin-bottom: 32px;
+    }
 
-button:nth-child(1){
-margin-bottom: 25px;
-}
+    #words{
+      width: 366px;
+      height: 48px;
+      margin: auto;
+      margin-top: 90px;
+    }
 
-#words p{
-color: rgba(44,62,80,0.75);	
-text-align: center;
-}
+    #words p{
+             opacity: 0.5;
+             color: #000000;
+             font-family: Helvetica;
+             font-size: 20px;
+             letter-spacing: 0.25px;
+             line-height: 24px;
+             text-align: center;
+             margin-top: 0px;
+    }

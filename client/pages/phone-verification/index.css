@@ -1,148 +1,105 @@
 body{
-  background-color: #ffffff;
-  font-family: Mallanna;
-}
+            background-color: black;
+            font-family: Mallanna;
+    }
 
-#container{
-border: 1px solid #ffffff;
-background-color: #ffffff;
-width: 98%;
-height: auto;
-margin: auto;
-display: grid;
-grid-template-columns: 100%;
-grid-template-rows: 600px;
-font-family: Mallanna;
-max-width: 414px;
-}
+    #container{
+      background-color: #FFFFFF;
+            width: 414px;
+            height: 736px;
+            margin: auto;
+            border: 1px solid #FFFFFF;
+    }
 
-.container{
-border: 1px solid #ffffff;
-width: 100%;
-display: grid;
-grid-template-columns: 100%;
-grid-template-rows: 1fr 1fr 1fr 1fr 1fr;
-}
+    #heading{
+      height: 66px;
+      width: 260px;
+      margin-left: 51px;
+      margin-top: 53px;
+    }
 
-.header{
-border: 1px solid #ffffff;
-width: 250px;
-margin-top: 17px;  /**21px **/
-}
+    #heading h2{
+      color: rgba(44,62,80,0.75);
+      font-size: 28px;
+      font-weight: 600;
+      letter-spacing: 0.35px;
+      line-height: 33px;
+      margin-top: 0px;
+    }
 
-h2{
-font-size: 22px;
-color: rgba(44,62,80,0.75);
-font-weight: bold;
-line-height: 24px;
-  letter-spacing: 0.25px;
-}
+    #instruction{
+      width: 301px;
+      height: 63px;
+      width: 301px;
+      margin: auto;
+      margin-top: 15px;
+    }
 
-#instruction{
-border: 1px solid #ffffff;
-margin-top: -20px;
-}
+    #instruction p{
+      color: rgba(44,62,80,0.75);
+      font-size: 20px;
+      font-weight: 100;
+      letter-spacing: 0.45px;
+      line-height: 24px;
+      margin-top: 0;
+    }
 
-#instruction p{
-font-size: 17px;
-color: rgba(44,62,80,0.75);
-}
+    #form{
+      width: 317px;
+      margin: auto;
+      margin-top: 90px;
+    }
 
-.form{
-border: 1px solid #ffffff;
-  width: 64%;
-margin: auto;
-margin-top: 0px;
-}
-
-input{
-border: none;
-  border-bottom: 2px solid #5F6D7A;
-  width: 16%;
-  display: inline;
-  margin-right: 10%;
-  font-size: 28px;
-  text-align: center;
-  outline: none;
-}
-
-input:nth-child(4){
-  margin-right: 0;
-}
-
-#verify{
-  border: 1px solid #ffffff;
-width: 70%;
-margin: auto;
-margin-top: 0px;
-}
-
-#verify button{
-cursor: pointer;
-width: 100%;
-border: none;
-height: 38px;
-border-radius: 3px;
-background: linear-gradient(241.41deg, #9AE6CD 0%, #96E3C9 7.62%, #95E3C9 8.96%, #80D8B7 45.82%, #61C89E 100%);
-  box-shadow: 3px 5px 15px 0 rgba(111,208,170,0.79);
-color: #FFFFFF;
-font-weight: bold;
-font-size: 14px;
-}
-
-#resend{
-border: 1px solid #ffffff;
-width: 70%;
-margin: auto;
-margin-top: -20px;
-}
-
-#resend button{
-cursor: pointer;
-width: 100%;
-border: none;
-height: 38px;
-border-radius: 3px;
-background-color: #ffffff;
-color: rgba(44,62,80,0.75);
-font-weight: bold;
-font-size: 14px;
-}
-
-@media (min-width: 400px){
-.header{
-width: 100%;
-margin: auto;
-}
-
-.header h2{
-text-align: center;
-}
-
-#instruction{
-width: 100%;
-margin: auto;
-margin-top: -20px;
-}
-
-#instruction p{
-text-align: center;
-}
-}
-
-@media (max-width: 320px){
-input{
-    border: none;
+    input{
+      border: none;
       border-bottom: 2px solid #5F6D7A;
-      width: 15%;
+      width: 59px;
       display: inline;
-      margin-right: 11%;
+      margin-right: 23px;
       font-size: 28px;
       text-align: center;
       outline: none;
-}
+    }
 
-input:nth-child(4){
+    input:nth-child(4){
       margin-right: 0;
-}
-}
+    }
+
+    #button{
+      height: 50px;
+      width: 260px;
+      margin: auto;
+      margin-top: 126px;
+    }
+
+    #button button{
+      height: 50px;
+      width: 260px;
+      border: none;
+      border-radius: 10px;
+      background: linear-gradient(241.41deg, #9AE6CD 0%, #96E3C9 7.62%, #95E3C9 8.96%, #80D8B7 45.82%, #61C89E 100%);
+      box-shadow: 3px 5px 15px 0 rgba(111,208,170,0.79);
+      color: #FFFFFF;
+      font-size: 16px;
+      letter-spacing: 0.2px;
+      line-height: 20px;
+    }
+
+    #resend{
+      height: 20px;
+      width: 200px;
+      margin: auto;
+            margin-top: 40px;
+    }
+
+    #resend button{
+      color: #5F6D7A;
+      border: none;
+      background-color: #FFFFFF;
+      height: 20px;
+      width: 200px;
+      font-size: 14px;
+      font-weight: 600;
+      letter-spacing: 0.2px;
+      line-height: 20px;
+    }

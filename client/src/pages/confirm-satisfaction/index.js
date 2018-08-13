@@ -13,7 +13,7 @@ class ConfirmSatisfaction extends Component{
 		</p>
 		<p id="merchant-name"> Really Nice Shirt.</p>
 	</div>
-	<div id="buttons">
+	<div id="button">
 		<button>I Like The Product.</button>
 		<button>I Don't Like The Product.</button>
 	</div>
