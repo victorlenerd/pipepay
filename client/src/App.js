@@ -7,7 +7,6 @@ import SetPaymentAccount from './pages/set-payment-account';
 import SendPaymentLink from './pages/send-payment-link';
 import SatisfactionConfirmLink from './pages/satisfaction-confirm-link';
 import PhoneVerification from './pages/sign-in';
-import GetStarted from './pages/get-started';
 import Forward from './pages/forward';
 import DissatisfactionReason from './pages/dissatisfaction-reason';
 import CreatePaymentLink from './pages/create-payment-link';
