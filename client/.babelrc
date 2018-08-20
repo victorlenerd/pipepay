@@ -1,0 +1,21 @@
+{
+    "presets": ["react-app"],
+    "plugins": [
+      "transform-decorators-legacy",
+      ["module-resolver", {
+        "cwd": "babelrc",
+        "root": ["./"],
+        "alias": {
+          "containers": "./src/containers",
+          "pages": "./src/pages",
+          "actions": "./src/actions",
+          "ducks": "./src/ducks",
+          "utils": "./src/utils",
+          "components": "./src/components",
+          "styles": "./src/styles"
+        },
+        "extensions": [".js", ".json"]
+      }]
+    ]
+  }
+  
