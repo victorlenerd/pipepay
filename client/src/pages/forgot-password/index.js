@@ -8,9 +8,7 @@ class ForgotPassword extends PureComponent {
         };
     }
 
-    submit = () => {
-
-    }
+    submit = () => {}
 
     render() {
         return (
