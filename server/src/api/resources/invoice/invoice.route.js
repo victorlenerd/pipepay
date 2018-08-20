@@ -3,12 +3,12 @@ import InvoiceController from './invoice.controller';
 
 const InvoiceRouter = express.Router();
 
-InvoiceRouter.param('invoiceId', InvoiceController.findByParam);
+InvoiceRouter.param('id', InvoiceController.findByParam);
 
 InvoiceRouter.route('/')
     .post(InvoiceController.createOne);
 
-InvoiceRouter.route('/:invoiceId')
+InvoiceRouter.route('/:id')
     .get(InvoiceController.getOne)
     .delete(InvoiceController.deleteOne);
 
