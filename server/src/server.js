@@ -1,11 +1,14 @@
 import express from 'express';
 import setupMiddleware from './middleware';
+import MainRouter from './api/resources';
+import { connect } from './db';
+
 const app = express();
-
 setupMiddleware(app);
-
-app.get('/', (req, res, next) => {
-    res.send("Hello, World!");
+connect().catch((err) => {
+    console.error('DB error', err);
 });
+
+app.use('/', MainRouter);
 
 export default app;

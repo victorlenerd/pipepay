@@ -1,6 +1,6 @@
-import { Schema, model }  from 'mongoose';
+import mongoose from 'mongoose';
 
-const InvoiceSchema = new Schema({
+const InvoiceSchema = new mongoose.Schema({
     userId: String,
     description: String,
     deliveryAmount: Number,
@@ -8,4 +8,4 @@ const InvoiceSchema = new Schema({
     customerEmail: String
 });
 
-export default model('Invoice', InvoiceSchema);
+export default mongoose.model('Invoice', InvoiceSchema);
