@@ -6,10 +6,10 @@ export let cognitoUser;
 export const init = () => {
     userPool = new CognitoUserPool({
         UserPoolId : 'us-east-2_ZAwetvcgl',
-        ClientId : '5igeiircu8gvq2vgc1uj004qvf'
+        ClientId : '1kim3ke0fq358jrota00sam46r'
     });
 
-    return userPool;
+    return userPool
 }
 
 export const signup = (Username, Password, attributes) => new Promise((resolve, reject) => {
@@ -47,12 +47,6 @@ export const confirmRegistration = (Username, code) => new Promise((resolve, rej
 export const setAttributes = (Username, attributes) => new Promise((resolve, reject) => {
     let attributeList = attributes.map(data => new CognitoUserAttribute(data));
     
-    // let userData = {
-    //     Username,
-    //     Pool: userPool   
-    // }
-
-    // cognitoUser = new CognitoUser(userData);
 
     cognitoUser.updateAttributes(attributeList, (err, result) => {
         if (err) {

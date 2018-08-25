@@ -29,6 +29,11 @@ body{
   border: 1px solid #FFFFFF;
 }
 
+.form-error {
+  color: red;
+  text-align: center;
+}
+
 input{
   outline: none;
   border: none;

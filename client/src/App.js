@@ -15,7 +15,15 @@ import DissatisfactionReason from './pages/dissatisfaction-reason';
 import CreatePaymentLink from './pages/create-payment-link';
 import ConfirmSatisfaction from './pages/confirm-satisfaction';
 
+import { init } from 'utils/auth';
+
+import 'styles/nprogress.css';
+
 class App extends Component {
+  componentWillMount() {
+    init();
+  }
+
   render() {
     return (
       <BrowserRouter>
