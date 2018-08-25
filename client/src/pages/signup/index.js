@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
+import React, { PureComponent } from 'react';
 import './index.css';
 import { signup } from 'utils/auth';
 import { Link } from 'react-router-dom';
 import NProgress from 'nprogress';
 
-class App extends Component {
+class App extends PureComponent {
 	constructor() {
 		super();
 		this.state = {
@@ -21,6 +21,7 @@ class App extends Component {
 			const lastname =  e.target.lastname.value;
 			const email =  e.target.email.value;
 			const password =  e.target.password.value;
+			const username = email.split('@')[0];
 
 			let dataName = {
 				Name : 'name',
@@ -35,7 +36,8 @@ class App extends Component {
 			let attributes = [dataName, dataEmail];
 			NProgress.start();
 			try {
-				await signup(email.split('@')[0], password, attributes);
+				await signup(username, password, attributes);
+				this.props.history.push('/verifyemail', { username,  password });
 			} catch({ message }) {
 				this.setState({
 					error: message

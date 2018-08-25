@@ -1,4 +1,6 @@
 import React, { PureComponent } from 'react';
+import { forgotPassword } from 'utils/auth';
+import NProgress from 'nprogress';
 
 class ForgotPassword extends PureComponent {
     constructor() {
@@ -6,9 +8,27 @@ class ForgotPassword extends PureComponent {
         this.state = {
             error: null
         };
+
+        this.submit = this.submit.bind(this);
     }
 
-    submit = () => {}
+    async submit(e) {
+        e.preventDefault();
+        if (this.formEl.checkValidity() === true) {            
+            const username = e.target.email.value.split('@')[0];
+
+            try {
+                NProgress.start();
+                await forgotPassword(username);
+                NProgress.done();
+                this.props.history.push('/resetpassword', { username });
+            } catch (err) {
+                this.setState({ error: err.message });
+            }
+        } else {
+            this.setState({ error: "Please fill all the required fields." });
+        }
+    }
 
     render() {
         return (
@@ -18,7 +38,7 @@ class ForgotPassword extends PureComponent {
                         <h1>Forgot Password.</h1>
                     </div>
                     <div className="form">
-                        <form onSubmit={this.submit}>
+					<form ref={e => this.formEl = e} name="reg-form" onSubmit={this.submit}>
                             <input type="email" name="email" placeholder="Email" className="text-input" />
                             <input type="submit" name="sign-in" value="SUBMIT" className="text-submit" />
                         </form>

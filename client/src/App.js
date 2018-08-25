@@ -2,10 +2,12 @@ import React, { Component } from 'react';
 
 import { BrowserRouter, Switch, Route } from 'react-router-dom';
 
-import SignIn from './pages/signin';
-import CreateAnAccount from './pages/signup';
-import ForgotPassword from './pages/forgot-password';
-import ChangePassword from './pages/change-password';
+import SignIn from 'pages/signin';
+import CreateAnAccount from 'pages/signup';
+import ForgotPassword from 'pages/forgot-password';
+import ChangePassword from 'pages/change-password';
+import VerifyAccount from 'pages/verify-account';
+import ResetPassword from 'pages/reset-password';
 
 import SetPaymentAccount from './pages/set-payment-account';
 import SendPaymentLink from './pages/send-payment-link';
@@ -32,8 +34,10 @@ class App extends Component {
           <Route path="/signup" component={CreateAnAccount} />
           <Route path="/forgotpassword" component={ForgotPassword} />
           <Route path="/changepassword" component={ChangePassword} />
+          <Route path="/verifyemail" component={VerifyAccount} />
+          <Route path="/resetpassword" component={ResetPassword} />
 
-          <Route path="/create-payment-link" component={CreatePaymentLink} />
+          <Route path="/dashboard" component={CreatePaymentLink} />
           <Route path="/send-payment-link" component={SendPaymentLink} />
           <Route path="/forward" component={Forward} />
         

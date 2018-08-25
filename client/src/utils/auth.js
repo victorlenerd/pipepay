@@ -92,7 +92,14 @@ export const forgotPassword = Username => new Promise((resolve, reject)=> {
     });
 });
 
-export const confirmPassword = (verificationCode, newPassword) => new Promise((resolve, reject)=> {
+export const confirmPassword = (Username, verificationCode, newPassword) => new Promise((resolve, reject)=> {
+    let userData = {
+        Username,
+        Pool: userPool   
+    }
+
+    cognitoUser = new CognitoUser(userData);
+
     cognitoUser.confirmPassword(verificationCode, newPassword, {
         onSuccess: resolve,
         onFailure: reject
