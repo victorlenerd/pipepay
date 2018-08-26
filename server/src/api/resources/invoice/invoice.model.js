@@ -5,7 +5,8 @@ const InvoiceSchema = new mongoose.Schema({
     description: String,
     deliveryAmount: Number,
     purchaseAmount: Number,
-    customerEmail: String
+    customerEmail: String,
+    status: String
 });
 
 export default mongoose.model('Invoice', InvoiceSchema);

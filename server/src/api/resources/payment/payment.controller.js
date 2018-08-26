@@ -1,4 +1,6 @@
 import PaymentModel from './payment.model';
+import InvoiceModel from '../invoice/invoice.model';
+
 import * as mailer from '../../modules/mailer';
 import generateController from '../../modules/generateController';
 

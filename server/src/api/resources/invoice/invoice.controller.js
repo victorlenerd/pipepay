@@ -7,14 +7,15 @@ export default generateController(InvoiceModel, {
         var body = req.body;
         body.userId = req.user.id;
         InvoiceModel.create(body, async (err, doc) => {
-            if (err) return res.status(500).send({ error: { message: 'Could not create the invoice' }, status: false });
+            if (err) return res.status(500).send({ error: { message: 'Could not create the invoice' }, success: false });
 
             try {
                 await mailer.sendInvoiceMail(doc);
             } catch (err) {
-                return res.status(500).send({ error: { message: 'Could not send mail' }, status: false });
+                return res.status(500).send({ error: { message: 'Could not send mail' }, success: false });
             }
-            res.send({ data: doc, status: true });
+            
+            res.send({ data: doc, success: true });
         });
     }
 });

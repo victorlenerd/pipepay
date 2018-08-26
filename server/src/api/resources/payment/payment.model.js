@@ -1,9 +1,9 @@
-import { Schema, SchemaType, model }  from 'mongoose';
+import mongoose from 'mongoose';
 
-const PaymentSchema = new Schema({
+const PaymentSchema = new mongoose.Schema({
     userId: String,
-    invoiceId: { type: SchemaType.ObjectId, ref: 'Invoice' },
+    invoiceId: { type: mongoose.Schema.Types.ObjectId, ref: 'Invoice' },
     paymentRef: String
 });
 
-export default model('Payment', PaymentSchema);
+export default mongoose.model('Payment', PaymentSchema);

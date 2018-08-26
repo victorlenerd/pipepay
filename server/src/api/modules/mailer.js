@@ -31,7 +31,7 @@ export const sendInvoiceMail = ({ customerEmail, deliveryAmount, purchaseAmount 
     });
 });
 
-export const sendReceiptMail = ({ customerEmail }, marchantEmail) => new Promise((resolve, reject) => {
+export const sendReceiptMail = ({ customerEmail }, marchantEmail) => new Promise(async (resolve, reject) => {
     let mailOption = {
         from: 'Pipepay <hello@pipepay.africa>',
         subject: 'Your Receipt Is Ready',
@@ -67,8 +67,8 @@ export const sendReceiptMail = ({ customerEmail }, marchantEmail) => new Promise
     try {
         await Promise.all([sendToMarchant, sendToCustomer]);
         resolve();
-    } catch {
-        reject(null);
+    } catch(err) {
+        reject(err);
     } 
 });
 
