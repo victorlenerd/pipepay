@@ -8,7 +8,7 @@ Router.param('/:id', PaymentController.findByParam);
 Router.route('/')
     .post(PaymentController.createOne);
 
-Router.route('/:id')
+Router.route('/:invoiceId')
     .get(PaymentController.getOne);
 
 export default Router;

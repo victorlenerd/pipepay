@@ -35,7 +35,13 @@ export const verifyToken = (req, res, next) => {
                 return;
             }
         }
-    } else if (req.originalUrl.match('/invoice') !== null && req.method.toLowerCase() === 'get') {
+    } else if (req.originalUrl.match('/api/invoice') !== null && req.method.toLowerCase() === 'get') {
+        next();
+    } else if (req.originalUrl.match('/api/payment') !== null && req.method.toLowerCase() === 'post') {
+        next();
+    } else if (req.originalUrl.match('/api/payment') !== null && req.method.toLowerCase() === 'get') {
+        next();
+    } else if (req.originalUrl.match('/api/banks') !== null && req.method.toLowerCase() === 'get') {
         next();
     } else {
         res.status(403).send({ success: false, error: 'Invalid auth token' });

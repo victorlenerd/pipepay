@@ -6,6 +6,9 @@ export default generateController(InvoiceModel, {
     createOne: (req, res) => {
         var body = req.body;
         body.userId = req.user.id;
+        body.marchantEmail = req.user.email;
+        body.status = "sent";
+
         InvoiceModel.create(body, async (err, doc) => {
             if (err) return res.status(500).send({ error: { message: 'Could not create the invoice' }, success: false });
 

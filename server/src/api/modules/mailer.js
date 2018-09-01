@@ -23,28 +23,26 @@ export const sendInvoiceMail = ({ customerEmail, deliveryAmount, purchaseAmount 
 
     transporter.sendMail(mailOptions, (error, info) => {
         if (error) {
-            console.log('error', error)
-            return reject(new Error("Couldn't send mail"));
+            return reject(new Error(error));
         }
 
         resolve(info);
     });
 });
 
-export const sendReceiptMail = ({ customerEmail }, marchantEmail) => new Promise(async (resolve, reject) => {
+export const sendReceiptMail = (customerName, customerEmail, marchantEmail, amount) => new Promise(async (resolve, reject) => {
     let mailOption = {
         from: 'Pipepay <hello@pipepay.africa>',
         subject: 'Your Receipt Is Ready',
-        text: `Your invoice is worth ${deliveryAmount+purchaseAmount}`,
+        text: `${customerName} made payment of ${amount}`,
     };
 
     const sendToMarchant = new Promise((resolve, reject) => {
         mailOption.to = marchantEmail;
 
-        transporter.sendMail(mailOptions, (error, info) => {
+        transporter.sendMail(mailOption, (error, info) => {
             if (error) {
-                console.log('error', error)
-                return reject(new Error("Couldn't send mail"));
+                return reject(new Error(error));
             }
     
             resolve(info);
@@ -54,10 +52,9 @@ export const sendReceiptMail = ({ customerEmail }, marchantEmail) => new Promise
     const sendToCustomer = new Promise((resolve, reject) => {
         mailOption.to = customerEmail;
 
-        transporter.sendMail(mailOptions, (error, info) => {
+        transporter.sendMail(mailOption, (error, info) => {
             if (error) {
-                console.log('error', error)
-                return reject(new Error("Couldn't send mail"));
+                return reject(new Error(error));
             }
     
             resolve(info);

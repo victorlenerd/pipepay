@@ -6,6 +6,7 @@ const InvoiceSchema = new mongoose.Schema({
     deliveryAmount: Number,
     purchaseAmount: Number,
     customerEmail: String,
+    marchantEmail: String,
     status: String
 });
 

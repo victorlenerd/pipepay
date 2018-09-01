@@ -19,7 +19,7 @@ export default function (model, overrides) {
             var id = req.docId;
             model.deleteOne({ _id: id }, function (err, doc) {
                 if (err) res.status(401).send({ success: false, error: { ...err } });;
-                res.status(200).send({ success: true, data: doc });
+                res.status(200).send({ success: true });
             });
         },
         getAll: function (req, res) {

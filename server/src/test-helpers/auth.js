@@ -1,7 +1,6 @@
 import '../api/resources/dispute/dispute.model'
 import '../api/resources/invoice/invoice.model'
 import '../api/resources/payment/payment.model'
-import '../api/resources/transfer/transfer.model'
 
 import { AuthenticationDetails, CognitoUserPool, CognitoUser } from 'amazon-cognito-identity-js';
 

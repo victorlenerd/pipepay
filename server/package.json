@@ -3,10 +3,10 @@
   "version": "1.0.0",
   "description": "Server for pipepay product.",
   "scripts": {
-    "dev": "NODE_ENV=development webpack --progress --colors --config webpack.dev.js",
+    "dev": "NODE_ENV=development webpack --progress --colors --config config.dev.js",
     "start": "NODE_ENV=production forever ./build/server.js",
-    "build": "NODE_ENV=production webpack --progress --colors webpack.prod.js",
-    "test": "NODE_ENV=testing rm -rf ./tmp/mocha-webpack && mocha-webpack --webpack-config webpack.test.js  \"src/**/*.spec.js\" --timeout 10000 --require source-map-support/register"
+    "build": "NODE_ENV=production webpack --progress --colors config.prod.js",
+    "test": "NODE_ENV=testing rm -rf ./tmp/mocha-webpack && mocha-webpack --webpack-config config.test.js  \"src/**/*.spec.js\" --timeout 10000 --require source-map-support/register"
   },
   "author": "",
   "license": "ISC",
@@ -21,7 +21,8 @@
     "lodash.merge": "^4.6.1",
     "mongoose": "^5.2.7",
     "morgan": "^1.9.0",
-    "nodemailer": "^4.6.7"
+    "nodemailer": "^4.6.7",
+    "superagent": "^3.8.3"
   },
   "devDependencies": {
     "axios-mock-adapter": "^1.15.0",
@@ -40,6 +41,7 @@
     "mocha": "^4.0.1",
     "mocha-webpack": "next",
     "node-fetch-polyfill": "^2.0.6",
+    "nyc": "^13.0.1",
     "raw-loader": "^0.5.1",
     "source-map-support": "^0.5.0",
     "start-server-webpack-plugin": "^2.2.5",

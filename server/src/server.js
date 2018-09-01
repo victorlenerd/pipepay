@@ -11,6 +11,6 @@ connect().catch((err) => {
     console.error('DB error', err);
 });
 
-app.use('/', MainRouter);
+app.use('/api', MainRouter);
 
 export default app;

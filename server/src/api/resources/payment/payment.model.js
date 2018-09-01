@@ -1,9 +1,11 @@
 import mongoose from 'mongoose';
 
 const PaymentSchema = new mongoose.Schema({
-    userId: String,
-    invoiceId: { type: mongoose.Schema.Types.ObjectId, ref: 'Invoice' },
-    paymentRef: String
+    marchantEmail: String,
+    customerEmail: String,
+    amount: Number,
+    invoiceId: String,
+    reference: String
 });
 
 export default mongoose.model('Payment', PaymentSchema);
