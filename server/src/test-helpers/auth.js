@@ -27,7 +27,7 @@ export const removeModel = (modelName) => {
 }
 
 export const dropDb = () => {
-  return mongoose.connect(config.db.url).then(() => Promise.all(mongoose.modelNames().map(removeModel)))
+  return mongoose.connect(config.db.url, { useNewUrlParser: true }).then(() => Promise.all(mongoose.modelNames().map(removeModel)))
 }
 
 export const userPool = new CognitoUserPool({

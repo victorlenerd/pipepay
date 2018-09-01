@@ -30,6 +30,16 @@ export const sendInvoiceMail = ({ customerEmail, deliveryAmount, purchaseAmount 
     });
 });
 
+const sendTo = (mailOption) => new Promise((resolve, reject) => {
+    transporter.sendMail(mailOption, (error, info) => {
+        if (error) {
+            return reject(new Error(error));
+        }
+
+        resolve(info);
+    });
+});
+
 export const sendReceiptMail = (customerName, customerEmail, marchantEmail, amount) => new Promise(async (resolve, reject) => {
     let mailOption = {
         from: 'Pipepay <hello@pipepay.africa>',
@@ -37,42 +47,36 @@ export const sendReceiptMail = (customerName, customerEmail, marchantEmail, amou
         text: `${customerName} made payment of ${amount}`,
     };
 
-    const sendToMarchant = new Promise((resolve, reject) => {
-        mailOption.to = marchantEmail;
-
-        transporter.sendMail(mailOption, (error, info) => {
-            if (error) {
-                return reject(new Error(error));
-            }
-    
-            resolve(info);
-        });
-    });
-
-    const sendToCustomer = new Promise((resolve, reject) => {
-        mailOption.to = customerEmail;
-
-        transporter.sendMail(mailOption, (error, info) => {
-            if (error) {
-                return reject(new Error(error));
-            }
-    
-            resolve(info);
-        });
-    });
 
     try {
-        await Promise.all([sendToMarchant, sendToCustomer]);
+        await Promise.all([
+            sendTo({ ...mailOption, to: customerEmail }),
+            sendTo({ ...mailOption, to: marchantEmail })
+        ]);
         resolve();
     } catch(err) {
         reject(err);
-    } 
+    }
 });
 
 export const sendTransferMail = (customerEmail, marchantEmail) => new Promise((esolve, reject) => {
 
 });
 
-export const sendDisputeMail = (customerEmail, marchantEmail, supportEmail = 'support@pipepay.africa') => new Promise((resolve, reject) => {
+export const sendDisputeMail = (customerEmail, marchantEmail, reason, supportEmail = 'support@pipepay.africa') => new Promise(async (resolve, reject) => {
+    let mailOption = {
+        from: 'Pipepay <hello@pipepay.africa>',
+        subject: 'Payment Dispute',
+        text: `New dispute from ${customerEmail} reason being that: "${reason}"`
+    };
 
+    try {
+        await Promise.all([
+            sendTo({ ...mailOption, to: customerEmail }),
+            sendTo({ ...mailOption, to: marchantEmail })
+        ]);
+        resolve();
+    } catch(err) {
+        reject(err);
+    }
 });

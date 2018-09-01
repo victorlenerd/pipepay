@@ -35,14 +35,15 @@ export const verifyToken = (req, res, next) => {
                 return;
             }
         }
-    } else if (req.originalUrl.match('/api/invoice') !== null && req.method.toLowerCase() === 'get') {
-        next();
-    } else if (req.originalUrl.match('/api/payment') !== null && req.method.toLowerCase() === 'post') {
-        next();
-    } else if (req.originalUrl.match('/api/payment') !== null && req.method.toLowerCase() === 'get') {
-        next();
-    } else if (req.originalUrl.match('/api/banks') !== null && req.method.toLowerCase() === 'get') {
-        next();
+    } else if (
+        req.originalUrl.match('/api/invoice') !== null && req.method.toLowerCase() === 'get' ||
+        req.originalUrl.match('/api/payment') !== null && req.method.toLowerCase() === 'post' ||
+        req.originalUrl.match('/api/payment') !== null && req.method.toLowerCase() === 'get' ||
+        req.originalUrl.match('/api/banks') !== null && req.method.toLowerCase() === 'get' ||
+        req.originalUrl.match('/api/dispute') !== null && req.method.toLowerCase() === 'post' ||
+        req.originalUrl.match('/api/dispute') !== null && req.method.toLowerCase() === 'get'
+    ) {
+        next(); 
     } else {
         res.status(403).send({ success: false, error: 'Invalid auth token' });
     }

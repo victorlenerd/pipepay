@@ -12,8 +12,13 @@ ConfirmRouter.route('/:invoiceId')
         InvoiceModel.findOneAndUpdate({ _id: invoiceId }, { $set: { status } }, {new: true}, async (error, data) => {
             if (error) res.status(400).send({ success: false, error });
             
-            await Transfer();
-            //if accepted is true do transfer to marchant
+            if (status === "accepted") {
+                try {
+                    await Transfer();
+                } catch(err) {
+                    res.status(400).send({ success: false, err });
+                }
+            }
 
             res.status(200).send({ success: true, data });
         });

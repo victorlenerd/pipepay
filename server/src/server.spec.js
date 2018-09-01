@@ -4,7 +4,7 @@ import axios from 'axios';
 import MockAdapter from 'axios-mock-adapter';
 import crypto from 'crypto';
 import app from './server';
-import { signin, userPool } from './test-helpers/auth';
+import { signin, userPool, dropDb } from './test-helpers/auth';
 
 const username = process.env.TEST_USERNAME;
 const password = process.env.TEST_PASSWORD;
@@ -15,6 +15,8 @@ const expect = chai.expect;
 chai.use(chaiHttp);
 global.fetch = require('node-fetch-polyfill');
 
+dropDb();
+
 describe('Server Operations', () => {
     
     let token;
@@ -23,7 +25,7 @@ describe('Server Operations', () => {
     let invoiceId = null;
     let accessBankCode = null;
 
-    xit('Login', async () => {
+    it('Login', async () => {
         try {
             await signin(username, password);
             const cognitoUser = userPool.getCurrentUser();    
@@ -43,7 +45,7 @@ describe('Server Operations', () => {
     });
 
 
-    xit('create invoice', (done) => {
+    it('create invoice', (done) => {
         chai.request(app)
         .post('/api/invoice')
         .set({
@@ -64,7 +66,7 @@ describe('Server Operations', () => {
     });
 
 
-    xit('retrive invoice', (done) => {
+    it('retrive invoice', (done) => {
         chai.request(app)
         .get('/api/invoice/'+invoiceId)
         .end((err, res) => {
@@ -74,7 +76,7 @@ describe('Server Operations', () => {
         });
     });
 
-    xit('create payment', (done) => {
+    it('create payment', (done) => {
         const payment = {
             event: 'charge.success',
             data: {
@@ -107,7 +109,7 @@ describe('Server Operations', () => {
 
     });
 
-    xit('get payment', (done) => {
+    it('get payment', (done) => {
         chai.request(app)
         .get('/api/payment/'+invoiceId)
         .end((err, res) => {
@@ -117,7 +119,7 @@ describe('Server Operations', () => {
         });
     });
 
-    xit('confirm payment::accepted', (done) => {
+    it('confirm payment::accepted', (done) => {
         chai.request(app)
         .post('/api/confirm/'+invoiceId)
         .send({
@@ -130,7 +132,7 @@ describe('Server Operations', () => {
         });
     });
 
-    xit('confirm payment::rejected', (done) => {
+    it('confirm payment::rejected', (done) => {
         chai.request(app)
         .post('/api/confirm/'+invoiceId)
         .send({
@@ -164,19 +166,33 @@ describe('Server Operations', () => {
         });
     })
     
-    xit('create dispute', (done) => {
-
+    it('create dispute', (done) => {
+        chai.request(app)
+        .post(`/api/dispute/${invoiceId}`)
+        .send({
+            customerEmail: 'nvonweb@outlook.com',
+            marchantEmail: 'vnwaokocha@gmail.com',
+            category: '',
+            reason: 'I don\'t want anymore'
+        })
+        .end((err, res) => {
+            expect(res.body.data).to.haveOwnProperty('_id');
+            expect(res.body.success).to.be.equal(true);
+            done();
+        });
     });
 
-    xit('get dispute', (done) => {
-
+    it('get dispute', (done) => {
+        chai.request(app)
+        .get(`/api/dispute/${invoiceId}`)
+        .end((err, res) => {
+            expect(res.body.data.status).to.equal('open');
+            expect(res.body.success).to.be.equal(true);
+            done();
+        });
     });
 
-    xit('close dispute', (done) => {
-
-    });
-
-    xit('delete invoice', (done) => {
+    it('delete invoice', (done) => {
         chai.request(app)
         .delete('/api/invoice/'+invoiceId)
         .set({
