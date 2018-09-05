@@ -14,6 +14,7 @@ class App extends PureComponent {
 		this.submit = this.submit.bind(this);
 	}
 
+	
 	async submit (e) {
 		e.preventDefault();
 		if (this.formEl.checkValidity() === true) {
@@ -28,7 +29,13 @@ class App extends PureComponent {
 				cognitoUser.getSession((err, result) => {
 					if (result && result.isValid()) {
 						NProgress.done();
-						this.props.history.push('/dashboard');
+						const { idToken: { payload } } = result;
+
+						if (payload['custom:account_number'] && payload['custom:bank_code']) {
+							this.props.history.push('/dashboard');
+						} else {
+							this.props.history.push('/verifyaccn');
+						}
 						return;
 					}
 

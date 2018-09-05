@@ -44,7 +44,7 @@ export const confirmRegistration = (Username, code) => new Promise((resolve, rej
     });
 });
 
-export const setAttributes = (Username, attributes) => new Promise((resolve, reject) => {
+export const setAttributes = (attributes) => new Promise((resolve, reject) => {
     let attributeList = attributes.map(data => new CognitoUserAttribute(data));
     
 
