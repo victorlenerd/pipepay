@@ -6,7 +6,7 @@
     "dev": "NODE_ENV=development webpack --progress --colors --config config.dev.js",
     "start": "NODE_ENV=production forever ./build/server.js",
     "build": "NODE_ENV=production webpack --progress --colors config.prod.js",
-    "test": "NODE_ENV=testing rm -rf ./tmp/mocha-webpack && mocha-webpack --webpack-config config.test.js  \"src/**/*.spec.js\" --timeout 10000 --require source-map-support/register"
+    "test": "NODE_ENV=testing rm -rf ./tmp/mocha-webpack && nyc --reporter=text mocha-webpack --webpack-config config.test.js  \"src/**/*.spec.js\" --timeout 10000 --require source-map-support/register"
   },
   "author": "",
   "license": "ISC",
@@ -38,6 +38,7 @@
     "dotenv-webpack": "^1.5.7",
     "eslint-plugin-babel": "^5.1.0",
     "graphql-tag": "^2.8.0",
+    "istanbul-instrumenter-loader": "^3.0.1",
     "mocha": "^4.0.1",
     "mocha-webpack": "next",
     "node-fetch-polyfill": "^2.0.6",
@@ -48,5 +49,13 @@
     "webpack": "^4.5.0",
     "webpack-cli": "^3.1.0",
     "webpack-node-externals": "^1.6.0"
+  },
+  "nyc": {
+    "include": [
+      "src/**/*.js"
+    ],
+    "sourceType": "module",
+    "instrument": false,
+    "sourceMap": false
   }
 }

@@ -41,7 +41,8 @@ export const verifyToken = (req, res, next) => {
         req.originalUrl.match('/api/payment') !== null && req.method.toLowerCase() === 'get' ||
         req.originalUrl.match('/api/banks') !== null && req.method.toLowerCase() === 'get' ||
         req.originalUrl.match('/api/dispute') !== null && req.method.toLowerCase() === 'post' ||
-        req.originalUrl.match('/api/dispute') !== null && req.method.toLowerCase() === 'get'
+        req.originalUrl.match('/api/dispute') !== null && req.method.toLowerCase() === 'get' ||
+        req.originalUrl.match('/api/verify') !== null && req.method.toLowerCase() === 'get'
     ) {
         next(); 
     } else {

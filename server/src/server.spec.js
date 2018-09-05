@@ -22,6 +22,7 @@ describe('Server Operations', () => {
     let token;
     let user;
     let paystackRef = '1234567890';
+    let emailCode = 'AXYZ0000';
     let invoiceId = null;
     let accessBankCode = null;
 
@@ -55,6 +56,7 @@ describe('Server Operations', () => {
             description: "This is an invoice",
             deliveryAmount: 500,
             purchaseAmount: 5000,
+            customerName: 'Victor Nwaokocha',
             customerEmail: 'vnwaokocha@gmail.com'
         })
         .end((err, res) => {
@@ -119,10 +121,32 @@ describe('Server Operations', () => {
         });
     });
 
+    it('send customer verifcation mail', (done) => {
+        chai.request(app)
+        .get('/api/verify/'+invoiceId)
+        .end((err, res) => {
+            expect(res.body.success).to.be.equal(true);
+            done();
+        });
+    });
+
+    it('do not confirm without email code', (done) => {
+        chai.request(app)
+        .post('/api/confirm/'+invoiceId)
+        .send({
+            accepted: true
+        })
+        .end((err, res) => {
+            expect(res.body.success).to.be.equal(false);
+            done();
+        });
+    });
+
     it('confirm payment::accepted', (done) => {
         chai.request(app)
         .post('/api/confirm/'+invoiceId)
         .send({
+            emailCode,
             accepted: true
         })
         .end((err, res) => {
@@ -136,6 +160,7 @@ describe('Server Operations', () => {
         chai.request(app)
         .post('/api/confirm/'+invoiceId)
         .send({
+            emailCode,
             accepted: false
         })
         .end((err, res) => {

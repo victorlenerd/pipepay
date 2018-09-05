@@ -13,9 +13,11 @@ const transporter = nodemailer.createTransport({
     }
 });
 
+const from = 'Pipepay <hello@pipepay.africa>';
+
 export const sendInvoiceMail = ({ customerEmail, deliveryAmount, purchaseAmount }) => new Promise((resolve, reject) => {
     let mailOptions = {
-        from: 'Pipepay <hello@pipepay.africa>',
+        from,
         to: customerEmail,
         subject: 'Your Invoice Is Ready',
         text: `Your invoice is worth ${deliveryAmount+purchaseAmount}`,
@@ -42,7 +44,7 @@ const sendTo = (mailOption) => new Promise((resolve, reject) => {
 
 export const sendReceiptMail = (customerName, customerEmail, marchantEmail, amount) => new Promise(async (resolve, reject) => {
     let mailOption = {
-        from: 'Pipepay <hello@pipepay.africa>',
+        from,
         subject: 'Your Receipt Is Ready',
         text: `${customerName} made payment of ${amount}`,
     };
@@ -63,18 +65,32 @@ export const sendTransferMail = (customerEmail, marchantEmail) => new Promise((e
 
 });
 
-export const sendDisputeMail = (customerEmail, marchantEmail, reason, supportEmail = 'support@pipepay.africa') => new Promise(async (resolve, reject) => {
+export const sendDisputeMail = (marchantEmail, customerEmail, customerName, reason, supportEmail = 'support@pipepay.africa') => new Promise(async (resolve, reject) => {
     let mailOption = {
-        from: 'Pipepay <hello@pipepay.africa>',
+        from,
         subject: 'Payment Dispute',
-        text: `New dispute from ${customerEmail} reason being that: "${reason}"`
     };
 
     try {
         await Promise.all([
-            sendTo({ ...mailOption, to: customerEmail }),
-            sendTo({ ...mailOption, to: marchantEmail })
+            sendTo({ ...mailOption, to: customerEmail,  text: 'Your dispute has been received, you will hear from our support rep soon.' }),
+            sendTo({ ...mailOption, to: marchantEmail, text: `New dispute from ${customerName} reason being that: "${reason}"` })
         ]);
+        resolve();
+    } catch(err) {
+        reject(err);
+    }
+});
+
+export const sendCustormerVerificationCode = (customerEmail, code) => new Promise(async (resolve, reject) => {
+    let mailOption = {
+        from,
+        subject: 'Invoice Mail Verification',
+        text: `Your invoice verfication code is ${code}`
+    };
+
+    try {
+        await sendTo({ ...mailOption, to: customerEmail });
         resolve();
     } catch(err) {
         reject(err);

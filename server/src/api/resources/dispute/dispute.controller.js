@@ -15,14 +15,14 @@ const DisputeController = generateController(DisputeModel, {
     },
     createOne: (req, res) => {
         const body = req.body;
-        const { marchantEmail, customerEmail, _id } = req.invoice;
+        const { marchantEmail, customerEmail, customerName, _id } = req.invoice;
         body.status = "open";
         body.invoiceId = _id;
         DisputeModel.create(body, async (err, doc) => {
             if (err) return res.status(400).send({ error: { message: 'Could not create the dispute' }, success: false });
 
             try {
-                await sendDisputeMail(marchantEmail, customerEmail, body.reason);
+                await sendDisputeMail(marchantEmail, customerEmail, customerName, body.reason);
                 res.send({ data: doc, success: true });
             } catch (err) {
                 console.log('err', err);

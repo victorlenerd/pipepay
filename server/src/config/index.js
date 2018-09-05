@@ -1,6 +1,8 @@
 import merge from 'lodash.merge';
 const env = process.env.NODE_ENV
 
+console.log('env', env);
+
 const baseConfig = {
     port: 3000,
     db: {
