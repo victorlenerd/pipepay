@@ -15,12 +15,12 @@ const transporter = nodemailer.createTransport({
 
 const from = 'Pipepay <hello@pipepay.africa>';
 
-export const sendInvoiceMail = ({ customerEmail, deliveryAmount, purchaseAmount }) => new Promise((resolve, reject) => {
+export const sendInvoiceMail = ({ customerEmail, totalPrice }) => new Promise((resolve, reject) => {
     let mailOptions = {
         from,
         to: customerEmail,
         subject: 'Your Invoice Is Ready',
-        text: `Your invoice is worth ${deliveryAmount+purchaseAmount}`,
+        text: `Your invoice is worth ${totalPrice }`,
     };
 
     transporter.sendMail(mailOptions, (error, info) => {
@@ -65,17 +65,26 @@ export const sendTransferMail = (customerEmail, marchantEmail) => new Promise((e
 
 });
 
-export const sendDisputeMail = (marchantEmail, customerEmail, customerName, reason, supportEmail = 'support@pipepay.africa') => new Promise(async (resolve, reject) => {
+export const sendDisputeMail = (marchantEmail, customerEmail, customerName, reason, disputeFrom, supportEmail = 'hello@pipepay.africa') => new Promise(async (resolve, reject) => {
     let mailOption = {
         from,
         subject: 'Payment Dispute',
     };
 
     try {
-        await Promise.all([
-            sendTo({ ...mailOption, to: customerEmail,  text: 'Your dispute has been received, you will hear from our support rep soon.' }),
-            sendTo({ ...mailOption, to: marchantEmail, text: `New dispute from ${customerName} reason being that: "${reason}"` })
-        ]);
+        if (disputeFrom !== 'marchant') {
+            await Promise.all([
+                sendTo({ ...mailOption, to: customerEmail,  text: 'Your dispute has been received, you will hear from our support rep soon.' }),
+                sendTo({ ...mailOption, to: marchantEmail, text: `New dispute from ${customerName} reason being that: "${reason}"` }),
+                sendTo({ ...mailOption, to: supportEmail, text: `New dispute from ${customerEmail} reason being that: "${reason}" marchant email is ${marchantEmail}` })
+            ]);
+        } else {
+            await Promise.all([
+                sendTo({ ...mailOption, to: customerEmail,  text: 'Your dispute has been received, you will hear from our support rep soon.' }),
+                sendTo({ ...mailOption, to: marchantEmail, text: `New dispute from ${customerName} reason being that: "${reason}"` }),
+                sendTo({ ...mailOption, to: supportEmail, text: `New dispute from ${marchantEmail} reason being that: "${reason}" customer email is ${customerEmail}` })
+            ]);
+        }
         resolve();
     } catch(err) {
         reject(err);

@@ -3,30 +3,34 @@ import PaymentModel from './payment.model';
 import InvoiceModel from '../invoice/invoice.model';
 import * as mailer from '../../modules/mailer';
 import generateController from '../../modules/generateController';
+import Transfer from '../../modules/transfer';
 
 const secret = process.env.PAYSTACK_SECRET;
 
 export default generateController(PaymentModel, {
     createOne: (req, res) => {
         const hash = crypto.createHmac('sha512', secret).update(JSON.stringify(req.body)).digest('hex');
-        const { event, data: { reference, amount, customer: { first_name, last_name, email, metadata: { marchantEmail, invoiceId } } } } = req.body;
+        const { event, data: { transaction: { reference }, amount, paid, invoice_code, customer: { first_name, last_name, email } } } = req.body;
 
-        if (hash === req.headers['x-paystack-signature'] && event === 'charge.success') {
-            PaymentModel.create({ customerEmail: email, marchantEmail, reference, amount, invoiceId }, (err) => {
-                if (err) return res.status(500).send({ error: new Error(error), status: false });
-                
-                InvoiceModel.updateOne({ _id: invoiceId }, { status: 'paid' }, async (err) => {
-                    if (err) return res.status(500).send({ error: new Error(error), status: false });
-                    try {
-                        await mailer.sendReceiptMail(`${first_name} ${last_name}`, email, marchantEmail, amount);
-                        res.status(200).send({ success: true });
-                    } catch (err) {
-                        return res.status(500).send({ error: { message: 'Could not send mail' }, success: false });
-                    }
-                })
-            });
+        if (hash === req.headers['x-paystack-signature'] && event === 'invoice.update' && paid) {
+            InvoiceModel.findOneAndUpdate({ invoice_code }, { $set :{ status: 'paid' } }, { new: true }, async (err, doc) => {
+                if (err) {
+                    console.log(err);
+                    return res.status(400).send({ error: new Error(error), status: false });
+                }
+
+                try {
+                    await Transfer(doc['marchantName'], doc['marchantAccountNumber'], doc['marchantBankCode'], doc['deliveryAmount'] * 100);
+                    await PaymentModel.create({ customerEmail: email, marchantEmail: doc['marchantEmail'], reference, amount, invoiceId: doc._id });
+                    await mailer.sendReceiptMail(`${first_name} ${last_name}`, email, doc['marchantEmail'], amount);
+                    res.status(200).send({ success: true });
+                } catch (err) {
+                    console.log(err);
+                    return res.status(400).send({ error: { message: 'Could not send mail' }, success: false });
+                }
+            })
         } else {
-            res.status(500).send({ success: false });
+            res.status(400).send({ success: false });
         }
     },
     getOne: (req, res) => {

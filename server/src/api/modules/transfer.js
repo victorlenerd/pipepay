@@ -12,9 +12,9 @@ const getReceipt = (name, account_number, bank_code) => new Promise((resolve, re
             bank_code,
             currency: 'NGN'
         })
-        .end((err, data) => {
+        .end((err, { body }) => {
             if (err) reject(err);
-            resolve(data);
+            resolve(body);
         });
 })
 
@@ -25,19 +25,19 @@ const makeTransfer = (recipient_code, amount) => new Promise((resolve, reject) =
         .send({
             "source": "balance",
             amount,
-            recipient_code,
+            recipient: recipient_code,
             currency: 'NGN'
         })
-        .end((err, data) => {
+        .end((err, { body }) => {
             if (err) reject(err);
-            resolve(data);
+            resolve(body);
         });
 });
 
-const transfer = async (name, account_number, bank_code, amount) => new Promise(async (resolve, reject) => {
+const transfer = (name, account_number, bank_code, amount) => new Promise(async (resolve, reject) => {
     try {
         const { status, data: { recipient_code  } } = await getReceipt(name, account_number, bank_code);
-
+ 
         if (status && recipient_code) {
             const { status } = await makeTransfer(recipient_code, amount);
             if (status) resolve();

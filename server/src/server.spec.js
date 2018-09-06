@@ -21,9 +21,9 @@ describe('Server Operations', () => {
     
     let token;
     let user;
-    let paystackRef = '1234567890';
     let emailCode = 'AXYZ0000';
     let invoiceId = null;
+    let invoice_code = null;
     let accessBankCode = null;
 
     it('Login', async () => {
@@ -57,11 +57,16 @@ describe('Server Operations', () => {
             deliveryAmount: 500,
             purchaseAmount: 5000,
             customerName: 'Victor Nwaokocha',
-            customerEmail: 'vnwaokocha@gmail.com'
+            customerEmail: 'vnwaokocha@gmail.com',
+            customerPhone: '09098612833',
+            marchantName: 'Emeka Chukwu',
+            marchantAccountNumber: user['custom:account_number'],
+            marchantBankCode: user['custom:bank_code']
         })
         .end((err, res) => {
+            invoice_code = res.body.data.invoice_code;
             invoiceId = res.body.data._id;
-            expect(res.body.data).to.be.have.property('_id');
+            expect(res.body.data).to.be.have.property('invoice_code');
             expect(res.body.success).to.be.equal(true);
             done();
         });
@@ -73,6 +78,7 @@ describe('Server Operations', () => {
         .get('/api/invoice/'+invoiceId)
         .end((err, res) => {
             expect(res.body.data._id).to.be.equal(invoiceId);
+            expect(res.body.data).to.have.property('totalPrice');
             expect(res.body.success).to.be.equal(true);
             done();
         });
@@ -80,18 +86,19 @@ describe('Server Operations', () => {
 
     it('create payment', (done) => {
         const payment = {
-            event: 'charge.success',
+            event: 'invoice.update',
             data: {
-                reference: '',
+                paid: true,
+                status: "success",
                 amount: 200000,
+                invoice_code,
+                transaction: {
+                    reference: "1234",
+                },
                 customer: { 
                     first_name: 'Victor',
                     last_name: 'Nwaokocha',
                     email: 'nvonweb@outlook.com',
-                    metadata: {
-                        invoiceId,
-                        marchantEmail : 'vnwaokocha@gmail.com'
-                    }
                 } 
             }
         };
@@ -198,6 +205,7 @@ describe('Server Operations', () => {
             customerEmail: 'nvonweb@outlook.com',
             marchantEmail: 'vnwaokocha@gmail.com',
             category: '',
+            from: 'marchant',
             reason: 'I don\'t want anymore'
         })
         .end((err, res) => {

@@ -16,10 +16,10 @@ ConfirmRouter.route('/:invoiceId')
 
         InvoiceModel.findOneAndUpdate({ _id: invoiceId }, { $set: { status } }, {new: true}, async (error, data) => {
             if (error) res.status(400).send({ success: false, error });
-            
+
             if (status === "accepted") {
                 try {
-                    await Transfer();
+                    await Transfer(data['marchantName'], data['marchantAccountNumber'], data['marchantBankCode'], data['purchaseAmount'] * 100);
                 } catch(err) {
                     res.status(400).send({ success: false, err });
                 }

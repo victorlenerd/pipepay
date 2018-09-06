@@ -1,6 +1,3 @@
-[] Confirm total price
-[] Transfer delivery fee to marchant account.
-[] Transfer purchase fee to marchant account when use confirms accepted.
 [] Marchant should be able to open dispute if customers has not responded after 15 days of product delivery.
 [] Support agents should be able to close disputes.
     [] Send money to marchant.

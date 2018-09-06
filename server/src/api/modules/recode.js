@@ -1,12 +1,3 @@
-const randomAlpha = () => {
-    const alpha = 'abcdefghijklmnopqrstuvwxyz';
-    return alpha.charAt(Math.floor(Math.random() * alpha.length));
-};
-
-const randomNum = () => {
-    return Math.floor(Math.random() * 9);
-};
-
-export default () => {
-    return `${randomAlpha()}${randomNum()}${randomAlpha()}${randomNum()}${randomAlpha()}${randomNum()}`
-}
+const randomAlpha = () => 'abcdefghijklmnopqrstuvwxyz'.charAt(Math.floor(Math.random() * alpha.length));
+const randomNum = () => Math.floor(Math.random() * 9);
+export default () => `${randomAlpha()}${randomNum()}${randomAlpha()}${randomNum()}${randomAlpha()}${randomNum()}`;

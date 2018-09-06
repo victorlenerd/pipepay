@@ -22,10 +22,9 @@ const DisputeController = generateController(DisputeModel, {
             if (err) return res.status(400).send({ error: { message: 'Could not create the dispute' }, success: false });
 
             try {
-                await sendDisputeMail(marchantEmail, customerEmail, customerName, body.reason);
+                await sendDisputeMail(marchantEmail, customerEmail, customerName, body.reason, body.from);
                 res.send({ data: doc, success: true });
             } catch (err) {
-                console.log('err', err);
                 return res.status(400).send({ error: { message: 'Could not send mail' }, success: false });
             }
         });
