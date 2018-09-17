@@ -17,7 +17,7 @@ const CreateCustomer = ({ name, email, phone }) => new Promise((resolve, reject)
         });
 });
 
-export const CreateInvoice = (customer, amount, description) => new Promise(async (resolve, reject) => {
+export const CreateInvoice = (customer, amount, description, line_items = []) => new Promise(async (resolve, reject) => {
     const { data: { customer_code } } = await CreateCustomer(customer);
     const due_date = addDays(new Date(), 7);
 
@@ -28,6 +28,7 @@ export const CreateInvoice = (customer, amount, description) => new Promise(asyn
             customer: customer_code,
             description,
             amount,
+            line_items,
             due_date
         })
         .end((err, { body }) => {

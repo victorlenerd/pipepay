@@ -25,6 +25,7 @@ describe('Server Operations', () => {
     let invoiceId = null;
     let invoice_code = null;
     let accessBankCode = null;
+    let milestones = null;
 
     it('Login', async () => {
         try {
@@ -45,7 +46,6 @@ describe('Server Operations', () => {
         }
     });
 
-
     it('create invoice', (done) => {
         chai.request(app)
         .post('/api/invoice')
@@ -54,14 +54,17 @@ describe('Server Operations', () => {
         })
         .send({
             description: "This is an invoice",
+            type: 'good',
+            
             deliveryAmount: 500,
             purchaseAmount: 5000,
+            
             customerName: 'Victor Nwaokocha',
             customerEmail: 'vnwaokocha@gmail.com',
             customerPhone: '09098612833',
-            marchantName: 'Emeka Chukwu',
-            marchantAccountNumber: user['custom:account_number'],
-            marchantBankCode: user['custom:bank_code']
+
+            whoPaysPipepayFee: 'seller',
+            whoPaysDeliveryFee: 'seller'
         })
         .end((err, res) => {
             invoice_code = res.body.data.invoice_code;
@@ -71,7 +74,6 @@ describe('Server Operations', () => {
             done();
         });
     });
-
 
     it('retrive invoice', (done) => {
         chai.request(app)
@@ -220,6 +222,87 @@ describe('Server Operations', () => {
         .get(`/api/dispute/${invoiceId}`)
         .end((err, res) => {
             expect(res.body.data.status).to.equal('open');
+            expect(res.body.success).to.be.equal(true);
+            done();
+        });
+    });
+
+    it('delete invoice', (done) => {
+        chai.request(app)
+        .delete('/api/invoice/'+invoiceId)
+        .set({
+            'Authorization': `Bearer ${token}`
+        })
+        .end((err, res) => {
+            expect(res.body.success).to.be.equal(true);
+            done();
+        });
+    });
+
+    it('create milestone invoice', (done) => {
+        chai.request(app)
+            .post('/api/invoice')
+            .set({
+                'Authorization': `Bearer ${token}`
+            })
+            .send({
+                description: "This is an invoice",
+                type: 'service',
+                
+                milestones: [{
+                    'name': 'Design',
+                    'amount': 30000,
+                    'description': 'Desiging',
+                    'dueDate':  new Date()
+                },{
+                    'name': 'Development',
+                    'amount': 30000,
+                    'description': 'Coding',
+                    'dueDate':  new Date()
+                },{
+                    'name': 'Deployment',
+                    'amount': 30000,
+                    'description': 'Deploying',
+                    'dueDate':  new Date()
+                }],
+                
+                customerName: 'Victor Nwaokocha',
+                customerEmail: 'vnwaokocha@gmail.com',
+                customerPhone: '09098612833',
+
+                whoPaysPipepayFee: 'seller'
+            })
+            .end((err, res) => {
+                invoice_code = res.body.data.invoice_code;
+                invoiceId = res.body.data._id;
+                milestones = res.body.data.milestones;
+                expect(res.body.data).to.be.have.property('invoice_code');
+                expect(res.body.success).to.be.equal(true);
+                done();
+            });
+        });
+
+    it('request milestone payment', (done) => {
+        chai.request(app)
+            .get('/api/request/'+invoiceId+'/'+milestones[0]._id)
+            .set({
+                'Authorization': `Bearer ${token}`
+            })
+            .end((err, res) => {
+                expect(res.body.success).to.be.equal(true);
+                done();
+            });
+    });
+
+    it('confirm milestone payment::accepted', (done) => {
+        chai.request(app)
+        .post('/api/confirm/'+invoiceId+'/'+milestones[0]._id)
+        .send({
+            emailCode,
+            accepted: true
+        })
+        .end((err, res) => {
+            expect(res.body.data.milestones[0].paid).to.be.equal(true);
             expect(res.body.success).to.be.equal(true);
             done();
         });

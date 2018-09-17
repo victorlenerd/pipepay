@@ -105,3 +105,19 @@ export const sendCustormerVerificationCode = (customerEmail, code) => new Promis
         reject(err);
     }
 });
+
+export const sendPaymentRequest = ({ amount, name }, customerEmail, marchantName) => new Promise(async (resolve, reject) => {
+    let mailOption = {
+        from,
+        subject: 'Payment Request',
+        text: `${marchantName} is requesting for payment for milestone "${name}"`
+    };
+
+    try {
+        await sendTo({ ...mailOption, to: customerEmail });
+        resolve();
+    } catch(err) {
+        console.log('err', err);
+        reject(err);
+    }
+});

@@ -19,10 +19,24 @@ export default generateController(PaymentModel, {
                     return res.status(400).send({ error: new Error(error), status: false });
                 }
 
+                const { 
+                    _id,
+                    type,
+                    whoPaysDeliveryFee,
+                    marchantName,
+                    marchantEmail,
+                    marchantBankCode,
+                    deliveryAmount,
+                    marchantAccountNumber
+                } = doc;
+ 
                 try {
-                    await Transfer(doc['marchantName'], doc['marchantAccountNumber'], doc['marchantBankCode'], doc['deliveryAmount'] * 100);
-                    await PaymentModel.create({ customerEmail: email, marchantEmail: doc['marchantEmail'], reference, amount, invoiceId: doc._id });
-                    await mailer.sendReceiptMail(`${first_name} ${last_name}`, email, doc['marchantEmail'], amount);
+                    if (type === 'good') {
+                        await Transfer(marchantName, marchantAccountNumber, marchantBankCode, deliveryAmount);
+                        await PaymentModel.create({ customerEmail: email, marchantEmail, reference, deliveryAmount, invoiceId: _id });
+                    }
+
+                    await mailer.sendReceiptMail(`${first_name} ${last_name}`, email, marchantEmail, amount);
                     res.status(200).send({ success: true });
                 } catch (err) {
                     console.log(err);
