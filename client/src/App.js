@@ -43,16 +43,20 @@ class App extends Component {
     };
   }
   componentWillMount() {
-    init() 
-    .getCurrentUser()
-    .getSession(async (err, result) => {
-      if (result && result.isValid()) {
-        const { idToken: { payload } } = result;
-        this.setState({ signedIn: true, user: payload });
-      } else {
-        this.setState({ signedIn: false });
-      }
-    });
+    try {
+      init() 
+      .getCurrentUser()
+      .getSession(async (err, result) => {
+        if (result && result.isValid()) {
+          const { idToken: { payload } } = result;
+          this.setState({ signedIn: true, user: payload });
+        } else {
+          this.setState({ signedIn: false });
+        }
+      });
+    } catch(err) {
+      this.setState({ signedIn: false });
+    }
   }
 
   render() {
