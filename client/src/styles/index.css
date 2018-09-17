@@ -1,32 +1,34 @@
+* {
+  font-family: 'Karla', sans-serif;
+}
+
 body{
-  background-color: #FFFFFF;
-  font-family: Mallanna;
+  background-color: #F1F1F1;
+  font-family: 'Karla', sans-serif;
 }
 
-#container{
-  background-color: #FFFFFF;
-  border:1px solid #FFFFFF;
-      width: 98%;
-    margin: auto;
-    display: grid;
-  grid-template-columns: 100%;
-  max-width: 414px;	
+section {
+  padding-top: 80px;
 }
 
-.container{
-  border: 1px solid #FFFFFF;
-  width: 100%;
-  display: grid;
-  grid-template-columns: 100%;
+ol, ul {
+  padding: 0px;
+  margin: 0px;
 }
 
-.header{
-  border: 1px solid #FFFFFF;
-  margin-top: 21px;
+.navbar-default {
+  background-color: #82D0A5 !important;
 }
 
-.form{
-  border: 1px solid #FFFFFF;
+.navbar-default .navbar-nav>li>a,
+.navbar-default .navbar-brand {
+  color: #fff !important;
+}
+
+.navbar-default .navbar-nav>.active>a,
+.navbar-default .navbar-nav>.active>a:focus,
+.navbar-default .navbar-nav>.active>a:hover {
+  background-color: rgba(0,0,0, 0.3) !important;
 }
 
 .form-error {
@@ -50,10 +52,24 @@ input{
 .text-submit{
   border:none;
   cursor: pointer;
-  width: 70%;
-  height: 38px;
-  margin-left: 15%;
+  width: 200px;
+  height: 40px;
+  margin: 0px auto;
   border-radius: 3px;
+  background: linear-gradient(241.41deg, #9AE6CD 0%, #96E3C9 7.62%, #95E3C9 8.96%, #80D8B7 45.82%, #61C89E 100%);
+  box-shadow: 3px 5px 15px 0 rgba(111,208,170,0.79);
+  color: #FFFFFF;
+  font-weight: bold;
+  display: block;
+  margin-bottom: 21px;
+}
+
+.pbtn {
+  display: inline-block;
+  padding: 8px 15px;
+  border:none;
+  cursor: pointer;
+  border-radius: 5px;
   background: linear-gradient(241.41deg, #9AE6CD 0%, #96E3C9 7.62%, #95E3C9 8.96%, #80D8B7 45.82%, #61C89E 100%);
   box-shadow: 3px 5px 15px 0 rgba(111,208,170,0.79);
   color: #FFFFFF;
@@ -61,37 +77,20 @@ input{
   margin-bottom: 21px;
 }
 
-#add{
-  cursor: pointer;
-  width: 50px;
-  height: 50px;
-  background: linear-gradient(241.41deg, #9AE6CD 0%, #96E3C9 7.62%, #95E3C9 8.96%, #80D8B7 45.82%, #61C89E 100%);
-  border-radius: 100%; 
-  box-shadow: 0 0 20px 15px rgba(113,202,153,0.3), 0 2px 4px 0 rgba(0,0,0,0.5), 0 2px 4px 0 rgba(0,0,0,0.5), 0 2px 4px 0 rgba(0,0,0,0.5);
-  margin: auto;  
-  }
-  
-#add img{
-  width: 16px;
-  height: 16px;
-  margin-top: 16.5px;
-  margin-left: 17.5px;
+.section-title {
+  margin: 20px 0px;
+  text-align: center;
+  margin-bottom: 50px;
 }
 
-#button{
-  border: 1px solid #FFFFFF;
-  width: 70%;
-  margin: auto;
+.milestones li {
+  margin-bottom: 50px;
 }
 
-button{
-  cursor: pointer;
-  width: 100%;
-  height: 38px;
-  border: none;
-  border-radius: 5px;
-  font-size: 14px;
-  font-weight: 300;
-  letter-spacing: 0.2px;
-  line-height: 20px;
- }
+.form-buttons {
+  padding-top: 50px;
+}
+
+form {
+  display: table;
+}

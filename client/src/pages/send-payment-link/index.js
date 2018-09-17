@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './index.css';
 
 class SendPaymentLink extends Component{
   render(){

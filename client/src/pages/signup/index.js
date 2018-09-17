@@ -1,5 +1,4 @@
 import React, { PureComponent } from 'react';
-import './index.css';
 import { signup } from 'utils/auth';
 import { Link } from 'react-router-dom';
 import NProgress from 'nprogress';

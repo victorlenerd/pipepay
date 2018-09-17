@@ -12,7 +12,8 @@
           "ducks": "./src/ducks",
           "utils": "./src/utils",
           "components": "./src/components",
-          "styles": "./src/styles"
+          "styles": "./src/styles",
+          "contexts": "./src/contexts"
         },
         "extensions": [".js", ".json"]
       }]

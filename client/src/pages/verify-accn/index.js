@@ -38,7 +38,6 @@ class VerifyAccn extends React.PureComponent {
         const { bankCode, accountNumber } = this.state;
         e.preventDefault();
         NProgress.start();
-        // const cognitoUser = userPool.getCurrentUser();
         cognitoUser.getSession(async (err, result) => {
             if (result && result.isValid()) {
                 const attributes = [

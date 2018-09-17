@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import './index.css';
 
 class Forward extends Component{
   render(){
