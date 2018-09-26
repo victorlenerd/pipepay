@@ -48,37 +48,37 @@ class App extends PureComponent {
 		}
 	}
 
-  render() {
-    return (
-		<div id="container">
-			<div className="container">
-				<div className="header">
-					<h1>Create An Account.</h1>
-				</div>
-				<div className="form">
-					<form ref={e => this.formEl = e} name="reg-form" onSubmit={this.submit}>
-						{(this.state.error !== null) && (<div className="form-error">{this.state.error}</div>)}
-						<label htmlFor="firstname">First Name</label>
-						<input type="text" name="firstname" placeholder="First Name" className="text-input" required />
-						<label htmlFor="lastname">Last Name</label>
-						<input type="text" name="lastname" placeholder="Last Name" className="text-input" required />
-						<label htmlFor="email">Email</label>
-						<input type="email" name="email" placeholder="Email" className="text-input" required />
-						<label htmlFor="password">Password</label>
-						<input type="password" name="password" placeholder="Password" className="text-input" required  />
-						<input type="submit" name="sign up" value="SIGN UP" className="text-submit" />
-					</form>
-				</div>
-				<div className="word">
-					<Link to="signin"><p>Don't Have An Existing Account</p></Link>
-				</div>
-				<div className="word">
-					<p>By signing up, you agree to our terms and conditions.</p>
+	render() {
+		return (
+			<div id="container">
+				<div className="container">
+					<div className="header">
+						<h1>Create An Account.</h1>
+					</div>
+					<div className="form">
+						<form ref={e => this.formEl = e} name="reg-form" onSubmit={this.submit}>
+							{(this.state.error !== null) && (<div className="form-error">{this.state.error}</div>)}
+							<label htmlFor="firstname">First Name</label>
+							<input type="text" name="firstname" placeholder="First Name" className="text-input" required />
+							<label htmlFor="lastname">Last Name</label>
+							<input type="text" name="lastname" placeholder="Last Name" className="text-input" required />
+							<label htmlFor="email">Email</label>
+							<input type="email" name="email" placeholder="Email" className="text-input" required />
+							<label htmlFor="password">Password</label>
+							<input type="password" name="password" placeholder="Password" className="text-input" required  />
+							<input type="submit" name="sign up" value="SIGN UP" className="text-submit" />
+						</form>
+					</div>
+					<div className="word">
+						<Link to="signin"><p>I Have An Existing Account</p></Link>
+					</div>
+					<div className="word">
+						<p>By signing up, you agree to our terms and conditions.</p>
+					</div>
 				</div>
 			</div>
-		</div>
-    );
-  }
+		);
+	}
 }
 
 export default App;

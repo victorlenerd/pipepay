@@ -6,7 +6,6 @@ import { renderWithRouter } from '../../utils/testutils';
 describe("Sign Up Page", () => {
     const { getByPlaceholderText, container } = renderWithRouter(<Signup />);
 
-
     const fakeUser = {
         firstName: 'Victor',
         lastName: 'Nwaokocha',

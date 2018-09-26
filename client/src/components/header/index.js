@@ -5,8 +5,9 @@ import AppContext from 'contexts/app.context';
 import { signOut } from 'utils/auth';
 
 class Header extends React.PureComponent {
-    signOut = (user)=> {
+    signOut = (user, setCurrentUser)=> {
         signOut(user['cognito:username']);
+        setCurrentUser(null);
         this.props.history.push('/')
     }
 
@@ -15,7 +16,7 @@ class Header extends React.PureComponent {
 
         return (
             <AppContext.Consumer>
-                {({ user, signedIn }) => (
+                {({ user, signedIn, setCurrentUser }) => (
                     <Navbar fixedTop collapseOnSelect>
                         <div className="container">
                             <Navbar.Header>
@@ -29,7 +30,7 @@ class Header extends React.PureComponent {
                                     {signedIn && <NavItem active={pathname === '/newinvoice'} onClick={()=> this.props.history.push('/newinvoice')}>New Invoice</NavItem>}
                                     {!signedIn && <NavItem active={pathname === '/signup'} onClick={()=> this.props.history.push('/signup')}>Sign Up</NavItem>}
                                     {!signedIn && <NavItem active={pathname === '/signin'} onClick={()=> this.props.history.push('/signin')}>Sign In</NavItem>}
-                                    {signedIn && <NavItem onClick={() => this.signOut(user)}>Sign Out ({user.name})</NavItem>}
+                                    {signedIn && <NavItem onClick={() => this.signOut(user, setCurrentUser)}>Sign Out ({user.name})</NavItem>}
                                 </Nav>
                             </Navbar.Collapse>
                         </div>

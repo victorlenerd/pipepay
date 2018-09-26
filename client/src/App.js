@@ -39,9 +39,12 @@ class App extends Component {
     super();
     this.state = {
       signedIn: false,
-      user: null
+      user: null,
+
+      setCurrentUser: (user) => this.setState({ user, signedIn: user !== null })
     };
   }
+
   componentWillMount() {
     try {
       init() 
@@ -49,13 +52,12 @@ class App extends Component {
       .getSession(async (err, result) => {
         if (result && result.isValid()) {
           const { idToken: { payload } } = result;
-          this.setState({ signedIn: true, user: payload });
+          this.state.setCurrentUser(payload);
         } else {
-          this.setState({ signedIn: false });
-        }
+          this.state.setCurrentUser(null);        }
       });
     } catch(err) {
-      this.setState({ signedIn: false });
+      this.state.setCurrentUser(null);
     }
   }
 
@@ -67,7 +69,7 @@ class App extends Component {
         <AppContext.Provider value={this.state}>
           <Switch>
             <Route exact path="/" render={()=> !signedIn ? <Home /> : <Redirect to="/invoices" />} />
-            <Route path="/signin" render={()=> !signedIn ? <SignIn /> : <Redirect to="/" />} />
+            <Route path="/signin" render={()=> !signedIn ? <SignIn {...this.state} /> : <Redirect to="/" />} />
             <Route path="/signup" render={()=> !signedIn ? <CreateAnAccount />: <Redirect to="/" />} />
             <Route path="/forgotpassword" render={()=> !signedIn ? <ForgotPassword />: <Redirect to="/" />} />
             <Route path="/verifyemail" render={()=> !signedIn ? <VerifyAccount />: <Redirect to="/" />} />
