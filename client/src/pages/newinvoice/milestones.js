@@ -32,7 +32,6 @@ const Milestones = ({ milestones, submit, back, removeMilestone, addMilestone, u
 								className="text-input"
 								required
 								onChange={e => {
-									const milestones = milestones;
 									milestones[i].amount = Number(e.target.value);
 									updateMilestone(milestones);
 								}}
@@ -49,7 +48,6 @@ const Milestones = ({ milestones, submit, back, removeMilestone, addMilestone, u
 								className="text-input"
 								required
 								onChange={e => {
-									const milestones = milestones;
 									milestones[i].description = e.target.value;
 									updateMilestone(milestones);
 								}}
@@ -66,7 +64,6 @@ const Milestones = ({ milestones, submit, back, removeMilestone, addMilestone, u
 								className="text-input"
 								required
 								onChange={e => {
-									const milestones = milestones;
 									milestones[i].dueDate = e.target.value;
 									updateMilestone(milestones);
 								}}
@@ -75,7 +72,7 @@ const Milestones = ({ milestones, submit, back, removeMilestone, addMilestone, u
 						<div className="col-lg-3 col-md-3 col-sm-12 col-xs-12 text-center">
 							<button
 								className="milestone-remove-btn"
-								onClick={removeMilestone}
+								onClick={() => removeMilestone(i)}
 							>
                             REMOVE
 							</button>

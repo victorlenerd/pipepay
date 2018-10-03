@@ -96,7 +96,7 @@ class NewInvoice extends React.Component {
 		this.setState({
 			milestones: this.state.milestones.concat({
 				description: "",
-				amount: 0,
+				amount: "",
 				dueDate: "",
 			}),
 		});
@@ -140,6 +140,7 @@ class NewInvoice extends React.Component {
 							submit={this.submit}
 							back={() => this.setState({ stage: 5 })}
 							addMilestone={this.addMilestone}
+							removeMilestone={this.removeMilestone}
 							updateMilestone={this.updateMilestone}
 						/>}
 					</div>
