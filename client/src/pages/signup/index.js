@@ -1,14 +1,15 @@
-import React, { PureComponent } from 'react';
-import { signup } from 'utils/auth';
-import { Link } from 'react-router-dom';
-import NProgress from 'nprogress';
+import React from "react";
+import PropTypes from "prop-types";
+import { signup } from "utils/auth";
+import { Link } from "react-router-dom";
+import NProgress from "nprogress";
 
-class App extends PureComponent {
+class SignUp extends React.PureComponent {
 	constructor() {
 		super();
 		this.state = {
 			error: null
-		}
+		};
 
 		this.submit = this.submit.bind(this);
 	}
@@ -16,28 +17,28 @@ class App extends PureComponent {
 	async submit(e) {
 		e.preventDefault();
 		if (this.formEl.checkValidity() === true) {
-			const firstname =  e.target.firstname.value;
-			const lastname =  e.target.lastname.value;
-			const email =  e.target.email.value;
-			const password =  e.target.password.value;
-			const username = email.split('@')[0];
+			const firstname = e.target.firstname.value;
+			const lastname = e.target.lastname.value;
+			const email = e.target.email.value;
+			const password = e.target.password.value;
+			const username = email.split("@")[0];
 
 			let dataName = {
-				Name : 'name',
-				Value : `${firstname} ${lastname}`
+				Name: "name",
+				Value: `${firstname} ${lastname}`
 			};
 
 			let dataEmail = {
-					Name : 'email',
-					Value : email
+				Name: "email",
+				Value: email
 			};
 
 			let attributes = [dataName, dataEmail];
 			NProgress.start();
 			try {
 				await signup(username, password, attributes);
-				this.props.history.push('/verifyemail', { username,  password });
-			} catch({ message }) {
+				this.props.history.push("/verifyemail", { username, password });
+			} catch ({ message }) {
 				this.setState({
 					error: message
 				});
@@ -56,21 +57,58 @@ class App extends PureComponent {
 						<h1>Create An Account.</h1>
 					</div>
 					<div className="form">
-						<form ref={e => this.formEl = e} name="reg-form" onSubmit={this.submit}>
-							{(this.state.error !== null) && (<div className="form-error">{this.state.error}</div>)}
+						<form
+							ref={e => (this.formEl = e)}
+							name="reg-form"
+							onSubmit={this.submit}
+						>
+							{this.state.error !== null && (
+								<div className="form-error">{this.state.error}</div>
+							)}
 							<label htmlFor="firstname">First Name</label>
-							<input type="text" name="firstname" placeholder="First Name" className="text-input" required />
+							<input
+								type="text"
+								name="firstname"
+								placeholder="First Name"
+								className="text-input"
+								required
+							/>
 							<label htmlFor="lastname">Last Name</label>
-							<input type="text" name="lastname" placeholder="Last Name" className="text-input" required />
+							<input
+								type="text"
+								name="lastname"
+								placeholder="Last Name"
+								className="text-input"
+								required
+							/>
 							<label htmlFor="email">Email</label>
-							<input type="email" name="email" placeholder="Email" className="text-input" required />
+							<input
+								type="email"
+								name="email"
+								placeholder="Email"
+								className="text-input"
+								required
+							/>
 							<label htmlFor="password">Password</label>
-							<input type="password" name="password" placeholder="Password" className="text-input" required  />
-							<input type="submit" name="sign up" value="SIGN UP" className="text-submit" />
+							<input
+								type="password"
+								name="password"
+								placeholder="Password"
+								className="text-input"
+								required
+							/>
+							<input
+								type="submit"
+								name="sign up"
+								value="SIGN UP"
+								className="text-submit"
+							/>
 						</form>
 					</div>
 					<div className="word">
-						<Link to="signin"><p>I Have An Existing Account</p></Link>
+						<Link to="signin">
+							<p>I Have An Existing Account</p>
+						</Link>
 					</div>
 					<div className="word">
 						<p>By signing up, you agree to our terms and conditions.</p>
@@ -81,4 +119,8 @@ class App extends PureComponent {
 	}
 }
 
-export default App;
+SignUp.propTypes = {
+	history: PropTypes.object
+};
+
+export default SignUp;

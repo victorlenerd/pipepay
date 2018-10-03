@@ -1,54 +1,66 @@
-import React, { PureComponent } from 'react';
-import { signin, userPool } from 'utils/auth';
-import { Link, withRouter } from 'react-router-dom';
-import NProgress from 'nprogress';
+//@flow
 
-class SignIn extends PureComponent {
+import React from "react";
+import { signin, userPool } from "utils/auth";
+import { withRouter, Link } from "react-router-dom";
+import NProgress from "nprogress";
+
+type Props = {
+  history: any,
+  setCurrentUser?: any,
+}
+
+type State = {
+  error: string,
+}
+
+class SignIn extends React.PureComponent<Props, State> {
 	constructor() {
 		super();
 		this.state = {
-			error: null
+			error: 0,
 		};
 
 		this.submit = this.submit.bind(this);
 	}
 
-	
-	async submit (e) {
+	async submit(e) {
 		const { setCurrentUser, history } = this.props;
 		e.preventDefault();
 		if (this.formEl.checkValidity() === true) {
-			const email =  e.target.email.value;
-			const password =  e.target.password.value;
-			const username = email.split('@')[0];
+			const email = e.target.email.value;
+			const password = e.target.password.value;
+			const username = email.split("@")[0];
 
 			try {
-                NProgress.start();
-                await signin(username,  password);
+				NProgress.start();
+				await signin(username, password);
 				const cognitoUser = userPool.getCurrentUser();
 				cognitoUser.getSession((err, result) => {
 					if (result && result.isValid()) {
 						NProgress.done();
-						const { idToken: { payload } } = result;
+						const {
+							idToken: { payload },
+						} = result;
 						setCurrentUser(payload);
 
-						if (payload['custom:account_number'] && payload['custom:bank_code']) {
-							history.push('/invoices');
+						if (payload["custom:account_number"] && payload["custom:bank_code"]) {
+							history.push("/invoices");
 						} else {
-							history.push('/verifyaccn');
+							history.push("/verifyaccn");
 						}
 
 						return;
 					}
 
-					this.setState({ error: err.message })
+					this.setState({ error: err.message });
 				});
-			} catch(err) {
-                NProgress.done();
-                if (err.code === "UserNotConfirmedException") {
-                    return history.push('/verifyemail', { username,  password });
+			} catch (err) {
+				NProgress.done();
+				if (err.code === "UserNotConfirmedException") {
+					return history.push("/verifyemail", { username, password });
 				}
-				this.setState({ error: err.message })
+				this.setState({ error: err.message });
 			}
 		} else {
 			this.setState({ error: "Please fill all the required fields." });
@@ -64,13 +76,27 @@ class SignIn extends PureComponent {
 					</div>
 
 					<div className="form">
-					<form ref={e => this.formEl = e} name="reg-form" onSubmit={this.submit}>
-							{(this.state.error !== null) && (<div className="form-error">{this.state.error}</div>)}
+						<form ref={e => (this.formEl = e)} name="reg-form" onSubmit={this.submit}>
+							{this.state.error !== null && <div className="form-error">{this.state.error}</div>}
 							<label htmlFor="email">Email</label>
-							<input type="email" name="email" placeholder="Email" className="text-input" required />
+							<input
+								type="email"
+								name="email"
+								placeholder="Email"
+								className="text-input"
+								required
+							/>
 							<label htmlFor="password">Password</label>
-							<input type="password" name="password" placeholder="Password" className="text-input" required />
-							<Link to="forgotpassword" id="forgot">Forgot Password?</Link>
+							<input
+								type="password"
+								name="password"
+								placeholder="Password"
+								className="text-input"
+								required
+							/>
+							<Link to="forgotpassword" id="forgot">
+                Forgot Password?
+							</Link>
 							<input type="submit" name="sign-in" value="SIGN IN" className="text-submit" />
 						</form>
 						<div id="have-account">

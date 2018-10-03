@@ -1,7 +1,8 @@
 {
-    "presets": ["react-app"],
+    "presets": ["react-app", "flow"],
     "plugins": [
       "transform-decorators-legacy",
+      "transform-class-properties",
       ["module-resolver", {
         "cwd": "babelrc",
         "root": ["./"],

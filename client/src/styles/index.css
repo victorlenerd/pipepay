@@ -1,3 +1,4 @@
+
 * {
   font-family: 'Karla', sans-serif;
 }
@@ -11,14 +12,23 @@ body{
   padding-top: 80px;
 }
 
+a:focus, a:hover {
+  color: #fff !important;
+  text-decoration: none !important;
+}
+
 ol, ul {
   padding: 0px;
   margin: 0px;
 }
 
-.navbar-default {
-  background-color: #82D0A5 !important;
-  border: 0px !important;
+#navbar-default {
+  background-color: rgba(111, 180, 170, 1);
+  border: 0px;
+}
+
+#login-btn {
+  background-color: #82D0A5;
 }
 
 .navbar-default .navbar-nav>li>a,
@@ -37,6 +47,46 @@ ol, ul {
   text-align: center;
 }
 
+.milestone-remove-btn {
+  width: 100%;
+  border: 0px;
+  height: 40px;
+  border-radius: 20px;
+  color: #fff;
+  text-align: center;
+  background-color: #e74c3c;
+}
+
+.action-header {
+  width: 100px;
+  border-radius: 20px;
+  height: 35px;
+  margin-left: 20px;
+  margin-top: 7px;
+  text-align: center;
+  border: #fff 1px solid;
+  text-transform: uppercase;
+}
+
+.action-header a {
+  line-height: 5px !important;
+}
+
+.action-header.login-btn {
+  background-color: rgba(111, 180, 170, 1);
+  border: 0px;
+}
+
+.action-header.register-btn {
+  background-color: #fff;
+  border: 0px;
+}
+
+#register-btn-link {
+  color: rgba(111, 180, 170, 1) !important;
+}
+
+
 input{
   outline: none;
   border: none;
@@ -44,10 +94,15 @@ input{
 }
 
 .text-input{
+  border: 0px;
   border-bottom: 2px solid #576D7A;
   width: 100%;
   height: 32px;
   font-size: 16px;
+}
+
+.area {
+  height: 100px;
 }
 
 .payments-summary {
@@ -56,10 +111,12 @@ input{
   color: #fff;
   margin-top: -30px;
   padding-top: 20px;
-  background-color: #5b9173 !important;
+  color: #333;
+  background-color: #ecf0f1;
+  margin-bottom: 50px;
 }
 
-.text-submit{
+.text-submit, .text-submit-inverse, .add-milestone-btn {
   border:none;
   cursor: pointer;
   width: 200px;
@@ -71,6 +128,17 @@ input{
   font-weight: bold;
   display: block;
   margin-bottom: 21px;
+}
+
+.add-milestone-btn {
+  width: 150px;
+  margin: 20px auto;
+}
+
+.text-submit-inverse {
+  border: 2px solid #61C89E;
+  background: #fff;
+  color: #61C89E;
 }
 
 .pbtn {
@@ -96,14 +164,117 @@ input{
 }
 
 .form-buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
   padding-top: 50px;
 }
 
 form {
+  width: 100%;
   display: table;
 }
 
+.text-center {
+  text-align: center;
+}
+
 .pending-transactions-amount {
-  margin-top: 0px !important;
+  margin-top: -10px !important;
+  margin-bottom: 10px;
   padding: 0px !important;
+}
+
+.invoice-price {
+  padding: 5px 15px;
+  background: #2ecc71;
+  color: #fff;
+  border-radius: 20px;
+  margin: 10px 0px;
+}
+
+.invoice-price.accepted { 
+  background: #2ecc71;
+}
+
+.invoice-price.pending { 
+  background: #f1c40f;
+}
+
+.invoice-timeago {
+  text-align: center;
+  font-size: 10px;
+}
+
+
+.invoice-phone {
+  color: #666;
+}
+
+.invoices {
+  width: 100%;
+  display: table;
+}
+
+.invoices li {
+  border-bottom: 1px solid rgba(0,0,0, 0.1);
+  cursor: pointer;
+  padding: 20px 0px;
+}
+
+.invoices li:last-child {
+  border: 0px;
+}
+
+.transaction-select {
+  width: 200px;
+  max-width: 200px;
+  text-align: center;
+  height: 25px;
+  border-radius: 0px;
+  border: 0px;
+  background-color: #fff;
+  box-shadow: -4px 2px 4px rgba(0,0,0, 0.1), 4px 2px 4px rgba(0,0,0, 0.1), 4px -2px 4px rgba(0,0,0, 0.1);
+}
+
+.search-invoice {
+  width: 100%;
+  height: 40px;
+  border-radius: 20px;
+  padding-left: 20px;
+  background-color: #fff;
+  box-shadow: -4px 2px 4px rgba(0,0,0, 0.1), 4px 2px 4px rgba(0,0,0, 0.1), 4px -2px 4px rgba(0,0,0, 0.1);
+}
+
+.filter-text {
+  font-size: 10px;
+}
+
+.invoice-payment-request-btn,
+.invoice-payment-report-btn {
+  width: 100%;
+  max-width: 200px;
+  display: block;
+  margin: 20px auto;
+  height: 40px;
+  color: #fff;
+  border: 0px;
+  border-radius: 20px;
+}
+
+.invoice-payment-request-btn {
+  background: linear-gradient(241.41deg, #9AE6CD 0%, #96E3C9 7.62%, #95E3C9 8.96%, #80D8B7 45.82%, #61C89E 100%);
+}
+
+.invoice-payment-report-btn {
+  background: #e74c3c;
+}
+
+.invoice-action-hint {
+  font-size: 12px;
+  text-align: center;
+}
+
+.invoice-left {
+  border-right: 1px solid rgba(0,0,0, 0.1);
 }

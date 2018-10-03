@@ -53,6 +53,9 @@
     background-color: rgba(0, 0, 0, 0.60);
     color: #fff;
     padding: 40px 60px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .heading {
@@ -116,13 +119,12 @@
     height: 300px;
     float: right;
     background-color: #fff;
-    border-radius: 100%;
+    border-radius: 20px;
     text-align: center;
     color: #71CA99;
     font-weight: bold;
     padding: 40px 20px 20px 20px;
     letter-spacing: 1.5px;
-    margin-top: -50px;
 }
 
 .rate-info>p {

@@ -1,90 +1,134 @@
-import React, { Component } from 'react';
+// @flow
 
-import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom';
+import React, { Component } from "react";
 
-import AppContext from 'contexts/app.context';
+import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
 
-import Home from 'pages/home';
-import SignIn from 'pages/signin';
-import CreateAnAccount from 'pages/signup';
-import ForgotPassword from 'pages/forgot-password';
-import VerifyAccount from 'pages/verify-account';
-import ResetPassword from 'pages/reset-password';
-import VerifyAccn from 'pages/verify-accn';
+import AppContext from "contexts/app.context";
 
-import SendPaymentLink from 'pages/send-payment-link';
-import DissatisfactionReason from 'pages/dissatisfaction-reason';
-import CreatePaymentLink from 'pages/create-payment-link';
-import ConfirmSatisfaction from 'pages/confirm-satisfaction';
+import Home from "pages/home";
+import SignIn from "pages/signin";
+import CreateAnAccount from "pages/signup";
+import ForgotPassword from "pages/forgot-password";
+import VerifyAccount from "pages/verify-account";
+import ResetPassword from "pages/reset-password";
+import VerifyAccn from "pages/verify-accn";
 
-import Invoices from 'pages/invoices';
-import NewInvoice from 'pages/newinvoice';
+import DissatisfactionReason from "pages/dissatisfaction-reason";
+import ConfirmSatisfaction from "pages/confirm-satisfaction";
 
-import Header from 'components/header';
+import Invoice from "pages/invoice";
+import Invoices from "pages/invoices";
+import NewInvoice from "pages/newinvoice";
+import Report from "pages/report";
+import Settings from "pages/settings";
 
-import { init } from 'utils/auth';
+import { withHeader } from "components/header";
 
-import 'styles/nprogress.css';
-import 'styles/bootstrap.min.css';
+import { init } from "utils/auth";
 
-const withHeader = (Comp) => (
-  <React.Fragment>
-    <Header />
-    <Comp />
-  </React.Fragment>
-)
+import "styles/nprogress.css";
+import "styles/bootstrap.min.css";
 
-class App extends Component {
-  constructor(){
-    super();
-    this.state = {
-      signedIn: false,
-      user: null,
+type State = {
+  signedIn: boolean,
+  user?: null,
+  setCurrentUser?: null
+}
 
-      setCurrentUser: (user) => this.setState({ user, signedIn: user !== null })
-    };
+type Props = {}
+
+class App extends Component<Props, State> {
+  state = {
+  	signedIn: false,
+  	user: null,
+  	setCurrentUser: user => this.setState({ user, signedIn: user !== null }),
   }
 
-  componentWillMount() {
-    try {
-      init() 
-      .getCurrentUser()
-      .getSession(async (err, result) => {
-        if (result && result.isValid()) {
-          const { idToken: { payload } } = result;
-          this.state.setCurrentUser(payload);
-        } else {
-          this.state.setCurrentUser(null);        }
-      });
-    } catch(err) {
-      this.state.setCurrentUser(null);
-    }
+  constructor() {
+  	super();
+  	this.fetchUser();
+  }
+
+  fetchUser() {
+  	try {
+  		init()
+  			.getCurrentUser()
+  			.getSession(async (err, result) => {
+  				if (result && result.isValid()) {
+  					const {
+  						idToken: { payload },
+  					} = result;
+  					this.state.setCurrentUser(payload);
+  				} else {
+  					this.state.setCurrentUser(null);
+  				}
+  			});
+  	} catch (err) {
+  		this.state.setCurrentUser(null);
+  	}
   }
 
   render() {
-    const { signedIn } = this.state;
+  	const { signedIn } = this.state;
 
-    return (
-      <BrowserRouter>
-        <AppContext.Provider value={this.state}>
-          <Switch>
-            <Route exact path="/" render={()=> !signedIn ? <Home /> : <Redirect to="/invoices" />} />
-            <Route path="/signin" render={()=> !signedIn ? <SignIn {...this.state} /> : <Redirect to="/" />} />
-            <Route path="/signup" render={()=> !signedIn ? <CreateAnAccount />: <Redirect to="/" />} />
-            <Route path="/forgotpassword" render={()=> !signedIn ? <ForgotPassword />: <Redirect to="/" />} />
-            <Route path="/verifyemail" render={()=> !signedIn ? <VerifyAccount />: <Redirect to="/" />} />
-            <Route path="/resetpassword" render={()=> !signedIn ? <ResetPassword />: <Redirect to="/" />} />
-            <Route path="/verifyaccn" render={()=> signedIn ? <VerifyAccn />: <Redirect to="/" />} />
-            
-            <Route path="/invoices" render={()=> signedIn ? withHeader(Invoices): <Redirect to="/" />} />
-            <Route path="/newinvoice" render={()=> signedIn ? withHeader(NewInvoice): <Redirect to="/" />} />
+  	return (
+  		<BrowserRouter>
+  			<AppContext.Provider value={this.state}>
+  				<Switch>
+  					<Route exact path="/" render={() => <Home />} />
+  					<Route
+  						path="/signin"
+  						render={() => (!signedIn ? <SignIn {...this.state} /> : <Redirect to="/invoices" />)}
+  					/>
+  					<Route
+  						path="/signup"
+  						render={() => (!signedIn ? <CreateAnAccount /> : <Redirect to="/invoices" />)}
+  					/>
+  					<Route
+  						path="/forgotpassword"
+  						render={() => (!signedIn ? <ForgotPassword /> : <Redirect to="/invoices" />)}
+  					/>
+  					<Route
+  						path="/verifyemail"
+  						render={() => (!signedIn ? <VerifyAccount /> : <Redirect to="/invoices" />)}
+  					/>
+  					<Route
+  						path="/resetpassword"
+  						render={() => (!signedIn ? <ResetPassword /> : <Redirect to="/invoices" />)}
+  					/>
+  					<Route
+  						path="/verifyaccn"
+  						render={() => (signedIn ? <VerifyAccn /> : <Redirect to="/invoices" />)}
+  					/>
 
-            <Route path="/reason" component={DissatisfactionReason} />
-            <Route path="/confirm/:invoiceId" component={ConfirmSatisfaction} />
-          </Switch>
-        </AppContext.Provider>
-      </BrowserRouter>
-    );
+  					<Route
+  						path="/invoice"
+  						render={() => (signedIn ? withHeader(Invoice) : <Redirect to="/" />)}
+  					/>
+  					<Route
+  						path="/invoices"
+  						render={() => (signedIn ? withHeader(Invoices) : <Redirect to="/" />)}
+  					/>
+  					<Route
+  						path="/report"
+  						render={() => (signedIn ? withHeader(Report) : <Redirect to="/" />)}
+  					/>
+  					<Route
+  						path="/newinvoice"
+  						render={() => (signedIn ? withHeader(NewInvoice) : <Redirect to="/" />)}
+  					/>
+  					<Route
+  						path="/settings"
+  						render={() => (SignIn ? withHeader(Settings) : <Redirect to="/" />)}
+  					/>
+
+  					<Route path="/reason" component={DissatisfactionReason} />
+  					<Route path="/confirm/:invoiceId" component={ConfirmSatisfaction} />
+  				</Switch>
+  			</AppContext.Provider>
+  		</BrowserRouter>
+  	);
   }
 }
 
