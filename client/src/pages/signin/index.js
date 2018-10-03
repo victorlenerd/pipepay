@@ -6,25 +6,20 @@ import { withRouter, Link } from "react-router-dom";
 import NProgress from "nprogress";
 
 type Props = {
-  history: any,
-  setCurrentUser?: any,
+	history: any,
+	setCurrentUser?: any,
 }
 
 type State = {
-  error: string,
+	error: string,
 }
 
 class SignIn extends React.PureComponent<Props, State> {
-	constructor() {
-		super();
-		this.state = {
-			error: 0,
-		};
-
-		this.submit = this.submit.bind(this);
+	state = {
+		error: ""
 	}
 
-	async submit(e) {
+	submit = async (e) => {
 		const { setCurrentUser, history } = this.props;
 		e.preventDefault();
 		if (this.formEl.checkValidity() === true) {

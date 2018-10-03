@@ -8,7 +8,11 @@
         "jest": true
     },
     "parser": "babel-eslint",
-    "extends": "airbnb",
+    "extends": [
+        "eslint:recommended",
+        "plugin:react/recommended",
+        "plugin:flowtype/recommended"
+    ],
     "parserOptions": {
         "ecmaFeatures": {
             "jsx": true,
@@ -43,7 +47,8 @@
             "error",
             "always"
         ],
-        "no-mixed-spaces-and-tabs":"warn",
+        "no-unused-vars": "off",
+        "no-mixed-spaces-and-tabs":"off",
         "react/no-unescaped-entities": "warn",
         "react/no-deprecated": "warn"
     }

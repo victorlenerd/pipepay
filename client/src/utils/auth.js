@@ -1,4 +1,3 @@
-//@flow
 import {
 	AuthenticationDetails,
 	CognitoUserPool,
@@ -6,8 +5,8 @@ import {
 	CognitoUser,
 } from "amazon-cognito-identity-js";
 
-export let userPool: any;
-export let cognitoUser: any;
+export let userPool;
+export let cognitoUser;
 
 export const init = () => {
 	userPool = new CognitoUserPool({
@@ -18,7 +17,7 @@ export const init = () => {
 	return userPool;
 };
 
-export const signup = (Username: string, Password: string, attributes: any) =>
+export const signup = (Username, Password, attributes) =>
 	new Promise((resolve, reject) => {
 		let attributeList = attributes.map(data => new CognitoUserAttribute(data));
 
@@ -33,7 +32,7 @@ export const signup = (Username: string, Password: string, attributes: any) =>
 		});
 	});
 
-export const confirmRegistration = (Username: string, code: string) =>
+export const confirmRegistration = (Username, code) =>
 	new Promise((resolve, reject) => {
 		let userData = {
 			Username,

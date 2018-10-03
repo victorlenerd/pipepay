@@ -3,5 +3,10 @@
 [include]
 
 [libs]
+pages=./src/pages
+styles=./src/styles
+context=./src/context
+utils=./src/utils
+containers=./src/containers
 
 [options]

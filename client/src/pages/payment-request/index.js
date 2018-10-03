@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component } from "react";
 
 class PaymentRequest extends Component {
-  render() {
-    return (
+	render() {
+		return (
 			<div id="container">
 				<div className="container">
 					<div className="header">
@@ -21,7 +21,9 @@ class PaymentRequest extends Component {
 							<li>NGN 500</li>
 						</ul>
 						<ul>
-							<li><b>Total</b></li>
+							<li>
+								<b>Total</b>
+							</li>
 							<li>NGN 25,500</li>
 						</ul>
 					</div>
@@ -30,8 +32,8 @@ class PaymentRequest extends Component {
 					</div>
 				</div>
 			</div>
-    );
-  }
+		);
+	}
 }
 
 export default PaymentRequest;
