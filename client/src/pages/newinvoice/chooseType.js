@@ -14,7 +14,7 @@ const ChooseType = ({ submit }: Props) => (
 					id="invoice_type_good"
 					type="radio"
 					name="invoice_type"
-					value="goods"
+					value="good"
 					required
 				/>
                 &nbsp;&nbsp;

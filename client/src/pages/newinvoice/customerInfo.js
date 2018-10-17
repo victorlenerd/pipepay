@@ -14,7 +14,7 @@ const CustomerInfo = ({ type, submit, updateStage }: Props) => (
 		<label htmlFor="c-name">Customer Name</label>
 		<input
 			type="text"
-			name="customer_name"
+			name="customerName"
 			placeholder="Customer Name"
 			id="c-name"
 			className="text-input"
@@ -25,7 +25,7 @@ const CustomerInfo = ({ type, submit, updateStage }: Props) => (
 		<label htmlFor="c-phone">Customer Phone</label>
 		<input
 			type="text"
-			name="customer_phone"
+			name="customerPhone"
 			placeholder="Customer Phone Number"
 			id="c-phone"
 			className="text-input"
@@ -36,7 +36,7 @@ const CustomerInfo = ({ type, submit, updateStage }: Props) => (
 		<label htmlFor="c-email">Customer Email</label>
 		<input
 			type="text"
-			name="customer_email"
+			name="customerEmail"
 			placeholder="Customer Email"
 			id="c-email"
 			className="text-input"

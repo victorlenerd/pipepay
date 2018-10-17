@@ -51,9 +51,9 @@ class App extends Component<Props, State> {
 				.getCurrentUser()
 				.getSession(async (err, result) => {
 					if (result && result.isValid()) {
-						const {
-							idToken: { payload },
-						} = result;
+						const { idToken } = result;
+						const { payload, jwtToken } = idToken;
+						payload.token = jwtToken;
 						this.state.setCurrentUser(payload);
 					} else {
 						this.state.setCurrentUser(null);

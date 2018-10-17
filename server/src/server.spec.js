@@ -97,7 +97,7 @@ describe('Server Operations', () => {
                 transaction: {
                     reference: "1234",
                 },
-                customer: { 
+                customer: {
                     first_name: 'Victor',
                     last_name: 'Nwaokocha',
                     email: 'nvonweb@outlook.com',

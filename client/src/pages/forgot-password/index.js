@@ -1,9 +1,15 @@
+//@flow
 import React from "react";
-import PropTypes from "prop-types";
 import { forgotPassword } from "utils/auth";
 import NProgress from "nprogress";
+import { withRouter } from "react-router-dom";
+import BannerFrom from "containers/banner-form.container";
 
-class ForgotPassword extends React.PureComponent {
+type Props = {
+	history: object,
+}
+
+class ForgotPassword extends React.PureComponent<Props> {
 	constructor() {
 		super();
 		this.state = {
@@ -33,25 +39,18 @@ class ForgotPassword extends React.PureComponent {
 
 	render() {
 		return (
-			<div id="container">
-				<div className="container">
-					<div className="header">
-						<h1>Forgot Password.</h1>
-					</div>
-					<div className="form">
-						<form ref={e => (this.formEl = e)} name="reg-form" onSubmit={this.submit}>
-							<input type="email" name="email" placeholder="Email" className="text-input" />
-							<input type="submit" name="sign-in" value="SUBMIT" className="text-submit" />
-						</form>
-					</div>
+			<BannerFrom title="Forgot Password">
+				<div className="form">
+					<form ref={e => (this.formEl = e)} name="reg-form" onSubmit={this.submit}>
+						{this.state.error !== null && <div className="form-error">{this.state.error}</div>}
+						<input type="email" name="email" placeholder="Email" className="text-input" />
+						<br /><br />
+						<input type="submit" name="sign-in" value="SUBMIT" className="text-submit" />
+					</form>
 				</div>
-			</div>
+			</BannerFrom>
 		);
 	}
 }
 
-ForgotPassword.propTypes = {
-	history: PropTypes.object,
-};
-
-export default ForgotPassword;
+export default withRouter(ForgotPassword);

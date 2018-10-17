@@ -1,9 +1,16 @@
+//@flow
 import React from "react";
 import NProgress from "nprogress";
-import PropTypes from "prop-types";
 import { confirmPassword } from "utils/auth";
+import { withRouter } from "react-router-dom";
+import BannerFrom from "containers/banner-form.container";
 
-class ResetPassword extends React.PureComponent {
+type Props = {
+	location: object,
+	history: object
+};
+
+class ResetPassword extends React.PureComponent<Props> {
 	constructor() {
 		super();
 		this.submit = this.submit.bind(this);
@@ -34,36 +41,27 @@ class ResetPassword extends React.PureComponent {
 
 	render() {
 		return (
-			<div id="container">
-				<div className="container">
-					<div className="header">
-						<h2>Change Password</h2>
-					</div>
-					<div className="form">
-						<form ref={e => (this.formEl = e)} name="reg-form" onSubmit={this.submit}>
-							{this.state.error !== null && <div className="form-error">{this.state.error}</div>}
-							<label htmlFor="code">Code</label>
-							<input type="text" name="code" placeholder="Code" className="text-input" required />
-							<label htmlFor="password">Password</label>
-							<input
-								type="password"
-								name="password"
-								placeholder="Confirm Password"
-								className="text-input"
-								required
-							/>
-							<input type="submit" name="done" value="DONE" className="text-submit" />
-						</form>
-					</div>
+			<BannerFrom title="Reset Password">
+				<div className="form">
+					<form ref={e => (this.formEl = e)} name="reg-form" onSubmit={this.submit}>
+						{this.state.error !== null && <div className="form-error">{this.state.error}</div>}
+						<label htmlFor="code">Code</label>
+						<input type="text" name="code" placeholder="Code" className="text-input" required />
+						<label htmlFor="password">Password</label>
+						<input
+							type="password"
+							name="password"
+							placeholder="Confirm Password"
+							className="text-input"
+							required
+						/>
+						<br /><br />
+						<input type="submit" name="done" value="DONE" className="text-submit" />
+					</form>
 				</div>
-			</div>
+			</BannerFrom>
 		);
 	}
 }
 
-ResetPassword.propTypes = {
-	location: PropTypes.object,
-	history: PropTypes.object,
-};
-
-export default ResetPassword;
+export default withRouter(ResetPassword);

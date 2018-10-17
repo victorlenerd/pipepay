@@ -15,7 +15,7 @@ type Props = {
 }
 
 const Milestones = ({ milestones, submit, back, removeMilestone, addMilestone, updateMilestone }: Props) => (
-	<form name="milstone-form">
+	<form name="milstone-form" onSubmit={submit}>
 		<h4 className="section-title">Milestones</h4>
 		<br />
 		<ol className="milestones">
@@ -28,13 +28,14 @@ const Milestones = ({ milestones, submit, back, removeMilestone, addMilestone, u
 								type="number"
 								value={amount}
 								name="milestone-amount"
-								placeholder="Amount"
+								placeholder="e.g 1000"
+								id={`milestone-amount-${i}`}
 								className="text-input"
-								required
 								onChange={e => {
 									milestones[i].amount = Number(e.target.value);
 									updateMilestone(milestones);
 								}}
+								required
 							/>
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
@@ -43,14 +44,14 @@ const Milestones = ({ milestones, submit, back, removeMilestone, addMilestone, u
 								type="text"
 								value={description}
 								name="milestone-name"
-								placeholder="Name or Description"
-								id="c-name"
+								placeholder="e.g Web Design"
+								id={`milestone-name-${i}`}
 								className="text-input"
-								required
 								onChange={e => {
 									milestones[i].description = e.target.value;
 									updateMilestone(milestones);
 								}}
+								required
 							/>
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-xs-12">
@@ -58,15 +59,15 @@ const Milestones = ({ milestones, submit, back, removeMilestone, addMilestone, u
 							<input
 								type="date"
 								value={dueDate}
-								id="milestone-due-date"
+								id={`milestone-date-${i}`}
 								name="milestone-dueDate"
 								placeholder="Due Date"
 								className="text-input"
-								required
 								onChange={e => {
 									milestones[i].dueDate = e.target.value;
 									updateMilestone(milestones);
 								}}
+								required
 							/>
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-12 col-xs-12 text-center">
@@ -96,7 +97,7 @@ const Milestones = ({ milestones, submit, back, removeMilestone, addMilestone, u
 				className="text-submit-inverse"
 				onClick={back}
 			/>
-			<input type="submit" value="DONE" id="send" className="text-submit" onClick={submit} />
+			<input type="submit" value="NEXT" id="send" className="text-submit" />
 		</div>
 	</form>
 );

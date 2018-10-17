@@ -23,7 +23,7 @@ require("source-map-support").install();
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "c73a654193ac14b6f840";
+/******/ 	var hotCurrentHash = "2d14595d34c0cfbc6aa6";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -1106,11 +1106,107 @@ __webpack_require__.r(__webpack_exports__);
 
 /***/ }),
 
+/***/ "./src/api/modules/invoice.js":
+/*!************************************!*\
+  !*** ./src/api/modules/invoice.js ***!
+  \************************************/
+/*! exports provided: CreateInvoice */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "CreateInvoice", function() { return CreateInvoice; });
+/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babel-runtime/regenerator */ "babel-runtime/regenerator");
+/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! babel-runtime/helpers/asyncToGenerator */ "babel-runtime/helpers/asyncToGenerator");
+/* harmony import */ var babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var babel_runtime_core_js_promise__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! babel-runtime/core-js/promise */ "babel-runtime/core-js/promise");
+/* harmony import */ var babel_runtime_core_js_promise__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_core_js_promise__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var superagent__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! superagent */ "superagent");
+/* harmony import */ var superagent__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(superagent__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var date_fns_add_days__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! date-fns/add_days */ "date-fns/add_days");
+/* harmony import */ var date_fns_add_days__WEBPACK_IMPORTED_MODULE_4___default = /*#__PURE__*/__webpack_require__.n(date_fns_add_days__WEBPACK_IMPORTED_MODULE_4__);
+
+
+
+
+var _this = undefined;
+
+
+
+var secret = "sk_test_ef208dee35b39342cf35bf961ec6cb19ebc2f94c";
+
+var CreateCustomer = function CreateCustomer(_ref) {
+    var name = _ref.name,
+        email = _ref.email,
+        phone = _ref.phone;
+    return new babel_runtime_core_js_promise__WEBPACK_IMPORTED_MODULE_2___default.a(function (resolve, reject) {
+        superagent__WEBPACK_IMPORTED_MODULE_3___default.a.post('https://api.paystack.co/customer').set("Authorization", 'Bearer ' + secret).send({
+            name: name,
+            email: email,
+            phone: phone
+        }).end(function (err, _ref2) {
+            var body = _ref2.body;
+
+            if (err) reject(err);
+            resolve(body);
+        });
+    });
+};
+
+var CreateInvoice = function CreateInvoice(customer, amount, description) {
+    var line_items = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : [];
+    return new babel_runtime_core_js_promise__WEBPACK_IMPORTED_MODULE_2___default.a(function () {
+        var _ref3 = babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(resolve, reject) {
+            var _ref4, customer_code, due_date;
+
+            return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            _context.next = 2;
+                            return CreateCustomer(customer);
+
+                        case 2:
+                            _ref4 = _context.sent;
+                            customer_code = _ref4.data.customer_code;
+                            due_date = date_fns_add_days__WEBPACK_IMPORTED_MODULE_4___default()(new Date(), 7);
+
+
+                            superagent__WEBPACK_IMPORTED_MODULE_3___default.a.post('https://api.paystack.co/paymentrequest').set("Authorization", 'Bearer ' + secret).send({
+                                customer: customer_code,
+                                description: description,
+                                amount: amount,
+                                line_items: line_items,
+                                due_date: due_date
+                            }).end(function (err, _ref5) {
+                                var body = _ref5.body;
+
+                                if (err) reject(err);
+                                resolve(body);
+                            });
+
+                        case 6:
+                        case 'end':
+                            return _context.stop();
+                    }
+                }
+            }, _callee, _this);
+        }));
+
+        return function (_x2, _x3) {
+            return _ref3.apply(this, arguments);
+        };
+    }());
+};
+
+/***/ }),
+
 /***/ "./src/api/modules/mailer.js":
 /*!***********************************!*\
   !*** ./src/api/modules/mailer.js ***!
   \***********************************/
-/*! exports provided: sendInvoiceMail, sendReceiptMail, sendTransferMail, sendDisputeMail, sendCustormerVerificationCode */
+/*! exports provided: sendInvoiceMail, sendReceiptMail, sendTransferMail, sendDisputeMail, sendCustormerVerificationCode, sendPaymentRequest */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -1120,6 +1216,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sendTransferMail", function() { return sendTransferMail; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sendDisputeMail", function() { return sendDisputeMail; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sendCustormerVerificationCode", function() { return sendCustormerVerificationCode; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "sendPaymentRequest", function() { return sendPaymentRequest; });
 /* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babel-runtime/regenerator */ "babel-runtime/regenerator");
 /* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! babel-runtime/helpers/extends */ "babel-runtime/helpers/extends");
@@ -1156,14 +1253,13 @@ var from = 'Pipepay <hello@pipepay.africa>';
 
 var sendInvoiceMail = function sendInvoiceMail(_ref) {
     var customerEmail = _ref.customerEmail,
-        deliveryAmount = _ref.deliveryAmount,
-        purchaseAmount = _ref.purchaseAmount;
+        totalPrice = _ref.totalPrice;
     return new babel_runtime_core_js_promise__WEBPACK_IMPORTED_MODULE_3___default.a(function (resolve, reject) {
         var mailOptions = {
             from: from,
             to: customerEmail,
             subject: 'Your Invoice Is Ready',
-            text: 'Your invoice is worth ' + (deliveryAmount + purchaseAmount)
+            text: 'Your invoice is worth ' + totalPrice
         };
 
         transporter.sendMail(mailOptions, function (error, info) {
@@ -1234,8 +1330,8 @@ var sendTransferMail = function sendTransferMail(customerEmail, marchantEmail) {
     return new babel_runtime_core_js_promise__WEBPACK_IMPORTED_MODULE_3___default.a(function (esolve, reject) {});
 };
 
-var sendDisputeMail = function sendDisputeMail(marchantEmail, customerEmail, customerName, reason) {
-    var supportEmail = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : 'support@pipepay.africa';
+var sendDisputeMail = function sendDisputeMail(marchantEmail, customerEmail, customerName, reason, disputeFrom) {
+    var supportEmail = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : 'hello@pipepay.africa';
     return new babel_runtime_core_js_promise__WEBPACK_IMPORTED_MODULE_3___default.a(function () {
         var _ref3 = babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()( /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(resolve, reject) {
             var mailOption;
@@ -1248,26 +1344,40 @@ var sendDisputeMail = function sendDisputeMail(marchantEmail, customerEmail, cus
                                 subject: 'Payment Dispute'
                             };
                             _context2.prev = 1;
-                            _context2.next = 4;
-                            return babel_runtime_core_js_promise__WEBPACK_IMPORTED_MODULE_3___default.a.all([sendTo(babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_1___default()({}, mailOption, { to: customerEmail, text: 'Your dispute has been received, you will hear from our support rep soon.' })), sendTo(babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_1___default()({}, mailOption, { to: marchantEmail, text: 'New dispute from ' + customerName + ' reason being that: "' + reason + '"' }))]);
 
-                        case 4:
-                            resolve();
-                            _context2.next = 10;
+                            if (!(disputeFrom !== 'marchant')) {
+                                _context2.next = 7;
+                                break;
+                            }
+
+                            _context2.next = 5;
+                            return babel_runtime_core_js_promise__WEBPACK_IMPORTED_MODULE_3___default.a.all([sendTo(babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_1___default()({}, mailOption, { to: customerEmail, text: 'Your dispute has been received, you will hear from our support rep soon.' })), sendTo(babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_1___default()({}, mailOption, { to: marchantEmail, text: 'New dispute from ' + customerName + ' reason being that: "' + reason + '"' })), sendTo(babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_1___default()({}, mailOption, { to: supportEmail, text: 'New dispute from ' + customerEmail + ' reason being that: "' + reason + '" marchant email is ' + marchantEmail }))]);
+
+                        case 5:
+                            _context2.next = 9;
                             break;
 
                         case 7:
-                            _context2.prev = 7;
+                            _context2.next = 9;
+                            return babel_runtime_core_js_promise__WEBPACK_IMPORTED_MODULE_3___default.a.all([sendTo(babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_1___default()({}, mailOption, { to: customerEmail, text: 'Your dispute has been received, you will hear from our support rep soon.' })), sendTo(babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_1___default()({}, mailOption, { to: marchantEmail, text: 'New dispute from ' + customerName + ' reason being that: "' + reason + '"' })), sendTo(babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_1___default()({}, mailOption, { to: supportEmail, text: 'New dispute from ' + marchantEmail + ' reason being that: "' + reason + '" customer email is ' + customerEmail }))]);
+
+                        case 9:
+                            resolve();
+                            _context2.next = 15;
+                            break;
+
+                        case 12:
+                            _context2.prev = 12;
                             _context2.t0 = _context2['catch'](1);
 
                             reject(_context2.t0);
 
-                        case 10:
+                        case 15:
                         case 'end':
                             return _context2.stop();
                     }
                 }
-            }, _callee2, _this, [[1, 7]]);
+            }, _callee2, _this, [[1, 12]]);
         }));
 
         return function (_x4, _x5) {
@@ -1318,6 +1428,51 @@ var sendCustormerVerificationCode = function sendCustormerVerificationCode(custo
     }());
 };
 
+var sendPaymentRequest = function sendPaymentRequest(_ref5, customerEmail, marchantName) {
+    var amount = _ref5.amount,
+        name = _ref5.name;
+    return new babel_runtime_core_js_promise__WEBPACK_IMPORTED_MODULE_3___default.a(function () {
+        var _ref6 = babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()( /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee4(resolve, reject) {
+            var mailOption;
+            return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee4$(_context4) {
+                while (1) {
+                    switch (_context4.prev = _context4.next) {
+                        case 0:
+                            mailOption = {
+                                from: from,
+                                subject: 'Payment Request',
+                                text: marchantName + ' is requesting for payment for milestone "' + name + '"'
+                            };
+                            _context4.prev = 1;
+                            _context4.next = 4;
+                            return sendTo(babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_1___default()({}, mailOption, { to: customerEmail }));
+
+                        case 4:
+                            resolve();
+                            _context4.next = 11;
+                            break;
+
+                        case 7:
+                            _context4.prev = 7;
+                            _context4.t0 = _context4['catch'](1);
+
+                            console.log('err', _context4.t0);
+                            reject(_context4.t0);
+
+                        case 11:
+                        case 'end':
+                            return _context4.stop();
+                    }
+                }
+            }, _callee4, _this, [[1, 7]]);
+        }));
+
+        return function (_x8, _x9) {
+            return _ref6.apply(this, arguments);
+        };
+    }());
+};
+
 /***/ }),
 
 /***/ "./src/api/modules/recode.js":
@@ -1330,16 +1485,13 @@ var sendCustormerVerificationCode = function sendCustormerVerificationCode(custo
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 var randomAlpha = function randomAlpha() {
-    var alpha = 'abcdefghijklmnopqrstuvwxyz';
-    return alpha.charAt(Math.floor(Math.random() * alpha.length));
+  return 'abcdefghijklmnopqrstuvwxyz'.charAt(Math.floor(Math.random() * alpha.length));
 };
-
 var randomNum = function randomNum() {
-    return Math.floor(Math.random() * 9);
+  return Math.floor(Math.random() * 9);
 };
-
 /* harmony default export */ __webpack_exports__["default"] = (function () {
-    return '' + randomAlpha() + randomNum() + randomAlpha() + randomNum() + randomAlpha() + randomNum();
+  return '' + randomAlpha() + randomNum() + randomAlpha() + randomNum() + randomAlpha() + randomNum();
 });
 
 /***/ }),
@@ -1378,9 +1530,14 @@ var getReceipt = function getReceipt(name, account_number, bank_code) {
             account_number: account_number,
             bank_code: bank_code,
             currency: 'NGN'
-        }).end(function (err, data) {
-            if (err) reject(err);
-            resolve(data);
+        }).end(function (err, _ref) {
+            var body = _ref.body;
+
+            if (err) {
+                console.log('err1', err);
+                reject(err);
+            }
+            resolve(body);
         });
     });
 };
@@ -1390,92 +1547,81 @@ var makeTransfer = function makeTransfer(recipient_code, amount) {
         superagent__WEBPACK_IMPORTED_MODULE_3___default.a.post("https://api.paystack.co/transfer").set("Authorization", "Bearer " + secret).send({
             "source": "balance",
             amount: amount,
-            recipient_code: recipient_code,
+            recipient: recipient_code,
             currency: 'NGN'
-        }).end(function (err, data) {
-            if (err) reject(err);
-            resolve(data);
+        }).end(function (err, _ref2) {
+            var body = _ref2.body;
+
+            if (err) {
+                console.log('err2', err);
+                reject(err);
+            }
+            resolve(body);
         });
     });
 };
 
-var transfer = function () {
-    var _ref = babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(name, account_number, bank_code, amount) {
-        return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
-            while (1) {
-                switch (_context2.prev = _context2.next) {
-                    case 0:
-                        return _context2.abrupt("return", new babel_runtime_core_js_promise__WEBPACK_IMPORTED_MODULE_2___default.a(function () {
-                            var _ref2 = babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(resolve, reject) {
-                                var _ref3, status, recipient_code, _ref4, _status;
+var transfer = function transfer(name, account_number, bank_code, amount) {
+    return new babel_runtime_core_js_promise__WEBPACK_IMPORTED_MODULE_2___default.a(function () {
+        var _ref3 = babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(resolve, reject) {
+            var _ref4, status, recipient_code, _ref5, _status;
 
-                                return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-                                    while (1) {
-                                        switch (_context.prev = _context.next) {
-                                            case 0:
-                                                _context.prev = 0;
-                                                _context.next = 3;
-                                                return getReceipt(name, account_number, bank_code);
+            return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+                while (1) {
+                    switch (_context.prev = _context.next) {
+                        case 0:
+                            _context.prev = 0;
+                            _context.next = 3;
+                            return getReceipt(name, account_number, bank_code);
 
-                                            case 3:
-                                                _ref3 = _context.sent;
-                                                status = _ref3.status;
-                                                recipient_code = _ref3.data.recipient_code;
+                        case 3:
+                            _ref4 = _context.sent;
+                            status = _ref4.status;
+                            recipient_code = _ref4.data.recipient_code;
 
-                                                if (!(status && recipient_code)) {
-                                                    _context.next = 14;
-                                                    break;
-                                                }
+                            if (!(status && recipient_code)) {
+                                _context.next = 14;
+                                break;
+                            }
 
-                                                _context.next = 9;
-                                                return makeTransfer(recipient_code, amount);
+                            _context.next = 9;
+                            return makeTransfer(recipient_code, amount * 100);
 
-                                            case 9:
-                                                _ref4 = _context.sent;
-                                                _status = _ref4.status;
+                        case 9:
+                            _ref5 = _context.sent;
+                            _status = _ref5.status;
 
-                                                if (_status) resolve();
-                                                _context.next = 15;
-                                                break;
+                            if (_status) resolve();
+                            _context.next = 15;
+                            break;
 
-                                            case 14:
-                                                reject(new Error('No recipient_code'));
+                        case 14:
+                            reject(new Error('No recipient_code'));
 
-                                            case 15:
-                                                _context.next = 20;
-                                                break;
+                        case 15:
+                            _context.next = 21;
+                            break;
 
-                                            case 17:
-                                                _context.prev = 17;
-                                                _context.t0 = _context["catch"](0);
+                        case 17:
+                            _context.prev = 17;
+                            _context.t0 = _context["catch"](0);
 
-                                                reject(_context.t0);
+                            console.log('err3', _context.t0);
+                            reject(_context.t0);
 
-                                            case 20:
-                                            case "end":
-                                                return _context.stop();
-                                        }
-                                    }
-                                }, _callee, _this, [[0, 17]]);
-                            }));
-
-                            return function (_x5, _x6) {
-                                return _ref2.apply(this, arguments);
-                            };
-                        }()));
-
-                    case 1:
-                    case "end":
-                        return _context2.stop();
+                        case 21:
+                        case "end":
+                            return _context.stop();
+                    }
                 }
-            }
-        }, _callee2, _this);
-    }));
+            }, _callee, _this, [[0, 17]]);
+        }));
 
-    return function transfer(_x, _x2, _x3, _x4) {
-        return _ref.apply(this, arguments);
-    };
-}();
+        return function (_x, _x2) {
+            return _ref3.apply(this, arguments);
+        };
+    }());
+};
 
 /* harmony default export */ __webpack_exports__["default"] = (transfer);
 
@@ -1601,6 +1747,7 @@ var _this = undefined;
 var ConfirmRouter = express__WEBPACK_IMPORTED_MODULE_2___default.a.Router();
 
 ConfirmRouter.param('invoiceId', _dispute_dispute_controller__WEBPACK_IMPORTED_MODULE_5__["default"].getInvoiceId);
+
 ConfirmRouter.route('/:invoiceId').post(function (req, res) {
     var invoiceId = req.params.invoiceId;
     var status = req.body.accepted ? 'accepted' : 'rejected';
@@ -1609,42 +1756,63 @@ ConfirmRouter.route('/:invoiceId').post(function (req, res) {
     if (req.invoice.verifyCode !== emailCode) return res.status(400).send({ success: false, error: new Error('Wrong invoice code') });
 
     _invoice_invoice_model__WEBPACK_IMPORTED_MODULE_3__["default"].findOneAndUpdate({ _id: invoiceId }, { $set: { status: status } }, { new: true }, function () {
-        var _ref = babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(error, data) {
+        var _ref = babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(error, doc) {
+            var marchantName, marchantAccountNumber, marchantBankCode, purchaseAmount, pipePayFee, deliveryAmount, amount;
             return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
                 while (1) {
                     switch (_context.prev = _context.next) {
                         case 0:
                             if (error) res.status(400).send({ success: false, error: error });
+                            marchantName = doc.marchantName, marchantAccountNumber = doc.marchantAccountNumber, marchantBankCode = doc.marchantBankCode, purchaseAmount = doc.purchaseAmount, pipePayFee = doc.pipePayFee, deliveryAmount = doc.deliveryAmount;
 
                             if (!(status === "accepted")) {
-                                _context.next = 10;
+                                _context.next = 16;
                                 break;
                             }
 
-                            _context.prev = 2;
-                            _context.next = 5;
-                            return Object(_modules_transfer__WEBPACK_IMPORTED_MODULE_4__["default"])();
+                            _context.prev = 3;
+                            amount = purchaseAmount;
 
-                        case 5:
-                            _context.next = 10;
-                            break;
 
-                        case 7:
-                            _context.prev = 7;
-                            _context.t0 = _context['catch'](2);
+                            if (doc.whoPaysPipepayFee === 'seller') {
+                                amount -= pipePayFee;
+                            }
 
-                            res.status(400).send({ success: false, err: _context.t0 });
+                            if (doc.whoPaysPipepayFee === 'both') {
+                                amount -= pipePayFee / 2;
+                            }
 
-                        case 10:
+                            if (doc.whoPaysDeliveryFee === 'both') {
+                                amount += deliveryAmount / 2;
+                            }
 
-                            res.status(200).send({ success: true, data: data });
+                            if (doc.whoPaysDeliveryFee === 'seller') {
+                                amount -= deliveryAmount;
+                            }
+
+                            _context.next = 11;
+                            return Object(_modules_transfer__WEBPACK_IMPORTED_MODULE_4__["default"])(marchantName, marchantAccountNumber, marchantBankCode, amount);
 
                         case 11:
+                            _context.next = 16;
+                            break;
+
+                        case 13:
+                            _context.prev = 13;
+                            _context.t0 = _context['catch'](3);
+
+                            res.status(400).send({ success: false, error: _context.t0 });
+
+                        case 16:
+
+                            res.status(200).send({ success: true, data: doc });
+
+                        case 17:
                         case 'end':
                             return _context.stop();
                     }
                 }
-            }, _callee, _this, [[2, 7]]);
+            }, _callee, _this, [[3, 13]]);
         }));
 
         return function (_x, _x2) {
@@ -1652,6 +1820,80 @@ ConfirmRouter.route('/:invoiceId').post(function (req, res) {
         };
     }());
 });
+
+ConfirmRouter.route('/:invoiceId/:milestoneId').post(function () {
+    var _ref2 = babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(req, res) {
+        var invoiceId, milestoneId, status, emailCode, _ref3, marchantName, marchantAccountNumber, marchantBankCode, milestones, milestone, milestoneIndex;
+
+        return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+            while (1) {
+                switch (_context2.prev = _context2.next) {
+                    case 0:
+                        invoiceId = req.params.invoiceId;
+                        milestoneId = req.params.milestoneId;
+                        status = req.body.accepted ? 'accepted' : 'rejected';
+                        emailCode = req.body.emailCode;
+
+                        if (!(req.invoice.verifyCode !== emailCode)) {
+                            _context2.next = 6;
+                            break;
+                        }
+
+                        return _context2.abrupt('return', res.status(400).send({ success: false, error: new Error('Wrong invoice code') }));
+
+                    case 6:
+                        _context2.prev = 6;
+                        _context2.next = 9;
+                        return _invoice_invoice_model__WEBPACK_IMPORTED_MODULE_3__["default"].findOne({ _id: invoiceId });
+
+                    case 9:
+                        _ref3 = _context2.sent;
+                        marchantName = _ref3.marchantName;
+                        marchantAccountNumber = _ref3.marchantAccountNumber;
+                        marchantBankCode = _ref3.marchantBankCode;
+                        milestones = _ref3.milestones;
+                        milestone = {};
+                        milestoneIndex = -1;
+
+
+                        milestones.forEach(function (m, i) {
+                            if (m._id == milestoneId) {
+                                milestoneIndex = i;
+                                milestone = m;
+                            }
+                        });
+
+                        _context2.next = 19;
+                        return Object(_modules_transfer__WEBPACK_IMPORTED_MODULE_4__["default"])(marchantName, marchantAccountNumber, marchantBankCode, milestone.amount);
+
+                    case 19:
+                        milestone.paid = true;
+                        milestones[milestoneIndex] = milestone;
+                        _invoice_invoice_model__WEBPACK_IMPORTED_MODULE_3__["default"].findOneAndUpdate({ _id: invoiceId }, { $set: { milestones: milestones } }, { new: true }, function (err, doc) {
+                            if (err) res.status(400).send({ success: false, error: err });
+                            res.status(200).send({ success: true, data: doc });
+                        });
+                        _context2.next = 27;
+                        break;
+
+                    case 24:
+                        _context2.prev = 24;
+                        _context2.t0 = _context2['catch'](6);
+
+                        res.status(400).send({ success: false, error: _context2.t0 });
+
+                    case 27:
+                    case 'end':
+                        return _context2.stop();
+                }
+            }
+        }, _callee2, _this, [[6, 24]]);
+    }));
+
+    return function (_x3, _x4) {
+        return _ref2.apply(this, arguments);
+    };
+}());
 
 /* harmony default export */ __webpack_exports__["default"] = (ConfirmRouter);
 
@@ -1720,21 +1962,19 @@ var DisputeController = Object(_modules_generateController__WEBPACK_IMPORTED_MOD
                             case 2:
                                 _context.prev = 2;
                                 _context.next = 5;
-                                return Object(_modules_mailer__WEBPACK_IMPORTED_MODULE_5__["sendDisputeMail"])(marchantEmail, customerEmail, customerName, body.reason);
+                                return Object(_modules_mailer__WEBPACK_IMPORTED_MODULE_5__["sendDisputeMail"])(marchantEmail, customerEmail, customerName, body.reason, body.from);
 
                             case 5:
                                 res.send({ data: doc, success: true });
-                                _context.next = 12;
+                                _context.next = 11;
                                 break;
 
                             case 8:
                                 _context.prev = 8;
                                 _context.t0 = _context['catch'](2);
-
-                                console.log('err', _context.t0);
                                 return _context.abrupt('return', res.status(400).send({ error: { message: 'Could not send mail' }, success: false }));
 
-                            case 12:
+                            case 11:
                             case 'end':
                                 return _context.stop();
                         }
@@ -1800,6 +2040,7 @@ __webpack_require__.r(__webpack_exports__);
 var DisputeSchema = new mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.Schema({
     customerEmail: String,
     marchantEmail: String,
+    from: String,
     reason: String,
     category: String,
     invoiceId: { type: String, unique: true },
@@ -1846,12 +2087,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! express */ "express");
 /* harmony import */ var express__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _verify_verify_route__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./verify/verify.route */ "./src/api/resources/verify/verify.route.js");
-/* harmony import */ var _invoice_invoice_route__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./invoice/invoice.route */ "./src/api/resources/invoice/invoice.route.js");
-/* harmony import */ var _payment_payment_route__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./payment/payment.route */ "./src/api/resources/payment/payment.route.js");
-/* harmony import */ var _dispute_dispute_route__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./dispute/dispute.route */ "./src/api/resources/dispute/dispute.route.js");
-/* harmony import */ var _confirm_confirm_route__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./confirm/confirm.route */ "./src/api/resources/confirm/confirm.route.js");
-/* harmony import */ var _banks_banks_route__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./banks/banks.route */ "./src/api/resources/banks/banks.route.js");
-/* harmony import */ var _modules_auth__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../modules/auth */ "./src/api/modules/auth.js");
+/* harmony import */ var _request_request_route__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./request/request.route */ "./src/api/resources/request/request.route.js");
+/* harmony import */ var _invoice_invoice_route__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./invoice/invoice.route */ "./src/api/resources/invoice/invoice.route.js");
+/* harmony import */ var _payment_payment_route__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./payment/payment.route */ "./src/api/resources/payment/payment.route.js");
+/* harmony import */ var _dispute_dispute_route__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./dispute/dispute.route */ "./src/api/resources/dispute/dispute.route.js");
+/* harmony import */ var _confirm_confirm_route__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./confirm/confirm.route */ "./src/api/resources/confirm/confirm.route.js");
+/* harmony import */ var _banks_banks_route__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./banks/banks.route */ "./src/api/resources/banks/banks.route.js");
+/* harmony import */ var _modules_auth__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../modules/auth */ "./src/api/modules/auth.js");
+
 
 
 
@@ -1865,11 +2108,12 @@ __webpack_require__.r(__webpack_exports__);
 var MainRouter = express__WEBPACK_IMPORTED_MODULE_0___default.a.Router();
 
 MainRouter.use('/verify', _verify_verify_route__WEBPACK_IMPORTED_MODULE_1__["default"]);
-MainRouter.use('/banks', _banks_banks_route__WEBPACK_IMPORTED_MODULE_6__["default"]);
-MainRouter.use('/confirm', _confirm_confirm_route__WEBPACK_IMPORTED_MODULE_5__["default"]);
-MainRouter.use('/dispute', _dispute_dispute_route__WEBPACK_IMPORTED_MODULE_4__["default"]);
-MainRouter.use('/invoice', _modules_auth__WEBPACK_IMPORTED_MODULE_7__["verifyToken"], _invoice_invoice_route__WEBPACK_IMPORTED_MODULE_2__["default"]);
-MainRouter.use('/payment', _modules_auth__WEBPACK_IMPORTED_MODULE_7__["verifyToken"], _payment_payment_route__WEBPACK_IMPORTED_MODULE_3__["default"]);
+MainRouter.use('/banks', _banks_banks_route__WEBPACK_IMPORTED_MODULE_7__["default"]);
+MainRouter.use('/confirm', _confirm_confirm_route__WEBPACK_IMPORTED_MODULE_6__["default"]);
+MainRouter.use('/dispute', _dispute_dispute_route__WEBPACK_IMPORTED_MODULE_5__["default"]);
+MainRouter.use('/request', _modules_auth__WEBPACK_IMPORTED_MODULE_8__["verifyToken"], _request_request_route__WEBPACK_IMPORTED_MODULE_2__["default"]);
+MainRouter.use('/invoice', _modules_auth__WEBPACK_IMPORTED_MODULE_8__["verifyToken"], _invoice_invoice_route__WEBPACK_IMPORTED_MODULE_3__["default"]);
+MainRouter.use('/payment', _modules_auth__WEBPACK_IMPORTED_MODULE_8__["verifyToken"], _payment_payment_route__WEBPACK_IMPORTED_MODULE_4__["default"]);
 
 /* harmony default export */ __webpack_exports__["default"] = (MainRouter);
 
@@ -1889,9 +2133,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! babel-runtime/helpers/asyncToGenerator */ "babel-runtime/helpers/asyncToGenerator");
 /* harmony import */ var babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _invoice_model__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./invoice.model */ "./src/api/resources/invoice/invoice.model.js");
-/* harmony import */ var _modules_mailer__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../modules/mailer */ "./src/api/modules/mailer.js");
-/* harmony import */ var _modules_recode__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../modules/recode */ "./src/api/modules/recode.js");
-/* harmony import */ var _modules_generateController__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../modules/generateController */ "./src/api/modules/generateController.js");
+/* harmony import */ var _modules_recode__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ../../modules/recode */ "./src/api/modules/recode.js");
+/* harmony import */ var _modules_generateController__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../../modules/generateController */ "./src/api/modules/generateController.js");
+/* harmony import */ var _modules_invoice__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../modules/invoice */ "./src/api/modules/invoice.js");
 
 
 
@@ -1902,60 +2146,138 @@ var _this = undefined;
 
 
 
-/* harmony default export */ __webpack_exports__["default"] = (Object(_modules_generateController__WEBPACK_IMPORTED_MODULE_5__["default"])(_invoice_model__WEBPACK_IMPORTED_MODULE_2__["default"], {
-    createOne: function createOne(req, res) {
-        var body = req.body;
-        body.userId = req.user.id;
-        body.marchantEmail = req.user.email;
-        body.status = "sent";
-        body.verifyCode =  false ? undefined : Object(_modules_recode__WEBPACK_IMPORTED_MODULE_4__["default"])();
+/* harmony default export */ __webpack_exports__["default"] = (Object(_modules_generateController__WEBPACK_IMPORTED_MODULE_4__["default"])(_invoice_model__WEBPACK_IMPORTED_MODULE_2__["default"], {
+    createOne: function () {
+        var _ref = babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(req, res) {
+            var body, line_items, customerTotalAmount, customerDeliveryFee, customPipepayFee, reconciliator, _ref4, request_code;
 
-        _invoice_model__WEBPACK_IMPORTED_MODULE_2__["default"].create(body, function () {
-            var _ref = babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(err, doc) {
-                return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-                    while (1) {
-                        switch (_context.prev = _context.next) {
-                            case 0:
-                                if (!err) {
-                                    _context.next = 2;
-                                    break;
+            return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+                while (1) {
+                    switch (_context2.prev = _context2.next) {
+                        case 0:
+                            body = req.body;
+
+
+                            body.userId = req.user.sub;
+                            body.marchantEmail = req.user.email;
+                            body.marchantName = req.user.name;
+                            body.marchantAccountNumber = req.user['custom:account_number'];
+                            body.marchantBankCode = req.user['custom:bank_code'];
+
+                            body.verifyCode =  false ? undefined : Object(_modules_recode__WEBPACK_IMPORTED_MODULE_3__["default"])();
+
+                            if (body.type === 'good') {
+                                body.bankCharges = 100;
+                                body.pipePayFee = Math.min(body.purchaseAmount * 5 / 100, 5000) + body.bankCharges;
+                                body.totalPrice = body.purchaseAmount + body.deliveryAmount + body.pipePayFee;
+                            } else {
+                                body.bankCharges = body.milestones.length * 50;
+                                body.purchaseAmount = body.milestones.reduce(function (pv, _ref2) {
+                                    var amount = _ref2.amount;
+                                    return amount + pv;
+                                }, 0);
+                                body.purchaseAmount;
+                                body.pipePayFee = Math.min(body.purchaseAmount * 5 / 100, 5000) + body.bankCharges;
+                                body.deliveryAmount = 0;
+                                body.totalPrice = body.purchaseAmount + body.pipePayFee;
+                            }
+
+                            line_items = [];
+                            customerTotalAmount = body.purchaseAmount;
+                            customerDeliveryFee = 0;
+                            customPipepayFee = 0;
+
+                            reconciliator = function reconciliator(who, original, fee) {
+                                if (who === 'both') {
+                                    return original += fee / 2;
+                                } else if (who === 'buyer') {
+                                    return original += fee;
+                                } else {
+                                    return original;
                                 }
+                            };
 
-                                return _context.abrupt('return', res.status(500).send({ error: { message: 'Could not create the invoice' }, success: false }));
+                            customerDeliveryFee = reconciliator(body.whoPaysDeliveryFee, customerDeliveryFee, body.deliveryAmount);
+                            customPipepayFee = reconciliator(body.whoPaysPipepayFee, customPipepayFee, body.pipePayFee);
 
-                            case 2:
-                                _context.prev = 2;
+                            if (body.type === 'good') {
+                                line_items = [{ 'name': 'Purchase Price', 'amount': customerTotalAmount * 100 }];
 
-                                delete doc.verifyCode;
-                                _context.next = 6;
-                                return _modules_mailer__WEBPACK_IMPORTED_MODULE_3__["sendInvoiceMail"](doc);
+                                if (customPipepayFee > 0) line_items.push({ 'name': 'PipePay Fee', 'amount': customPipepayFee * 100 });
+                                if (customerDeliveryFee > 0) line_items.push({ 'name': 'Delivery Fee', 'amount': customerDeliveryFee * 100 });
+                            } else {
+                                line_items = body.milestones.map(function (_ref3) {
+                                    var name = _ref3.name,
+                                        amount = _ref3.amount;
+                                    return { name: name, amount: amount * 100 };
+                                });
+                                line_items.push({ 'name': 'PipePay Fee', 'amount': body.pipePayFee * 100 });
+                            }
 
-                            case 6:
-                                _context.next = 11;
-                                break;
+                            _context2.prev = 16;
+                            _context2.next = 19;
+                            return Object(_modules_invoice__WEBPACK_IMPORTED_MODULE_5__["CreateInvoice"])({ email: body.customerEmail, name: body.customerName, phone: body.customerPhone }, customerTotalAmount * 100, body.description, line_items);
 
-                            case 8:
-                                _context.prev = 8;
-                                _context.t0 = _context['catch'](2);
-                                return _context.abrupt('return', res.status(500).send({ error: { message: 'Could not send mail' }, success: false }));
+                        case 19:
+                            _ref4 = _context2.sent;
+                            request_code = _ref4.data.request_code;
 
-                            case 11:
 
-                                res.send({ data: doc, success: true });
+                            body.invoice_code = request_code;
 
-                            case 12:
-                            case 'end':
-                                return _context.stop();
-                        }
+                            _invoice_model__WEBPACK_IMPORTED_MODULE_2__["default"].create(body, function () {
+                                var _ref5 = babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(err, doc) {
+                                    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+                                        while (1) {
+                                            switch (_context.prev = _context.next) {
+                                                case 0:
+                                                    if (!err) {
+                                                        _context.next = 2;
+                                                        break;
+                                                    }
+
+                                                    return _context.abrupt('return', res.status(400).send({ error: { message: 'Could not create the invoice' }, success: false }));
+
+                                                case 2:
+                                                    delete doc.verifyCode;
+                                                    doc.status = "sent";
+                                                    doc.save();
+                                                    res.send({ data: doc, success: true });
+
+                                                case 6:
+                                                case 'end':
+                                                    return _context.stop();
+                                            }
+                                        }
+                                    }, _callee, _this);
+                                }));
+
+                                return function (_x3, _x4) {
+                                    return _ref5.apply(this, arguments);
+                                };
+                            }());
+                            _context2.next = 29;
+                            break;
+
+                        case 25:
+                            _context2.prev = 25;
+                            _context2.t0 = _context2['catch'](16);
+
+                            console.log('err', _context2.t0);
+                            return _context2.abrupt('return', res.status(400).send({ err: _context2.t0, success: false }));
+
+                        case 29:
+                        case 'end':
+                            return _context2.stop();
                     }
-                }, _callee, _this, [[2, 8]]);
-            }));
+                }
+            }, _callee2, _this, [[16, 25]]);
+        }));
 
-            return function (_x, _x2) {
-                return _ref.apply(this, arguments);
-            };
-        }());
-    }
+        return function createOne(_x, _x2) {
+            return _ref.apply(this, arguments);
+        };
+    }()
 }));
 
 /***/ }),
@@ -1964,24 +2286,52 @@ var _this = undefined;
 /*!****************************************************!*\
   !*** ./src/api/resources/invoice/invoice.model.js ***!
   \****************************************************/
-/*! exports provided: default */
+/*! exports provided: MilestoneSchema, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "MilestoneSchema", function() { return MilestoneSchema; });
 /* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! mongoose */ "mongoose");
 /* harmony import */ var mongoose__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(mongoose__WEBPACK_IMPORTED_MODULE_0__);
 
 
+var MilestoneSchema = new mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.Schema({
+    amount: { type: Number, required: true },
+    name: { type: String, required: true },
+    description: { type: String, required: true },
+    dueDate: { type: Date, required: true },
+    paid: { type: Boolean, required: true, default: false }
+});
+
 var InvoiceSchema = new mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.Schema({
-    userId: String,
-    description: String,
-    deliveryAmount: Number,
-    purchaseAmount: Number,
-    customerName: String,
-    customerEmail: String,
-    marchantEmail: String,
-    verifyCode: String,
+    userId: { type: String, required: true },
+    type: { type: String, enum: ['service', 'good'], required: true },
+    description: { type: String, required: true },
+
+    deliveryAmount: { type: Number, required: true },
+    purchaseAmount: { type: Number, required: true },
+    pipePayFee: { type: Number, required: true },
+    totalPrice: { type: Number, required: true },
+    bankCharges: { type: Number, required: true },
+
+    customerName: { type: String, required: true },
+    customerEmail: { type: String, required: true },
+    customerPhone: { type: String, required: true },
+
+    marchantName: { type: String, required: true },
+    marchantAccountNumber: { type: String, required: true },
+    marchantBankCode: { type: String, required: true },
+    marchantEmail: { type: String, required: true },
+
+    milestones: [MilestoneSchema],
+
+    invoice_code: { type: String, unique: true },
+    verifyCode: { type: String, unique: true },
+
+    whoPaysPipepayFee: { type: String, enum: ['buyer', 'seller', 'both'] },
+    whoPaysDeliveryFee: { type: String, enum: ['buyer', 'seller', 'both'] },
+
     status: String
 });
 
@@ -2039,12 +2389,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _invoice_invoice_model__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../invoice/invoice.model */ "./src/api/resources/invoice/invoice.model.js");
 /* harmony import */ var _modules_mailer__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ../../modules/mailer */ "./src/api/modules/mailer.js");
 /* harmony import */ var _modules_generateController__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ../../modules/generateController */ "./src/api/modules/generateController.js");
+/* harmony import */ var _modules_transfer__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ../../modules/transfer */ "./src/api/modules/transfer.js");
 
 
 
 
 
 var _this = undefined;
+
 
 
 
@@ -2060,64 +2412,79 @@ var secret = "sk_test_ef208dee35b39342cf35bf961ec6cb19ebc2f94c";
         var _req$body = req.body,
             event = _req$body.event,
             _req$body$data = _req$body.data,
-            reference = _req$body$data.reference,
+            reference = _req$body$data.transaction.reference,
             amount = _req$body$data.amount,
+            paid = _req$body$data.paid,
+            invoice_code = _req$body$data.invoice_code,
             _req$body$data$custom = _req$body$data.customer,
             first_name = _req$body$data$custom.first_name,
             last_name = _req$body$data$custom.last_name,
-            email = _req$body$data$custom.email,
-            _req$body$data$custom2 = _req$body$data$custom.metadata,
-            marchantEmail = _req$body$data$custom2.marchantEmail,
-            invoiceId = _req$body$data$custom2.invoiceId;
+            email = _req$body$data$custom.email;
 
 
-        if (hash === req.headers['x-paystack-signature'] && event === 'charge.success') {
-            _payment_model__WEBPACK_IMPORTED_MODULE_5__["default"].create({ customerEmail: email, marchantEmail: marchantEmail, reference: reference, amount: amount, invoiceId: invoiceId }, function (err) {
-                if (err) return res.status(500).send({ error: new Error(error), status: false });
+        if (hash === req.headers['x-paystack-signature'] && event === 'invoice.update' && paid) {
+            _invoice_invoice_model__WEBPACK_IMPORTED_MODULE_6__["default"].findOneAndUpdate({ invoice_code: invoice_code }, { $set: { status: 'paid' } }, { new: true }, function () {
+                var _ref = babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()( /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee(err, doc) {
+                    var _id, type, whoPaysDeliveryFee, marchantName, marchantEmail, marchantBankCode, deliveryAmount, marchantAccountNumber;
 
-                _invoice_invoice_model__WEBPACK_IMPORTED_MODULE_6__["default"].updateOne({ _id: invoiceId }, { status: 'paid' }, function () {
-                    var _ref = babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()( /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.mark(function _callee(err) {
-                        return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee$(_context) {
-                            while (1) {
-                                switch (_context.prev = _context.next) {
-                                    case 0:
-                                        if (!err) {
-                                            _context.next = 2;
-                                            break;
-                                        }
-
-                                        return _context.abrupt('return', res.status(500).send({ error: new Error(error), status: false }));
-
-                                    case 2:
-                                        _context.prev = 2;
-                                        _context.next = 5;
-                                        return _modules_mailer__WEBPACK_IMPORTED_MODULE_7__["sendReceiptMail"](first_name + ' ' + last_name, email, marchantEmail, amount);
-
-                                    case 5:
-                                        res.status(200).send({ success: true });
-                                        _context.next = 11;
+                    return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_1___default.a.wrap(function _callee$(_context) {
+                        while (1) {
+                            switch (_context.prev = _context.next) {
+                                case 0:
+                                    if (!err) {
+                                        _context.next = 3;
                                         break;
+                                    }
 
-                                    case 8:
-                                        _context.prev = 8;
-                                        _context.t0 = _context['catch'](2);
-                                        return _context.abrupt('return', res.status(500).send({ error: { message: 'Could not send mail' }, success: false }));
+                                    console.log(err);
+                                    return _context.abrupt('return', res.status(400).send({ error: new Error(error), status: false }));
 
-                                    case 11:
-                                    case 'end':
-                                        return _context.stop();
-                                }
+                                case 3:
+                                    _id = doc._id, type = doc.type, whoPaysDeliveryFee = doc.whoPaysDeliveryFee, marchantName = doc.marchantName, marchantEmail = doc.marchantEmail, marchantBankCode = doc.marchantBankCode, deliveryAmount = doc.deliveryAmount, marchantAccountNumber = doc.marchantAccountNumber;
+                                    _context.prev = 4;
+
+                                    if (!(type === 'good')) {
+                                        _context.next = 10;
+                                        break;
+                                    }
+
+                                    _context.next = 8;
+                                    return Object(_modules_transfer__WEBPACK_IMPORTED_MODULE_9__["default"])(marchantName, marchantAccountNumber, marchantBankCode, deliveryAmount);
+
+                                case 8:
+                                    _context.next = 10;
+                                    return _payment_model__WEBPACK_IMPORTED_MODULE_5__["default"].create({ customerEmail: email, marchantEmail: marchantEmail, reference: reference, deliveryAmount: deliveryAmount, invoiceId: _id });
+
+                                case 10:
+                                    _context.next = 12;
+                                    return _modules_mailer__WEBPACK_IMPORTED_MODULE_7__["sendReceiptMail"](first_name + ' ' + last_name, email, marchantEmail, amount);
+
+                                case 12:
+                                    res.status(200).send({ success: true });
+                                    _context.next = 19;
+                                    break;
+
+                                case 15:
+                                    _context.prev = 15;
+                                    _context.t0 = _context['catch'](4);
+
+                                    console.log(_context.t0);
+                                    return _context.abrupt('return', res.status(400).send({ error: { message: 'Could not send mail' }, success: false }));
+
+                                case 19:
+                                case 'end':
+                                    return _context.stop();
                             }
-                        }, _callee, _this, [[2, 8]]);
-                    }));
+                        }
+                    }, _callee, _this, [[4, 15]]);
+                }));
 
-                    return function (_x) {
-                        return _ref.apply(this, arguments);
-                    };
-                }());
-            });
+                return function (_x, _x2) {
+                    return _ref.apply(this, arguments);
+                };
+            }());
         } else {
-            res.status(500).send({ success: false });
+            res.status(400).send({ success: false });
         }
     },
     getOne: function getOne(req, res) {
@@ -2178,6 +2545,104 @@ Router.param('/:id', _payment_controller__WEBPACK_IMPORTED_MODULE_1__["default"]
 Router.route('/').post(_payment_controller__WEBPACK_IMPORTED_MODULE_1__["default"].createOne);
 
 Router.route('/:invoiceId').get(_payment_controller__WEBPACK_IMPORTED_MODULE_1__["default"].getOne);
+
+/* harmony default export */ __webpack_exports__["default"] = (Router);
+
+/***/ }),
+
+/***/ "./src/api/resources/request/request.route.js":
+/*!****************************************************!*\
+  !*** ./src/api/resources/request/request.route.js ***!
+  \****************************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! babel-runtime/regenerator */ "babel-runtime/regenerator");
+/* harmony import */ var babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! babel-runtime/helpers/slicedToArray */ "babel-runtime/helpers/slicedToArray");
+/* harmony import */ var babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1__);
+/* harmony import */ var babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! babel-runtime/helpers/asyncToGenerator */ "babel-runtime/helpers/asyncToGenerator");
+/* harmony import */ var babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default = /*#__PURE__*/__webpack_require__.n(babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2__);
+/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! express */ "express");
+/* harmony import */ var express__WEBPACK_IMPORTED_MODULE_3___default = /*#__PURE__*/__webpack_require__.n(express__WEBPACK_IMPORTED_MODULE_3__);
+/* harmony import */ var _invoice_invoice_model__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../invoice/invoice.model */ "./src/api/resources/invoice/invoice.model.js");
+/* harmony import */ var _modules_mailer__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ../../modules/mailer */ "./src/api/modules/mailer.js");
+
+
+
+
+var _this = undefined;
+
+
+
+
+var Router = express__WEBPACK_IMPORTED_MODULE_3___default.a.Router();
+
+Router.route('/:invoiceId/:milestoneId').get(function () {
+    var _ref = babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_2___default()( /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(req, res) {
+        var _req$params, invoiceId, milestoneId, _ref2, milestones, customerEmail, marchantName, _milestones$filter, _milestones$filter2, milestone;
+
+        return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+            while (1) {
+                switch (_context.prev = _context.next) {
+                    case 0:
+                        _req$params = req.params, invoiceId = _req$params.invoiceId, milestoneId = _req$params.milestoneId;
+                        _context.prev = 1;
+                        _context.next = 4;
+                        return _invoice_invoice_model__WEBPACK_IMPORTED_MODULE_4__["default"].findOne({ _id: invoiceId });
+
+                    case 4:
+                        _ref2 = _context.sent;
+                        milestones = _ref2.milestones;
+                        customerEmail = _ref2.customerEmail;
+                        marchantName = _ref2.marchantName;
+                        _milestones$filter = milestones.filter(function (_ref3) {
+                            var _id = _ref3._id;
+                            return _id !== milestoneId;
+                        }), _milestones$filter2 = babel_runtime_helpers_slicedToArray__WEBPACK_IMPORTED_MODULE_1___default()(_milestones$filter, 1), milestone = _milestones$filter2[0];
+
+                        if (!(milestone && !milestone.paid)) {
+                            _context.next = 15;
+                            break;
+                        }
+
+                        _context.next = 12;
+                        return Object(_modules_mailer__WEBPACK_IMPORTED_MODULE_5__["sendPaymentRequest"])(milestone, customerEmail, marchantName);
+
+                    case 12:
+                        res.status(200).send({ success: true });
+                        _context.next = 16;
+                        break;
+
+                    case 15:
+                        res.status(400).send({ success: false, error: { message: 'Milestone already paid for' } });
+
+                    case 16:
+                        _context.next = 23;
+                        break;
+
+                    case 18:
+                        _context.prev = 18;
+                        _context.t0 = _context['catch'](1);
+
+                        console.log('error...');
+                        if (_context.t0) console.log(_context.t0);
+                        if (_context.t0) res.status(400).send({ success: false, error: _context.t0 });
+
+                    case 23:
+                    case 'end':
+                        return _context.stop();
+                }
+            }
+        }, _callee, _this, [[1, 18]]);
+    }));
+
+    return function (_x, _x2) {
+        return _ref.apply(this, arguments);
+    };
+}());
 
 /* harmony default export */ __webpack_exports__["default"] = (Router);
 
@@ -2588,6 +3053,17 @@ module.exports = require("body-parser");
 /***/ (function(module, exports) {
 
 module.exports = require("crypto");
+
+/***/ }),
+
+/***/ "date-fns/add_days":
+/*!************************************!*\
+  !*** external "date-fns/add_days" ***!
+  \************************************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+module.exports = require("date-fns/add_days");
 
 /***/ }),
 

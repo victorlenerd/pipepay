@@ -26,11 +26,24 @@ class Header extends React.PureComponent<Props, State> {
 		}
 	}
 
+	componentWillReceiveProps({ location }) {
+		this.setState({ pathname: location.pathname });
+	}
+
 	signOut = (user, setCurrentUser) => {
 		signOut(user["cognito:username"]);
 		setCurrentUser(null);
 		this.props.history.push("/");
 	};
+
+	canShowOtherMenus = () => {
+		const { pathname } = this.state;
+		return (
+			pathname === "/" || pathname === "/signin" || pathname === "/signup" 
+				|| pathname === "/faq" || pathname === "/terms" || pathname === "/howitworks" 
+				|| pathname === "/privacypolicy"
+		);
+	}
 
 	render() {
 		const { pathname } = this.state;
@@ -53,8 +66,14 @@ class Header extends React.PureComponent<Props, State> {
 								<Navbar.Toggle />
 							</Navbar.Header>
 							<Navbar.Collapse>
-								{pathname === "/" && (
+								{this.canShowOtherMenus() && (
 									<Nav pullLeft>
+										<NavItem 
+											active={pathname === "/howitworks"}
+											onClick={() => this.props.history.push("/howitworks")}
+										>
+											Pricing
+										</NavItem>
 										<NavItem 
 											active={pathname === "/howitworks"}
 											onClick={() => this.props.history.push("/howitworks")}

@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { signup } from "utils/auth";
 import { Link } from "react-router-dom";
 import NProgress from "nprogress";
+import Header from "components/header";
 
 class SignUp extends React.PureComponent {
 	constructor() {
@@ -51,70 +52,84 @@ class SignUp extends React.PureComponent {
 
 	render() {
 		return (
-			<div id="container">
-				<div className="container">
-					<div className="header">
-						<h1>Create An Account.</h1>
+			<React.Fragment>
+				<Header />
+				<div id="container">
+					<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 left-from-content">
+						<div className="container-main">
+							<div className="header">
+								<h1>Create An Account.</h1>
+							</div>
+							<br /><br />
+							<div className="form">
+								<form
+									ref={e => (this.formEl = e)}
+									name="reg-form"
+									onSubmit={this.submit}
+								>
+									{this.state.error !== null && (
+										<div className="form-error">{this.state.error}</div>
+									)}
+									<label htmlFor="firstname">First Name</label>
+									<input
+										type="text"
+										name="firstname"
+										placeholder=""
+										className="text-input"
+										required
+									/>
+									<br /><br />
+									<label htmlFor="lastname">Last Name</label>
+									<input
+										type="text"
+										name="lastname"
+										placeholder=""
+										className="text-input"
+										required
+									/>
+									<br /><br />
+									<label htmlFor="email">Email</label>
+									<input
+										type="email"
+										name="email"
+										placeholder=""
+										className="text-input"
+										required
+									/>
+									<br /><br />
+									<label htmlFor="password">Password</label>
+									<input
+										type="password"
+										name="password"
+										placeholder=""
+										className="text-input"
+										required
+									/>
+									<br /><br />
+									<input
+										type="submit"
+										name="sign up"
+										value="SIGN UP"
+										className="text-submit"
+									/>
+									<br /><br />
+								</form>
+							</div>
+							<div className="word text-center">
+								<Link to="signin">
+									<p>I Have An Existing Account</p>
+								</Link>
+							</div>
+							<div className="word text-center">
+								<p>By signing up, you agree to our terms and conditions.</p>
+							</div>
+						</div>
 					</div>
-					<div className="form">
-						<form
-							ref={e => (this.formEl = e)}
-							name="reg-form"
-							onSubmit={this.submit}
-						>
-							{this.state.error !== null && (
-								<div className="form-error">{this.state.error}</div>
-							)}
-							<label htmlFor="firstname">First Name</label>
-							<input
-								type="text"
-								name="firstname"
-								placeholder="First Name"
-								className="text-input"
-								required
-							/>
-							<label htmlFor="lastname">Last Name</label>
-							<input
-								type="text"
-								name="lastname"
-								placeholder="Last Name"
-								className="text-input"
-								required
-							/>
-							<label htmlFor="email">Email</label>
-							<input
-								type="email"
-								name="email"
-								placeholder="Email"
-								className="text-input"
-								required
-							/>
-							<label htmlFor="password">Password</label>
-							<input
-								type="password"
-								name="password"
-								placeholder="Password"
-								className="text-input"
-								required
-							/>
-							<input
-								type="submit"
-								name="sign up"
-								value="SIGN UP"
-								className="text-submit"
-							/>
-						</form>
-					</div>
-					<div className="word">
-						<Link to="signin">
-							<p>I Have An Existing Account</p>
-						</Link>
-					</div>
-					<div className="word">
-						<p>By signing up, you agree to our terms and conditions.</p>
+					<div className="col-lg-6 col-md-6 col-sm-12 col-xs-1 cafe-bg" id="noPad">
+						<div className="overlay"></div>
 					</div>
 				</div>
-			</div>
+			</React.Fragment>
 		);
 	}
 }

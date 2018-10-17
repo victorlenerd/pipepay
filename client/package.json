@@ -57,7 +57,7 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "cypress:open": "./node_modules/.bin/cypress open",
+    "cypress:open": "./node_modules/.bin/sudo cypress open",
     "test": "node scripts/test.js --env=jsdom",
     "pretty": "prettier --config .prettierrc \"src/*/*.js\"",
     "lint": "eslint src",
@@ -124,7 +124,7 @@
     "eslint-config-prettier": "^3.1.0",
     "eslint-plugin-class-property": "^1.1.0",
     "eslint-plugin-prettier": "^3.0.0",
-    "flow-bin": "^0.82.0",
+    "flow-bin": "^0.83.0",
     "husky": "^1.1.0",
     "lint-staged": "^7.3.0",
     "prettier": "^1.14.3",

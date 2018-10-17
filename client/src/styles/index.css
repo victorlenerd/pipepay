@@ -1,10 +1,11 @@
-
+/*  */
 * {
   font-family: 'Karla', sans-serif;
 }
 
 body{
-  background-color: #F1F1F1;
+  background-color: #FFF;
+  color: #000;
   font-family: 'Karla', sans-serif;
 }
 
@@ -13,13 +14,17 @@ body{
 }
 
 a:focus, a:hover {
-  color: #fff !important;
-  text-decoration: none !important;
+  color: #fff;
+  text-decoration: none;
 }
 
 ol, ul {
   padding: 0px;
   margin: 0px;
+}
+
+#have-account {
+  text-align: center;
 }
 
 #navbar-default {
@@ -31,20 +36,26 @@ ol, ul {
   background-color: #82D0A5;
 }
 
-.navbar-default .navbar-nav>li>a,
-.navbar-default .navbar-brand {
-  color: #fff !important;
+#navbar-default .navbar-nav>li>a,
+#navbar-default .navbar-brand {
+  color: #fff;
 }
 
-.navbar-default .navbar-nav>.active>a,
-.navbar-default .navbar-nav>.active>a:focus,
-.navbar-default .navbar-nav>.active>a:hover {
-  background-color: rgba(0,0,0, 0.3) !important;
+#navbar-default .navbar-nav>.active>a,
+#navbar-default .navbar-nav>.active>a:focus,
+#navbar-default .navbar-nav>.active>a:hover {
+  background-color: rgba(0,0,0, 0.3);
 }
 
 .form-error {
   color: red;
   text-align: center;
+}
+
+.overlay {
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0, 0.7);
 }
 
 .milestone-remove-btn {
@@ -73,19 +84,26 @@ ol, ul {
 }
 
 .action-header.login-btn {
-  background-color: rgba(111, 180, 170, 1);
+  background-color: #61C89E;
   border: 0px;
 }
 
 .action-header.register-btn {
-  background-color: #fff;
+  background-color: #61C89E;
   border: 0px;
 }
 
-#register-btn-link {
-  color: rgba(111, 180, 170, 1) !important;
+.action-header.login-btn.active,
+.action-header.register-btn.active {
+  background-color: #fff;
+  color: #61C89E;
 }
 
+.action-header.login-btn.active > a, 
+.action-header.register-btn.active > a {
+  color: #61C89E !important;
+  background-color: transparent !important;
+}
 
 input{
   outline: none;
@@ -170,9 +188,41 @@ input{
   padding-top: 50px;
 }
 
+.cafe-bg {
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-image: url(../assets/care.jpg);
+}
+
+.cloths-bg {
+  height: 100vh;
+  background-repeat: no-repeat;
+  background-size: cover;
+  background-position: center;
+  background-image: url(../assets/bg.jpg);
+}
+
+.left-from-content {
+  height: 100vh;
+  overflow: scroll;
+}
+
 form {
   width: 100%;
   display: table;
+}
+
+.container-main {
+  padding: 0px 20px;
+  padding-top: 80px;
+  box-sizing: border-box;
+}
+
+#noPad {
+  padding: 0px;
+  margin: 0px;
 }
 
 .text-center {
@@ -277,4 +327,13 @@ form {
 
 .invoice-left {
   border-right: 1px solid rgba(0,0,0, 0.1);
+}
+
+.border-line-bottom {
+  border-bottom: 1px solid rgba(0,0,0, 0.1);
+  margin-bottom: 5px;
+}
+
+.border-line-bottom:last-child {
+  border-bottom: 0px;
 }

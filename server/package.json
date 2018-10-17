@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "description": "Server for pipepay product.",
   "scripts": {
-    "dev": "NODE_ENV=development webpack --progress --colors --config config.dev.js",
+    "debug": "NODE_ENV=development node --inspect ./dist/server.js",
+    "dev": "NODE_ENV=development node --inspect node_modules/webpack/bin/webpack.js --progress --colors --config config.dev.js",
     "start": "NODE_ENV=production forever ./build/server.js",
     "build": "NODE_ENV=production webpack --progress --colors config.prod.js",
     "test": "NODE_ENV=testing rm -rf ./tmp/mocha-webpack && nyc --reporter=text mocha-webpack --webpack-config config.test.js  \"src/**/*.spec.js\" --timeout 10000 --require source-map-support/register"
@@ -15,6 +16,7 @@
     "axios": "^0.18.0",
     "body-parser": "^1.18.3",
     "date-fns": "^1.29.0",
+    "email-templates": "^5.0.0",
     "express": "^4.16.3",
     "fetch": "^1.1.0",
     "jsonwebtoken": "^8.2.1",
@@ -23,6 +25,7 @@
     "mongoose": "^5.2.7",
     "morgan": "^1.9.0",
     "nodemailer": "^4.6.7",
+    "pug": "^2.0.3",
     "superagent": "^3.8.3"
   },
   "devDependencies": {

@@ -5,6 +5,9 @@ import ChooseType from "./chooseType";
 import Milestones from "./milestones";
 import PurchaseInfo from "./purchaseInfo";
 import CustomerInfo from "./customerInfo";
+import Summary from "./summary";
+
+import AppContext from "contexts/app.context";
 
 class NewInvoice extends React.Component {
 	constructor() {
@@ -13,8 +16,8 @@ class NewInvoice extends React.Component {
 			stage: 0,
 			canSubmit: false,
 			type: null,
-			who_pays_delivery_fee: null,
-			who_pays_pipepay_fee: null,
+			whoPaysDeliveryFee: null,
+			whoPaysPipepayFee: null,
 			delivery_fee: null,
 			description: null,
 			purchase_amount: null,
@@ -34,7 +37,7 @@ class NewInvoice extends React.Component {
 					description: "",
 					amount: "",
 					dueDate: "",
-				},
+				}
 			],
 		};
 	}
@@ -43,23 +46,23 @@ class NewInvoice extends React.Component {
 		e.preventDefault();
 		const invoice_type = e.target.invoice_type.value;
 		if (e.target.checkValidity()) {
-			this.setState({ type: invoice_type, stage: invoice_type === "goods" ? 1 : 5 });
+			this.setState({ type: invoice_type, stage: invoice_type === "good" ? 1 : 5 });
 		}
 	}
 
 	submitDeliveryType = e => {
 		e.preventDefault();
-		const who_pays_delivery_fee = e.target.who_pays_delivery_fee.value;
+		const whoPaysDeliveryFee = e.target.who_pays_delivery_fee.value;
 		if (e.target.checkValidity()) {
-			this.setState({ who_pays_delivery_fee, stage: 3 });
+			this.setState({ whoPaysDeliveryFee, stage: 3 });
 		}
 	}
 
 	submitPipepayType = e => {
 		e.preventDefault();
-		const who_pays_pipepay_fee = e.target.who_pays_pipepay_fee.value;
+		const whoPaysPipepayFee = e.target.who_pays_pipepay_fee.value;
 		if (e.target.checkValidity()) {
-			this.setState({ who_pays_pipepay_fee, stage: 4 });
+			this.setState({ whoPaysPipepayFee, stage: 4 });
 		}
 	}
 
@@ -78,14 +81,16 @@ class NewInvoice extends React.Component {
 	submitCustomerInfo = e => {
 		e.preventDefault();
 
-		const customer_name = e.target.customer_name.value;
-		const customer_email = e.target.customer_email.value;
-		const customer_phone = e.target.customer_phone.value;
+		const customerName = e.target.customerName.value;
+		const customerEmail = e.target.customerEmail.value;
+		const customerPhone = e.target.customerPhone.value;
 
 		if (e.target.checkValidity()) {
-			this.setState({ customer: { customer_name, customer_email, customer_phone } }, () => {
+			this.setState({ customerInfo: { customerName, customerEmail, customerPhone } }, () => {
 				if (this.state.type === "service") {
 					this.setState({ stage: 6 });
+				} else {
+					this.setState({ canSubmit: true });
 				}
 			});
 		}
@@ -112,40 +117,133 @@ class NewInvoice extends React.Component {
 		this.setState({ milestones });
 	}
 
-	submit = () => {}
+	submit = (e) => {
+		e.preventDefault();
+		if (e.target.checkValidity()) {
+			this.setState({ canSubmit: true });
+		}
+	}
+
+	getStageView = () => {
+		const { stage } = this.state;
+
+		if (stage === 0) return <ChooseType submit={this.submitInvoiceType} />;
+
+		if (stage === 1) 
+			return <WhoPaysFee 
+				type="Delivery"
+				submit={this.submitDeliveryType}
+				back={() => this.setState({ stage: 0 })} />;
+
+		if (stage === 3) 
+			return <WhoPaysFee
+				type="PipePay" 
+				submit={this.submitPipepayType}
+				back={() => this.setState({ stage: 1 })} />;
+
+		if (stage === 4) 
+			return <PurchaseInfo
+				submit={this.submitPurchaseInfo}
+				back={() => this.setState({ stage: 3 })} />;
+
+		if (stage === 5)
+			return <CustomerInfo
+				submit={this.submitCustomerInfo}
+				updateStage={(stage)=> this.setState({ stage })} />;
+
+		if (stage === 6)
+			return <Milestones
+				milestones={this.state.milestones}
+				submit={this.submit}
+				back={() => this.setState({ stage: 5 })}
+				addMilestone={this.addMilestone}
+				removeMilestone={this.removeMilestone}
+				updateMilestone={this.updateMilestone}
+			/>;
+	};
+
+	cancelSubmit = () => {
+		this.setState({
+			canSubmit: false
+		});
+	}
+
+	submitInvoice = ({ token }) => {
+		const {
+			type,
+			whoPaysPipepayFee,
+			whoPaysDeliveryFee,
+			delivery_fee,
+			purchase_amount,
+			milestones,
+			customerInfo: {
+				customerName,
+				customerEmail,
+				customerPhone
+			} 
+		} = this.state;
+
+		const data = { 
+			type,
+			customerName,
+			customerEmail,
+			customerPhone
+		};
+
+		if (type === "good") {
+			data.whoPaysPipepayFee = whoPaysPipepayFee;
+			data.whoPaysDeliveryFee = whoPaysDeliveryFee;
+			data.purchaseAmount = purchase_amount;
+			data.delivery_fee = delivery_fee;
+		} else {
+			data.milestones = milestones;
+		}
+
+		fetch("/api/invoice", {
+			method: "POST",
+			data: JSON.stringify(data),
+			headers: {
+				"Authorization": token
+			}
+		})
+			.then((res) => res.json())
+			.then(() => {
+
+			});
+	}
 
 	render() {
-		const { stage, type, milestones } = this.state;
+		const { 
+			purchase_amount,
+			delivery_fee,
+			whoPaysDeliveryFee,
+			whoPaysPipepayFee,
+			customerInfo,
+			stage,
+			type,
+			milestones,
+			canSubmit
+		} = this.state;
+
 		return (
-			<section className="section">
-				<div className="container">
-					<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						{stage === 0 && <ChooseType submit={this.submitInvoiceType} />}
-						{stage === 1 && <WhoPaysFee 
-							type="Delivery"
-							submit={this.submitDeliveryType}
-							back={() => this.setState({ stage: 0 })} />}
-						{stage === 3 && <WhoPaysFee 
-							type="PipePay" 
-							submit={this.submitPipepayType} 
-							back={() => this.setState({ stage: 1 })} />}
-						{stage === 4 && <PurchaseInfo 
-							submit={this.submitPurchaseInfo} 
-							back={() => this.setState({ stage: 3 })} />}
-						{stage === 5 && <CustomerInfo 
-							submit={this.submitCustomerInfo} 
-							updateStage={(stage)=> this.setState({ stage })} />}
-						{stage === 6 && <Milestones
-							milestones={this.state.milestones}
-							submit={this.submit}
-							back={() => this.setState({ stage: 5 })}
-							addMilestone={this.addMilestone}
-							removeMilestone={this.removeMilestone}
-							updateMilestone={this.updateMilestone}
-						/>}
-					</div>
-				</div>
-			</section>
+			<AppContext.Consumer>
+				{({ user }) => (
+					<section className="section">
+						<div className="container">
+							<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+								{canSubmit ? 
+									<Summary 
+										type={type}
+										back={this.cancelSubmit}
+										submit={()=> this.submitInvoice(user)}
+										customerInfo={customerInfo}
+										data={ type === "service" ? { milestones }: { purchase_amount, delivery_fee, whoPaysDeliveryFee, whoPaysPipepayFee }}
+									/> : this.getStageView()}
+							</div>
+						</div>
+					</section>
+				)}
+			</AppContext.Consumer>
 		);
 	}
 }
