@@ -23,7 +23,7 @@ require("source-map-support").install();
 /******/
 /******/ 	var hotApplyOnUpdate = true;
 /******/ 	// eslint-disable-next-line no-unused-vars
-/******/ 	var hotCurrentHash = "2d14595d34c0cfbc6aa6";
+/******/ 	var hotCurrentHash = "9568ad4aecdd76385d05";
 /******/ 	var hotRequestTimeout = 10000;
 /******/ 	var hotCurrentModuleData = {};
 /******/ 	var hotCurrentChildModule;
@@ -1025,11 +1025,15 @@ var verifyToken = function verifyToken(req, res, next) {
                 return;
             }
         }
-    } else if (req.originalUrl.match('/api/invoice') !== null && req.method.toLowerCase() === 'get' || req.originalUrl.match('/api/payment') !== null && req.method.toLowerCase() === 'post' || req.originalUrl.match('/api/payment') !== null && req.method.toLowerCase() === 'get' || req.originalUrl.match('/api/banks') !== null && req.method.toLowerCase() === 'get' || req.originalUrl.match('/api/dispute') !== null && req.method.toLowerCase() === 'post' || req.originalUrl.match('/api/dispute') !== null && req.method.toLowerCase() === 'get' || req.originalUrl.match('/api/verify') !== null && req.method.toLowerCase() === 'get') {
-        next();
-    } else {
-        res.status(403).send({ success: false, error: 'Invalid auth token' });
     }
+
+    if (req.originalUrl.match('/api/payment') !== null && req.method.toLowerCase() === 'post' || req.originalUrl.match('/api/payment') !== null && req.method.toLowerCase() === 'get' || req.originalUrl.match('/api/banks') !== null && req.method.toLowerCase() === 'get' || req.originalUrl.match('/api/dispute') !== null && req.method.toLowerCase() === 'post' || req.originalUrl.match('/api/dispute') !== null && req.method.toLowerCase() === 'get' || req.originalUrl.match('/api/verify') !== null && req.method.toLowerCase() === 'get') {
+        next();
+        return;
+    }
+
+    res.status(403).send({ success: false, error: 'Invalid auth token' });
+    return;
 };
 
 /***/ }),
@@ -1278,7 +1282,6 @@ var sendTo = function sendTo(mailOption) {
             if (error) {
                 return reject(new Error(error));
             }
-
             resolve(info);
         });
     });
@@ -1297,27 +1300,15 @@ var sendReceiptMail = function sendReceiptMail(customerName, customerEmail, marc
                                 subject: 'Your Receipt Is Ready',
                                 text: customerName + ' made payment of ' + amount
                             };
-                            _context.prev = 1;
-                            _context.next = 4;
-                            return babel_runtime_core_js_promise__WEBPACK_IMPORTED_MODULE_3___default.a.all([sendTo(babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_1___default()({}, mailOption, { to: customerEmail })), sendTo(babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_1___default()({}, mailOption, { to: marchantEmail }))]);
 
-                        case 4:
-                            resolve();
-                            _context.next = 10;
-                            break;
+                            babel_runtime_core_js_promise__WEBPACK_IMPORTED_MODULE_3___default.a.race([sendTo(babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_1___default()({}, mailOption, { to: customerEmail })), sendTo(babel_runtime_helpers_extends__WEBPACK_IMPORTED_MODULE_1___default()({}, mailOption, { to: marchantEmail }))]).then(resolve).catch(reject);
 
-                        case 7:
-                            _context.prev = 7;
-                            _context.t0 = _context['catch'](1);
-
-                            reject(_context.t0);
-
-                        case 10:
+                        case 2:
                         case 'end':
                             return _context.stop();
                     }
                 }
-            }, _callee, _this, [[1, 7]]);
+            }, _callee, _this);
         }));
 
         return function (_x, _x2) {
@@ -1485,7 +1476,7 @@ var sendPaymentRequest = function sendPaymentRequest(_ref5, customerEmail, march
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 var randomAlpha = function randomAlpha() {
-  return 'abcdefghijklmnopqrstuvwxyz'.charAt(Math.floor(Math.random() * alpha.length));
+  return 'abcdefghijklmnopqrstuvwxyz'.charAt(Math.floor(Math.random() * 26));
 };
 var randomNum = function randomNum() {
   return Math.floor(Math.random() * 9);
@@ -2207,9 +2198,9 @@ var _this = undefined;
                                 if (customerDeliveryFee > 0) line_items.push({ 'name': 'Delivery Fee', 'amount': customerDeliveryFee * 100 });
                             } else {
                                 line_items = body.milestones.map(function (_ref3) {
-                                    var name = _ref3.name,
+                                    var description = _ref3.description,
                                         amount = _ref3.amount;
-                                    return { name: name, amount: amount * 100 };
+                                    return { name: description, amount: amount * 100 };
                                 });
                                 line_items.push({ 'name': 'PipePay Fee', 'amount': body.pipePayFee * 100 });
                             }
@@ -2222,7 +2213,6 @@ var _this = undefined;
                             _ref4 = _context2.sent;
                             request_code = _ref4.data.request_code;
 
-
                             body.invoice_code = request_code;
 
                             _invoice_model__WEBPACK_IMPORTED_MODULE_2__["default"].create(body, function () {
@@ -2232,19 +2222,20 @@ var _this = undefined;
                                             switch (_context.prev = _context.next) {
                                                 case 0:
                                                     if (!err) {
-                                                        _context.next = 2;
+                                                        _context.next = 3;
                                                         break;
                                                     }
 
+                                                    console.log("err", err);
                                                     return _context.abrupt('return', res.status(400).send({ error: { message: 'Could not create the invoice' }, success: false }));
 
-                                                case 2:
+                                                case 3:
                                                     delete doc.verifyCode;
                                                     doc.status = "sent";
                                                     doc.save();
                                                     res.send({ data: doc, success: true });
 
-                                                case 6:
+                                                case 7:
                                                 case 'end':
                                                     return _context.stop();
                                             }
@@ -2277,6 +2268,49 @@ var _this = undefined;
         return function createOne(_x, _x2) {
             return _ref.apply(this, arguments);
         };
+    }(),
+    getAll: function () {
+        var _ref6 = babel_runtime_helpers_asyncToGenerator__WEBPACK_IMPORTED_MODULE_1___default()( /*#__PURE__*/babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee3(req, res) {
+            var userId, invoices;
+            return babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee3$(_context3) {
+                while (1) {
+                    switch (_context3.prev = _context3.next) {
+                        case 0:
+                            if (req.user) {
+                                _context3.next = 2;
+                                break;
+                            }
+
+                            return _context3.abrupt('return', res.status(403).send({ success: false, error: 'Invalid auth token' }));
+
+                        case 2:
+                            userId = req.user.sub;
+                            _context3.prev = 3;
+                            _context3.next = 6;
+                            return _invoice_model__WEBPACK_IMPORTED_MODULE_2__["default"].find({ userId: userId });
+
+                        case 6:
+                            invoices = _context3.sent;
+                            return _context3.abrupt('return', res.status(200).send({ data: { invoices: invoices }, success: true }));
+
+                        case 10:
+                            _context3.prev = 10;
+                            _context3.t0 = _context3['catch'](3);
+
+                            console.error('err', _context3.t0);
+                            return _context3.abrupt('return', res.status(400).send({ err: _context3.t0, success: false }));
+
+                        case 14:
+                        case 'end':
+                            return _context3.stop();
+                    }
+                }
+            }, _callee3, _this, [[3, 10]]);
+        }));
+
+        return function getAll(_x5, _x6) {
+            return _ref6.apply(this, arguments);
+        };
     }()
 }));
 
@@ -2298,9 +2332,8 @@ __webpack_require__.r(__webpack_exports__);
 
 var MilestoneSchema = new mongoose__WEBPACK_IMPORTED_MODULE_0___default.a.Schema({
     amount: { type: Number, required: true },
-    name: { type: String, required: true },
     description: { type: String, required: true },
-    dueDate: { type: Date, required: true },
+    dueDate: { type: Date },
     paid: { type: Boolean, required: true, default: false }
 });
 
@@ -2358,7 +2391,7 @@ var InvoiceRouter = express__WEBPACK_IMPORTED_MODULE_0___default.a.Router();
 
 InvoiceRouter.param('id', _invoice_controller__WEBPACK_IMPORTED_MODULE_1__["default"].findByParam);
 
-InvoiceRouter.route('/').post(_invoice_controller__WEBPACK_IMPORTED_MODULE_1__["default"].createOne);
+InvoiceRouter.route('/').get(_invoice_controller__WEBPACK_IMPORTED_MODULE_1__["default"].getAll).post(_invoice_controller__WEBPACK_IMPORTED_MODULE_1__["default"].createOne);
 
 InvoiceRouter.route('/:id').get(_invoice_controller__WEBPACK_IMPORTED_MODULE_1__["default"].getOne).delete(_invoice_controller__WEBPACK_IMPORTED_MODULE_1__["default"].deleteOne);
 
@@ -2436,7 +2469,7 @@ var secret = "sk_test_ef208dee35b39342cf35bf961ec6cb19ebc2f94c";
                                         break;
                                     }
 
-                                    console.log(err);
+                                    console.error(err);
                                     return _context.abrupt('return', res.status(400).send({ error: new Error(error), status: false }));
 
                                 case 3:
@@ -2468,7 +2501,7 @@ var secret = "sk_test_ef208dee35b39342cf35bf961ec6cb19ebc2f94c";
                                     _context.prev = 15;
                                     _context.t0 = _context['catch'](4);
 
-                                    console.log(_context.t0);
+                                    console.error(_context.t0);
                                     return _context.abrupt('return', res.status(400).send({ error: { message: 'Could not send mail' }, success: false }));
 
                                 case 19:
@@ -2919,12 +2952,12 @@ Object(_middleware__WEBPACK_IMPORTED_MODULE_1__["default"])(app);
 
 app.use(function (req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Authorization, Content-Type, Accept");
     next();
 });
 
 Object(_db__WEBPACK_IMPORTED_MODULE_3__["connect"])().catch(function (err) {
-    console.error('DB error', err);
+    console.error('DB error', qerr);
 });
 
 app.use('/api', _api_resources__WEBPACK_IMPORTED_MODULE_2__["default"]);

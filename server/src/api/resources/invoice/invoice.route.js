@@ -6,6 +6,7 @@ const InvoiceRouter = express.Router();
 InvoiceRouter.param('id', InvoiceController.findByParam);
 
 InvoiceRouter.route('/')
+    .get(InvoiceController.getAll)
     .post(InvoiceController.createOne);
 
 InvoiceRouter.route('/:id')

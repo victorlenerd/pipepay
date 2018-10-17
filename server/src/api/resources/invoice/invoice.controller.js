@@ -53,17 +53,19 @@ export default generateController(InvoiceModel, {
             if (customPipepayFee > 0) line_items.push({ 'name': 'PipePay Fee', 'amount': customPipepayFee * 100 });
             if (customerDeliveryFee > 0) line_items.push({ 'name': 'Delivery Fee', 'amount': customerDeliveryFee * 100 });
         } else  {
-            line_items = body.milestones.map(({ name, amount }) => ({ name, amount: amount * 100 }));
+            line_items = body.milestones.map(({ description, amount }) => ({ name: description, amount: amount * 100 }));
             line_items.push({ 'name': 'PipePay Fee', 'amount':  body.pipePayFee * 100 });
         }
 
         try {
             const { data: { request_code } } = await CreateInvoice({ email: body.customerEmail, name: body.customerName, phone: body.customerPhone }, customerTotalAmount * 100, body.description, line_items);
-            
             body.invoice_code = request_code;
 
             InvoiceModel.create(body, async (err, doc) => {
-                if (err) return res.status(400).send({ error: { message: 'Could not create the invoice' }, success: false });
+                if (err) {
+                    console.log("err", err);
+                    return res.status(400).send({ error: { message: 'Could not create the invoice' }, success: false });
+                }
                 delete doc.verifyCode;
                 doc.status = "sent";
                 doc.save();
@@ -71,6 +73,18 @@ export default generateController(InvoiceModel, {
             });
         } catch(err) {
             console.log('err', err);
+            return res.status(400).send({ err, success: false });
+        }
+    },
+    getAll: async (req, res) => {
+        if (!req.user) return res.status(403).send({ success: false, error: 'Invalid auth token' });
+        const userId = req.user.sub;
+
+        try {
+            const invoices = await InvoiceModel.find({ userId });
+            return res.status(200).send({ data: { invoices }, success: true });
+        } catch(err) {
+            console.error('err', err);
             return res.status(400).send({ err, success: false });
         }
     }

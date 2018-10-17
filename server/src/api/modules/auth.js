@@ -28,15 +28,16 @@ export const verifyToken = (req, res, next) => {
             const { aud, exp } = payload;
             const [ matchKey ] = tokenKeys.filter((k) => (k.kid === kid && k.alg === alg));
             const current_ts = Math.floor(new Date() / 1000);
-    
+
             if (matchKey !== undefined && aaud === aud && current_ts < exp) {
                 req.user = payload;
                 next();
                 return;
             }
         }
-    } else if (
-        req.originalUrl.match('/api/invoice') !== null && req.method.toLowerCase() === 'get' ||
+    }
+    
+    if (
         req.originalUrl.match('/api/payment') !== null && req.method.toLowerCase() === 'post' ||
         req.originalUrl.match('/api/payment') !== null && req.method.toLowerCase() === 'get' ||
         req.originalUrl.match('/api/banks') !== null && req.method.toLowerCase() === 'get' ||
@@ -45,7 +46,9 @@ export const verifyToken = (req, res, next) => {
         req.originalUrl.match('/api/verify') !== null && req.method.toLowerCase() === 'get'
     ) {
         next(); 
-    } else {
-        res.status(403).send({ success: false, error: 'Invalid auth token' });
-    }
+        return;
+    } 
+
+    res.status(403).send({ success: false, error: 'Invalid auth token' });
+    return;
 };

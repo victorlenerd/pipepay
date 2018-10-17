@@ -37,7 +37,6 @@ const sendTo = (mailOption) => new Promise((resolve, reject) => {
         if (error) {
             return reject(new Error(error));
         }
-
         resolve(info);
     });
 });
@@ -48,17 +47,11 @@ export const sendReceiptMail = (customerName, customerEmail, marchantEmail, amou
         subject: 'Your Receipt Is Ready',
         text: `${customerName} made payment of ${amount}`,
     };
-
-
-    try {
-        await Promise.all([
-            sendTo({ ...mailOption, to: customerEmail }),
-            sendTo({ ...mailOption, to: marchantEmail })
-        ]);
-        resolve();
-    } catch(err) {
-        reject(err);
-    }
+    Promise.race([
+        sendTo({ ...mailOption, to: customerEmail }),
+        sendTo({ ...mailOption, to: marchantEmail })
+    ]).then(resolve)
+    .catch(reject)
 });
 
 export const sendTransferMail = (customerEmail, marchantEmail) => new Promise((esolve, reject) => {

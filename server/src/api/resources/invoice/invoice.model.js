@@ -2,9 +2,8 @@ import mongoose from 'mongoose';
 
 export const MilestoneSchema = new mongoose.Schema({
     amount: { type: Number, required: true },
-    name: { type: String, required: true },
     description:  { type: String, required: true },
-    dueDate: { type: Date, required: true },
+    dueDate: { type: Date },
     paid: { type: Boolean, required: true, default: false }
 });
 

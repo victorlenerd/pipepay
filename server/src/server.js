@@ -9,15 +9,14 @@ const app = express();
 getJWT();
 setupMiddleware(app);
 
-debugger
 app.use(function(req, res, next) {
     res.header("Access-Control-Allow-Origin", "*");
-    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+    res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Authorization, Content-Type, Accept");
     next();
 });
 
 connect().catch((err) => {
-    console.error('DB error', err);
+    console.error('DB error', qerr);
 });
 
 app.use('/api', MainRouter);

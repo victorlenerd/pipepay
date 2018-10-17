@@ -15,11 +15,11 @@ export default generateController(PaymentModel, {
         if (hash === req.headers['x-paystack-signature'] && event === 'invoice.update' && paid) {
             InvoiceModel.findOneAndUpdate({ invoice_code }, { $set :{ status: 'paid' } }, { new: true }, async (err, doc) => {
                 if (err) {
-                    console.log(err);
+                    console.error(err);
                     return res.status(400).send({ error: new Error(error), status: false });
                 }
 
-                const { 
+                const {
                     _id,
                     type,
                     whoPaysDeliveryFee,
@@ -29,7 +29,8 @@ export default generateController(PaymentModel, {
                     deliveryAmount,
                     marchantAccountNumber
                 } = doc;
- 
+
+
                 try {
                     if (type === 'good') {
                         await Transfer(marchantName, marchantAccountNumber, marchantBankCode, deliveryAmount);
@@ -39,7 +40,7 @@ export default generateController(PaymentModel, {
                     await mailer.sendReceiptMail(`${first_name} ${last_name}`, email, marchantEmail, amount);
                     res.status(200).send({ success: true });
                 } catch (err) {
-                    console.log(err);
+                    console.error(err);
                     return res.status(400).send({ error: { message: 'Could not send mail' }, success: false });
                 }
             })
