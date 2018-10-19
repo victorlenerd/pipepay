@@ -93,6 +93,7 @@ describe('Server Operations', () => {
             'Authorization': `Bearer ${token}`
         })
         .end((err, res) => {
+            console.log(res.body.data.invoices);
             expect(res.body.data.invoices.length).to.be.greaterThan(0);
             expect(res.body.success).to.be.equal(true);
             done();

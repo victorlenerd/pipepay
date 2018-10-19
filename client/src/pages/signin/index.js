@@ -3,23 +3,22 @@ import React from "react";
 import { signin, userPool } from "utils/auth";
 import { withRouter, Link } from "react-router-dom";
 import NProgress from "nprogress";
-import Header from "components/header";
 
 type Props = {
 	history: any,
 	setCurrentUser?: any,
-}
+};
 
 type State = {
 	error: string,
-}
+};
 
 class SignIn extends React.PureComponent<Props, State> {
 	state = {
-		error: ""
-	}
+		error: "",
+	};
 
-	submit = async (e) => {
+	submit = async e => {
 		const { setCurrentUser, history } = this.props;
 		e.preventDefault();
 		if (this.formEl.checkValidity() === true) {
@@ -35,11 +34,15 @@ class SignIn extends React.PureComponent<Props, State> {
 					if (result && result.isValid()) {
 						NProgress.done();
 						const { idToken } = result;
+
 						const { payload, jwtToken } = idToken;
 						payload.token = jwtToken;
 						setCurrentUser(payload);
 
-						if (payload["custom:account_number"] && payload["custom:bank_code"]) {
+						if (
+							payload["custom:account_number"] &&
+							payload["custom:bank_code"]
+						) {
 							history.push("/invoices");
 						} else {
 							history.push("/verifyaccn");
@@ -60,24 +63,33 @@ class SignIn extends React.PureComponent<Props, State> {
 		} else {
 			this.setState({ error: "Please fill all the required fields." });
 		}
-	}
+	};
 
 	render() {
 		return (
 			<React.Fragment>
-				<Header />
-				<div className="col-lg-6 col-md-6 col-sm-12 col-xs-1 cloths-bg" id="noPad">
-					<div className="overlay"></div>
+				<div
+					className="col-lg-6 col-md-6 col-sm-12 col-xs-1 cloths-bg"
+					id="noPad"
+				>
+					<div className="overlay" />
 				</div>
 				<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 left-from-content">
 					<div className="container-main">
 						<div className="header">
 							<h1>Sign In.</h1>
 						</div>
-						<br /><br />
+						<br />
+						<br />
 						<div className="form">
-							<form ref={e => (this.formEl = e)} name="reg-form" onSubmit={this.submit}>
-								{this.state.error !== null && <div className="form-error">{this.state.error}</div>}
+							<form
+								ref={e => (this.formEl = e)}
+								name="reg-form"
+								onSubmit={this.submit}
+							>
+								{this.state.error !== null && (
+									<div className="form-error">{this.state.error}</div>
+								)}
 								<label htmlFor="email">Email</label>
 								<input
 									type="email"
@@ -86,7 +98,8 @@ class SignIn extends React.PureComponent<Props, State> {
 									className="text-input"
 									required
 								/>
-								<br /><br />
+								<br />
+								<br />
 								<label htmlFor="password">Password</label>
 								<input
 									type="password"
@@ -95,13 +108,25 @@ class SignIn extends React.PureComponent<Props, State> {
 									className="text-input"
 									required
 								/>
-								<br /><br />
-								<Link to="forgotpassword" id="forgot">Forgot Password?</Link>
-								<br /><br />
-								<input type="submit" name="sign-in" value="SIGN IN" className="text-submit" />
-								<br /><br />
+								<br />
+								<br />
+								<Link to="forgotpassword" id="forgot">
+									Forgot Password?
+								</Link>
+								<br />
+								<br />
+								<input
+									type="submit"
+									name="sign-in"
+									value="SIGN IN"
+									className="text-submit"
+								/>
+								<br />
+								<br />
 								<div id="have-account">
-									<Link className="text-centr" to="signup">I haven't created an account</Link>
+									<Link className="text-centr" to="signup">
+										I haven't created an account
+									</Link>
 								</div>
 							</form>
 						</div>

@@ -8,6 +8,6 @@ const DisputeSchema = new mongoose.Schema({
     category: String,
     invoiceId: { type: String, unique: true },
     status: String
-});
+}, { timestamps: { createdAt: 'created_at' } });
 
 export default mongoose.model('Dispute', DisputeSchema);

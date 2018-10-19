@@ -28,7 +28,7 @@ ol, ul {
 }
 
 #navbar-default {
-  background-color: rgba(111, 180, 170, 1);
+  background-color: #34495e;
   border: 0px;
 }
 
@@ -241,14 +241,28 @@ form {
   color: #fff;
   border-radius: 20px;
   margin: 10px 0px;
+  display: inline-block;
+  float: right;
+}
+
+.success-color {
+  color: #61C89E;
+}
+
+.invoice-price.rejected { 
+  background: #e74c3c;
 }
 
 .invoice-price.accepted { 
   background: #2ecc71;
 }
 
-.invoice-price.pending { 
+.invoice-price.paid { 
   background: #f1c40f;
+}
+
+.invoice-price.sent { 
+  background: #bdc3c7;
 }
 
 .invoice-timeago {
@@ -256,9 +270,19 @@ form {
   font-size: 10px;
 }
 
+.hint {
+  font-size: 10px;
+}
+
+.invoice-price-main {
+  color: #2ecc71;
+  font-size: 20px;
+  margin-right: 20px;
+}
 
 .invoice-phone {
-  color: #666;
+  color: #222;
+  margin-top: -4px;
 }
 
 .invoices {
@@ -329,11 +353,163 @@ form {
   border-right: 1px solid rgba(0,0,0, 0.1);
 }
 
+.invoice-bottom {
+  padding-bottom: 10px;
+  border-bottom: 1px solid rgba(0,0,0, 0.1);
+}
+
 .border-line-bottom {
   border-bottom: 1px solid rgba(0,0,0, 0.1);
   margin-bottom: 5px;
 }
 
-.border-line-bottom:last-child {
+.border-line-bottom:last-child,
+.invoice-bottom:last-child {
   border-bottom: 0px;
+}
+
+.path {
+  stroke-dasharray: 1000;
+  stroke-dashoffset: 0;
+}
+
+.path.circle {
+  -webkit-animation: dash .9s ease-in-out;
+  animation: dash .9s ease-in-out;
+}
+
+.path.line {
+  stroke-dashoffset: 1000;
+  -webkit-animation: dash .9s .35s ease-in-out forwards;
+  animation: dash .9s .35s ease-in-out forwards;
+}
+
+.path.check {
+  stroke-dashoffset: -100;
+  -webkit-animation: dash-check .9s .35s ease-in-out forwards;
+  animation: dash-check .9s .35s ease-in-out forwards;
+}
+
+@-webkit-keyframes dash {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@keyframes dash {
+  0% {
+    stroke-dashoffset: 1000;
+  }
+  100% {
+    stroke-dashoffset: 0;
+  }
+}
+
+@-webkit-keyframes dash-check {
+  0% {
+    stroke-dashoffset: -100;
+  }
+  100% {
+    stroke-dashoffset: 900;
+  }
+}
+
+@keyframes dash-check {
+  0% {
+    stroke-dashoffset: -100;
+  }
+  100% {
+    stroke-dashoffset: 900;
+  }
+}
+
+
+#status {
+  width: 200px;
+  height: 200px;
+  -webkit-border-radius: 100px;
+  -moz-border-radius: 100px;
+  border-radius: 100px;
+  text-align: center;
+  margin: 50px auto;
+  font-size: 100px;
+  color: #fff;
+  line-height: 200px;
+
+  display: block;
+
+  -webkit-animation-duration: 1s;
+  -moz-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  -moz-animation-fill-mode: both;
+  animation-fill-mode: both;
+
+  -webkit-animation-iteration-count: infinite;
+  animation-iteration-count: infinite;
+
+  -webkit-animation-name: tada;
+  animation-name: tada;
+}
+
+@-webkit-keyframes tada {
+  0% {
+    -webkit-transform: scale(1);
+    transform: scale(1);
+  }
+
+  10%, 20% {
+    -webkit-transform: scale(0.9) rotate(-3deg);
+    transform: scale(0.9) rotate(-3deg);
+  }
+
+  30%, 50%, 70%, 90% {
+    -webkit-transform: scale(1.1) rotate(3deg);
+    transform: scale(1.1) rotate(3deg);
+  }
+
+  40%, 60%, 80% {
+    -webkit-transform: scale(1.1) rotate(-3deg);
+    transform: scale(1.1) rotate(-3deg);
+  }
+
+  100% {
+    -webkit-transform: scale(1) rotate(0);
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes tada {
+  0% {
+    -webkit-transform: scale(1);
+    -ms-transform: scale(1);
+    transform: scale(1);
+  }
+
+  10%, 20% {
+    -webkit-transform: scale(0.9) rotate(-3deg);
+    -ms-transform: scale(0.9) rotate(-3deg);
+    transform: scale(0.9) rotate(-3deg);
+  }
+
+  30%, 50%, 70%, 90% {
+    -webkit-transform: scale(1.1) rotate(3deg);
+    -ms-transform: scale(1.1) rotate(3deg);
+    transform: scale(1.1) rotate(3deg);
+  }
+
+  40%, 60%, 80% {
+    -webkit-transform: scale(1.1) rotate(-3deg);
+    -ms-transform: scale(1.1) rotate(-3deg);
+    transform: scale(1.1) rotate(-3deg);
+  }
+
+  100% {
+    -webkit-transform: scale(1) rotate(0);
+    -ms-transform: scale(1) rotate(0);
+    transform: scale(1) rotate(0);
+  }
 }

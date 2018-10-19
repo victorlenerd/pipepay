@@ -5,7 +5,7 @@ export const MilestoneSchema = new mongoose.Schema({
     description:  { type: String, required: true },
     dueDate: { type: Date },
     paid: { type: Boolean, required: true, default: false }
-});
+}, { timestamps: { createdAt: 'created_at' } });
 
 const InvoiceSchema = new mongoose.Schema({
     userId: { type:String, required: true },
@@ -35,7 +35,7 @@ const InvoiceSchema = new mongoose.Schema({
     whoPaysPipepayFee: { type: String, enum: ['buyer', 'seller', 'both'] },
     whoPaysDeliveryFee: { type: String, enum: ['buyer', 'seller', 'both'] }, 
 
-    status: String
-});
+    status: { type: String, enum: ['sent', 'paid', 'accepted', 'rejected'], required: true },
+}, { timestamps: { createdAt: 'created_at' } });
 
 export default mongoose.model('Invoice', InvoiceSchema);

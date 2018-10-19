@@ -2,49 +2,67 @@
 import React from "react";
 
 type Props = {
-    type: string,
-    submit: (e: Object) => void,
-    back: () => void
-}
+	type: string,
+	submit: (e: Object) => void,
+	back: () => void,
+};
 
 const WhoPaysFee = ({ type, submit, back }: Props) => {
 	return (
-		<form name={type.toLowerCase()+"-fee"} onSubmit={submit}>
+		<form name={type.toLowerCase() + "-fee"} onSubmit={submit}>
 			<h4 className="section-title">Who Pays {type} Fee</h4>
 			<br />
 			<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 				<div className="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">
 					<input
-						id={"who_pays_"+type.toLowerCase()+"_fee_customer"}
+						id={"who_pays_" + type.toLowerCase() + "_fee_customer"}
 						type="radio"
-						name={"who_pays_"+type.toLowerCase()+"_fee"}
+						name={"who_pays_" + type.toLowerCase() + "_fee"}
 						value="buyer"
 						required
-					/>&nbsp;&nbsp;
-					<label htmlFor={"who_pays_"+type.toLowerCase()+"_fee_customer"}>Buyer</label>
-					<p>The {type} fee would be paid by the customer alone. The {type} fee would be added to the invoice sent to the customer</p>
+					/>
+					&nbsp;&nbsp;
+					<label htmlFor={"who_pays_" + type.toLowerCase() + "_fee_customer"}>
+						Buyer
+					</label>
+					<p>
+						The {type} fee would be paid by the customer alone. The {type} fee
+						would be added to the invoice sent to the customer
+					</p>
 				</div>
 				<div className="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">
 					<input
-						id={"who_pays_"+type.toLowerCase()+"_fee_both"}
+						id={"who_pays_" + type.toLowerCase() + "_fee_both"}
 						type="radio"
-						name={"who_pays_"+type.toLowerCase()+"_fee"}
+						name={"who_pays_" + type.toLowerCase() + "_fee"}
 						value="both"
 						required
-					/>&nbsp;&nbsp;
-					<label htmlFor={"who_pays_"+type.toLowerCase()+"_fee_both"}>Both (50 / 50)</label>
-					<p>The {type} fee would be split between the marchant and buyer. The buyer pays half and the marchant pays the other half</p>
+					/>
+					&nbsp;&nbsp;
+					<label htmlFor={"who_pays_" + type.toLowerCase() + "_fee_both"}>
+						Both (50 / 50)
+					</label>
+					<p>
+						The {type} fee would be split between the marchant and buyer. The
+						buyer pays half and the marchant pays the other half
+					</p>
 				</div>
 				<div className="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">
 					<input
-						id={"who_pays_"+type.toLowerCase()+"_fee_marchant"}
+						id={"who_pays_" + type.toLowerCase() + "_fee_marchant"}
 						type="radio"
-						name={"who_pays_"+type.toLowerCase()+"_fee"}
-						value="marchant"
+						name={"who_pays_" + type.toLowerCase() + "_fee"}
+						value="seller"
 						required
-					/>&nbsp;&nbsp;
-					<label htmlFor={"who_pays_"+type.toLowerCase()+"_fee_marchant"}>Marchant</label>
-					<p>As the marchant the {type} fee would be deducted from the purchase amount.</p>
+					/>
+					&nbsp;&nbsp;
+					<label htmlFor={"who_pays_" + type.toLowerCase() + "_fee_marchant"}>
+						Marchant
+					</label>
+					<p>
+						As the marchant the {type} fee would be deducted from the purchase
+						amount.
+					</p>
 				</div>
 			</div>
 			<div className="clearfix" />
@@ -57,7 +75,7 @@ const WhoPaysFee = ({ type, submit, back }: Props) => {
 					onClick={back}
 				/>
 				<input
-					name={"invoice-type-"+type.toLowerCase()}
+					name={"invoice-type-" + type.toLowerCase()}
 					type="submit"
 					value="NEXT"
 					id="send"

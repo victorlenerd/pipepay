@@ -6,6 +6,6 @@ const PaymentSchema = new mongoose.Schema({
     amount: Number,
     invoiceId: String,
     reference: String
-});
+}, { timestamps: { createdAt: 'created_at' } });
 
 export default mongoose.model('Payment', PaymentSchema);

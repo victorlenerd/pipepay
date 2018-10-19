@@ -2,6 +2,9 @@ import InvoiceModel from './invoice.model';
 import recode from '../../modules/recode';
 import generateController from '../../modules/generateController';
 import { CreateInvoice } from '../../modules/invoice';
+import { getTime, format, subHours } from 'date-fns';
+
+const QUERY_PARAMS = 'type deliveryAmount customerName customerPhone customerEmail created_at purchaseAmount totalPrice whoPaysDeliveryFee whoPaysPipepayFee milestones pipePayFee bankCharges status';
 
 export default generateController(InvoiceModel, {
     createOne: async (req, res) => {
@@ -15,14 +18,16 @@ export default generateController(InvoiceModel, {
 
         body.verifyCode = process.env.NODE_ENV === 'testing' ? 'AXYZ0000' : recode();
 
-        if (body.type === 'good') {            
+        if (body.type === 'good') {
+            body.purchaseAmount = Number(body.purchaseAmount);
+            body.deliveryAmount = Number(body.deliveryAmount);
+
             body.bankCharges = 100;
             body.pipePayFee = Math.min(((body.purchaseAmount * 5) / 100),  5000) + body.bankCharges;
             body.totalPrice = body.purchaseAmount + body.deliveryAmount + body.pipePayFee;
         } else {
             body.bankCharges = ((body.milestones.length * 50));
-            body.purchaseAmount = body.milestones.reduce((pv, { amount }) => { return amount + pv }, 0);
-            body.purchaseAmount
+            body.purchaseAmount = body.milestones.reduce((pv, { amount }) => { return Number(amount) + pv }, 0);
             body.pipePayFee = Math.min(((body.purchaseAmount * 5) / 100),  5000) + body.bankCharges;
             body.deliveryAmount = 0;
             body.totalPrice =  body.purchaseAmount + body.pipePayFee ;
@@ -49,7 +54,6 @@ export default generateController(InvoiceModel, {
 
         if (body.type === 'good') {
             line_items = [{ 'name': 'Purchase Price', 'amount': customerTotalAmount * 100 }];
-
             if (customPipepayFee > 0) line_items.push({ 'name': 'PipePay Fee', 'amount': customPipepayFee * 100 });
             if (customerDeliveryFee > 0) line_items.push({ 'name': 'Delivery Fee', 'amount': customerDeliveryFee * 100 });
         } else  {
@@ -60,6 +64,7 @@ export default generateController(InvoiceModel, {
         try {
             const { data: { request_code } } = await CreateInvoice({ email: body.customerEmail, name: body.customerName, phone: body.customerPhone }, customerTotalAmount * 100, body.description, line_items);
             body.invoice_code = request_code;
+            body.status = "sent";
 
             InvoiceModel.create(body, async (err, doc) => {
                 if (err) {
@@ -79,13 +84,22 @@ export default generateController(InvoiceModel, {
     getAll: async (req, res) => {
         if (!req.user) return res.status(403).send({ success: false, error: 'Invalid auth token' });
         const userId = req.user.sub;
+        const from = (req.query && req.query.from) ? req.query.from : subHours(new Date(), 24);
+        const to = (req.query && req.query.to) ? req.query.to : new Date();
 
         try {
-            const invoices = await InvoiceModel.find({ userId });
+            const invoices = await InvoiceModel.find({ userId, created_at: { $gte: from, $lte: to } }, QUERY_PARAMS, { sort: { created_at: -1 } });
             return res.status(200).send({ data: { invoices }, success: true });
         } catch(err) {
             console.error('err', err);
             return res.status(400).send({ err, success: false });
         }
+    },
+    getOne: (req, res) => {
+        var id = req.docId;
+        InvoiceModel.findOne({ _id: id }, QUERY_PARAMS, function (err, doc) {
+            if (err) res.status(401).send({ success: false, error: { ...err } });;
+            res.status(200).send({ success: true, data: doc });
+        });
     }
 });

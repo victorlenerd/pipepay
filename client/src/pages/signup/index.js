@@ -9,7 +9,7 @@ class SignUp extends React.PureComponent {
 	constructor() {
 		super();
 		this.state = {
-			error: null
+			error: null,
 		};
 
 		this.submit = this.submit.bind(this);
@@ -26,12 +26,12 @@ class SignUp extends React.PureComponent {
 
 			let dataName = {
 				Name: "name",
-				Value: `${firstname} ${lastname}`
+				Value: `${firstname} ${lastname}`,
 			};
 
 			let dataEmail = {
 				Name: "email",
-				Value: email
+				Value: email,
 			};
 
 			let attributes = [dataName, dataEmail];
@@ -41,7 +41,7 @@ class SignUp extends React.PureComponent {
 				this.props.history.push("/verifyemail", { username, password });
 			} catch ({ message }) {
 				this.setState({
-					error: message
+					error: message,
 				});
 			}
 			NProgress.done();
@@ -53,14 +53,14 @@ class SignUp extends React.PureComponent {
 	render() {
 		return (
 			<React.Fragment>
-				<Header />
 				<div id="container">
 					<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 left-from-content">
 						<div className="container-main">
 							<div className="header">
 								<h1>Create An Account.</h1>
 							</div>
-							<br /><br />
+							<br />
+							<br />
 							<div className="form">
 								<form
 									ref={e => (this.formEl = e)}
@@ -78,7 +78,8 @@ class SignUp extends React.PureComponent {
 										className="text-input"
 										required
 									/>
-									<br /><br />
+									<br />
+									<br />
 									<label htmlFor="lastname">Last Name</label>
 									<input
 										type="text"
@@ -87,7 +88,8 @@ class SignUp extends React.PureComponent {
 										className="text-input"
 										required
 									/>
-									<br /><br />
+									<br />
+									<br />
 									<label htmlFor="email">Email</label>
 									<input
 										type="email"
@@ -96,7 +98,8 @@ class SignUp extends React.PureComponent {
 										className="text-input"
 										required
 									/>
-									<br /><br />
+									<br />
+									<br />
 									<label htmlFor="password">Password</label>
 									<input
 										type="password"
@@ -105,14 +108,16 @@ class SignUp extends React.PureComponent {
 										className="text-input"
 										required
 									/>
-									<br /><br />
+									<br />
+									<br />
 									<input
 										type="submit"
 										name="sign up"
 										value="SIGN UP"
 										className="text-submit"
 									/>
-									<br /><br />
+									<br />
+									<br />
 								</form>
 							</div>
 							<div className="word text-center">
@@ -125,8 +130,11 @@ class SignUp extends React.PureComponent {
 							</div>
 						</div>
 					</div>
-					<div className="col-lg-6 col-md-6 col-sm-12 col-xs-1 cafe-bg" id="noPad">
-						<div className="overlay"></div>
+					<div
+						className="col-lg-6 col-md-6 col-sm-12 col-xs-1 cafe-bg"
+						id="noPad"
+					>
+						<div className="overlay" />
 					</div>
 				</div>
 			</React.Fragment>
@@ -135,7 +143,7 @@ class SignUp extends React.PureComponent {
 }
 
 SignUp.propTypes = {
-	history: PropTypes.object
+	history: PropTypes.object,
 };
 
 export default SignUp;
