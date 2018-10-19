@@ -62,7 +62,7 @@
     "cypress:open": "./node_modules/.bin/sudo cypress open",
     "test": "node scripts/test.js --env=jsdom",
     "pretty": "prettier --write --config .prettierrc \"src/*/*.js\"",
-    "lint": "eslint --fix",
+    "lint": "eslint",
     "precommit": "lint-staged",
     "flow": "flow focus-check",
     "flow-stop": "flow stop"
