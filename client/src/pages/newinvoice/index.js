@@ -298,11 +298,11 @@ class NewInvoice extends React.Component<Props, State> {
 										type === "service"
 											? { milestones }
 											: {
-													purchase_amount,
-													delivery_fee,
-													whoPaysDeliveryFee,
-													whoPaysPipepayFee,
-											  }
+												purchase_amount,
+												delivery_fee,
+												whoPaysDeliveryFee,
+												whoPaysPipepayFee
+											}
 									}
 								/>
 							) : (

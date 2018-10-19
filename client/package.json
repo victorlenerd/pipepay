@@ -61,10 +61,10 @@
     "build": "node scripts/build.js",
     "cypress:open": "./node_modules/.bin/sudo cypress open",
     "test": "node scripts/test.js --env=jsdom",
-    "pretty": "prettier --write --config .prettierrc \"src/*/*.js\"",
+    "pretty": "prettier --config .prettierrc \"src/*/*.js\"",
     "lint": "eslint",
     "precommit": "lint-staged",
-    "flow": "flow focus-check",
+    "flow": "flow",
     "flow-stop": "flow stop"
   },
   "lint-staged": {
