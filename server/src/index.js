@@ -1,10 +1,11 @@
 import http from 'http';
 import app from './server';
+import config from './config';
 
 const server = http.createServer(app);
-let currentApp = app
+let currentApp = app;
 
-const port = 4545 || process.env.PORT;
+const port = config.port;
 
 console.log('port', port);
 

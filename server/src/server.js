@@ -16,7 +16,7 @@ app.use(function(req, res, next) {
 });
 
 connect().catch((err) => {
-    console.error('DB error', qerr);
+    console.error('DB error', err);
 });
 
 app.use('/api', MainRouter);

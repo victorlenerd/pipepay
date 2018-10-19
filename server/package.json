@@ -3,8 +3,8 @@
   "version": "1.0.0",
   "description": "Server for pipepay product.",
   "scripts": {
-    "debug": "NODE_ENV=development node --inspect ./dist/server.js",
-    "dev": "NODE_ENV=development node --inspect node_modules/webpack/bin/webpack.js --progress --colors --config config.dev.js",
+    "stage": "NODE_ENV=staging webpack --progress --colors --config config.dev.js",
+    "dev": "NODE_ENV=development webpack --progress --colors --config config.dev.js",
     "start": "NODE_ENV=production forever ./build/server.js",
     "build": "NODE_ENV=production webpack --progress --colors config.prod.js",
     "test": "NODE_ENV=testing rm -rf ./tmp/mocha-webpack && nyc --reporter=text mocha-webpack --webpack-config config.test.js  \"src/**/*.spec.js\" --timeout 10000 --require source-map-support/register"

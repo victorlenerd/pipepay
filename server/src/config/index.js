@@ -4,7 +4,7 @@ const env = process.env.NODE_ENV
 console.log('env', env);
 
 const baseConfig = {
-    port: 3000,
+    port: 4545,
     db: {
         url: ''
     }
@@ -16,6 +16,10 @@ switch (env) {
     case 'development':
     case 'dev':
         envConfig = require('./dev').config
+        break;
+    case 'staging':
+    case 'stge':
+        envConfig = require('./stage').config
         break;
     case 'prod':
     case 'production':
