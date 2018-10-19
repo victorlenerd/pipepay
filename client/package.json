@@ -70,7 +70,6 @@
   "lint-staged": {
     "*.js": [
       "yarn lint",
-      "yarn flow",
       "yarn pretty",
       "git add"
     ]
