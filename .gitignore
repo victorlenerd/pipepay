@@ -40,5 +40,6 @@ server/.env.development.local
 server/.env.test.local
 server/.env.production.local
 server/dist/
+server/src/public/dist/
 server/.nyc_output/
 server/data/
