@@ -1,8 +1,8 @@
-import mongoose from 'mongoose'
-import appConfig from './config'
+import mongoose from "mongoose";
+import appConfig from "./config";
 
-mongoose.Promise = global.Promise
+mongoose.Promise = global.Promise;
 
 export const connect = (config = appConfig) => {
-    return mongoose.connect(config.db.url, { useNewUrlParser: true });
-}
+	return mongoose.connect(config.db.url, { useNewUrlParser: true });
+};

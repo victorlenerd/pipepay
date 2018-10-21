@@ -1,22 +1,22 @@
-import http from 'http';
-import app from './server';
-import config from './config';
+import http from "http";
+import app from "./server";
+import config from "./config";
 
 const server = http.createServer(app);
 let currentApp = app;
 
 const port = config.port;
 
-console.log('port', port);
+console.log("port", port);
 
 server.listen(port, () => {
-    console.log(`Server listening on port ${port}`)
+	console.log(`Server listening on port ${port}`);
 });
 
 if (module.hot) {
-	module.hot.accept(['./server'], () => {
-		server.removeListener('request', currentApp)
-		server.on('request', app)
-		currentApp = app
-	})
+	module.hot.accept(["./server"], () => {
+		server.removeListener("request", currentApp);
+		server.on("request", app);
+		currentApp = app;
+	});
 }

@@ -301,7 +301,11 @@ class NewInvoice extends React.Component<Props, State> {
 												purchase_amount,
 												delivery_fee,
 												whoPaysDeliveryFee,
+<<<<<<< HEAD
 												whoPaysPipepayFee
+=======
+												whoPaysPipepayFee,
+>>>>>>> master
 											}
 									}
 								/>
