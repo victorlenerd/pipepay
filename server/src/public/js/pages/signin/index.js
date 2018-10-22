@@ -4,16 +4,16 @@ import { signin, userPool } from "../../utils/auth";
 import { withRouter, Link } from "react-router-dom";
 import NProgress from "nprogress";
 
-// type Props = {
-// 	history: any,
-// 	setCurrentUser?: any,
-// };
+type Props = {
+	history: any,
+	setCurrentUser?: any,
+};
 
-// type State = {
-// 	error: string,
-// };
+type State = {
+	error: string,
+};
 
-class SignIn extends React.PureComponent {
+class SignIn extends React.PureComponent<Props, State> {
 	state = {
 		error: "",
 	};

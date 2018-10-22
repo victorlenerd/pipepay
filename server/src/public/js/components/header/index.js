@@ -3,19 +3,19 @@ import { Link, withRouter } from "react-router-dom";
 import { Navbar, NavItem, Nav } from "react-bootstrap";
 import { signOut } from "../../utils/auth";
 
-// type Props = {
-// 	history: Object,
-// 	location: Object,
-// 	user: object,
-// 	setCurrentUser: () => void,
-// 	signedIn: boolean,
-// };
+type Props = {
+	history: Object,
+	location: Object,
+	user: { name: string, "cognito:username": string },
+	setCurrentUser: () => void,
+	signedIn: boolean,
+};
 
-// type State = {
-// 	pathname: String,
-// };
+type State = {
+	pathname: String,
+};
 
-class Header extends React.PureComponent {
+class Header extends React.PureComponent<Props, State> {
 	state = {
 		pathname: "",
 	};

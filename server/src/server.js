@@ -4,25 +4,12 @@ import setupMiddleware from "./middleware";
 import MainRouter from "./api/resources";
 import { connect } from "./db";
 import { getJWT } from "./api/modules/auth";
-import { StaticRouter, Switch, Route } from "react-router-dom";
 import exphbs from "express-handlebars";
-
-
-import React from "react";
-import ReactDOMServer from "react-dom/server";
-
-import Home from "./public/js/pages/home";
 
 const app = express();
 
 getJWT();
 setupMiddleware(app);
-
-const App = () => (
-	<Switch>
-		<Route path="/" component={Home} />
-	</Switch>
-);
 
 app.set("views", path.join(__dirname, "views"));
 
@@ -41,16 +28,8 @@ connect().catch((err) => {
 	console.error("DB error", err);
 });
 
-app.get("/*", (req, res) => {
-	const context = {};
-    
-	const appString = ReactDOMServer.renderToString(
-		<StaticRouter location={req.url} context={context}>
-			<App />
-		</StaticRouter>
-	);
-
-	res.render("index", { appString });
+app.get("(/|/invoice/:invoiceId|invoices|sigin|signup|forgotpassword|verifyaccn|newinvoice|settings|confirm|reason)", (req, res) => {
+	res.render("index");
 });
 
 app.use("/api", MainRouter);

@@ -1,5 +1,4 @@
 import React from "react";
-// import "../../styles/home.css";
 import { Link } from "react-router-dom";
 import Header from "../../components/header";
 
@@ -8,7 +7,6 @@ class Home extends React.PureComponent {
 		return (
 			<React.Fragment>
 				<section className="intro">
-					<Header />
 					<div className="image-holder">
 						<div className="intro-content-container">
 							<div className="intro-container">
