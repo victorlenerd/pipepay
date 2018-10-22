@@ -8,7 +8,7 @@ class VerifyAccount extends React.PureComponent {
 	constructor() {
 		super();
 		this.state = {
-			error: null,
+			error: null
 		};
 
 		this.submit = this.submit.bind(this);
@@ -33,13 +33,13 @@ class VerifyAccount extends React.PureComponent {
 						return;
 					} else {
 						this.setState({
-							error: err.message,
+							error: err.message
 						});
 					}
 				});
 			} catch ({ message }) {
 				this.setState({
-					error: message,
+					error: message
 				});
 			}
 			NProgress.done();
@@ -57,8 +57,14 @@ class VerifyAccount extends React.PureComponent {
 						<p>Please enter the verification code sent to your mail.</p>
 					</div>
 					<div className="form">
-						<form ref={e => (this.formEl = e)} name="reg-form" onSubmit={this.submit}>
-							{this.state.error !== null && <div className="form-error">{this.state.error}</div>}
+						<form
+							ref={e => (this.formEl = e)}
+							name="reg-form"
+							onSubmit={this.submit}
+						>
+							{this.state.error !== null && (
+								<div className="form-error">{this.state.error}</div>
+							)}
 							<label htmlFor="firstname">Verification Code</label>
 							<input
 								type="text"
@@ -67,7 +73,12 @@ class VerifyAccount extends React.PureComponent {
 								className="text-input"
 								required
 							/>
-							<input type="submit" name="sign up" value="SUBMIT" className="text-submit" />
+							<input
+								type="submit"
+								name="sign up"
+								value="SUBMIT"
+								className="text-submit"
+							/>
 						</form>
 					</div>
 				</div>
@@ -78,7 +89,7 @@ class VerifyAccount extends React.PureComponent {
 
 VerifyAccount.propTypes = {
 	location: PropTypes.object,
-	history: PropTypes.object,
+	history: PropTypes.object
 };
 
 export default VerifyAccount;

@@ -20,7 +20,10 @@ class Forward extends Component {
 						</div>
 					</div>
 					<div id="add">
-						<img src="https://www.clker.com/cliparts/S/W/G/Q/I/k/white-cross-md.png" alt="add" />
+						<img
+							src="https://www.clker.com/cliparts/S/W/G/Q/I/k/white-cross-md.png"
+							alt="add"
+						/>
 					</div>
 				</div>
 			</div>

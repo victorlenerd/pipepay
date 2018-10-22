@@ -14,14 +14,24 @@ class DissatisfactionReason extends React.Component {
 							<div className="header" id="header2">
 								<h2>Account Details.</h2>
 							</div>
-							<input type="text" name="bank name" placeholder="Bank Name" className="text-input" />
+							<input
+								type="text"
+								name="bank name"
+								placeholder="Bank Name"
+								className="text-input"
+							/>
 							<input
 								type="text"
 								name="account number"
 								placeholder="Account Number"
 								className="text-input"
 							/>
-							<input type="submit" name="send" value="DONE" className="text-submit" />
+							<input
+								type="submit"
+								name="send"
+								value="DONE"
+								className="text-submit"
+							/>
 						</form>
 					</div>
 				</div>

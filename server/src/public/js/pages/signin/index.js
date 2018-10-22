@@ -6,16 +6,16 @@ import NProgress from "nprogress";
 
 type Props = {
 	history: any,
-	setCurrentUser?: any,
+	setCurrentUser?: any
 };
 
 type State = {
-	error: string,
+	error: string
 };
 
 class SignIn extends React.PureComponent<Props, State> {
 	state = {
-		error: "",
+		error: ""
 	};
 
 	submit = async e => {

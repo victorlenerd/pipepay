@@ -2,8 +2,8 @@
 import React from "react";
 
 type Props = {
-    submit: (e: Object) => void,
-}
+	submit: (e: Object) => void
+};
 
 const ChooseType = ({ submit }: Props) => (
 	<form name="invoice-type" onSubmit={submit}>
@@ -17,9 +17,12 @@ const ChooseType = ({ submit }: Props) => (
 					value="good"
 					required
 				/>
-                &nbsp;&nbsp;
+				&nbsp;&nbsp;
 				<label htmlFor="invoice_type_good">Good / Marchandise</label>
-				<p>Shipping a something physical? Like a clothes, shoes or books, then select this option</p>
+				<p>
+					Shipping a something physical? Like a clothes, shoes or books, then
+					select this option
+				</p>
 			</div>
 			<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12 text-center">
 				<input
@@ -29,9 +32,12 @@ const ChooseType = ({ submit }: Props) => (
 					value="service"
 					required
 				/>
-                &nbsp;&nbsp;
+				&nbsp;&nbsp;
 				<label htmlFor="invoice_type_service">Service / Milestone</label>
-				<p>Are you providing a service for someone? Do you have to split the payments into small parts, then select this option</p>
+				<p>
+					Are you providing a service for someone? Do you have to split the
+					payments into small parts, then select this option
+				</p>
 			</div>
 		</div>
 		<div className="clearfix" />

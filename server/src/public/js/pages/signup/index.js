@@ -10,7 +10,7 @@ class SignUp extends React.PureComponent {
 	constructor() {
 		super();
 		this.state = {
-			error: null,
+			error: null
 		};
 
 		this.submit = this.submit.bind(this);
@@ -27,12 +27,12 @@ class SignUp extends React.PureComponent {
 
 			let dataName = {
 				Name: "name",
-				Value: `${firstname} ${lastname}`,
+				Value: `${firstname} ${lastname}`
 			};
 
 			let dataEmail = {
 				Name: "email",
-				Value: email,
+				Value: email
 			};
 
 			let attributes = [dataName, dataEmail];
@@ -42,7 +42,7 @@ class SignUp extends React.PureComponent {
 				this.props.history.push("/verifyemail", { username, password });
 			} catch ({ message }) {
 				this.setState({
-					error: message,
+					error: message
 				});
 			}
 			NProgress.done();
@@ -144,7 +144,7 @@ class SignUp extends React.PureComponent {
 }
 
 SignUp.propTypes = {
-	history: PropTypes.object,
+	history: PropTypes.object
 };
 
 export default SignUp;

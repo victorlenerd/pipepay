@@ -8,16 +8,16 @@ type Props = {
 	location: Object,
 	user: { name: string, "cognito:username": string },
 	setCurrentUser: () => void,
-	signedIn: boolean,
+	signedIn: boolean
 };
 
 type State = {
-	pathname: String,
+	pathname: String
 };
 
 class Header extends React.PureComponent<Props, State> {
 	state = {
-		pathname: "",
+		pathname: ""
 	};
 
 	componentWillMount() {

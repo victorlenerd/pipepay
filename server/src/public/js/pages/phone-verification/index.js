@@ -9,7 +9,7 @@ class PhoneVerification extends Component {
 			boxTwo: "",
 			boxThree: "",
 			boxFour: "",
-			count: 0,
+			count: 0
 		};
 	}
 
@@ -18,7 +18,7 @@ class PhoneVerification extends Component {
 			boxOne: document.getElementsByClassName("pin")[0],
 			boxTwo: document.getElementsByClassName("pin")[1],
 			boxThree: document.getElementsByClassName("pin")[2],
-			boxFour: document.getElementsByClassName("pin")[3],
+			boxFour: document.getElementsByClassName("pin")[3]
 		});
 
 		window.onload = () => {
@@ -105,7 +105,12 @@ class PhoneVerification extends Component {
 								className="pin"
 								onKeyUp={this.handleBox4}
 							/>
-							<input type="submit" name="verify" className="text-submit" value="VERIFY" />
+							<input
+								type="submit"
+								name="verify"
+								className="text-submit"
+								value="VERIFY"
+							/>
 						</form>
 					</div>
 					<div id="resend">

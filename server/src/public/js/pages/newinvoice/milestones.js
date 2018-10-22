@@ -2,19 +2,26 @@
 import React from "react";
 
 type Props = {
-    milestones: Array<{
-        amount: number, 
-        description: string,
-        dueDate: string  
-    }>,
-    submit: (e: object) => void,
-    addMilestone: () => void,
-    updateMilestone: (index: number) => void,
-    removeMilestone: (index: number) => void,
-    back: () => void
-}
+	milestones: Array<{
+		amount: number,
+		description: string,
+		dueDate: string
+	}>,
+	submit: (e: {}) => void,
+	addMilestone: () => void,
+	updateMilestone: (index: number) => void,
+	removeMilestone: (index: number) => void,
+	back: () => void
+};
 
-const Milestones = ({ milestones, submit, back, removeMilestone, addMilestone, updateMilestone }: Props) => (
+const Milestones = ({
+	milestones,
+	submit,
+	back,
+	removeMilestone,
+	addMilestone,
+	updateMilestone
+}: Props) => (
 	<form name="milstone-form" onSubmit={submit}>
 		<h4 className="section-title">Milestones</h4>
 		<br />
@@ -75,18 +82,15 @@ const Milestones = ({ milestones, submit, back, removeMilestone, addMilestone, u
 								className="milestone-remove-btn"
 								onClick={() => removeMilestone(i)}
 							>
-                            REMOVE
+								REMOVE
 							</button>
 						</div>
 					</li>
 				);
 			})}
 		</ol>
-		<button
-			className="add-milestone-btn"
-			onClick={addMilestone}
-		>
-        Add Milestone
+		<button className="add-milestone-btn" onClick={addMilestone}>
+			Add Milestone
 		</button>
 		<div className="clearfix" />
 		<div className="form-buttons">

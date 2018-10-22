@@ -11,7 +11,7 @@ function renderWithRouter(ui, { route = "/", ...renderOptions } = {}) {
 	return {
 		...utils,
 		finishLoading,
-		history,
+		history
 	};
 }
 

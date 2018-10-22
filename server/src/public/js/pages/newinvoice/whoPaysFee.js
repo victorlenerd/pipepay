@@ -4,7 +4,7 @@ import React from "react";
 type Props = {
 	type: string,
 	submit: (e: Object) => void,
-	back: () => void,
+	back: () => void
 };
 
 const WhoPaysFee = ({ type, submit, back }: Props) => {

@@ -7,16 +7,20 @@ import { confirmPassword } from "../../utils/auth";
 import BannerFrom from "../../containers/banner-form.container";
 
 type Props = {
-	location: object,
-	history: object
+	location: { state: {} },
+	history: { push: () => void }
 };
 
-class ResetPassword extends React.PureComponent<Props> {
+type State = {
+	error: ?null
+}
+
+class ResetPassword extends React.PureComponent<Props, State> {
 	constructor() {
 		super();
 		this.submit = this.submit.bind(this);
 		this.state = {
-			error: null,
+			error: null
 		};
 	}
 
@@ -44,10 +48,22 @@ class ResetPassword extends React.PureComponent<Props> {
 		return (
 			<BannerFrom title="Reset Password">
 				<div className="form">
-					<form ref={e => (this.formEl = e)} name="reg-form" onSubmit={this.submit}>
-						{this.state.error !== null && <div className="form-error">{this.state.error}</div>}
+					<form
+						ref={e => (this.formEl = e)}
+						name="reg-form"
+						onSubmit={this.submit}
+					>
+						{this.state.error !== null && (
+							<div className="form-error">{this.state.error}</div>
+						)}
 						<label htmlFor="code">Code</label>
-						<input type="text" name="code" placeholder="Code" className="text-input" required />
+						<input
+							type="text"
+							name="code"
+							placeholder="Code"
+							className="text-input"
+							required
+						/>
 						<label htmlFor="password">Password</label>
 						<input
 							type="password"
@@ -56,8 +72,14 @@ class ResetPassword extends React.PureComponent<Props> {
 							className="text-input"
 							required
 						/>
-						<br /><br />
-						<input type="submit" name="done" value="DONE" className="text-submit" />
+						<br />
+						<br />
+						<input
+							type="submit"
+							name="done"
+							value="DONE"
+							className="text-submit"
+						/>
 					</form>
 				</div>
 			</BannerFrom>

@@ -6,16 +6,18 @@ import { subHours, distanceInWords } from "date-fns";
 import NProgress from "nprogress";
 
 type Props = {
-	history: object,
-	user: object,
+	history: {
+		push: () => void
+	},
+	user: {}
 };
 
 type Invoice = {
-	customerName: string,
+	customerName: string
 };
 
 type State = {
-	invoices: Array<Invoice>,
+	invoices: Array<Invoice>
 };
 
 class Dashboard extends React.PureComponent<Props, State> {
@@ -24,7 +26,7 @@ class Dashboard extends React.PureComponent<Props, State> {
 		to: new Date(),
 		invoices: [],
 		accepted: 0,
-		pending: 0,
+		pending: 0
 	};
 
 	componentWillMount() {
@@ -40,8 +42,8 @@ class Dashboard extends React.PureComponent<Props, State> {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${user.token}`,
-			},
+				Authorization: `Bearer ${user.token}`
+			}
 		})
 			.then(res => res.json())
 			.then(({ success, data }) => {
@@ -55,7 +57,7 @@ class Dashboard extends React.PureComponent<Props, State> {
 						}, 0),
 						pending: invoices.reduce((pv, cv) => {
 							return cv.status !== "paid" ? pv + cv.totalPrice : pv;
-						}, 0),
+						}, 0)
 					});
 				} else {
 					this.props.history.push("/invoices");

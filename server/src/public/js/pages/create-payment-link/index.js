@@ -7,9 +7,9 @@ class CreatePaymentLink extends Component {
 				<div className="container">
 					<div className="header">
 						<h2>
-              Create Payment
+							Create Payment
 							<br />
-              Link.
+							Link.
 						</h2>
 					</div>
 					<div className="form">
@@ -22,9 +22,25 @@ class CreatePaymentLink extends Component {
 								className="text-input"
 							/>
 							<textarea placeholder="Description" />
-							<input type="text" name="" placeholder="Purchase Price" className="text-input" />
-							<input type="text" name="" placeholder="Delivery Price" className="text-input" />
-							<input type="submit" name="" value="SEND" id="send" className="text-submit" />
+							<input
+								type="text"
+								name=""
+								placeholder="Purchase Price"
+								className="text-input"
+							/>
+							<input
+								type="text"
+								name=""
+								placeholder="Delivery Price"
+								className="text-input"
+							/>
+							<input
+								type="submit"
+								name=""
+								value="SEND"
+								id="send"
+								className="text-submit"
+							/>
 						</form>
 					</div>
 				</div>

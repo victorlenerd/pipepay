@@ -2,7 +2,7 @@ import {
 	AuthenticationDetails,
 	CognitoUserPool,
 	CognitoUserAttribute,
-	CognitoUser,
+	CognitoUser
 } from "amazon-cognito-identity-js";
 
 export let userPool;
@@ -11,7 +11,7 @@ export let cognitoUser;
 export const init = () => {
 	userPool = new CognitoUserPool({
 		UserPoolId: "us-east-2_ZAwetvcgl",
-		ClientId: "1kim3ke0fq358jrota00sam46r",
+		ClientId: "1kim3ke0fq358jrota00sam46r"
 	});
 
 	return userPool;
@@ -36,7 +36,7 @@ export const confirmRegistration = (Username, code) =>
 	new Promise((resolve, reject) => {
 		let userData = {
 			Username,
-			Pool: userPool,
+			Pool: userPool
 		};
 
 		cognitoUser = new CognitoUser(userData);
@@ -69,12 +69,12 @@ export const signin = (Username, Password) =>
 	new Promise((resolve, reject) => {
 		let authenticationData = {
 			Username,
-			Password,
+			Password
 		};
 
 		let userData = {
 			Username,
-			Pool: userPool,
+			Pool: userPool
 		};
 
 		cognitoUser = new CognitoUser(userData);
@@ -82,7 +82,7 @@ export const signin = (Username, Password) =>
 
 		cognitoUser.authenticateUser(authenticationDetails, {
 			onSuccess: resolve,
-			onFailure: reject,
+			onFailure: reject
 		});
 	});
 
@@ -90,14 +90,14 @@ export const forgotPassword = Username =>
 	new Promise((resolve, reject) => {
 		let userData = {
 			Username,
-			Pool: userPool,
+			Pool: userPool
 		};
 
 		cognitoUser = new CognitoUser(userData);
 
 		cognitoUser.forgotPassword({
 			onSuccess: resolve,
-			onFailure: reject,
+			onFailure: reject
 		});
 	});
 
@@ -105,14 +105,14 @@ export const confirmPassword = (Username, verificationCode, newPassword) =>
 	new Promise((resolve, reject) => {
 		let userData = {
 			Username,
-			Pool: userPool,
+			Pool: userPool
 		};
 
 		cognitoUser = new CognitoUser(userData);
 
 		cognitoUser.confirmPassword(verificationCode, newPassword, {
 			onSuccess: resolve,
-			onFailure: reject,
+			onFailure: reject
 		});
 	});
 
@@ -120,7 +120,7 @@ export const signOut = Username =>
 	new Promise(() => {
 		let userData = {
 			Username,
-			Pool: userPool,
+			Pool: userPool
 		};
 
 		cognitoUser = new CognitoUser(userData);

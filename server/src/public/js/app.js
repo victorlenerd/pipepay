@@ -29,7 +29,7 @@ import { init } from "./utils/auth";
 type State = {
 	signedIn: boolean,
 	user?: null,
-	setCurrentUser?: null,
+	setCurrentUser?: null
 };
 
 type Props = {};
@@ -38,7 +38,7 @@ class App extends Component<Props, State> {
 	state = {
 		signedIn: false,
 		user: null,
-		setCurrentUser: user => this.setState({ user, signedIn: user !== null }),
+		setCurrentUser: user => this.setState({ user, signedIn: user !== null })
 	};
 
 	componentWillMount() {
@@ -140,11 +140,11 @@ class App extends Component<Props, State> {
 						/>
 						<Route
 							path="/reason"
-							render={()=> WithHeader(DissatisfactionReason)}
+							render={() => WithHeader(DissatisfactionReason)}
 						/>
 						<Route
 							path="/confirm/:invoiceId"
-							render={()=> WithHeader(ConfirmSatisfaction)}
+							render={() => WithHeader(ConfirmSatisfaction)}
 						/>
 					</Switch>
 				</AppContext.Provider>

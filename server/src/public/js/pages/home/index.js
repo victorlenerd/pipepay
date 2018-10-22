@@ -14,13 +14,20 @@ class Home extends React.PureComponent {
 									<div className="col-lg-6 col-md-6 col-sm-12 col-12 noPad">
 										<div className="description">
 											<div className="warning">
-												<h2>Dont ever buy or sell anything online without Pipepay.</h2>
+												<h2>
+													Dont ever buy or sell anything online without Pipepay.
+												</h2>
 											</div>
 											<div className="about">
-												<p>Buy or sell anything online using Pipepay without risk. Really secure payment.</p>
+												<p>
+													Buy or sell anything online using Pipepay without
+													risk. Really secure payment.
+												</p>
 											</div>
 											<div className="sign-buttons">
-												<Link to="/signup" className="sign-button signIn">Get Started</Link>
+												<Link to="/signup" className="sign-button signIn">
+													Get Started
+												</Link>
 											</div>
 										</div>
 									</div>

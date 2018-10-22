@@ -7,14 +7,14 @@ import { forgotPassword } from "../../utils/auth";
 import BannerFrom from "../../containers/banner-form.container";
 
 type Props = {
-	history: object,
-}
+	history: object
+};
 
 class ForgotPassword extends React.PureComponent<Props> {
 	constructor() {
 		super();
 		this.state = {
-			error: null,
+			error: null
 		};
 
 		this.submit = this.submit.bind(this);
@@ -42,11 +42,28 @@ class ForgotPassword extends React.PureComponent<Props> {
 		return (
 			<BannerFrom title="Forgot Password">
 				<div className="form">
-					<form ref={e => (this.formEl = e)} name="reg-form" onSubmit={this.submit}>
-						{this.state.error !== null && <div className="form-error">{this.state.error}</div>}
-						<input type="email" name="email" placeholder="Email" className="text-input" />
-						<br /><br />
-						<input type="submit" name="sign-in" value="SUBMIT" className="text-submit" />
+					<form
+						ref={e => (this.formEl = e)}
+						name="reg-form"
+						onSubmit={this.submit}
+					>
+						{this.state.error !== null && (
+							<div className="form-error">{this.state.error}</div>
+						)}
+						<input
+							type="email"
+							name="email"
+							placeholder="Email"
+							className="text-input"
+						/>
+						<br />
+						<br />
+						<input
+							type="submit"
+							name="sign-in"
+							value="SUBMIT"
+							className="text-submit"
+						/>
 					</form>
 				</div>
 			</BannerFrom>

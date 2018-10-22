@@ -10,14 +10,24 @@ class ChangePassword extends Component {
 					</div>
 					<div className="form">
 						<form>
-							<input type="text" name="password" placeholder="Password" className="text-input" />
+							<input
+								type="text"
+								name="password"
+								placeholder="Password"
+								className="text-input"
+							/>
 							<input
 								type="text"
 								name="confirm password"
 								placeholder="Confirm Password"
 								className="text-input"
 							/>
-							<input type="submit" name="done" value="DONE" className="text-submit" />
+							<input
+								type="submit"
+								name="done"
+								value="DONE"
+								className="text-submit"
+							/>
 						</form>
 					</div>
 				</div>
@@ -28,14 +38,24 @@ class ChangePassword extends Component {
 					</div>
 					<div className="form">
 						<form>
-							<input type="text" name="bank name" placeholder="Bank Name" className="text-input" />
+							<input
+								type="text"
+								name="bank name"
+								placeholder="Bank Name"
+								className="text-input"
+							/>
 							<input
 								type="text"
 								name="account number"
 								placeholder="Account Number"
 								className="text-input"
 							/>
-							<input type="submit" name="send" value="DONE" className="text-submit" />
+							<input
+								type="submit"
+								name="send"
+								value="DONE"
+								className="text-submit"
+							/>
 						</form>
 					</div>
 				</div>

@@ -10,7 +10,7 @@ xdescribe("Sign Up Page", () => {
 		firstName: "Victor",
 		lastName: "Nwaokocha",
 		email: "vnwaokocha@gmail.com",
-		pass: "javascript",
+		pass: "javascript"
 	};
 
 	let inputFirstName;

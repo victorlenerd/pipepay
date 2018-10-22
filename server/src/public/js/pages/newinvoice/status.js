@@ -3,7 +3,7 @@ import React from "react";
 
 type Props = {
 	status: boolean,
-	back: () => void,
+	back: () => void
 };
 
 const Status = ({ status, back }: Props) => (

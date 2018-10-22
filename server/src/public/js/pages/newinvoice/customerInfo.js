@@ -2,10 +2,10 @@
 import React from "react";
 
 type Props = {
-    updateStage: () => void,
-    submit: () => void,
-    type: string
-}
+	updateStage: () => void,
+	submit: () => void,
+	type: string
+};
 
 const CustomerInfo = ({ type, submit, updateStage }: Props) => (
 	<form name="costomer-form" onSubmit={submit}>
@@ -49,11 +49,7 @@ const CustomerInfo = ({ type, submit, updateStage }: Props) => (
 				type="button"
 				value="BACK"
 				className="text-submit-inverse"
-				onClick={
-					type === "goods"
-						? () => updateStage(4)
-						: () => updateStage(0)
-				}
+				onClick={type === "goods" ? () => updateStage(4) : () => updateStage(0)}
 			/>
 			<input
 				type="submit"
@@ -64,5 +60,5 @@ const CustomerInfo = ({ type, submit, updateStage }: Props) => (
 		</div>
 	</form>
 );
-    
+
 export default CustomerInfo;

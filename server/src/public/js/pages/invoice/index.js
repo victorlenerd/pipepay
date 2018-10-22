@@ -8,26 +8,26 @@ import NProgress from "nprogress";
 type Props = {
 	history: object,
 	location: {
-		state: { invoice: {} },
+		state: { invoice: {} }
 	},
 	user: {
-		token: string,
+		token: string
 	},
 	match: {
 		params: {
-			invoiceId: string,
-		},
-	},
+			invoiceId: string
+		}
+	}
 };
 
 type State = {
 	name: string,
-	invoice: object,
+	invoice: object
 };
 
 class Invoice extends React.PureComponent<Props, State> {
 	state = {
-		invoice: {},
+		invoice: {}
 	};
 
 	componentWillMount() {
@@ -35,7 +35,7 @@ class Invoice extends React.PureComponent<Props, State> {
 			history,
 			location,
 			match,
-			user: { token },
+			user: { token }
 		} = this.props;
 
 		let invoice = location.state ? location.state.invoice : null;
@@ -49,8 +49,8 @@ class Invoice extends React.PureComponent<Props, State> {
 				method: "GET",
 				headers: {
 					"Content-Type": "application/json",
-					Authorization: `Bearer ${token}`,
-				},
+					Authorization: `Bearer ${token}`
+				}
 			})
 				.then(res => res.json())
 				.then(({ success, data: invoice }) => {

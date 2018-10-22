@@ -2,9 +2,9 @@
 import React from "react";
 
 type Props = {
-    submit: (e: Object) => void,
-    back: () => void
-}
+	submit: (e: Object) => void,
+	back: () => void
+};
 
 const PurchaseInfo = ({ submit, back }: Props) => (
 	<form name="purchase-form" onSubmit={submit}>

@@ -25,7 +25,12 @@ class SetPaymentAccount extends Component {
 								placeholder="Account Number"
 								className="text-input"
 							/>
-							<input type="submit" name="send" value="DONE" className="text-submit" />
+							<input
+								type="submit"
+								name="send"
+								value="DONE"
+								className="text-submit"
+							/>
 						</form>
 					</div>
 				</div>

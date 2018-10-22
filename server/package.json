@@ -4,9 +4,9 @@
   "description": "Server for pipepay product.",
   "scripts": {
     "stage": "NODE_ENV=development webpack --progress --colors --config config.dev.js",
-    "lint": "eslint",
+    "lint": "eslint --fix",
     "flow": "flow",
-    "format": "prettier --write --config .prettierrc \"src/**/*.+(js|css|jsx|json)\"",
+    "format": "prettier --write --config .prettierrc \"src/**/*.+(js|jsx|json)\"",
     "dev": "webpack --progress --colors --config config.dev.js",
     "build": "webpack --progress --colors  --config config.prod.js",
     "server:test": "NODE_ENV=testing rm -rf ./tmp/mocha-webpack && nyc --reporter=text mocha-webpack --webpack-config config.test.js  \"src/**/*.spec.js\" --timeout 10000 --require source-map-support/register"
@@ -44,6 +44,11 @@
     "react-router-dom": "^4.3.1",
     "superagent": "^3.8.3",
     "whatwg-fetch": "^3.0.0"
+  },
+  "husky": {
+    "hooks": {  
+      "pre-commit": "lint-staged"
+    }
   },
   "lint-staged": {
     "*.js": [

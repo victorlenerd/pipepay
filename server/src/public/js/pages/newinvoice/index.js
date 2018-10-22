@@ -31,16 +31,16 @@ type State = {
 		{
 			description: string,
 			amount: string,
-			dueDate: string,
-		},
-	],
+			dueDate: string
+		}
+	]
 };
 
 type Props = {
-	user: object,
+	user: {},
 	history: {
-		push: () => void,
-	},
+		push: () => void
+	}
 };
 
 class NewInvoice extends React.Component<Props, State> {
@@ -60,19 +60,19 @@ class NewInvoice extends React.Component<Props, State> {
 			{
 				description: "",
 				amount: "",
-				dueDate: "",
+				dueDate: ""
 			},
 			{
 				description: "",
 				amount: "",
-				dueDate: "",
+				dueDate: ""
 			},
 			{
 				description: "",
 				amount: "",
-				dueDate: "",
-			},
-		],
+				dueDate: ""
+			}
+		]
 	};
 
 	submitInvoiceType = e => {
@@ -81,7 +81,7 @@ class NewInvoice extends React.Component<Props, State> {
 		if (e.target.checkValidity()) {
 			this.setState({
 				type: invoice_type,
-				stage: invoice_type === "good" ? 1 : 5,
+				stage: invoice_type === "good" ? 1 : 5
 			});
 		}
 	};
@@ -141,8 +141,8 @@ class NewInvoice extends React.Component<Props, State> {
 			milestones: this.state.milestones.concat({
 				description: "",
 				amount: "",
-				dueDate: "",
-			}),
+				dueDate: ""
+			})
 		});
 	};
 
@@ -217,13 +217,13 @@ class NewInvoice extends React.Component<Props, State> {
 
 	cancelSubmit = () => {
 		this.setState({
-			canSubmit: false,
+			canSubmit: false
 		});
 	};
 
 	submitInvoice = () => {
 		const {
-			user: { token },
+			user: { token }
 		} = this.props;
 		const {
 			type,
@@ -233,14 +233,14 @@ class NewInvoice extends React.Component<Props, State> {
 			description,
 			purchase_amount,
 			milestones,
-			customerInfo: { customerName, customerEmail, customerPhone },
+			customerInfo: { customerName, customerEmail, customerPhone }
 		} = this.state;
 
 		const data = {
 			type,
 			customerName,
 			customerEmail,
-			customerPhone,
+			customerPhone
 		};
 
 		if (type === "good") {
@@ -259,8 +259,8 @@ class NewInvoice extends React.Component<Props, State> {
 			body: JSON.stringify(data),
 			headers: {
 				"Content-Type": "application/json",
-				Authorization: `Bearer ${token}`,
-			},
+				Authorization: `Bearer ${token}`
+			}
 		})
 			.then(res => res.json())
 			.then(({ success }) => {
@@ -281,7 +281,7 @@ class NewInvoice extends React.Component<Props, State> {
 			milestones,
 			canSubmit,
 			status,
-			submitted,
+			submitted
 		} = this.state;
 
 		return (
@@ -303,7 +303,7 @@ class NewInvoice extends React.Component<Props, State> {
 												delivery_fee,
 												whoPaysDeliveryFee,
 												whoPaysPipepayFee
-											}
+											  }
 									}
 								/>
 							) : (
