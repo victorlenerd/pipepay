@@ -1,0 +1,12 @@
+version: 0.0
+os: linux
+files:
+  - source: /
+    destination: /var/www/pipepay
+hooks:
+  AfterInstall:
+    - location: scripts/after-install.sh
+      runas: root
+  ApplicationStart:
+    - location: scripts/application-start.sh
+      runas: root
