@@ -1,45 +1,21 @@
 # See https://help.github.com/ignore-files/ for more about ignoring files.
 
 # dependencies
-client/node_modules/
-server/node_modules/
+node_modules/
 
 # testing
 coverage
 
-# production
-client/build/
-server/build/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
 
-# misc
-client/.DS_Store
-client/.env.local
-client/.env.development.local
-client/.env.test.local
-client/.env.production.local
-
-
-client/.DS_Store
-client/.env.local
-client/.env.development.local
-client/.env.test.local
-client/.env.production.local
-
-
-client/npm-debug.log*
-client/yarn-debug.log*
-client/yarn-error.log*
-
-server/npm-debug.log*
-server/yarn-debug.log*
-server/yarn-error.log*
-
-server/.env
-server/.env.local
-server/.env.development.local
-server/.env.test.local
-server/.env.production.local
-server/dist/
-server/src/public/dist/
-server/.nyc_output/
-server/data/
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+dist/
+src/public/dist/
+.nyc_output/
+data/
