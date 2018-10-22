@@ -52,7 +52,7 @@ module.exports = [{
 		new webpack.HotModuleReplacementPlugin(),
 		new webpack.NoEmitOnErrorsPlugin(),
 		new webpack.DefinePlugin({
-			"process.env": { BUILD_TARGET: JSON.stringify("server"), NODE_ENV: JSON.stringify("production") }
+			"process.env": { BUILD_TARGET: JSON.stringify("server"), NODE_ENV: JSON.stringify("development") }
 		}),
 		new webpack.BannerPlugin({ banner: "require(\"source-map-support\").install();", raw: true, entryOnly: false })
 	],
@@ -67,22 +67,21 @@ module.exports = [{
 		rules: [
 			{
 				test: /\.js?$/,
-				use: [
-					{
-						loader: "babel-loader",
-						options: {
-							babelrc: false,
-							presets: ["@babel/preset-env", "@babel/preset-react", "@babel/preset-flow"],
-							plugins: ["transform-regenerator", "@babel/plugin-syntax-dynamic-import", ["@babel/plugin-transform-runtime", { useESModules: true }], "transform-class-properties"]
-						}
-					}],
+				use: [{
+					loader: "babel-loader",
+					options: {
+						babelrc: false,
+						presets: ["@babel/preset-env", "@babel/preset-react", "@babel/preset-flow"],
+						plugins: ["transform-regenerator", "@babel/plugin-syntax-dynamic-import", ["@babel/plugin-transform-runtime", { useESModules: true }], "transform-class-properties"]
+					}
+				}],
 				exclude: /node_modules/
 			}
 		]
 	},
 	plugins: [
 		new webpack.DefinePlugin({
-			"process.env": { BUILD_TARGET: JSON.stringify("server"), NODE_ENV: JSON.stringify("production") }
+			"process.env": { BUILD_TARGET: JSON.stringify("server"), NODE_ENV: JSON.stringify("development") }
 		})
 	],
 

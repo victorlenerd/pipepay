@@ -7,8 +7,6 @@ let currentApp = app;
 
 const port = config.port;
 
-console.log("port", port);
-
 server.listen(port, () => {
 	console.log(`Server listening on port ${port}`);
 });
