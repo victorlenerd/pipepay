@@ -80,8 +80,8 @@ class Header extends React.PureComponent<Props, State> {
 						{this.canShowOtherMenus() && (
 							<Nav pullLeft>
 								<NavItem
-									active={pathname === "/howitworks"}
-									onClick={() => this.props.history.push("/howitworks")}
+									active={pathname === "/pricing"}
+									onClick={() => this.props.history.push("/pricing")}
 								>
 									Pricing
 								</NavItem>

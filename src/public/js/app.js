@@ -23,6 +23,7 @@ import NewInvoice from "./pages/newinvoice";
 import Settings from "./pages/settings";
 import DissatisfactionReason from "./pages/dissatisfaction-reason";
 import ConfirmSatisfaction from "./pages/confirm-satisfaction";
+import Pricing from "./pages/pricing";
 
 import { init } from "./utils/auth";
 
@@ -68,6 +69,7 @@ class App extends Component<Props, State> {
 				<AppContext.Provider value={this.state}>
 					<Switch>
 						<Route exact path="/" render={() => WithHeader(Home)} />
+						<Route exact path="/pricing" render={() => WithHeader(Pricing)} />
 						<Route
 							path="/signin"
 							render={() =>
