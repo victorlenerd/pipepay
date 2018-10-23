@@ -4,6 +4,9 @@ files:
   - source: /
     destination: /var/www/pipepay
 hooks:
+  BeforeInstall:
+    - location: scripts/before-install.sh
+      runas: root
   AfterInstall:
     - location: scripts/after-install.sh
       runas: root
