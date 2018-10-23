@@ -1,3 +1,3 @@
 #!/bin/bash
 cd /var/www/pipepay
-npm run stage
+pm2 start -f dist/server.js

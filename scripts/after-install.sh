@@ -1,3 +1,4 @@
 #!/bin/bash
 cd /var/www/pipepay
-npm install
+sudo yarn
+sudo yarn run stage
