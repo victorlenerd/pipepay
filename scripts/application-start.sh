@@ -1,3 +1,3 @@
 #!/bin/bash
 cd /var/www/pipepay
-yarn run stage
+npm run stage
