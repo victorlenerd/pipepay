@@ -10,5 +10,5 @@ pipelines:
           # trigger: manual  # uncomment to have a manual step
           image: atlassian/pipelines-awscli
           script:
-            - aws deploy push --application-name <application-name> --s3-location s3://<S3 bucket>/<s3-key> --ignore-hidden-files
-            - aws deploy create-deployment --application-name <application-name> --s3-location bucket=<s3-bucket>,key=<s3-key>,bundleType=zip --deployment-group-name <deployment-group>
+            - aws deploy push --application-name PipePay --s3-location s3://pipepay/pp --ignore-hidden-files
+            - aws deploy create-deployment --application-name PipePay --s3-location bucket=pipepay,key=pp,bundleType=zip --deployment-group-name stage
