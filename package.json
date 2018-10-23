@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "description": "Server for pipepay product.",
   "scripts": {
-    "stage": "NODE_ENV=development webpack --progress --colors --config config.dev.js",
+    "stage": "NODE_ENV=staging webpack --progress --colors --config config.stage.js && pm2 restart dist/server.js",
     "lint": "eslint --fix",
     "flow": "flow focus-check",
     "format": "prettier --write --config .prettierrc \"src/**/*.+(js|jsx|json)\"",
