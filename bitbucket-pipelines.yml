@@ -6,7 +6,7 @@ pipelines:
       - step:
           # set AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY and AWS_DEFAULT_REGION as environment variables
           name: Deploy to AWS
-          deployment: stage   # set to test, staging or production
+          deployment: staging   # set to test, staging or production
           # trigger: manual  # uncomment to have a manual step
           image: atlassian/pipelines-awscli
           script:
