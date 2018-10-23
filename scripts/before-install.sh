@@ -1,3 +1,3 @@
 #!/bin/bash
 rm -rf  /var/www/pipepay
-npm install --global pm2
+yarn add pm2
