@@ -5,6 +5,7 @@ pipelines:
     staging:
       - step:
           script:
+            - sudo service docker restart && docker build --no-cache=true .
             - apt-get update # required to install zip
             - apt-get install -y zip # required for packaging up the application
             - pip install boto3==1.3.0 # required for codedeploy_deploy.py
