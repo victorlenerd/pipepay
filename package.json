@@ -9,7 +9,7 @@
     "format": "prettier --write --config .prettierrc \"src/**/*.+(js|jsx|json)\"",
     "dev": "webpack --progress --colors --config config.dev.js",
     "build": "webpack --progress --colors  --config config.prod.js",
-    "server:test": "NODE_ENV=testing rm -rf ./tmp/mocha-webpack && nyc --reporter=text mocha-webpack --webpack-config config.test.js  \"src/**/*.spec.js\" --timeout 10000 --require source-map-support/register"
+    "server:test": "NODE_ENV=testing rm -rf ./tmp/mocha-webpack && nyc --reporter=text mocha-webpack --webpack-config config.test.js  \"src/server.spec.js\" --timeout 10000 --require source-map-support/register"
   },
   "author": "",
   "license": "ISC",
@@ -93,6 +93,7 @@
     "nyc": "^13.0.1",
     "prettier": "^1.14.3",
     "raw-loader": "^0.5.1",
+    "react-testing-library": "^5.2.1",
     "source-map-support": "^0.5.0",
     "start-server-webpack-plugin": "^2.2.5",
     "style-loader": "^0.23.1",

@@ -29,8 +29,17 @@ module.exports = {
 						loader: "babel-loader",
 						options: {
 							babelrc: false,
-							presets: [["env", { modules: false }], "stage-0"],
-							plugins: ["transform-regenerator", "transform-runtime"]
+							presets: [
+								["@babel/preset-env", { modules: "auto" }],
+								"@babel/preset-react",
+								"@babel/preset-flow"
+							],
+							plugins: [
+								"transform-regenerator",
+								"@babel/plugin-syntax-dynamic-import",
+								"@babel/plugin-transform-runtime",
+								"transform-class-properties"
+							]
 						}
 					}
 				],

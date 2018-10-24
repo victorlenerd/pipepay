@@ -1,13 +1,18 @@
-image: python:3.5.1
+image: node:6.9.4
 
 pipelines:
   branches:
     staging:
       - step:
-          # set AWS_ACCESS_KEY_ID, AWS_SECRET_ACCESS_KEY and AWS_DEFAULT_REGION as environment variables
+        name: Server Test
+          caches:
+            - node
+          script:
+            - npm install
+            - npm run server:test
+      - step:
           name: Deploy to AWS
-          deployment: staging   # set to test, staging or production
-          # trigger: manual  # uncomment to have a manual step
+          deployment: staging
           image: atlassian/pipelines-awscli
           script:
             - aws deploy push --application-name PipePay --s3-location s3://pipepay/pp --ignore-hidden-files

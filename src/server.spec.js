@@ -75,7 +75,7 @@ describe("Server Operations", () => {
 			});
 	});
 
-	xit("retrive invoice", done => {
+	it("retrive invoice", done => {
 		chai
 			.request(app)
 			.get("/api/invoice/" + invoiceId)
@@ -102,7 +102,7 @@ describe("Server Operations", () => {
 			});
 	});
 
-	xit("create payment", done => {
+	it("create payment", done => {
 		const payment = {
 			event: "invoice.update",
 			data: {
@@ -139,7 +139,7 @@ describe("Server Operations", () => {
 			});
 	});
 
-	xit("get payment", done => {
+	it("get payment", done => {
 		chai
 			.request(app)
 			.get("/api/payment/" + invoiceId)
@@ -150,7 +150,7 @@ describe("Server Operations", () => {
 			});
 	});
 
-	xit("send customer verifcation mail", done => {
+	it("send customer verifcation mail", done => {
 		chai
 			.request(app)
 			.get("/api/verify/" + invoiceId)
@@ -160,7 +160,7 @@ describe("Server Operations", () => {
 			});
 	});
 
-	xit("do not confirm without email code", done => {
+	it("do not confirm without email code", done => {
 		chai
 			.request(app)
 			.post("/api/confirm/" + invoiceId)
@@ -173,7 +173,7 @@ describe("Server Operations", () => {
 			});
 	});
 
-	xit("confirm payment::accepted", done => {
+	it("confirm payment::accepted", done => {
 		chai
 			.request(app)
 			.post("/api/confirm/" + invoiceId)
@@ -188,7 +188,7 @@ describe("Server Operations", () => {
 			});
 	});
 
-	xit("confirm payment::rejected", done => {
+	it("confirm payment::rejected", done => {
 		chai
 			.request(app)
 			.post("/api/confirm/" + invoiceId)
@@ -203,7 +203,7 @@ describe("Server Operations", () => {
 			});
 	});
 
-	xit("get list of banks", done => {
+	it("get list of banks", done => {
 		chai
 			.request(app)
 			.get("/api/banks/")
@@ -215,7 +215,7 @@ describe("Server Operations", () => {
 			});
 	});
 
-	xit("confirm account number", done => {
+	it("confirm account number", done => {
 		chai
 			.request(app)
 			.get(`/api/banks/verify/${accessBankCode}/0695257934`)
@@ -226,7 +226,7 @@ describe("Server Operations", () => {
 			});
 	});
 
-	xit("create dispute", done => {
+	it("create dispute", done => {
 		chai
 			.request(app)
 			.post(`/api/dispute/${invoiceId}`)
@@ -244,7 +244,7 @@ describe("Server Operations", () => {
 			});
 	});
 
-	xit("get dispute", done => {
+	it("get dispute", done => {
 		chai
 			.request(app)
 			.get(`/api/dispute/${invoiceId}`)
@@ -268,7 +268,7 @@ describe("Server Operations", () => {
 			});
 	});
 
-	xit("create milestone invoice", done => {
+	it("create milestone invoice", done => {
 		chai
 			.request(app)
 			.post("/api/invoice")
@@ -316,7 +316,7 @@ describe("Server Operations", () => {
 			});
 	});
 
-	xit("request milestone payment", done => {
+	it("request milestone payment", done => {
 		chai
 			.request(app)
 			.get("/api/request/" + invoiceId + "/" + milestones[0]._id)
@@ -329,7 +329,7 @@ describe("Server Operations", () => {
 			});
 	});
 
-	xit("confirm milestone payment::accepted", done => {
+	it("confirm milestone payment::accepted", done => {
 		chai
 			.request(app)
 			.post("/api/confirm/" + invoiceId + "/" + milestones[0]._id)
@@ -344,7 +344,7 @@ describe("Server Operations", () => {
 			});
 	});
 
-	xit("delete invoice", done => {
+	it("delete invoice", done => {
 		chai
 			.request(app)
 			.delete("/api/invoice/" + invoiceId)
