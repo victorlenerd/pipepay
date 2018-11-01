@@ -3,6 +3,8 @@ const webpack = require("webpack");
 const nodeExternals = require("webpack-node-externals");
 const Dotenv = require("dotenv-webpack");
 
+console.log(process.env);
+
 module.exports = {
 	target: "node",
 	mode: "none",
