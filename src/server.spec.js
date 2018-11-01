@@ -79,6 +79,9 @@ describe("Server Operations", () => {
 		chai
 			.request(app)
 			.get("/api/invoice/" + invoiceId)
+			.set({
+				Authorization: `Bearer ${token}`
+			})
 			.end((err, res) => {
 				expect(res.body.data._id).to.be.equal(invoiceId);
 				expect(res.body.data).to.have.property("totalPrice");
@@ -95,7 +98,6 @@ describe("Server Operations", () => {
 				Authorization: `Bearer ${token}`
 			})
 			.end((err, res) => {
-				console.log(res.body.data.invoices);
 				expect(res.body.data.invoices.length).to.be.greaterThan(0);
 				expect(res.body.success).to.be.equal(true);
 				done();
@@ -104,19 +106,13 @@ describe("Server Operations", () => {
 
 	it("create payment", done => {
 		const payment = {
-			event: "invoice.update",
+			event: "charge.success",
 			data: {
-				paid: true,
 				status: "success",
 				amount: 200000,
-				invoice_code,
-				transaction: {
-					reference: "1234"
-				},
-				customer: {
-					first_name: "Victor",
-					last_name: "Nwaokocha",
-					email: "nvonweb@outlook.com"
+				reference: "1234",
+				metadata: {
+					referrer: "https://p/p/" + invoice_code
 				}
 			}
 		};
