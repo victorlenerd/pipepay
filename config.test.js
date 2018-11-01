@@ -1,7 +1,19 @@
 const path = require("path");
 const webpack = require("webpack");
 const nodeExternals = require("webpack-node-externals");
-const Dotenv = require("dotenv-webpack");
+require("dotenv").config();
+
+const envs = {
+	NODE_ENV: JSON.stringify("testing"),
+	TEST_USERNAME: JSON.stringify(process.env.TEST_USERNAME),
+	TEST_PASSWORD: JSON.stringify(process.env.TEST_PASSWORD),
+	PAYSTACK_SECRET: JSON.stringify(process.env.PAYSTACK_SECRET),
+	PAYSTACK_PUBLIC_KEY: JSON.stringify(process.env.PAYSTACK_PUBLIC_KEY),
+	COGNITO_AUD: JSON.stringify(process.env.COGNITO_AUD),
+	COGNITO_USER_POOL_ID: JSON.stringify(process.env.COGNITO_USER_POOL_ID),
+	ZOHO_EMAIL: JSON.stringify(process.env.ZOHO_EMAIL),
+	ZOHO_PASSWORD: JSON.stringify(process.env.ZOHO_PASSWORD)
+};
 
 module.exports = {
 	target: "node",
@@ -55,11 +67,8 @@ module.exports = {
 		]
 	},
 	plugins: [
-		new Dotenv(),
 		new webpack.DefinePlugin({
-			"process.env": Object.assign({}, process.env, {
-				NODE_ENV: JSON.stringify("testing")
-			})
+			"process.env": envs
 		})
 	]
 };
