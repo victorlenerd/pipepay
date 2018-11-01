@@ -20,3 +20,8 @@ pipelines:
           script:
             - aws deploy push --application-name PipePay --s3-location s3://pipepay/pp --ignore-hidden-files
             - aws deploy create-deployment --application-name PipePay --s3-location bucket=pipepay,key=pp,bundleType=zip --deployment-group-name stage
+
+definitions: 
+  services: 
+    mongo: 
+      image: mongo
