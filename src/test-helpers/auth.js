@@ -14,8 +14,6 @@ import config from "../config";
 const aaud = process.env.COGNITO_AUD;
 const poolId = process.env.COGNITO_USER_POOL_ID;
 
-console.log("auth.js", process.env);
-
 mongoose.Promise = global.Promise;
 
 export const removeModel = modelName => {

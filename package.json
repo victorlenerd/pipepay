@@ -54,6 +54,7 @@
   "lint-staged": {
     "*.js": [
       "yarn run lint",
+      "yarn run server:test",
       "yarn run format",
       "git add"
     ]
