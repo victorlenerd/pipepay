@@ -2,12 +2,12 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
-import type { History } from "react-router-dom";
+import type { RouterHistory } from "react-router-dom";
 import { subHours, distanceInWords } from "date-fns";
 import NProgress from "nprogress";
 
 type Props = {
-	history: History,
+	history: RouterHistory,
 	user: {
 		token: string
 	}
@@ -24,6 +24,7 @@ type Invoice = {
 type State = {
 	pending: number,
 	accepted: number,
+	sent: number,
 	from: Date,
 	to: Date,
 	invoices: Array<Invoice>
@@ -35,7 +36,8 @@ class Dashboard extends React.PureComponent<Props, State> {
 		to: new Date(),
 		invoices: [],
 		accepted: 0,
-		pending: 0
+		pending: 0,
+		sent: 0
 	};
 
 	componentWillMount() {
@@ -62,10 +64,13 @@ class Dashboard extends React.PureComponent<Props, State> {
 					this.setState({
 						invoices,
 						accepted: invoices.reduce((pv, cv) => {
-							return cv.status === "paid" ? pv + cv.totalPrice : pv;
+							return cv.status === "accepted" ? pv + cv.totalPrice : pv;
 						}, 0),
 						pending: invoices.reduce((pv, cv) => {
-							return cv.status !== "paid" ? pv + cv.totalPrice : pv;
+							return cv.status === "paid" ? pv + cv.totalPrice : pv;
+						}, 0),
+						sent: invoices.reduce((pv, cv) => {
+							return cv.status === "sent" ? pv + cv.totalPrice : pv;
 						}, 0)
 					});
 				} else {
@@ -97,7 +102,7 @@ class Dashboard extends React.PureComponent<Props, State> {
 				<div className="payments-summary">
 					<div className="container">
 						<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div className="col-lg-4 col-md-4 col-sm-2 col-xs-2">
+							<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 								<p className="filter-text">Filter Transactions</p>
 								<select
 									className="transaction-select"
@@ -110,23 +115,25 @@ class Dashboard extends React.PureComponent<Props, State> {
 								</select>
 							</div>
 							<div className="col-lg-2 col-md-2 col-sm-2 col-xs-4">
-								<p>Approved</p>
+								<p>Sent</p>
 								<h3 className="pending-transactions-amount">
 									&#x20A6;
-									{this.state.accepted}
+									{this.state.sent}
 								</h3>
 							</div>
 							<div className="col-lg-2 col-md-2 col-sm-2 col-xs-4">
-								<p>Pending</p>
+								<p>Paid</p>
 								<h3 className="pending-transactions-amount">
 									&#x20A6;
 									{this.state.pending}
 								</h3>
 							</div>
-							<div className="col-lg-4 col-md-4 col-sm-2 col-xs-2">
-								<Link to="newinvoice" className="pbtn pull-right text-center">
-									Create New Invoice
-								</Link>
+							<div className="col-lg-2 col-md-2 col-sm-2 col-xs-4">
+								<p>Approved</p>
+								<h3 className="pending-transactions-amount">
+									&#x20A6;
+									{this.state.accepted}
+								</h3>
 							</div>
 						</div>
 					</div>

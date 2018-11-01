@@ -149,19 +149,22 @@
 .pay-goods-container {
     width: 50%;
     background-color: #82D0A5;
-    color: #fff;
     float: left;
+    position: relative;
+    height: 100%;
 }
 
 .pay-goods {
     width: 80%;
     padding: 30px 0px 30px 20px;
     font-size: 16px;
+    color: #fff;
     margin: auto;
 }
 
 .pay-goods p {
     margin: 0px;
+    color: #fff;
     font-size: 25px;
 }
 
@@ -170,10 +173,13 @@
     background-color: rgba(111, 180, 170, 1);
     color: #fff;
     float: left;
+    position: relative;
+    height: 100%;
 }
 
 .pay-services {
     width: 80%;
+    color: #fff;
     padding: 30px 0px 30px 20px;
     font-size: 16px;
     margin: auto;
@@ -181,6 +187,7 @@
 
 .pay-services p {
     margin: 0px;
+    color: #fff;
     font-size: 25px;
 }
 
@@ -216,6 +223,33 @@
     font-weight: 200;
 }
 
+.green-green {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+}
+
+.howItWorks {
+    position: relative;
+}
+
+.navbar-default .navbar-toggle {
+    border: 0px !important;
+}
+
+.navbar-default .navbar-toggle:hover,
+.navbar-default .navbar-toggle:focus {
+    background-color: transparent !important;
+}
+
+.navbar-default .navbar-toggle .icon-bar {
+    background-color: #fff !important;
+}
+
+.navbar-toggle .icon-bar {
+    width: 32px;
+    height: 5px;
+}
 
 @media screen and (max-width: 768px) {
     .description {
@@ -239,6 +273,18 @@
     .pay-goods-container,
     .pay-services-container {
         width: 100%;
+        height: 50%;
+        clear: both;
+    }
+
+    .nav > li {
+        text-align: center;
+        margin: 10px 0px;
+    }
+
+    .navbar-fixed-top .navbar-collapse {
+        height: 100vh;
+        max-height: 100vh !important;
     }
 }
 

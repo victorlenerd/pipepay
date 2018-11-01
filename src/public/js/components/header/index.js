@@ -61,14 +61,7 @@ class Header extends React.PureComponent<Props, State> {
 		const { history, signedIn, user } = this.props;
 
 		return (
-			<Navbar
-				fixedTop
-				collapseOnSelect
-				id="navbar-default"
-				style={
-					pathname === "/" ? { backgroundColor: "rgba(0,0,0, 0.2)" } : null
-				}
-			>
+			<Navbar fixedTop collapseOnSelect id="navbar-default">
 				<div className="container">
 					<Navbar.Header>
 						<Link to="/" className="navbar-brand">

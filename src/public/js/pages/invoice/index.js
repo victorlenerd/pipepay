@@ -2,16 +2,13 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
+import type { RouterHistory, Location } from "react-router-dom";
 import { distanceInWords } from "date-fns";
 import NProgress from "nprogress";
 
 type Props = {
-	history: {
-		push: () => void
-	},
-	location: {
-		state: { invoice: {} }
-	},
+	history: RouterHistory,
+	location: Location,
 	user: {
 		token: string
 	},
@@ -22,9 +19,28 @@ type Props = {
 	}
 };
 
+type Milestone = {
+	amount: number,
+	description: string,
+	dueDate: Date,
+	paid: boolean
+};
+
 type State = {
-	name: string,
-	invoice: {}
+	invoice: {
+		customerName: string,
+		created_at: string,
+		totalPrice: number,
+		status: string,
+		deliveryAmount: number,
+		customerPhone: string,
+		customerEmail: string,
+		pipePayFee: number,
+		purchaseAmount: number,
+		whoPaysDeliveryFee: boolean,
+		whoPaysPipepayFee: boolean,
+		milestones: [Milestone]
+	}
 };
 
 class Invoice extends React.PureComponent<Props, State> {
@@ -176,25 +192,33 @@ class Invoice extends React.PureComponent<Props, State> {
 							)}
 						</div>
 						<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-							<p className="invoice-action-hint">
-								Once the marchandise as been delivered. Click this button to
-								have the marchant confirm satisfaction and have the purchase
-								amount sent to you.
-							</p>
-							<button className="invoice-payment-request-btn">
-								Request Payment
-							</button>
-							<p className="invoice-action-hint">
-								Has the marchandise been delivered to the buyer? and the buyer
-								is yet to respond to the payment request? Report the issue and
-								our agents would investigate.
-							</p>
-							<button
-								className="invoice-payment-report-btn"
-								onClick={this.openReport}
-							>
-								Report Issue
-							</button>
+							{invoice.status === "paid" && (
+								<>
+									<p className="invoice-action-hint">
+										Once the marchandise as been delivered. Click this button to
+										have the marchant confirm satisfaction and have the purchase
+										amount sent to you.
+									</p>
+									<button className="invoice-payment-request-btn">
+										Request Payment
+									</button>
+								</>
+							)}
+							{invoice.status === "paid" && (
+								<>
+									<p className="invoice-action-hint">
+										Has the marchandise been delivered to the buyer? and the
+										buyer is yet to respond to the payment request? Report the
+										issue and our agents would investigate.
+									</p>
+									<button
+										className="invoice-payment-report-btn"
+										onClick={this.openReport}
+									>
+										Report Issue
+									</button>
+								</>
+							)}
 						</div>
 					</div>
 				</div>

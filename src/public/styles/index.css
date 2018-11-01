@@ -10,6 +10,7 @@ body {
 
 .section {
   padding-top: 80px;
+  position: relative;
 }
 
 a:focus,
@@ -29,7 +30,7 @@ ul {
 }
 
 #navbar-default {
-  background-color: #34495e;
+  background-color: #20232a;
   border: 0px;
 }
 
@@ -304,8 +305,6 @@ form {
 }
 
 .transaction-select {
-  width: 200px;
-  max-width: 200px;
   text-align: center;
   height: 25px;
   border-radius: 0px;

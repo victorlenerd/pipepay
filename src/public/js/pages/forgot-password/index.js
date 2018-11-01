@@ -2,14 +2,13 @@
 import React from "react";
 import NProgress from "nprogress";
 import { withRouter } from "react-router-dom";
+import type { RouterHistory, Location } from "react-router-dom";
 
 import { forgotPassword } from "../../utils/auth";
 import BannerFrom from "../../containers/banner-form.container";
 
 type Props = {
-	history: {
-		push: () => void
-	}
+	history: RouterHistory
 };
 
 type State = {
@@ -22,11 +21,9 @@ class ForgotPassword extends React.PureComponent<Props, State> {
 		this.state = {
 			error: null
 		};
-
-		this.submit = this.submit.bind(this);
 	}
 
-	async submit(e) {
+	submit = async e => {
 		e.preventDefault();
 		if (this.formEl.checkValidity() === true) {
 			const username = e.target.email.value.split("@")[0];
@@ -42,7 +39,7 @@ class ForgotPassword extends React.PureComponent<Props, State> {
 		} else {
 			this.setState({ error: "Please fill all the required fields." });
 		}
-	}
+	};
 
 	render() {
 		return (

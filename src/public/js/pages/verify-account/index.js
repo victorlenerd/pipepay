@@ -1,7 +1,7 @@
 //@flow
 import React from "react";
 import { withRouter } from "react-router-dom";
-import type { History, Location } from "react-router-dom";
+import type { RouterHistory, Location } from "react-router-dom";
 import NProgress from "nprogress";
 
 import { confirmRegistration, signin, userPool } from "../../utils/auth";
@@ -12,7 +12,7 @@ type State = {
 
 type Props = {
 	location: Location,
-	history: History
+	history: RouterHistory
 };
 
 class VerifyAccount extends React.PureComponent<Props, State> {
@@ -25,9 +25,10 @@ class VerifyAccount extends React.PureComponent<Props, State> {
 		this.submit = this.submit.bind(this);
 	}
 
-	async submit(e) {
+	submit = async e => {
 		e.preventDefault();
-		const { username, password, history } = this.props.location.state;
+		const { location, history } = this.props;
+		const { username, password } = location.state;
 
 		if (this.formEl.checkValidity() === true) {
 			const verifycode = e.target.verifycode.value;
@@ -57,7 +58,7 @@ class VerifyAccount extends React.PureComponent<Props, State> {
 		} else {
 			this.setState({ error: "Please fill all the required fields." });
 		}
-	}
+	};
 
 	render() {
 		return (

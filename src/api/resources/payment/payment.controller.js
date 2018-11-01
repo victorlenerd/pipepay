@@ -15,23 +15,19 @@ export default generateController(PaymentModel, {
 			.digest("hex");
 		const {
 			event,
-			data: {
-				transaction: { reference },
-				amount,
-				paid,
-				invoice_code,
-				customer: { first_name, last_name, email }
-			}
+			data: { reference, amount, metadata }
 		} = req.body;
 
 		if (
 			hash === req.headers["x-paystack-signature"] &&
-			event === "invoice.update" &&
-			paid
+			event === "charge.success"
 		) {
+			const { referrer } = metadata;
+			const invoice_code = referrer.split("/")[4];
+
 			InvoiceModel.findOneAndUpdate(
 				{ invoice_code },
-				{ $set: { status: "paid" } },
+				{ status: "paid" },
 				{ new: true },
 				async (err, doc) => {
 					if (err) {
@@ -45,6 +41,8 @@ export default generateController(PaymentModel, {
 						_id,
 						type,
 						whoPaysDeliveryFee,
+						customerName,
+						customerEmail,
 						marchantName,
 						marchantEmail,
 						marchantBankCode,
@@ -61,7 +59,7 @@ export default generateController(PaymentModel, {
 								deliveryAmount
 							);
 							await PaymentModel.create({
-								customerEmail: email,
+								customerEmail,
 								marchantEmail,
 								reference,
 								deliveryAmount,
@@ -70,8 +68,8 @@ export default generateController(PaymentModel, {
 						}
 
 						await mailer.sendReceiptMail(
-							`${first_name} ${last_name}`,
-							email,
+							customerName,
+							customerEmail,
 							marchantEmail,
 							amount
 						);

@@ -2,6 +2,18 @@ import React from "react";
 import { Link } from "react-router-dom";
 import Header from "../../components/header";
 
+// <div className="col-lg-6 col-md-6 col-sm-12 col-12">
+// <div className="rate-container">
+// 	<div className="rate-info">
+// 		<h2>5%</h2>
+// 		<p className="trans">Per Transaction.</p>
+// 		<br />
+// 		<br />
+// 		<p>&#x20A6;50 Bank Charges Apply.</p>
+// 	</div>
+// </div>
+// </div>
+
 class Home extends React.PureComponent {
 	render() {
 		return (
@@ -9,7 +21,7 @@ class Home extends React.PureComponent {
 				<section className="intro">
 					<div className="image-holder">
 						<div className="intro-content-container">
-							<div className="intro-container">
+							<div className="container">
 								<div className="row noPad">
 									<div className="col-lg-6 col-md-6 col-sm-12 col-12 noPad">
 										<div className="description">
@@ -31,47 +43,40 @@ class Home extends React.PureComponent {
 											</div>
 										</div>
 									</div>
-
-									<div className="col-lg-6 col-md-6 col-sm-12 col-12">
-										<div className="rate-container">
-											<div className="rate-info">
-												<h2>5%</h2>
-												<p className="trans">Per Transaction.</p>
-												<br />
-												<br />
-												<p>&#x20A6;50 Bank Charges Apply.</p>
-											</div>
-										</div>
-									</div>
 								</div>
 							</div>
 						</div>
 					</div>
 				</section>
 				<section className="howItWorks">
-					<div className="pay-goods-container">
-						<div className="pay-goods">
-							<p>Complete protection for merchandise transactions</p>
-							<ol className="ol">
-								<li>Buyer and seller agree on terms</li>
-								<li>Buyer pays PipePay.africa</li>
-								<li>Seller ships the merchandise</li>
-								<li>Buyer inspects & approves goods</li>
-								<li>PipePay.africa pays the seller</li>
-							</ol>
-						</div>
+					<div className="green-green">
+						<div className="pay-services-container" />
+						<div className="pay-goods-container" />
 					</div>
-
-					<div className="pay-services-container">
-						<div className="pay-services">
-							<p>Complete protection for milestone transactions.</p>
-							<ol className="ol">
-								<li>Buyer and seller agree on terms</li>
-								<li>Buyer pays PipePay.africa</li>
-								<li>Seller provides the service</li>
-								<li>Buyer approves the milestone</li>
-								<li>PipePay.africa pays the seller</li>
-							</ol>
+					<div className="container">
+						<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+							<div className="pay-goods">
+								<p>Complete protection for merchandise transactions</p>
+								<ol className="ol">
+									<li>Buyer and seller agree on terms</li>
+									<li>Buyer pays PipePay.africa</li>
+									<li>Seller ships the merchandise</li>
+									<li>Buyer inspects & approves goods</li>
+									<li>PipePay.africa pays the seller</li>
+								</ol>
+							</div>
+						</div>
+						<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+							<div className="pay-services">
+								<p>Complete protection for milestone transactions.</p>
+								<ol className="ol">
+									<li>Buyer and seller agree on terms</li>
+									<li>Buyer pays PipePay.africa</li>
+									<li>Seller provides the service</li>
+									<li>Buyer approves the milestone</li>
+									<li>PipePay.africa pays the seller</li>
+								</ol>
+							</div>
 						</div>
 					</div>
 					<div className="clearfix" />

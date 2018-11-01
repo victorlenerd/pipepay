@@ -2,6 +2,8 @@
 import React from "react";
 
 import { withRouter } from "react-router-dom";
+import type { RouterHistory } from "react-router-dom";
+
 import NProgress from "nprogress";
 
 import AppContext from "../../contexts/app.context";
@@ -38,9 +40,7 @@ type State = {
 
 type Props = {
 	user: {},
-	history: {
-		push: () => void
-	}
+	history: RouterHistory
 };
 
 class NewInvoice extends React.Component<Props, State> {
