@@ -3,8 +3,6 @@ const webpack = require("webpack");
 const nodeExternals = require("webpack-node-externals");
 const Dotenv = require("dotenv-webpack");
 
-console.log(process.env);
-
 module.exports = {
 	target: "node",
 	mode: "none",
@@ -59,7 +57,9 @@ module.exports = {
 	plugins: [
 		new Dotenv(),
 		new webpack.DefinePlugin({
-			"process.env": { NODE_ENV: JSON.stringify("testing") }
+			"process.env": Object.assign({}, process.env, {
+				NODE_ENV: JSON.stringify("testing")
+			})
 		})
 	]
 };
