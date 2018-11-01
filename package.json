@@ -54,6 +54,7 @@
   "lint-staged": {
     "*.js": [
       "yarn run lint",
+      "yarn run server:test",
       "yarn run format",
       "git add"
     ]
@@ -76,6 +77,7 @@
     "chai": "^4.1.2",
     "chai-http": "^4.0.0",
     "cypress": "^3.1.0",
+    "dotenv": "^6.1.0",
     "dotenv-webpack": "^1.5.7",
     "eslint": "^5.7.0",
     "eslint-plugin-babel": "^5.1.0",
