@@ -10,7 +10,9 @@ import {
 
 import mongoose from "mongoose";
 import config from "../config";
+
 const aaud = process.env.COGNITO_AUD;
+const poolId = process.env.COGNITO_USER_POOL_ID;
 
 mongoose.Promise = global.Promise;
 
@@ -40,7 +42,7 @@ export const dropDb = () => {
 };
 
 export const userPool = new CognitoUserPool({
-	UserPoolId: "us-east-2_ZAwetvcgl",
+	UserPoolId: poolId,
 	ClientId: aaud
 });
 
