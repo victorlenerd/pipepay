@@ -105,6 +105,8 @@ export default generateController(InvoiceModel, {
 			body.invoice_code = request_code;
 			body.status = "sent";
 
+			console.log("body", body);
+
 			InvoiceModel.create(body, async (err, doc) => {
 				if (err) {
 					console.log("err", err);

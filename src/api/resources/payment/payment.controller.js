@@ -25,6 +25,8 @@ export default generateController(PaymentModel, {
 			const { referrer } = metadata;
 			const invoice_code = referrer.split("/")[4];
 
+			console.log("invoice_code", invoice_code);
+
 			InvoiceModel.findOneAndUpdate(
 				{ invoice_code },
 				{ status: "paid" },
@@ -36,6 +38,8 @@ export default generateController(PaymentModel, {
 							.status(400)
 							.send({ error: new Error(err), status: false });
 					}
+
+					console.log("doc", doc);
 
 					const {
 						_id,
