@@ -13,6 +13,7 @@ const CreateCustomer = ({ name, email, phone }) =>
 				phone
 			})
 			.end((err, { body }) => {
+				console.log("err", err);
 				if (err) reject(err);
 				resolve(body);
 			});

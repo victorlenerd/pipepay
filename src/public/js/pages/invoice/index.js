@@ -159,8 +159,15 @@ class Invoice extends React.PureComponent<Props, State> {
 								requested: true
 							});
 							milestones[nextMilestonePaymentIndex] = updatedMilestone;
-							let invoiceUpate = { milestones, requested: false };
-							if (isLastMilestone) invoiceUpate.requested = true;
+							let invoiceUpate = {
+								milestones,
+								requested: false,
+								status: "paid"
+							};
+
+							if (isLastMilestone) {
+								invoiceUpate.requested = true;
+							}
 
 							this.setState({
 								invoice: Object.assign({}, this.state.invoice, invoiceUpate)

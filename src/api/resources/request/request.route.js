@@ -1,4 +1,5 @@
 import express from "express";
+import mongoose from "mongoose";
 import InvoiceModel from "../invoice/invoice.model";
 import { sendPaymentRequest } from "../../modules/mailer";
 import jwt from "jsonwebtoken";
@@ -62,7 +63,9 @@ Router.route("/:invoiceId").get(async (req, res) => {
 Router.route("/:invoiceId/:milestoneId").get(async (req, res) => {
 	const { invoiceId, milestoneId } = req.params;
 
-	try {
+	InvoiceModel.findOne({ _id: invoiceId }, (err, doc) => {
+		if (err) res.status(400).send({ success: false, error: err });
+
 		const {
 			_id,
 			type,
@@ -71,15 +74,13 @@ Router.route("/:invoiceId/:milestoneId").get(async (req, res) => {
 			customerName,
 			marchantName,
 			status
-		} = await InvoiceModel.findOne({ _id: invoiceId });
-
-		// const [ milestone ] = milestones.filter(({ _id }) => _id !== milestoneId);
+		} = doc;
 
 		let nextMilestonePaymentIndex;
 		let nextMilestonePayment;
 
 		for (let i = 0; i < milestones.length; i++) {
-			if (!milestones[i]._id === milestoneId) {
+			if (milestones[i]._id == milestoneId) {
 				nextMilestonePaymentIndex = i;
 				nextMilestonePayment = milestones[i];
 				break;
@@ -114,16 +115,25 @@ Router.route("/:invoiceId/:milestoneId").get(async (req, res) => {
 				if (nextMilestonePayment && !nextMilestonePayment.paid) {
 					let isLastMilestone =
 						nextMilestonePaymentIndex === milestones.length - 1 ? true : false;
-					let updatedMilestone = Object.assign({}, nextMilestonePayment, {
-						requested: true
-					});
-					milestones[nextMilestonePaymentIndex] = updatedMilestone;
 
-					let invoiceUpate = { milestones, requested: false };
+					let invoiceUpdate = { requested: false };
 
-					if (isLastMilestone) invoiceUpate.requested = true;
+					invoiceUpdate["milestones.$[milestone]"] = {
+						_id: mongoose.Types.ObjectId(nextMilestonePayment._id),
+						requested: true,
+						amount: nextMilestonePayment.amount,
+						paid: false,
+						dueDate: nextMilestonePayment.dueDate,
+						description: nextMilestonePayment.description,
+						created_at: nextMilestonePayment.created_at,
+						updatedAt: new Date()
+					};
 
-					await sendPaymentRequest(
+					if (isLastMilestone) {
+						invoiceUpdate.requested = true;
+					}
+
+					sendPaymentRequest(
 						type,
 						customerEmail,
 						customerName,
@@ -132,12 +142,21 @@ Router.route("/:invoiceId/:milestoneId").get(async (req, res) => {
 						rejectToken,
 						nextMilestonePaymentIndex
 					);
+
 					InvoiceModel.findOneAndUpdate(
 						{ _id: invoiceId },
-						{ $set: invoiceUpate },
+						{ $set: invoiceUpdate },
+						{
+							arrayFilters: [{ "milestone._id": nextMilestonePayment._id }],
+							upsert: true,
+							new: true
+						},
 						(err, doc) => {
-							if (err || !doc) res.status().send({ success: true });
-							res.status(200).send({ success: true });
+							if (err || !doc) {
+								res.status().send({ success: false, error: err });
+							}
+
+							res.status(200).send({ success: true, data: doc });
 						}
 					);
 				} else {
@@ -157,9 +176,7 @@ Router.route("/:invoiceId/:milestoneId").get(async (req, res) => {
 				.status(400)
 				.send({ success: false, error: "Milestone id is not valid" });
 		}
-	} catch (err) {
-		if (err) res.status(400).send({ success: false, error: err });
-	}
+	});
 });
 
 export default Router;

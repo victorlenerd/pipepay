@@ -35,6 +35,9 @@ ConfirmRouter.route("/:token").get((req, res) => {
 					async (error, doc) => {
 						if (error) return res.status(400).send({ success: false, error });
 						const {
+							_id,
+							type,
+							status,
 							marchantName,
 							marchantAccountNumber,
 							marchantBankCode,
@@ -74,7 +77,9 @@ ConfirmRouter.route("/:token").get((req, res) => {
 							}
 						}
 
-						res.status(200).send({ success: true, status });
+						res
+							.status(200)
+							.send({ success: true, data: { _id, type, status } });
 					}
 				);
 			} else if (doc.status === "paid" && doc.type === "service") {
@@ -102,19 +107,25 @@ ConfirmRouter.route("/:token").get((req, res) => {
 
 						milestones[milestoneIndex] = milestone;
 						let requested = false;
+						let status = "paid";
 
 						if (milestoneIndex === milestones.length - 1) {
 							requested = true;
+							status = "accepted";
 						}
 
 						InvoiceModel.findOneAndUpdate(
 							{ _id: invoiceId },
-							{ $set: { milestones, requested } },
+							{ $set: { milestones, requested, status } },
 							{ new: true },
 							(err, doc) => {
 								if (err)
 									return res.status(400).send({ success: false, error: err });
-								res.status(200).send({ success: true, data: doc });
+								const { _id, type, status } = doc;
+
+								res
+									.status(200)
+									.send({ success: true, data: { _id, type, status } });
 							}
 						);
 					})

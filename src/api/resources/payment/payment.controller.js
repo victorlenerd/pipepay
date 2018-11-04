@@ -68,12 +68,6 @@ export default generateController(PaymentModel, {
 							invoiceId: _id
 						});
 
-						// await mailer.sendReceiptMail(
-						// 	customerName,
-						// 	customerEmail,
-						// 	marchantEmail,
-						// 	amount
-						// );
 						res.status(200).send({ success: true });
 					} catch (err) {
 						console.error(err);

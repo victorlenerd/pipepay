@@ -43,7 +43,7 @@ describe("Server Operations", () => {
 		}
 	});
 
-	it("create invoice", done => {
+	xit("create invoice", done => {
 		chai
 			.request(app)
 			.post("/api/invoice")
@@ -102,37 +102,6 @@ describe("Server Operations", () => {
 			});
 	});
 
-	it("create payment", done => {
-		const payment = {
-			event: "charge.success",
-			data: {
-				status: "success",
-				amount: 200000,
-				reference: "1234",
-				metadata: {
-					referrer: "https://p/p/" + invoice_code
-				}
-			}
-		};
-
-		const hash = crypto
-			.createHmac("sha512", secret)
-			.update(JSON.stringify(payment))
-			.digest("hex");
-
-		chai
-			.request(app)
-			.post("/api/payment")
-			.set({
-				"X-Paystack-Signature": hash
-			})
-			.send(payment)
-			.end((err, res) => {
-				expect(res.status).to.be.equal(200);
-				done();
-			});
-	});
-
 	xit("get payment", done => {
 		chai
 			.request(app)
@@ -142,19 +111,6 @@ describe("Server Operations", () => {
 			})
 			.end((err, res) => {
 				expect(res.body.data.invoiceId).to.be.equal(invoiceId);
-				expect(res.body.success).to.be.equal(true);
-				done();
-			});
-	});
-
-	it("request payment for good invoice", done => {
-		chai
-			.request(app)
-			.get("/api/request/" + invoiceId)
-			.set({
-				Authorization: `Bearer ${token}`
-			})
-			.end((err, res) => {
 				expect(res.body.success).to.be.equal(true);
 				done();
 			});
@@ -278,7 +234,7 @@ describe("Server Operations", () => {
 			});
 	});
 
-	xit("create milestone invoice", done => {
+	it("create milestone invoice", done => {
 		chai
 			.request(app)
 			.post("/api/invoice")
@@ -322,6 +278,82 @@ describe("Server Operations", () => {
 				milestones = res.body.data.milestones;
 				expect(res.body.data).to.be.have.property("invoice_code");
 				expect(res.body.success).to.be.equal(true);
+				done();
+			});
+	});
+
+	it("create payment", done => {
+		const payment = {
+			event: "charge.success",
+			data: {
+				status: "success",
+				amount: 200000,
+				reference: "1234",
+				metadata: {
+					referrer: "https://p/p/" + invoice_code
+				}
+			}
+		};
+
+		const hash = crypto
+			.createHmac("sha512", secret)
+			.update(JSON.stringify(payment))
+			.digest("hex");
+
+		chai
+			.request(app)
+			.post("/api/payment")
+			.set({
+				"X-Paystack-Signature": hash
+			})
+			.send(payment)
+			.end((err, res) => {
+				expect(res.status).to.be.equal(200);
+				done();
+			});
+	});
+
+	it("request payment for good invoice", done => {
+		chai
+			.request(app)
+			.get("/api/request/" + invoiceId + "/" + milestones[0]._id)
+			.set({
+				Authorization: `Bearer ${token}`
+			})
+			.end((err, res) => {
+				expect(res.status).to.be.equal(200);
+				expect(res.body.success).to.be.equal(true);
+				expect(res.body.data.milestones[0]._id).to.be.equal(milestones[0]._id);
+				done();
+			});
+	});
+
+	it("request payment for good invoice", done => {
+		chai
+			.request(app)
+			.get("/api/request/" + invoiceId + "/" + milestones[1]._id)
+			.set({
+				Authorization: `Bearer ${token}`
+			})
+			.end((err, res) => {
+				expect(res.status).to.be.equal(200);
+				expect(res.body.success).to.be.equal(true);
+				expect(res.body.data.milestones[1]._id).to.be.equal(milestones[1]._id);
+				done();
+			});
+	});
+
+	it("request payment for good invoice", done => {
+		chai
+			.request(app)
+			.get("/api/request/" + invoiceId + "/" + milestones[2]._id)
+			.set({
+				Authorization: `Bearer ${token}`
+			})
+			.end((err, res) => {
+				expect(res.status).to.be.equal(200);
+				expect(res.body.success).to.be.equal(true);
+				expect(res.body.data.milestones[2]._id).to.be.equal(milestones[2]._id);
 				done();
 			});
 	});

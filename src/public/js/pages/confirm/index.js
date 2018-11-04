@@ -18,6 +18,8 @@ type State = {
 	requesting: boolean,
 	error: boolean,
 	status: string,
+	type: string,
+	milestoneId: number,
 	errorMessage: string,
 	invoiceId: string
 };
@@ -28,6 +30,8 @@ class Confirm extends React.Component<Props, State> {
 		error: false,
 		status: "",
 		errorMessage: "",
+		type: "",
+		milestoneId: -1,
 		invoiceId: ""
 	};
 
@@ -46,8 +50,13 @@ class Confirm extends React.Component<Props, State> {
 			})
 				.then(res => res.json())
 				.then(res => {
+					console.log("res", res);
 					if (res.success) {
-						this.setState({ status: res.status, invoiceId: res.invoiceId });
+						this.setState({
+							status: res.status,
+							invoiceId: res.data._id,
+							type: res.data.type
+						});
 					} else {
 						this.setState({ error: true, errorMessage: res.error });
 					}
@@ -68,12 +77,33 @@ class Confirm extends React.Component<Props, State> {
 						{!this.state.requesting ? (
 							!this.state.error ? (
 								<React.Fragment>
-									{this.state.status === "accepted" && (
-										<div id="text-center">
-											<h1>Thank you for you response</h1>
-											<p>The payment has been transfered successfully</p>
-										</div>
-									)}
+									{this.state.status === "accepted" &&
+										this.state.type === "good" && (
+											<div id="text-center">
+												<h1>Thank you for you response</h1>
+												<p>The payment has been transfered successfully</p>
+											</div>
+										)}
+									{this.state.status !== "accepted" &&
+										this.state.type === "service" && (
+											<div id="text-center">
+												<h1>Thank you for you response</h1>
+												<p>
+													The payment for the milestone has been transfered
+													successfully
+												</p>
+											</div>
+										)}
+									{this.state.status === "accepted" &&
+										this.state.type === "service" && (
+											<div id="text-center">
+												<h1>Thank you for you response</h1>
+												<p>
+													The payment for the last milestone has been transfered
+													successfully
+												</p>
+											</div>
+										)}
 									{this.state.status === "rejected" && (
 										<React.Fragment>
 											<h1 className="text-center">Tell Us More</h1>
