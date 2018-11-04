@@ -5,6 +5,7 @@ export const MilestoneSchema = new mongoose.Schema(
 		amount: { type: Number, required: true },
 		description: { type: String, required: true },
 		dueDate: { type: Date },
+		requestSent: { type: Boolean },
 		paid: { type: Boolean, required: true, default: false }
 	},
 	{ timestamps: { createdAt: "created_at" } }
@@ -32,6 +33,9 @@ const InvoiceSchema = new mongoose.Schema(
 		marchantEmail: { type: String, required: true },
 
 		milestones: [MilestoneSchema],
+
+		requested: { type: Boolean, default: false },
+		disputed: { type: Boolean, default: false },
 
 		invoice_code: { type: String, unique: true },
 		verifyCode: { type: String, unique: true },

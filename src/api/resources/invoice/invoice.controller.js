@@ -5,7 +5,7 @@ import { CreateInvoice } from "../../modules/invoice";
 import { getTime, format, subHours } from "date-fns";
 
 const QUERY_PARAMS =
-	"type deliveryAmount customerName customerPhone customerEmail created_at purchaseAmount totalPrice whoPaysDeliveryFee whoPaysPipepayFee milestones pipePayFee bankCharges status";
+	"_id type deliveryAmount customerName customerPhone customerEmail created_at purchaseAmount totalPrice whoPaysDeliveryFee whoPaysPipepayFee milestones pipePayFee bankCharges status requested disputed";
 
 export default generateController(InvoiceModel, {
 	createOne: async (req, res) => {
@@ -17,8 +17,7 @@ export default generateController(InvoiceModel, {
 		body.marchantAccountNumber = req.user["custom:account_number"];
 		body.marchantBankCode = req.user["custom:bank_code"];
 
-		body.verifyCode =
-			process.env.NODE_ENV === "testing" ? "AXYZ0000" : recode();
+		body.verifyCode = recode();
 
 		if (body.type === "good") {
 			body.purchaseAmount = Number(body.purchaseAmount);
@@ -104,10 +103,11 @@ export default generateController(InvoiceModel, {
 			);
 			body.invoice_code = request_code;
 			body.status = "sent";
+			body.requested = false;
+			body.disputed = false;
 
 			InvoiceModel.create(body, async (err, doc) => {
 				if (err) {
-					console.log("err", err);
 					return res.status(400).send({
 						error: { message: "Could not create the invoice" },
 						success: false
@@ -119,7 +119,6 @@ export default generateController(InvoiceModel, {
 				res.send({ data: doc, success: true });
 			});
 		} catch (err) {
-			console.log("err", err);
 			return res.status(400).send({ err, success: false });
 		}
 	},
@@ -141,14 +140,20 @@ export default generateController(InvoiceModel, {
 			);
 			return res.status(200).send({ data: { invoices }, success: true });
 		} catch (err) {
-			console.error("err", err);
 			return res.status(400).send({ err, success: false });
 		}
 	},
 	getOne: (req, res) => {
-		var id = req.docId;
+		var id = req.docId || req.params.invoiceId;
+
 		InvoiceModel.findOne({ _id: id }, QUERY_PARAMS, function(err, doc) {
-			if (err) res.status(401).send({ success: false, error: { ...err } });
+			if (err)
+				return res.status(400).send({ success: false, error: { ...err } });
+			if (!doc)
+				return res.status(400).send({
+					success: false,
+					error: { message: "Invoice does not exist" }
+				});
 			res.status(200).send({ success: true, data: doc });
 		});
 	}

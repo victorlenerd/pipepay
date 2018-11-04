@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import NProgress from "nprogress";
 import { cognitoUser, setAttributes } from "../../utils/auth";
 
-class VerifyAccn extends React.PureComponent {
+class VerifyBackAccount extends React.PureComponent {
 	constructor() {
 		super();
 		this.state = {
@@ -172,8 +172,8 @@ class VerifyAccn extends React.PureComponent {
 	}
 }
 
-VerifyAccn.propTypes = {
+VerifyBackAccount.propTypes = {
 	history: PropTypes.object
 };
 
-export default VerifyAccn;
+export default VerifyBackAccount;

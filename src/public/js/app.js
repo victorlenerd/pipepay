@@ -16,13 +16,12 @@ import ForgotPassword from "./pages/forgot-password";
 import VerifyAccount from "./pages/verify-account";
 import ResetPassword from "./pages/reset-password";
 import Invoices from "./pages/invoices";
-import VerifyAccn from "./pages/verify-accn";
+import VerifyBankAccount from "./pages/verify-bank-account";
 import Invoice from "./pages/invoice";
 import Report from "./pages/report";
 import NewInvoice from "./pages/newinvoice";
 import Settings from "./pages/settings";
-import DissatisfactionReason from "./pages/dissatisfaction-reason";
-import ConfirmSatisfaction from "./pages/confirm-satisfaction";
+import Confirm from "./pages/confirm";
 import Pricing from "./pages/pricing";
 
 import { init } from "./utils/auth";
@@ -107,7 +106,7 @@ class App extends Component<Props, State> {
 						<Route
 							path="/verifyaccn"
 							render={() =>
-								signedIn ? <VerifyAccn /> : <Redirect to="/invoices" />
+								signedIn ? <VerifyBankAccount /> : <Redirect to="/invoices" />
 							}
 						/>
 						<Route
@@ -140,14 +139,7 @@ class App extends Component<Props, State> {
 								SignIn ? WithHeader(Settings) : <Redirect to="/" />
 							}
 						/>
-						<Route
-							path="/reason"
-							render={() => WithHeader(DissatisfactionReason)}
-						/>
-						<Route
-							path="/confirm/:invoiceId"
-							render={() => WithHeader(ConfirmSatisfaction)}
-						/>
+						<Route path="/confirm/:token" render={() => WithHeader(Confirm)} />
 					</Switch>
 				</AppContext.Provider>
 			</BrowserRouter>

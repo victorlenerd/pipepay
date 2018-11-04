@@ -58,21 +58,22 @@ export default generateController(PaymentModel, {
 								marchantBankCode,
 								deliveryAmount
 							);
-							await PaymentModel.create({
-								customerEmail,
-								marchantEmail,
-								reference,
-								deliveryAmount,
-								invoiceId: _id
-							});
 						}
 
-						await mailer.sendReceiptMail(
-							customerName,
+						await PaymentModel.create({
 							customerEmail,
 							marchantEmail,
-							amount
-						);
+							reference,
+							deliveryAmount,
+							invoiceId: _id
+						});
+
+						// await mailer.sendReceiptMail(
+						// 	customerName,
+						// 	customerEmail,
+						// 	marchantEmail,
+						// 	amount
+						// );
 						res.status(200).send({ success: true });
 					} catch (err) {
 						console.error(err);

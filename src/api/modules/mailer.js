@@ -143,15 +143,48 @@ export const sendCustormerVerificationCode = (customerEmail, code) =>
 	});
 
 export const sendPaymentRequest = (
-	{ amount, name },
+	type,
 	customerEmail,
-	marchantName
+	customerName,
+	marchantName,
+	acceptToken,
+	rejectToken,
+	milestoneIndex
 ) =>
-	new Promise(async (resolve, reject) => {
+	new Promise(async (resolve, reject, url) => {
 		let mailOption = {
 			from,
 			subject: "Payment Request",
-			text: `${marchantName} is requesting for payment for milestone "${name}"`
+			html: `
+			<p>Hey ${customerName}!</p>
+			
+			<p>${marchantName} ${
+				type === "good"
+					? "requested for transfer of payment you made the good"
+					: `requested for transfer of payment for milestone ${milestoneIndex +
+							1}`
+			}.</p>
+
+			<p>
+				If you're satisfied with ${
+					type === "good" ? "good" : "service"
+				} please click this link to transfer 
+				<a href="http://localhost:4545/confirm/${acceptToken}">I AM SATISFIED PAY ${marchantName}</a>
+			</p>
+
+			<p>
+				On the other hand if you're not satisfied  click here to open a disputes 
+				<a href="http://localhost:4545/confirm/${rejectToken}">I AM NOT SATISFIED I WANT TO OPEN A DISPUTE ${marchantName}</a> 
+			</p>
+
+			<p>
+				<i>The links expire in a 24 hours.</i>
+			</p>
+
+			<p>
+				Thanks,
+				Your friends at PipePay
+			</p>`
 		};
 
 		try {
