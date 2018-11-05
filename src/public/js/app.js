@@ -122,7 +122,7 @@ class App extends Component<Props, State> {
 							}
 						/>
 						<Route
-							path="/report"
+							path="/report/:invoiceId"
 							render={() =>
 								signedIn ? WithHeader(Report) : <Redirect to="/" />
 							}

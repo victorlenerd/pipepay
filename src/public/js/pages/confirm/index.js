@@ -50,7 +50,6 @@ class Confirm extends React.Component<Props, State> {
 			})
 				.then(res => res.json())
 				.then(res => {
-					console.log("res", res);
 					if (res.success) {
 						this.setState({
 							status: res.status,

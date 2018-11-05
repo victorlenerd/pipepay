@@ -70,13 +70,14 @@ export const sendDisputeMail = (
 	marchantEmail,
 	customerEmail,
 	customerName,
+	marchantName,
 	reason,
 	disputeFrom,
-	supportEmail = "hello@pipepay.africa"
+	supportEmail = "support@pipepay.zohodesk.com"
 ) =>
 	new Promise(async (resolve, reject) => {
 		let mailOption = {
-			from,
+			from: "hello@pipepay.africa",
 			subject: "Payment Dispute"
 		};
 
@@ -85,43 +86,32 @@ export const sendDisputeMail = (
 				await Promise.all([
 					sendTo({
 						...mailOption,
-						to: customerEmail,
-						text:
-							"Your dispute has been received, you will hear from our support rep soon."
+						to: "hello@pipepay.africa",
+						text: `New dispute from ${customerEmail} reason being that: "${reason}" marchant email is ${marchantEmail}`
 					}),
 					sendTo({
 						...mailOption,
 						to: marchantEmail,
 						text: `New dispute from ${customerName} reason being that: "${reason}"`
-					}),
-					sendTo({
-						...mailOption,
-						to: supportEmail,
-						text: `New dispute from ${customerEmail} reason being that: "${reason}" marchant email is ${marchantEmail}`
 					})
 				]);
 			} else {
 				await Promise.all([
 					sendTo({
 						...mailOption,
-						to: customerEmail,
-						text:
-							"Your dispute has been received, you will hear from our support rep soon."
-					}),
-					sendTo({
-						...mailOption,
-						to: marchantEmail,
-						text: `New dispute from ${customerName} reason being that: "${reason}"`
-					}),
-					sendTo({
-						...mailOption,
-						to: supportEmail,
+						to: "hello@pipepay.africa",
 						text: `New dispute from ${marchantEmail} reason being that: "${reason}" customer email is ${customerEmail}`
+					}),
+					sendTo({
+						...mailOption,
+						to: customerEmail,
+						text: `New dispute from ${customerName} reason being that: "${reason}"`
 					})
 				]);
 			}
 			resolve();
 		} catch (err) {
+			console.log("err", err);
 			reject(err);
 		}
 	});
@@ -165,10 +155,9 @@ export const sendPaymentRequest = (
 							1}`
 			}.</p>
 
-			<p>
-				If you're satisfied with ${
-					type === "good" ? "good" : "service"
-				} please click this link to transfer 
+			<p>If you're satisfied with ${
+				type === "good" ? "good" : "service"
+			} please click this link to transfer 
 				<a href="http://localhost:4545/confirm/${acceptToken}">I AM SATISFIED PAY ${marchantName}</a>
 			</p>
 

@@ -27,6 +27,7 @@ class Report extends React.PureComponent<Props, State> {
 				params: { invoiceId }
 			}
 		} = this.props;
+
 		this.setState({ invoiceId });
 	}
 

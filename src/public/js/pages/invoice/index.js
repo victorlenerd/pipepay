@@ -48,7 +48,7 @@ type State = {
 		milestones: [Milestone]
 	},
 	requestError: string,
-	disputeErrot: string
+	disputeError: string
 };
 
 class Invoice extends React.PureComponent<Props, State> {
@@ -90,7 +90,11 @@ class Invoice extends React.PureComponent<Props, State> {
 	}
 
 	openReport = () => {
-		this.props.history.push("report");
+		const {
+			invoice: { _id: invoiceId }
+		} = this.state;
+
+		this.props.history.push(`/report/${invoiceId}`);
 	};
 
 	completed = () => {};

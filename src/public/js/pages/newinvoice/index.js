@@ -137,6 +137,7 @@ class NewInvoice extends React.Component<Props, State> {
 
 	addMilestone = e => {
 		e.preventDefault();
+
 		this.setState({
 			milestones: this.state.milestones.concat({
 				description: "",
