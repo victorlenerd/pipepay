@@ -14,6 +14,11 @@ type State = {
 };
 
 class Report extends React.PureComponent<Props, State> {
+	state = {
+		submitted: null,
+		success: null
+	};
+
 	submit = e => {
 		e.preventDefault();
 
@@ -54,8 +59,8 @@ class Report extends React.PureComponent<Props, State> {
 		return (
 			<section className="section">
 				<div className="container">
-					<div className="col-lg-8">
-						{submitted === true ? (
+					<div>
+						{submitted === null ? (
 							<form name="report" onSubmit={this.submit}>
 								<label>Select Dispute Case</label>
 								<br />
@@ -109,7 +114,16 @@ class Report extends React.PureComponent<Props, State> {
 								/>
 							</form>
 						) : (
-							<Status back={() => {}} hideBack={true} status={success} />
+							<React.Fragment>
+								<div id="text-center">
+									<h1 className="text-center">Thank you for you response</h1>
+									<p className="text-center">
+										Your message has been received you will hear from our agent
+										shortly.
+									</p>
+									<Status back={() => {}} hideBack={true} status={success} />
+								</div>
+							</React.Fragment>
 						)}
 					</div>
 				</div>

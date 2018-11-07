@@ -53,7 +53,7 @@ class Confirm extends React.Component<Props, State> {
 				.then(res => {
 					if (res.success) {
 						this.setState({
-							status: res.status,
+							status: res.data.status,
 							invoiceId: res.data._id,
 							type: res.data.type
 						});
@@ -88,8 +88,10 @@ class Confirm extends React.Component<Props, State> {
 									{this.state.status !== "accepted" &&
 										this.state.type === "service" && (
 											<div id="text-center">
-												<h1>Thank you for you response</h1>
-												<p>
+												<h1 className="text-center">
+													Thank you for you response
+												</h1>
+												<p className="text-center">
 													The payment for the milestone has been transfered
 													successfully
 												</p>
@@ -99,8 +101,10 @@ class Confirm extends React.Component<Props, State> {
 									{this.state.status === "accepted" &&
 										this.state.type === "service" && (
 											<div id="text-center">
-												<h1>Thank you for you response</h1>
-												<p>
+												<h1 className="text-center">
+													Thank you for you response
+												</h1>
+												<p className="text-center">
 													The payment for the last milestone has been transfered
 													successfully
 												</p>

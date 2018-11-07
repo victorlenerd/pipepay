@@ -440,6 +440,10 @@ form {
   }
 }
 
+form {
+  display: block;
+  width: 90%;
+}
 
 #status {
   width: 200px;
