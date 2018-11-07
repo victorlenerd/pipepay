@@ -7,22 +7,17 @@ const DisputeController = generateController(DisputeModel, {
 	getInvoiceId: (req, res, next) => {
 		const _id = req.params.invoiceId;
 
-		InvoiceModel.findOne(
-			{
-				_id
-			},
-			(err, doc) => {
-				if (err)
-					return res.status(400).send({
-						error: {
-							message: "Invoice with id does not exits"
-						},
-						success: false
-					});
-				req.invoice = doc;
-				next();
-			}
-		);
+		InvoiceModel.findOne({ _id }, (err, doc) => {
+			if (err)
+				return res.status(400).send({
+					error: {
+						message: "Invoice with id does not exits"
+					},
+					success: false
+				});
+			req.invoice = doc;
+			next();
+		});
 	},
 	createOne: (req, res) => {
 		const body = req.body;
@@ -55,7 +50,8 @@ const DisputeController = generateController(DisputeModel, {
 							_id
 						},
 						{
-							disputed: true
+							disputed: true,
+							status: "rejected"
 						},
 						async (err, doc) => {
 							if (err)

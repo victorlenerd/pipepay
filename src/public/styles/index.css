@@ -60,6 +60,10 @@ ul {
   background: rgba(0, 0, 0, 0.7);
 }
 
+.no-padding {
+  padding: 0px;
+}
+
 .milestone-remove-btn {
   width: 100%;
   border: 0px;
@@ -126,14 +130,10 @@ input {
 }
 
 .payments-summary {
-  display: table;
   width: 100%;
-  color: #fff;
-  margin-top: -30px;
+  display: table;
   padding-top: 20px;
-  color: #333;
   background-color: #ecf0f1;
-  margin-bottom: 50px;
 }
 
 .text-submit,
@@ -306,7 +306,7 @@ form {
 
 .transaction-select {
   text-align: center;
-  height: 25px;
+  height: 35px;
   border-radius: 0px;
   border: 0px;
   background-color: #fff;
@@ -324,6 +324,14 @@ form {
 
 .filter-text {
   font-size: 10px;
+}
+
+.sticky {
+  text-align: center;
+  position: fixed;
+  top: 100px;
+  z-index: 100;
+  top: 50px;
 }
 
 .invoice-payment-request-btn,

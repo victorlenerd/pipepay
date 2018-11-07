@@ -3,10 +3,11 @@ import React from "react";
 
 type Props = {
 	status: boolean,
+	hideBack: boolean,
 	back: () => void
 };
 
-const Status = ({ status, back }: Props) => (
+const Status = ({ status, hideBack, back }: Props) => (
 	<React.Fragment>
 		<h3
 			className="text-center"
@@ -86,16 +87,18 @@ const Status = ({ status, back }: Props) => (
 				</svg>
 			</div>
 		)}
-		<div className="form-buttons">
-			<input
-				name="invoice-type-purchase"
-				type="submit"
-				onClick={back}
-				value="Back To Invoices"
-				id="back_to_invoices"
-				className="text-submit"
-			/>
-		</div>
+		{hideBack !== true && (
+			<div className="form-buttons">
+				<input
+					name="invoice-type-purchase"
+					type="submit"
+					onClick={back}
+					value="Back To Invoices"
+					id="back_to_invoices"
+					className="text-submit"
+				/>
+			</div>
+		)}
 	</React.Fragment>
 );
 

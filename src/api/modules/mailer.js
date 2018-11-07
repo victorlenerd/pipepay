@@ -10,9 +10,9 @@ if (process.env.NODE_ENV === "staging") {
 	process.env.NODE_ENV === "testing" ||
 	process.env.NODE_ENV === "development"
 ) {
-	host = "https://localhost/confirm";
+	host = "https://localhost:4545/confirm";
 } else {
-	host = "https://localhost/confirm";
+	host = "https://localhost:4545/confirm";
 }
 
 const ZOHO_EMAIL = process.env.ZOHO_EMAIL;

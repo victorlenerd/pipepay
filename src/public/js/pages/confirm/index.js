@@ -82,6 +82,7 @@ class Confirm extends React.Component<Props, State> {
 											<div id="text-center">
 												<h1>Thank you for you response</h1>
 												<p>The payment has been transfered successfully</p>
+												<Status status={true} hideBack={true} back={() => {}} />
 											</div>
 										)}
 									{this.state.status !== "accepted" &&
@@ -92,6 +93,7 @@ class Confirm extends React.Component<Props, State> {
 													The payment for the milestone has been transfered
 													successfully
 												</p>
+												<Status status={true} hideBack={true} back={() => {}} />
 											</div>
 										)}
 									{this.state.status === "accepted" &&
@@ -102,6 +104,7 @@ class Confirm extends React.Component<Props, State> {
 													The payment for the last milestone has been transfered
 													successfully
 												</p>
+												<Status status={true} hideBack={true} back={() => {}} />
 											</div>
 										)}
 									{this.state.status === "rejected" && (
@@ -121,6 +124,7 @@ class Confirm extends React.Component<Props, State> {
 								<React.Fragment>
 									<h1 className="text-center">An Error Occured</h1>
 									<p className="text-center">{this.state.errorMessage}</p>
+									<Status status={false} hideBack={true} back={() => {}} />
 								</React.Fragment>
 							)
 						) : null}

@@ -3,6 +3,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Link, withRouter } from "react-router-dom";
 import type { RouterHistory } from "react-router-dom";
+import { StickyContainer, Sticky } from "react-sticky";
 import { subHours, distanceInWords } from "date-fns";
 import NProgress from "nprogress";
 
@@ -45,7 +46,7 @@ class Dashboard extends React.PureComponent<Props, State> {
 		pending: 0,
 		sent: 0,
 		prevY: 0,
-		limit: 10,
+		limit: 15,
 		total: 0,
 		page: 1
 	};
@@ -170,11 +171,40 @@ class Dashboard extends React.PureComponent<Props, State> {
 	render() {
 		return (
 			<section className="section">
-				<div className="payments-summary">
-					<div className="container">
-						<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-								<p className="filter-text">Filter Transactions</p>
+				<div className="payments-summary sticky">
+					<div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						<p>Sent</p>
+						<h3 className="pending-transactions-amount">
+							&#x20A6;
+							{this.state.sent}
+						</h3>
+					</div>
+					<div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						<p>Paid</p>
+						<h3 className="pending-transactions-amount">
+							&#x20A6;
+							{this.state.pending}
+						</h3>
+					</div>
+					<div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+						<p>Approved</p>
+						<h3 className="pending-transactions-amount">
+							&#x20A6;
+							{this.state.accepted}
+						</h3>
+					</div>
+				</div>
+				<div className="container" style={{ marginTop: 100 }}>
+					<div className="col-lg-8 col-md-8 col-lg-offset-2 col-md-offset-2 col-sm-12 col-xs-12">
+						<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+							<div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+								<input
+									type="text"
+									className="search-invoice"
+									placeholder="Search by name, email or phone number"
+								/>
+							</div>
+							<div className="col-lg-2 col-md-2 col-lg-offset-2 col-md-offset-2 col-sm-2 col-xs-2 col-sm-offset-2">
 								<select
 									className="transaction-select"
 									onChange={e => this.setQuery(e.target.value)}
@@ -186,42 +216,8 @@ class Dashboard extends React.PureComponent<Props, State> {
 									<option value="year">Past Year</option>
 								</select>
 							</div>
-							<div className="col-lg-2 col-md-2 col-sm-2 col-xs-4">
-								<p>Sent</p>
-								<h3 className="pending-transactions-amount">
-									&#x20A6;
-									{this.state.sent}
-								</h3>
-							</div>
-							<div className="col-lg-2 col-md-2 col-sm-2 col-xs-4">
-								<p>Paid</p>
-								<h3 className="pending-transactions-amount">
-									&#x20A6;
-									{this.state.pending}
-								</h3>
-							</div>
-							<div className="col-lg-2 col-md-2 col-sm-2 col-xs-4">
-								<p>Approved</p>
-								<h3 className="pending-transactions-amount">
-									&#x20A6;
-									{this.state.accepted}
-								</h3>
-							</div>
 						</div>
-					</div>
-				</div>
-				<div className="container">
-					<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-						<div className="row">
-							<div className="col-lg-8 col-md-8 col-sm-8 col-xs-12">
-								<input
-									type="text"
-									className="search-invoice"
-									placeholder="Search by name, email or phone number"
-								/>
-							</div>
-						</div>
-						<div className="col-lg-8 col-md-8 col-sm-12 col-xs-12">
+						<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 							<ul className="invoices" type="none">
 								{this.state.invoices.length > 0 ? (
 									this.state.invoices.map((invoice, i) => {
