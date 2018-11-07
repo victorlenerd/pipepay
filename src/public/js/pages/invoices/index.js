@@ -100,29 +100,33 @@ class Dashboard extends React.PureComponent<Props, State> {
 				NProgress.done();
 				if (success) {
 					const { invoices, total } = data;
-					console.log("data", data);
 					this.listInvoices = [];
 					this.setState(
 						{
 							invoices: [...this.state.invoices, ...invoices],
-							total,
-							accepted: invoices.reduce((pv, cv) => {
-								return cv.status === "accepted" ? pv + cv.totalPrice : pv;
-							}, 0),
-							pending: invoices.reduce((pv, cv) => {
-								return cv.status === "paid" ? pv + cv.totalPrice : pv;
-							}, 0),
-							sent: invoices.reduce((pv, cv) => {
-								return cv.status === "sent" ? pv + cv.totalPrice : pv;
-							}, 0)
+							total
 						},
 						() => {
-							this.observer.disconnect();
-							console.log(this.listInvoices);
-							const el = this.listInvoices[this.listInvoices.length - 1];
-							if (el) {
-								this.observer.observe(el);
-							}
+							this.setState(
+								{
+									accepted: this.state.invoices.reduce((pv, cv) => {
+										return cv.status === "accepted" ? pv + cv.totalPrice : pv;
+									}, 0),
+									pending: this.state.invoices.reduce((pv, cv) => {
+										return cv.status === "paid" ? pv + cv.totalPrice : pv;
+									}, 0),
+									sent: this.state.invoices.reduce((pv, cv) => {
+										return cv.status === "sent" ? pv + cv.totalPrice : pv;
+									}, 0)
+								},
+								() => {
+									this.observer.disconnect();
+									const el = this.listInvoices[this.listInvoices.length - 1];
+									if (el) {
+										this.observer.observe(el);
+									}
+								}
+							);
 						}
 					);
 				} else {
