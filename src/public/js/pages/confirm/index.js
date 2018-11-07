@@ -5,6 +5,7 @@ import type { RouterHistory } from "react-router-dom";
 import nprogess from "nprogress";
 
 import Report from "../../components/report";
+import Status from "../../components/status";
 
 type Props = {
 	match: {

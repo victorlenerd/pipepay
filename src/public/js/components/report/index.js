@@ -1,6 +1,7 @@
 //@flow
 import React from "react";
 import nprogress from "nprogress";
+import Status from "../status";
 
 type Props = {
 	from: string,
@@ -14,7 +15,6 @@ class Report extends React.PureComponent<Props> {
 		nprogress.start();
 
 		if (e.target.checkValidity()) {
-			console.log("form: valid");
 			fetch(`/api/dispute/${this.props.invoiceId}`, {
 				method: "POST",
 				body: JSON.stringify({

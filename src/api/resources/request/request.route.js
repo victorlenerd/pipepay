@@ -23,13 +23,11 @@ Router.route("/:invoiceId").get(async (req, res) => {
 
 		const acceptToken = jwt.sign(
 			{ invoiceId, type, customerEmail, action: "accept" },
-			JWT_SECRET,
-			{ expiresIn: "24h" }
+			JWT_SECRET
 		);
 		const rejectToken = jwt.sign(
 			{ invoiceId, type, customerEmail, action: "reject" },
-			JWT_SECRET,
-			{ expiresIn: "24h" }
+			JWT_SECRET
 		);
 
 		if (status === "paid") {
@@ -96,8 +94,7 @@ Router.route("/:invoiceId/:milestoneId").get(async (req, res) => {
 					customerEmail,
 					action: "accept"
 				},
-				JWT_SECRET,
-				{ expiresIn: "24h" }
+				JWT_SECRET
 			);
 			const rejectToken = jwt.sign(
 				{
@@ -107,8 +104,7 @@ Router.route("/:invoiceId/:milestoneId").get(async (req, res) => {
 					customerEmail,
 					action: "reject"
 				},
-				JWT_SECRET,
-				{ expiresIn: "24h" }
+				JWT_SECRET
 			);
 
 			if (status === "paid") {

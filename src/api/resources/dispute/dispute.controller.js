@@ -41,7 +41,6 @@ const DisputeController = generateController(DisputeModel, {
 		if (status === "paid") {
 			DisputeModel.create(body, async (err, doc) => {
 				if (err) {
-					console.log("err", err);
 					return res.status(400).send({
 						error: {
 							message: "Could not create the dispute"

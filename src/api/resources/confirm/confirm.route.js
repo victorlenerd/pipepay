@@ -63,7 +63,7 @@ ConfirmRouter.route("/:token").get((req, res) => {
 								}
 
 								if (doc.whoPaysDeliveryFee === "seller") {
-									amount -= deliveryAmount;
+									amount += deliveryAmount;
 								}
 
 								await Transfer(

@@ -1,5 +1,20 @@
 import nodemailer from "nodemailer";
 
+let host;
+
+if (process.env.NODE_ENV === "staging") {
+	host = "https://staging.pipepay.africa/confirm";
+} else if (process.env.NODE_ENV === "production") {
+	host = "https://pipepay.africa/confirm";
+} else if (
+	process.env.NODE_ENV === "testing" ||
+	process.env.NODE_ENV === "development"
+) {
+	host = "https://localhost/confirm";
+} else {
+	host = "https://localhost/confirm";
+}
+
 const ZOHO_EMAIL = process.env.ZOHO_EMAIL;
 const ZOHO_PASSWORD = process.env.ZOHO_PASSWORD;
 
@@ -78,7 +93,7 @@ export const sendDisputeMail = (
 	new Promise(async (resolve, reject) => {
 		let mailOption = {
 			from: "hello@pipepay.africa",
-			subject: "Payment Dispute"
+			subject: "PipePay Payment Dispute"
 		};
 
 		try {
@@ -148,26 +163,25 @@ export const sendPaymentRequest = (
 			html: `
 			<p>Hey ${customerName}!</p>
 			
-			<p>${marchantName} ${
-				type === "good"
-					? "requested for transfer of payment you made the good"
-					: `requested for transfer of payment for milestone ${milestoneIndex +
-							1}`
-			}.</p>
+			<p>
+				${marchantName}
+				${
+					type === "good"
+						? "requested for transfer of payment you made"
+						: `requested for transfer of payment for milestone ${milestoneIndex +
+								1}`
+				}.
+			</p>
 
 			<p>If you're satisfied with ${
 				type === "good" ? "good" : "service"
 			} please click this link to transfer 
-				<a href="http://localhost:4545/confirm/${acceptToken}">I AM SATISFIED PAY ${marchantName}</a>
+				<a href="${host}/${acceptToken}">I AM SATISFIED PAY ${marchantName}</a>
 			</p>
 
 			<p>
 				On the other hand if you're not satisfied  click here to open a disputes 
-				<a href="http://localhost:4545/confirm/${rejectToken}">I AM NOT SATISFIED I WANT TO OPEN A DISPUTE ${marchantName}</a> 
-			</p>
-
-			<p>
-				<i>The links expire in a 24 hours.</i>
+				<a href="${host}/${rejectToken}">I AM NOT SATISFIED I WANT TO OPEN A DISPUTE ${marchantName}</a> 
 			</p>
 
 			<p>
@@ -180,7 +194,6 @@ export const sendPaymentRequest = (
 			await sendTo({ ...mailOption, to: customerEmail });
 			resolve();
 		} catch (err) {
-			console.log("err", err);
 			reject(err);
 		}
 	});
