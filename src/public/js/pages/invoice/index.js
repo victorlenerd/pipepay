@@ -298,7 +298,8 @@ class Invoice extends React.PureComponent<Props, State> {
 						</div>
 						<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 							{invoice.status === "paid" &&
-								invoice.requested === false && (
+								invoice.requested === false &&
+								invoice.disputed === false && (
 									<>
 										<p className="invoice-action-hint">
 											Once the marchandise as been delivered. Click this button

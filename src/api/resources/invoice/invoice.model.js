@@ -1,4 +1,5 @@
 import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate";
 
 export const MilestoneSchema = new mongoose.Schema(
 	{
@@ -53,5 +54,7 @@ const InvoiceSchema = new mongoose.Schema(
 	},
 	{ timestamps: { createdAt: "created_at" } }
 );
+
+InvoiceSchema.plugin(mongoosePaginate);
 
 export default mongoose.model("Invoice", InvoiceSchema);

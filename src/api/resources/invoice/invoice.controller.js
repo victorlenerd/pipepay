@@ -127,18 +127,29 @@ export default generateController(InvoiceModel, {
 			return res
 				.status(403)
 				.send({ success: false, error: "Invalid auth token" });
+
 		const userId = req.user.sub;
-		const from =
-			req.query && req.query.from ? req.query.from : subHours(new Date(), 24);
-		const to = req.query && req.query.to ? req.query.to : new Date();
+		const page = req.query.page;
+		const limit = req.query.limit;
+		const from = req.query.from;
+		const to = req.query.to;
+		const query = { userId };
+		const options = {
+			select: QUERY_PARAMS,
+			sort: { created_at: -1 },
+			limit: Number(limit),
+			page: Number(page)
+		};
+
+		if (from && to) query.created_at = { $gte: from, $lte: to };
 
 		try {
-			const invoices = await InvoiceModel.find(
-				{ userId, created_at: { $gte: from, $lte: to } },
-				QUERY_PARAMS,
-				{ sort: { created_at: -1 } }
-			);
-			return res.status(200).send({ data: { invoices }, success: true });
+			const invoices = await InvoiceModel.paginate(query, options);
+			const { docs, total, limit, page } = invoices;
+
+			return res
+				.status(200)
+				.send({ data: { invoices: docs, total, limit, page }, success: true });
 		} catch (err) {
 			return res.status(400).send({ err, success: false });
 		}

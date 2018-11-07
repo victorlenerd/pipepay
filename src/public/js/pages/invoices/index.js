@@ -6,6 +6,8 @@ import type { RouterHistory } from "react-router-dom";
 import { subHours, distanceInWords } from "date-fns";
 import NProgress from "nprogress";
 
+require("intersection-observer");
+
 type Props = {
 	history: RouterHistory,
 	user: {
@@ -25,31 +27,68 @@ type State = {
 	pending: number,
 	accepted: number,
 	sent: number,
-	from: Date,
-	to: Date,
+	from: ?null,
+	to: ?null,
+	limit: number,
+	page: number,
+	prevY: number,
 	invoices: Array<Invoice>
 };
 
 class Dashboard extends React.PureComponent<Props, State> {
 	state = {
-		from: subHours(new Date(), 24),
-		to: new Date(),
+		from: null,
+		to: null,
 		invoices: [],
 		accepted: 0,
 		pending: 0,
-		sent: 0
+		sent: 0,
+		prevY: 0,
+		limit: 10,
+		page: 1
 	};
 
-	componentWillMount() {
+	componentDidMount() {
 		this.fetchInvoices();
+
+		var options = {
+			root: null, // Page as root
+			rootMargin: "0px",
+			threshold: 1.0
+		};
+
+		this.listInvoices = [];
+
+		// Create an observer
+		this.observer = new IntersectionObserver(
+			this.handleObserver.bind(this), //callback
+			options
+		);
+	}
+
+	handleObserver(entities, observer) {
+		const y = entities[0].boundingClientRect.y;
+		console.log("y", y);
+		if (this.state.prevY > y) {
+			this.setState({ page: this.state.page + 1 });
+			this.fetchInvoices();
+		}
+
+		this.setState({ prevY: y });
 	}
 
 	fetchInvoices = () => {
 		const { user } = this.props;
-		const { from, to } = this.state;
+		const { from, to, limit, page } = this.state;
+		let url = `/api/invoice?limit=${limit}&page=${page}`;
+
+		if (to && from) {
+			url += `&from=${from}&to=${to}`;
+		}
+
 		NProgress.start();
 
-		fetch(`/api/invoice?from=${from}&to=${to}`, {
+		fetch(url, {
 			method: "GET",
 			headers: {
 				"Content-Type": "application/json",
@@ -61,18 +100,26 @@ class Dashboard extends React.PureComponent<Props, State> {
 				NProgress.done();
 				if (success) {
 					const { invoices } = data;
-					this.setState({
-						invoices,
-						accepted: invoices.reduce((pv, cv) => {
-							return cv.status === "accepted" ? pv + cv.totalPrice : pv;
-						}, 0),
-						pending: invoices.reduce((pv, cv) => {
-							return cv.status === "paid" ? pv + cv.totalPrice : pv;
-						}, 0),
-						sent: invoices.reduce((pv, cv) => {
-							return cv.status === "sent" ? pv + cv.totalPrice : pv;
-						}, 0)
-					});
+					this.setState(
+						{
+							invoices: [...this.state.invoices, ...invoices],
+							accepted: invoices.reduce((pv, cv) => {
+								return cv.status === "accepted" ? pv + cv.totalPrice : pv;
+							}, 0),
+							pending: invoices.reduce((pv, cv) => {
+								return cv.status === "paid" ? pv + cv.totalPrice : pv;
+							}, 0),
+							sent: invoices.reduce((pv, cv) => {
+								return cv.status === "sent" ? pv + cv.totalPrice : pv;
+							}, 0)
+						},
+						() => {
+							this.observer.disconnect();
+							this.observer.observe(
+								this.listInvoices[this.listInvoices.length - 1]
+							);
+						}
+					);
 				} else {
 					this.props.history.push("/invoices");
 				}
@@ -86,14 +133,23 @@ class Dashboard extends React.PureComponent<Props, State> {
 	setQuery = q => {
 		let hours = 0;
 
+		if (q === "all") {
+			return this.setState({ invoices: [], to: null, from: null }, () => {
+				this.fetchInvoices();
+			});
+		}
+
 		if (q === "day") hours = 24;
 		if (q === "week") hours = 168;
 		if (q === "month") hours = 672;
 		if (q === "year") hours = 8760;
 
-		this.setState({ from: subHours(new Date(), hours) }, () => {
-			this.fetchInvoices();
-		});
+		this.setState(
+			{ invoices: [], to: new Date(), from: subHours(new Date(), hours) },
+			() => {
+				this.fetchInvoices();
+			}
+		);
 	};
 
 	render() {
@@ -108,6 +164,7 @@ class Dashboard extends React.PureComponent<Props, State> {
 									className="transaction-select"
 									onChange={e => this.setQuery(e.target.value)}
 								>
+									<option value="all">All</option>
 									<option value="day">Today</option>
 									<option value="week">Past Week</option>
 									<option value="month">Past Month</option>
@@ -154,7 +211,11 @@ class Dashboard extends React.PureComponent<Props, State> {
 								{this.state.invoices.length > 0 ? (
 									this.state.invoices.map((invoice, i) => {
 										return (
-											<li key={i} onClick={() => this.openInvoice(invoice)}>
+											<li
+												ref={r => (this.listInvoices[i] = r)}
+												key={i}
+												onClick={() => this.openInvoice(invoice)}
+											>
 												<div className="pull-left">
 													<h4>{invoice.customerName}</h4>
 													<div className="invoice-price-main">

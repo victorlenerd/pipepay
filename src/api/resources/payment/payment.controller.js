@@ -31,7 +31,6 @@ export default generateController(PaymentModel, {
 				{ new: true },
 				async (err, doc) => {
 					if (err) {
-						console.error(err);
 						return res
 							.status(400)
 							.send({ error: new Error(err), status: false });
