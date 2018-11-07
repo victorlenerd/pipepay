@@ -31,6 +31,7 @@ type State = {
 	to: ?null,
 	limit: number,
 	page: number,
+	total: number,
 	prevY: number,
 	invoices: Array<Invoice>
 };
@@ -45,6 +46,7 @@ class Dashboard extends React.PureComponent<Props, State> {
 		sent: 0,
 		prevY: 0,
 		limit: 10,
+		total: 0,
 		page: 1
 	};
 
@@ -52,14 +54,13 @@ class Dashboard extends React.PureComponent<Props, State> {
 		this.fetchInvoices();
 
 		var options = {
-			root: null, // Page as root
+			root: null,
 			rootMargin: "0px",
 			threshold: 1.0
 		};
 
 		this.listInvoices = [];
 
-		// Create an observer
 		this.observer = new IntersectionObserver(
 			this.handleObserver.bind(this), //callback
 			options
@@ -68,8 +69,7 @@ class Dashboard extends React.PureComponent<Props, State> {
 
 	handleObserver(entities, observer) {
 		const y = entities[0].boundingClientRect.y;
-		console.log("y", y);
-		if (this.state.prevY > y) {
+		if (this.state.prevY > y && this.state.invoices.length < this.state.total) {
 			this.setState({ page: this.state.page + 1 });
 			this.fetchInvoices();
 		}
@@ -99,10 +99,13 @@ class Dashboard extends React.PureComponent<Props, State> {
 			.then(({ success, data }) => {
 				NProgress.done();
 				if (success) {
-					const { invoices } = data;
+					const { invoices, total } = data;
+					console.log("data", data);
+					this.listInvoices = [];
 					this.setState(
 						{
 							invoices: [...this.state.invoices, ...invoices],
+							total,
 							accepted: invoices.reduce((pv, cv) => {
 								return cv.status === "accepted" ? pv + cv.totalPrice : pv;
 							}, 0),
@@ -115,9 +118,11 @@ class Dashboard extends React.PureComponent<Props, State> {
 						},
 						() => {
 							this.observer.disconnect();
-							this.observer.observe(
-								this.listInvoices[this.listInvoices.length - 1]
-							);
+							console.log(this.listInvoices);
+							const el = this.listInvoices[this.listInvoices.length - 1];
+							if (el) {
+								this.observer.observe(el);
+							}
 						}
 					);
 				} else {
@@ -134,9 +139,12 @@ class Dashboard extends React.PureComponent<Props, State> {
 		let hours = 0;
 
 		if (q === "all") {
-			return this.setState({ invoices: [], to: null, from: null }, () => {
-				this.fetchInvoices();
-			});
+			return this.setState(
+				{ page: 1, invoices: [], to: null, from: null },
+				() => {
+					this.fetchInvoices();
+				}
+			);
 		}
 
 		if (q === "day") hours = 24;
@@ -145,10 +153,13 @@ class Dashboard extends React.PureComponent<Props, State> {
 		if (q === "year") hours = 8760;
 
 		this.setState(
-			{ invoices: [], to: new Date(), from: subHours(new Date(), hours) },
-			() => {
-				this.fetchInvoices();
-			}
+			{
+				page: 1,
+				invoices: [],
+				to: new Date(),
+				from: subHours(new Date(), hours)
+			},
+			() => this.fetchInvoices()
 		);
 	};
 
