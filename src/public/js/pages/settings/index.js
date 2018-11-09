@@ -123,28 +123,6 @@ class Settings extends React.PureComponent<Props, State> {
 											/>
 										</form>
 									</div>
-									<h2>Change Email</h2>
-									<br />
-									<br />
-									<div className="form-setting-section">
-										<form name="change-password-setting">
-											<label>New Email</label>
-											<input
-												type="text"
-												className="text-input"
-												id="new-email"
-												name="newemail"
-											/>
-											<br />
-											<br />
-											<input
-												type="submit"
-												name="submit"
-												className="text-submit text-submit-remove-margin"
-												value="Update E-mail"
-											/>
-										</form>
-									</div>
 									<h2>Change Account Number</h2>
 									<br />
 									<br />
