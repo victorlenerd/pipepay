@@ -10,6 +10,7 @@ pipelines:
           services: 
             - mongo
           script:
+            - mvn clean build
             - npm install
             - npm run server:test
     staging:
