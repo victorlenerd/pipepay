@@ -32,7 +32,7 @@ class Settings extends React.PureComponent<Props, State> {
 		if (newPassword === confirmPassword) {
 			NProgress.start();
 			changePassword(
-				this.context.user["cognito:username"],
+				this.appContext.user["cognito:username"],
 				oldPassword,
 				newPassword
 			)
@@ -53,7 +53,7 @@ class Settings extends React.PureComponent<Props, State> {
 		return (
 			<AppContext.Consumer>
 				{context => {
-					this.context = context;
+					this.appContext = context;
 
 					return (
 						<section className="section">

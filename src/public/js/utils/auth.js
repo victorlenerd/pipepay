@@ -117,7 +117,7 @@ export const changePassword = (Username, oldPassword, newPassword) =>
 
 		cognitoUser = new CognitoUser(userData);
 
-		cognitoUser.getSession(function(err, session) {
+		cognitoUser.getSession((err, session) => {
 			if (err) {
 				reject(err);
 			} else {
@@ -125,6 +125,23 @@ export const changePassword = (Username, oldPassword, newPassword) =>
 					if (err) reject(err);
 					resolve(result);
 				});
+			}
+		});
+	});
+
+export const getSession = Username =>
+	new Promise((resolve, reject) => {
+		let userData = {
+			Username,
+			Pool: userPool
+		};
+		console.log("Username", Username);
+		cognitoUser = new CognitoUser(userData);
+		cognitoUser.getSession((err, session) => {
+			if (err) {
+				reject(err);
+			} else {
+				resolve(session);
 			}
 		});
 	});

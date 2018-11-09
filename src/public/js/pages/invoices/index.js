@@ -7,6 +7,7 @@ import { StickyContainer, Sticky } from "react-sticky";
 import { subHours, distanceInWords } from "date-fns";
 import NProgress from "nprogress";
 import debounce from "lodash.debounce";
+import AppContext from "../../contexts/app.context";
 
 require("intersection-observer");
 
@@ -206,90 +207,103 @@ class Dashboard extends React.PureComponent<Props, State> {
 
 	render() {
 		return (
-			<section className="section">
-				<div className="payments-summary sticky">
-					<div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-						<p>Sent</p>
-						<h3 className="pending-transactions-amount">
-							&#x20A6;
-							{this.abbreviate_number(this.state.sent)}
-						</h3>
-					</div>
-					<div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-						<p>Paid</p>
-						<h3 className="pending-transactions-amount">
-							&#x20A6;
-							{this.abbreviate_number(this.state.pending)}
-						</h3>
-					</div>
-					<div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
-						<p>Approved</p>
-						<h3 className="pending-transactions-amount">
-							&#x20A6;
-							{this.abbreviate_number(this.state.accepted)}
-						</h3>
-					</div>
-				</div>
-				<div className="container" style={{ marginTop: 100 }}>
-					<div className="col-lg-8 col-md-8 col-lg-offset-2 col-md-offset-2 col-sm-12 col-xs-12">
-						<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
-							<div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">
-								<input
-									type="text"
-									className="search-invoice"
-									onChange={e => this.setSearchQuery(e.target.value)}
-									placeholder="Search by name, email or phone number"
-								/>
+			<AppContext>
+				{context => {
+					this.appContext = context;
+
+					return (
+						<section className="section">
+							<div className="payments-summary sticky">
+								<div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+									<p>Sent</p>
+									<h3 className="pending-transactions-amount">
+										&#x20A6;
+										{this.abbreviate_number(this.state.sent)}
+									</h3>
+								</div>
+								<div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+									<p>Paid</p>
+									<h3 className="pending-transactions-amount">
+										&#x20A6;
+										{this.abbreviate_number(this.state.pending)}
+									</h3>
+								</div>
+								<div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
+									<p>Approved</p>
+									<h3 className="pending-transactions-amount">
+										&#x20A6;
+										{this.abbreviate_number(this.state.accepted)}
+									</h3>
+								</div>
 							</div>
-							<div className="col-lg-2 col-md-2 col-lg-offset-2 col-md-offset-2 col-sm-2 col-xs-2 col-sm-offset-2">
-								<select
-									className="transaction-select"
-									onChange={e => this.setQuery(e.target.value)}
-								>
-									<option value="all">All</option>
-									<option value="day">Today</option>
-									<option value="week">Past Week</option>
-									<option value="month">Past Month</option>
-									<option value="year">Past Year</option>
-								</select>
-							</div>
-						</div>
-						<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-							<ul className="invoices" type="none">
-								{this.state.invoices.length > 0 ? (
-									this.state.invoices.map((invoice, i) => {
-										return (
-											<li
-												ref={r => (this.listInvoices[i] = r)}
-												key={i}
-												onClick={() => this.openInvoice(invoice)}
+							<div className="container" style={{ marginTop: 100 }}>
+								<div className="col-lg-8 col-md-8 col-lg-offset-2 col-md-offset-2 col-sm-12 col-xs-12">
+									<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+										<div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+											<input
+												type="text"
+												className="search-invoice"
+												onChange={e => this.setSearchQuery(e.target.value)}
+												placeholder="Search by name, email or phone number"
+											/>
+										</div>
+										<div className="col-lg-2 col-md-2 col-lg-offset-2 col-md-offset-2 col-sm-2 col-xs-2 col-sm-offset-2">
+											<select
+												className="transaction-select"
+												onChange={e => this.setQuery(e.target.value)}
 											>
-												<div className="pull-left">
-													<h4>{invoice.customerName}</h4>
-													<div className="invoice-price-main">
-														&#x20A6; {invoice.totalPrice}
-													</div>
-												</div>
-												<div className="pull-right">
-													<div className="invoice-timeago">
-														{distanceInWords(invoice.created_at, new Date())}
-													</div>
-													<div className={`invoice-price ${invoice.status}`}>
-														{invoice.status}
-													</div>
-												</div>
-												<div className="clearfix" />
-											</li>
-										);
-									})
-								) : (
-									<h3>You have not sent out any invoices yet</h3>
-								)}
-							</ul>
-						</div>
-					</div>
-				</div>
-			</section>
+												<option value="all">All</option>
+												<option value="day">Today</option>
+												<option value="week">Past Week</option>
+												<option value="month">Past Month</option>
+												<option value="year">Past Year</option>
+											</select>
+										</div>
+									</div>
+									<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										<ul className="invoices" type="none">
+											{this.state.invoices.length > 0 ? (
+												this.state.invoices.map((invoice, i) => {
+													return (
+														<li
+															ref={r => (this.listInvoices[i] = r)}
+															key={i}
+															onClick={() => this.openInvoice(invoice)}
+														>
+															<div className="pull-left">
+																<h4>{invoice.customerName}</h4>
+																<div className="invoice-price-main">
+																	&#x20A6; {invoice.totalPrice}
+																</div>
+															</div>
+															<div className="pull-right">
+																<div className="invoice-timeago">
+																	{distanceInWords(
+																		invoice.created_at,
+																		new Date()
+																	)}
+																</div>
+																<div
+																	className={`invoice-price ${invoice.status}`}
+																>
+																	{invoice.status}
+																</div>
+															</div>
+															<div className="clearfix" />
+														</li>
+													);
+												})
+											) : (
+												<h3>You have not sent out any invoices yet</h3>
+											)}
+										</ul>
+									</div>
+								</div>
+							</div>
+						</section>
+					);
+				}}
+			</AppContext>
 		);
 	}
 }

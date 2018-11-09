@@ -24,7 +24,7 @@ import Settings from "./pages/settings";
 import Confirm from "./pages/confirm";
 import Pricing from "./pages/pricing";
 
-import { init, signin, userPool } from "./utils/auth";
+import { init, signin, userPool, getSession, signOut } from "./utils/auth";
 import NProgress from "nprogress";
 
 type State = {
@@ -47,6 +47,7 @@ class App extends Component<Props, State> {
 		user: null,
 		confirmPassword: () => {},
 		confirmPasswordCallback: () => {},
+		updateSession: () => {},
 		setCurrentUser: (user: {} | null) =>
 			this.setState({ user, signedIn: user !== null })
 	};
@@ -69,7 +70,10 @@ class App extends Component<Props, State> {
 			this.state.setCurrentUser(null);
 		}
 
-		this.setState({ confirmPassword: this.confirmPassword });
+		this.setState({
+			confirmPassword: this.confirmPassword,
+			updateSession: this.updateSession
+		});
 	}
 
 	confirmPassword = (callback: () => void): void => {
@@ -100,6 +104,25 @@ class App extends Component<Props, State> {
 
 			this.setState({ error: err.message });
 		});
+	};
+
+	updateSession = (callback: () => void) => {
+		getSession(this.state.user["congito:username"])
+			.then(result => {
+				if (result && result.isValid()) {
+					NProgress.done();
+					const { idToken } = result;
+
+					const { payload, jwtToken } = idToken;
+					payload.token = jwtToken;
+					this.state.setCurrentUser(payload);
+					callback();
+				}
+			})
+			.catch(() => {
+				signOut();
+				this.state.setCurrentUser(null);
+			});
 	};
 
 	render() {
