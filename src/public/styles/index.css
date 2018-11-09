@@ -152,6 +152,14 @@ input {
   margin-bottom: 21px;
 }
 
+.text-submit-remove-margin {
+  margin: 0px 0px;
+}
+
+/* .input-max-width {
+  max-width: 500px;
+} */
+
 .add-milestone-btn {
   width: 150px;
   margin: 20px auto;
@@ -294,13 +302,13 @@ form {
   display: table;
 }
 
-.invoices li {
+.invoices li, .form-setting-section {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   cursor: pointer;
   padding: 20px 0px;
 }
 
-.invoices li:last-child {
+.invoices li:last-child, .form-setting-section:last-child {
   border: 0px;
 }
 
@@ -438,11 +446,6 @@ form {
   100% {
     stroke-dashoffset: 900;
   }
-}
-
-form {
-  display: block;
-  width: 90%;
 }
 
 #status {

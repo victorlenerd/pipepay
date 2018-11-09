@@ -122,9 +122,13 @@ class VerifyBackAccount extends React.PureComponent {
 										})
 									}
 								>
-									{banks.map(bank => {
+									{banks.map((bank, i) => {
 										return (
-											<option value={bank.code} key={bank.code}>
+											<option
+												value={bank.code}
+												key={bank.code}
+												selected={i === 0}
+											>
 												{bank.name}
 											</option>
 										);

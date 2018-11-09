@@ -24,21 +24,31 @@ import Settings from "./pages/settings";
 import Confirm from "./pages/confirm";
 import Pricing from "./pages/pricing";
 
-import { init } from "./utils/auth";
+import { init, signin, userPool } from "./utils/auth";
+import NProgress from "nprogress";
 
 type State = {
 	signedIn: boolean,
 	user: any,
+	confirmPassword: () => void,
+	confirmPasswordCallback: () => void,
 	setCurrentUser: (user: any) => void
 };
 
 type Props = {};
 
 class App extends Component<Props, State> {
+	confirmPassword: () => void;
+	setState: any => void;
+	confirmPasswordEl: any;
+
 	state = {
 		signedIn: false,
 		user: null,
-		setCurrentUser: user => this.setState({ user, signedIn: user !== null })
+		confirmPassword: () => {},
+		confirmPasswordCallback: () => {},
+		setCurrentUser: (user: {} | null) =>
+			this.setState({ user, signedIn: user !== null })
 	};
 
 	componentWillMount() {
@@ -58,7 +68,39 @@ class App extends Component<Props, State> {
 		} catch (err) {
 			this.state.setCurrentUser(null);
 		}
+
+		this.setState({ confirmPassword: this.confirmPassword });
 	}
+
+	confirmPassword = (callback: () => void): void => {
+		$("#confirm-password-modal").modal({
+			backdrop: "static",
+			keyboard: false
+		});
+		this.setState({ confirmPasswordCallback: callback });
+	};
+
+	loginAgain = async () => {
+		await signin(
+			this.state.user["cognito:username"],
+			this.confirmPasswordEl.value
+		);
+		const cognitoUser = userPool.getCurrentUser();
+		cognitoUser.getSession((err, result) => {
+			if (result && result.isValid()) {
+				NProgress.done();
+				const { idToken } = result;
+
+				const { payload, jwtToken } = idToken;
+				payload.token = jwtToken;
+				this.state.setCurrentUser(payload);
+				$("#confirm-password-modal").modal("hide");
+				return this.state.confirmPasswordCallback();
+			}
+
+			this.setState({ error: err.message });
+		});
+	};
 
 	render() {
 		const { signedIn } = this.state;
@@ -66,6 +108,46 @@ class App extends Component<Props, State> {
 		return (
 			<BrowserRouter>
 				<AppContext.Provider value={this.state}>
+					<div
+						id="confirm-password-modal"
+						className="modal fade bs-example-modal-sm"
+						tabIndex="-1"
+						role="dialog"
+						aria-labelledby="mySmallModalLabel"
+					>
+						<div className="modal-dialog modal-sm" role="document">
+							<div className="modal-content">
+								<div className="modal-header">
+									<button
+										type="button"
+										className="close"
+										data-dismiss="modal"
+										aria-label="Close"
+									>
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<h4 className="modal-title" id="myModalLabel">
+										Enter Password
+									</h4>
+								</div>
+								<div className="modal-body">
+									<input
+										type="password"
+										className="form-control"
+										ref={e => (this.confirmPasswordEl = e)}
+									/>
+								</div>
+								<div className="modal-footer">
+									<input
+										type="button"
+										className="btn btn-small btn-primary"
+										value="Submit"
+										onClick={this.loginAgain}
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
 					<Switch>
 						<Route exact path="/" render={() => WithHeader(Home)} />
 						<Route exact path="/pricing" render={() => WithHeader(Pricing)} />
