@@ -133,6 +133,7 @@ export default generateController(InvoiceModel, {
 		const limit = req.query.limit;
 		const from = req.query.from;
 		const to = req.query.to;
+		const search = req.query.search;
 		const query = { userId };
 		const options = {
 			select: QUERY_PARAMS,
@@ -142,6 +143,9 @@ export default generateController(InvoiceModel, {
 		};
 
 		if (from && to) query.created_at = { $gte: from, $lte: to };
+		if (search) {
+			query.$text = { $search: search };
+		}
 
 		try {
 			const invoices = await InvoiceModel.paginate(query, options);

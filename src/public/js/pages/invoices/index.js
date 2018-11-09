@@ -6,6 +6,7 @@ import type { RouterHistory } from "react-router-dom";
 import { StickyContainer, Sticky } from "react-sticky";
 import { subHours, distanceInWords } from "date-fns";
 import NProgress from "nprogress";
+import debounce from "lodash.debounce";
 
 require("intersection-observer");
 
@@ -25,6 +26,7 @@ type Invoice = {
 };
 
 type State = {
+	query: string,
 	pending: number,
 	accepted: number,
 	sent: number,
@@ -41,6 +43,7 @@ class Dashboard extends React.PureComponent<Props, State> {
 	state = {
 		from: null,
 		to: null,
+		query: "",
 		invoices: [],
 		accepted: 0,
 		pending: 0,
@@ -99,11 +102,15 @@ class Dashboard extends React.PureComponent<Props, State> {
 
 	fetchInvoices = () => {
 		const { user } = this.props;
-		const { from, to, limit, page } = this.state;
+		const { from, to, limit, page, query } = this.state;
 		let url = `/api/invoice?limit=${limit}&page=${page}`;
 
 		if (to && from) {
 			url += `&from=${from}&to=${to}`;
+		}
+
+		if (query) {
+			url += `&search=${query}`;
 		}
 
 		NProgress.start();
@@ -157,6 +164,16 @@ class Dashboard extends React.PureComponent<Props, State> {
 
 	openInvoice = invoice => {
 		this.props.history.push(`/invoice/${invoice._id}`, { invoice });
+	};
+
+	setSearchQuery = query => {
+		if (this.handle) clearTimeout(this.handle);
+		this.handle = setTimeout(() => {
+			clearTimeout(this.handle);
+			this.setState({ query, invoices: [], page: 1 }, () => {
+				this.fetchInvoices();
+			});
+		}, 500);
 	};
 
 	setQuery = q => {
@@ -220,6 +237,7 @@ class Dashboard extends React.PureComponent<Props, State> {
 								<input
 									type="text"
 									className="search-invoice"
+									onChange={e => this.setSearchQuery(e.target.value)}
 									placeholder="Search by name, email or phone number"
 								/>
 							</div>

@@ -55,6 +55,12 @@ const InvoiceSchema = new mongoose.Schema(
 	{ timestamps: { createdAt: "created_at" } }
 );
 
+InvoiceSchema.index({
+	customerName: "text",
+	customerEmail: "text",
+	customerPhone: "text"
+});
+
 InvoiceSchema.plugin(mongoosePaginate);
 
 export default mongoose.model("Invoice", InvoiceSchema);

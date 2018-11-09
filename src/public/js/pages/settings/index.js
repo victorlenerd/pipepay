@@ -1,9 +1,9 @@
 //@flow
 import React from "react";
+import NProgress from "nprogress";
 import VerifyAccountNumberContainer from "../../containers/verify-account-number.container";
 import { changePassword } from "../../utils/auth";
 import AppContext from "../../contexts/app.context";
-import NProgress from "nprogress";
 
 type Props = {};
 
