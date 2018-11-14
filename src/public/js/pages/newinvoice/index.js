@@ -15,7 +15,7 @@ import Milestones from "./milestones";
 import PurchaseInfo from "./purchaseInfo";
 import CustomerInfo from "./customerInfo";
 import Summary from "./summary";
-import Status from "./status";
+import Status from "../../components/status";
 
 type State = {
 	stage: number,
@@ -137,6 +137,7 @@ class NewInvoice extends React.Component<Props, State> {
 
 	addMilestone = e => {
 		e.preventDefault();
+
 		this.setState({
 			milestones: this.state.milestones.concat({
 				description: "",

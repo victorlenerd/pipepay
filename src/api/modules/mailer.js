@@ -1,5 +1,20 @@
 import nodemailer from "nodemailer";
 
+let host;
+
+if (process.env.NODE_ENV === "staging") {
+	host = "https://staging.pipepay.africa/confirm";
+} else if (process.env.NODE_ENV === "production") {
+	host = "https://pipepay.africa/confirm";
+} else if (
+	process.env.NODE_ENV === "testing" ||
+	process.env.NODE_ENV === "development"
+) {
+	host = "http://localhost:4545/confirm";
+} else {
+	host = "http://localhost:4545/confirm";
+}
+
 const ZOHO_EMAIL = process.env.ZOHO_EMAIL;
 const ZOHO_PASSWORD = process.env.ZOHO_PASSWORD;
 
@@ -70,14 +85,15 @@ export const sendDisputeMail = (
 	marchantEmail,
 	customerEmail,
 	customerName,
+	marchantName,
 	reason,
 	disputeFrom,
-	supportEmail = "hello@pipepay.africa"
+	supportEmail = "support@pipepay.zohodesk.com"
 ) =>
 	new Promise(async (resolve, reject) => {
 		let mailOption = {
-			from,
-			subject: "Payment Dispute"
+			from: "hello@pipepay.africa",
+			subject: "PipePay Payment Dispute"
 		};
 
 		try {
@@ -85,43 +101,32 @@ export const sendDisputeMail = (
 				await Promise.all([
 					sendTo({
 						...mailOption,
-						to: customerEmail,
-						text:
-							"Your dispute has been received, you will hear from our support rep soon."
+						to: "hello@pipepay.africa",
+						text: `New dispute from ${customerEmail} reason being that: "${reason}" marchant email is ${marchantEmail}`
 					}),
 					sendTo({
 						...mailOption,
 						to: marchantEmail,
 						text: `New dispute from ${customerName} reason being that: "${reason}"`
-					}),
-					sendTo({
-						...mailOption,
-						to: supportEmail,
-						text: `New dispute from ${customerEmail} reason being that: "${reason}" marchant email is ${marchantEmail}`
 					})
 				]);
 			} else {
 				await Promise.all([
 					sendTo({
 						...mailOption,
-						to: customerEmail,
-						text:
-							"Your dispute has been received, you will hear from our support rep soon."
-					}),
-					sendTo({
-						...mailOption,
-						to: marchantEmail,
-						text: `New dispute from ${customerName} reason being that: "${reason}"`
-					}),
-					sendTo({
-						...mailOption,
-						to: supportEmail,
+						to: "hello@pipepay.africa",
 						text: `New dispute from ${marchantEmail} reason being that: "${reason}" customer email is ${customerEmail}`
+					}),
+					sendTo({
+						...mailOption,
+						to: customerEmail,
+						text: `New dispute from ${customerName} reason being that: "${reason}"`
 					})
 				]);
 			}
 			resolve();
 		} catch (err) {
+			console.log("err", err);
 			reject(err);
 		}
 	});
@@ -143,22 +148,52 @@ export const sendCustormerVerificationCode = (customerEmail, code) =>
 	});
 
 export const sendPaymentRequest = (
-	{ amount, name },
+	type,
 	customerEmail,
-	marchantName
+	customerName,
+	marchantName,
+	acceptToken,
+	rejectToken,
+	milestoneIndex
 ) =>
-	new Promise(async (resolve, reject) => {
+	new Promise(async (resolve, reject, url) => {
 		let mailOption = {
 			from,
 			subject: "Payment Request",
-			text: `${marchantName} is requesting for payment for milestone "${name}"`
+			html: `
+			<p>Hey ${customerName}!</p>
+			
+			<p>
+				${marchantName}
+				${
+					type === "good"
+						? "requested for transfer of payment you made"
+						: `requested for transfer of payment for milestone ${milestoneIndex +
+								1}`
+				}.
+			</p>
+
+			<p>If you're satisfied with ${
+				type === "good" ? "good" : "service"
+			} please click this link to transfer 
+				<a href="${host}/${acceptToken}">I AM SATISFIED PAY ${marchantName}</a>
+			</p>
+
+			<p>
+				On the other hand if you're not satisfied  click here to open a disputes 
+				<a href="${host}/${rejectToken}">I AM NOT SATISFIED I WANT TO OPEN A DISPUTE ${marchantName}</a> 
+			</p>
+
+			<p>
+				Thanks,
+				Your friends at PipePay
+			</p>`
 		};
 
 		try {
 			await sendTo({ ...mailOption, to: customerEmail });
 			resolve();
 		} catch (err) {
-			console.log("err", err);
 			reject(err);
 		}
 	});

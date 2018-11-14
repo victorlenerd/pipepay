@@ -5,6 +5,7 @@
         "es6": true,
         "node": true,
         "mocha": true,
+        "jquery": true,
         "jest": true
     },
     "parser": "babel-eslint",

@@ -33,7 +33,7 @@ class Home extends React.PureComponent {
 											<div className="about">
 												<p>
 													Buy or sell anything online using Pipepay without
-													risk. Really secure payment.
+													risk. Really secure payment. Never miss a sale.
 												</p>
 											</div>
 											<div className="sign-buttons">

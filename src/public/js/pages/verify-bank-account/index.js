@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import NProgress from "nprogress";
 import { cognitoUser, setAttributes } from "../../utils/auth";
 
-class VerifyAccn extends React.PureComponent {
+class VerifyBackAccount extends React.PureComponent {
 	constructor() {
 		super();
 		this.state = {
@@ -122,9 +122,13 @@ class VerifyAccn extends React.PureComponent {
 										})
 									}
 								>
-									{banks.map(bank => {
+									{banks.map((bank, i) => {
 										return (
-											<option value={bank.code} key={bank.code}>
+											<option
+												value={bank.code}
+												key={bank.code}
+												selected={i === 0}
+											>
 												{bank.name}
 											</option>
 										);
@@ -172,8 +176,8 @@ class VerifyAccn extends React.PureComponent {
 	}
 }
 
-VerifyAccn.propTypes = {
+VerifyBackAccount.propTypes = {
 	history: PropTypes.object
 };
 
-export default VerifyAccn;
+export default VerifyBackAccount;

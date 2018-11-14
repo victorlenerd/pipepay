@@ -60,6 +60,10 @@ ul {
   background: rgba(0, 0, 0, 0.7);
 }
 
+.no-padding {
+  padding: 0px;
+}
+
 .milestone-remove-btn {
   width: 100%;
   border: 0px;
@@ -126,14 +130,10 @@ input {
 }
 
 .payments-summary {
-  display: table;
   width: 100%;
-  color: #fff;
-  margin-top: -30px;
+  display: table;
   padding-top: 20px;
-  color: #333;
   background-color: #ecf0f1;
-  margin-bottom: 50px;
 }
 
 .text-submit,
@@ -151,6 +151,14 @@ input {
   display: block;
   margin-bottom: 21px;
 }
+
+.text-submit-remove-margin {
+  margin: 0px 0px;
+}
+
+/* .input-max-width {
+  max-width: 500px;
+} */
 
 .add-milestone-btn {
   width: 150px;
@@ -294,19 +302,19 @@ form {
   display: table;
 }
 
-.invoices li {
+.invoices li, .form-setting-section {
   border-bottom: 1px solid rgba(0, 0, 0, 0.1);
   cursor: pointer;
   padding: 20px 0px;
 }
 
-.invoices li:last-child {
+.invoices li:last-child, .form-setting-section:last-child {
   border: 0px;
 }
 
 .transaction-select {
   text-align: center;
-  height: 25px;
+  height: 35px;
   border-radius: 0px;
   border: 0px;
   background-color: #fff;
@@ -324,6 +332,14 @@ form {
 
 .filter-text {
   font-size: 10px;
+}
+
+.sticky {
+  text-align: center;
+  position: fixed;
+  top: 100px;
+  z-index: 100;
+  top: 50px;
 }
 
 .invoice-payment-request-btn,
@@ -431,7 +447,6 @@ form {
     stroke-dashoffset: 900;
   }
 }
-
 
 #status {
   width: 200px;

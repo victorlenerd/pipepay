@@ -35,7 +35,7 @@ connect().catch(err => {
 });
 
 app.get(
-	"(/|/invoices|/invoice/:invoiceId|/sigin|/signup|/forgotpassword|/verifyaccn|/newinvoice|/settings|/confirm|/reason|/pricing)",
+	"(/|/invoices|/invoice/:invoiceId|/sigin|/signup|/forgotpassword|/verifyaccn|/newinvoice|/settings|/request/:invoice|/request/:invoice/:milestoneId|/confirm/:token|/reason|/pricing|/report/:invoiceId)",
 	(req, res) => {
 		res.render("index");
 	}

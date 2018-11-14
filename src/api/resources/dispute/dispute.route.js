@@ -4,8 +4,6 @@ const Router = express.Router();
 
 Router.param("invoiceId", DisputeController.getInvoiceId);
 
-Router.route("/:invoiceId")
-	.post(DisputeController.createOne)
-	.get(DisputeController.getOne);
+Router.route("/:invoiceId").post(DisputeController.createOne);
 
 export default Router;

@@ -41,6 +41,13 @@ export const dropDb = () => {
 		.then(() => Promise.all(mongoose.modelNames().map(removeModel)));
 };
 
+export const connectDb = () => {
+	return mongoose.connect(
+		config.db.url,
+		{ useNewUrlParser: true }
+	);
+};
+
 export const userPool = new CognitoUserPool({
 	UserPoolId: poolId,
 	ClientId: aaud

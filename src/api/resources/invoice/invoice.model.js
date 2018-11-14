@@ -1,10 +1,12 @@
 import mongoose from "mongoose";
+import mongoosePaginate from "mongoose-paginate";
 
 export const MilestoneSchema = new mongoose.Schema(
 	{
 		amount: { type: Number, required: true },
 		description: { type: String, required: true },
 		dueDate: { type: Date },
+		requested: { type: Boolean, default: false },
 		paid: { type: Boolean, required: true, default: false }
 	},
 	{ timestamps: { createdAt: "created_at" } }
@@ -33,6 +35,11 @@ const InvoiceSchema = new mongoose.Schema(
 
 		milestones: [MilestoneSchema],
 
+		requested: { type: Boolean, default: false },
+		disputed: { type: Boolean, default: false },
+
+		requestedMilestones: { type: Array },
+
 		invoice_code: { type: String, unique: true },
 		verifyCode: { type: String, unique: true },
 
@@ -47,5 +54,13 @@ const InvoiceSchema = new mongoose.Schema(
 	},
 	{ timestamps: { createdAt: "created_at" } }
 );
+
+InvoiceSchema.index({
+	customerName: "text",
+	customerEmail: "text",
+	customerPhone: "text"
+});
+
+InvoiceSchema.plugin(mongoosePaginate);
 
 export default mongoose.model("Invoice", InvoiceSchema);

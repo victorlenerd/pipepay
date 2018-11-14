@@ -2,16 +2,16 @@ image: node:6.9.4
 
 pipelines:
   branches:
-    develop:
-      - step:
-          name: Server Test
-          caches:
-            - node
-          services: 
-            - mongo
-          script:
-            - npm install
-            - npm run server:test
+    # develop:
+    #   - step:
+    #       name: Server Test
+    #       caches:
+    #         - node
+    #       services: 
+    #         - mongo
+    #       script:
+    #         - npm install
+    #         - npm run server:test
     staging:
       - step:
           name: Deploy to AWS

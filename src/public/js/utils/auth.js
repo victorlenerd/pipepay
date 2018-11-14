@@ -1,19 +1,21 @@
 import {
+	AmazonCognitoIdentity,
 	AuthenticationDetails,
 	CognitoUserPool,
 	CognitoUserAttribute,
 	CognitoUser
 } from "amazon-cognito-identity-js";
 
+const poolData = {
+	UserPoolId: "us-east-2_ZAwetvcgl",
+	ClientId: "1kim3ke0fq358jrota00sam46r"
+};
+
 export let userPool;
 export let cognitoUser;
 
 export const init = () => {
-	userPool = new CognitoUserPool({
-		UserPoolId: "us-east-2_ZAwetvcgl",
-		ClientId: "1kim3ke0fq358jrota00sam46r"
-	});
-
+	userPool = new CognitoUserPool(poolData);
 	return userPool;
 };
 
@@ -51,9 +53,14 @@ export const confirmRegistration = (Username, code) =>
 		});
 	});
 
-export const setAttributes = attributes =>
+export const setAttributes = (attributes, Username) =>
 	new Promise((resolve, reject) => {
 		let attributeList = attributes.map(data => new CognitoUserAttribute(data));
+
+		if (!cognitoUser) {
+			var userPool = new CognitoUserPool(poolData);
+			cognitoUser = userPool.getCurrentUser();
+		}
 
 		cognitoUser.updateAttributes(attributeList, (err, result) => {
 			if (err) {
@@ -98,6 +105,44 @@ export const forgotPassword = Username =>
 		cognitoUser.forgotPassword({
 			onSuccess: resolve,
 			onFailure: reject
+		});
+	});
+
+export const changePassword = (Username, oldPassword, newPassword) =>
+	new Promise((resolve, reject) => {
+		let userData = {
+			Username,
+			Pool: userPool
+		};
+
+		cognitoUser = new CognitoUser(userData);
+
+		cognitoUser.getSession((err, session) => {
+			if (err) {
+				reject(err);
+			} else {
+				cognitoUser.changePassword(oldPassword, newPassword, (err, result) => {
+					if (err) reject(err);
+					resolve(result);
+				});
+			}
+		});
+	});
+
+export const getSession = Username =>
+	new Promise((resolve, reject) => {
+		let userData = {
+			Username,
+			Pool: userPool
+		};
+		console.log("Username", Username);
+		cognitoUser = new CognitoUser(userData);
+		cognitoUser.getSession((err, session) => {
+			if (err) {
+				reject(err);
+			} else {
+				resolve(session);
+			}
 		});
 	});
 

@@ -12,7 +12,10 @@ const envs = {
 	COGNITO_AUD: JSON.stringify(process.env.COGNITO_AUD),
 	COGNITO_USER_POOL_ID: JSON.stringify(process.env.COGNITO_USER_POOL_ID),
 	ZOHO_EMAIL: JSON.stringify(process.env.ZOHO_EMAIL),
-	ZOHO_PASSWORD: JSON.stringify(process.env.ZOHO_PASSWORD)
+	ZOHO_PASSWORD: JSON.stringify(process.env.ZOHO_PASSWORD),
+	DB_USER: JSON.stringify(process.env.DB_USER),
+	DB_PASSWORD: JSON.stringify(process.env.DB_PASSWORD),
+	JWT_SECRET: JSON.stringify(process.env.JWT_SECRET)
 };
 
 module.exports = {

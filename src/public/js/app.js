@@ -16,30 +16,40 @@ import ForgotPassword from "./pages/forgot-password";
 import VerifyAccount from "./pages/verify-account";
 import ResetPassword from "./pages/reset-password";
 import Invoices from "./pages/invoices";
-import VerifyAccn from "./pages/verify-accn";
+import VerifyBankAccount from "./pages/verify-bank-account";
 import Invoice from "./pages/invoice";
 import Report from "./pages/report";
 import NewInvoice from "./pages/newinvoice";
 import Settings from "./pages/settings";
-import DissatisfactionReason from "./pages/dissatisfaction-reason";
-import ConfirmSatisfaction from "./pages/confirm-satisfaction";
+import Confirm from "./pages/confirm";
 import Pricing from "./pages/pricing";
 
-import { init } from "./utils/auth";
+import { init, signin, userPool, getSession, signOut } from "./utils/auth";
+import NProgress from "nprogress";
 
 type State = {
 	signedIn: boolean,
 	user: any,
+	confirmPassword: () => void,
+	confirmPasswordCallback: () => void,
 	setCurrentUser: (user: any) => void
 };
 
 type Props = {};
 
 class App extends Component<Props, State> {
+	confirmPassword: () => void;
+	setState: any => void;
+	confirmPasswordEl: any;
+
 	state = {
 		signedIn: false,
 		user: null,
-		setCurrentUser: user => this.setState({ user, signedIn: user !== null })
+		confirmPassword: () => {},
+		confirmPasswordCallback: () => {},
+		updateSession: () => {},
+		setCurrentUser: (user: {} | null) =>
+			this.setState({ user, signedIn: user !== null })
 	};
 
 	componentWillMount() {
@@ -59,7 +69,61 @@ class App extends Component<Props, State> {
 		} catch (err) {
 			this.state.setCurrentUser(null);
 		}
+
+		this.setState({
+			confirmPassword: this.confirmPassword,
+			updateSession: this.updateSession
+		});
 	}
+
+	confirmPassword = (callback: () => void): void => {
+		$("#confirm-password-modal").modal({
+			backdrop: "static",
+			keyboard: false
+		});
+		this.setState({ confirmPasswordCallback: callback });
+	};
+
+	loginAgain = async () => {
+		await signin(
+			this.state.user["cognito:username"],
+			this.confirmPasswordEl.value
+		);
+		const cognitoUser = userPool.getCurrentUser();
+		cognitoUser.getSession((err, result) => {
+			if (result && result.isValid()) {
+				NProgress.done();
+				const { idToken } = result;
+
+				const { payload, jwtToken } = idToken;
+				payload.token = jwtToken;
+				this.state.setCurrentUser(payload);
+				$("#confirm-password-modal").modal("hide");
+				return this.state.confirmPasswordCallback();
+			}
+
+			this.setState({ error: err.message });
+		});
+	};
+
+	updateSession = (callback: () => void) => {
+		getSession(this.state.user["congito:username"])
+			.then(result => {
+				if (result && result.isValid()) {
+					NProgress.done();
+					const { idToken } = result;
+
+					const { payload, jwtToken } = idToken;
+					payload.token = jwtToken;
+					this.state.setCurrentUser(payload);
+					callback();
+				}
+			})
+			.catch(() => {
+				signOut();
+				this.state.setCurrentUser(null);
+			});
+	};
 
 	render() {
 		const { signedIn } = this.state;
@@ -67,6 +131,46 @@ class App extends Component<Props, State> {
 		return (
 			<BrowserRouter>
 				<AppContext.Provider value={this.state}>
+					<div
+						id="confirm-password-modal"
+						className="modal fade bs-example-modal-sm"
+						tabIndex="-1"
+						role="dialog"
+						aria-labelledby="mySmallModalLabel"
+					>
+						<div className="modal-dialog modal-sm" role="document">
+							<div className="modal-content">
+								<div className="modal-header">
+									<button
+										type="button"
+										className="close"
+										data-dismiss="modal"
+										aria-label="Close"
+									>
+										<span aria-hidden="true">&times;</span>
+									</button>
+									<h4 className="modal-title" id="myModalLabel">
+										Enter Password
+									</h4>
+								</div>
+								<div className="modal-body">
+									<input
+										type="password"
+										className="form-control"
+										ref={e => (this.confirmPasswordEl = e)}
+									/>
+								</div>
+								<div className="modal-footer">
+									<input
+										type="button"
+										className="btn btn-small btn-primary"
+										value="Submit"
+										onClick={this.loginAgain}
+									/>
+								</div>
+							</div>
+						</div>
+					</div>
 					<Switch>
 						<Route exact path="/" render={() => WithHeader(Home)} />
 						<Route exact path="/pricing" render={() => WithHeader(Pricing)} />
@@ -107,7 +211,7 @@ class App extends Component<Props, State> {
 						<Route
 							path="/verifyaccn"
 							render={() =>
-								signedIn ? <VerifyAccn /> : <Redirect to="/invoices" />
+								signedIn ? <VerifyBankAccount /> : <Redirect to="/invoices" />
 							}
 						/>
 						<Route
@@ -123,7 +227,7 @@ class App extends Component<Props, State> {
 							}
 						/>
 						<Route
-							path="/report"
+							path="/report/:invoiceId"
 							render={() =>
 								signedIn ? WithHeader(Report) : <Redirect to="/" />
 							}
@@ -140,14 +244,7 @@ class App extends Component<Props, State> {
 								SignIn ? WithHeader(Settings) : <Redirect to="/" />
 							}
 						/>
-						<Route
-							path="/reason"
-							render={() => WithHeader(DissatisfactionReason)}
-						/>
-						<Route
-							path="/confirm/:invoiceId"
-							render={() => WithHeader(ConfirmSatisfaction)}
-						/>
+						<Route path="/confirm/:token" render={() => WithHeader(Confirm)} />
 					</Switch>
 				</AppContext.Provider>
 			</BrowserRouter>

@@ -31,7 +31,6 @@ export default generateController(PaymentModel, {
 				{ new: true },
 				async (err, doc) => {
 					if (err) {
-						console.error(err);
 						return res
 							.status(400)
 							.send({ error: new Error(err), status: false });
@@ -51,31 +50,16 @@ export default generateController(PaymentModel, {
 					} = doc;
 
 					try {
-						if (type === "good") {
-							await Transfer(
-								marchantName,
-								marchantAccountNumber,
-								marchantBankCode,
-								deliveryAmount
-							);
-							await PaymentModel.create({
-								customerEmail,
-								marchantEmail,
-								reference,
-								deliveryAmount,
-								invoiceId: _id
-							});
-						}
-
-						await mailer.sendReceiptMail(
-							customerName,
+						await PaymentModel.create({
 							customerEmail,
 							marchantEmail,
-							amount
-						);
+							reference,
+							deliveryAmount,
+							invoiceId: _id
+						});
+
 						res.status(200).send({ success: true });
 					} catch (err) {
-						console.error(err);
 						return res.status(400).send({
 							error: { message: "Could not send mail" },
 							success: false
