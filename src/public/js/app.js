@@ -193,25 +193,41 @@ class App extends Component<Props, State> {
 						<Route
 							path="/forgotpassword"
 							render={() =>
-								!signedIn ? <ForgotPassword /> : <Redirect to="/invoices" />
+								!signedIn ? (
+									WithHeader(ForgotPassword)
+								) : (
+									<Redirect to="/invoices" />
+								)
 							}
 						/>
 						<Route
 							path="/verifyemail"
 							render={() =>
-								!signedIn ? <VerifyAccount /> : <Redirect to="/invoices" />
+								!signedIn ? (
+									WithHeader(VerifyAccount)
+								) : (
+									<Redirect to="/invoices" />
+								)
 							}
 						/>
 						<Route
 							path="/resetpassword"
 							render={() =>
-								!signedIn ? <ResetPassword /> : <Redirect to="/invoices" />
+								!signedIn ? (
+									WithHeader(ResetPassword)
+								) : (
+									<Redirect to="/invoices" />
+								)
 							}
 						/>
 						<Route
 							path="/verifyaccn"
 							render={() =>
-								signedIn ? <VerifyBankAccount /> : <Redirect to="/invoices" />
+								signedIn ? (
+									WithHeader(VerifyBankAccount)
+								) : (
+									<Redirect to="/invoices" />
+								)
 							}
 						/>
 						<Route

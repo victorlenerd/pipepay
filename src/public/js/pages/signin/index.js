@@ -68,7 +68,7 @@ class SignIn extends React.PureComponent<Props, State> {
 		return (
 			<React.Fragment>
 				<div
-					className="col-lg-6 col-md-6 col-sm-12 col-xs-1 cloths-bg"
+					className="col-lg-6 col-md-6 col-sm-12 col-xs-12 cloths-bg hidden-mobile"
 					id="noPad"
 				>
 					<div className="overlay" />

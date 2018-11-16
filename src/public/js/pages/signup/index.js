@@ -1,7 +1,7 @@
 //@flow
 import React from "react";
 import { withRouter, Link } from "react-router-dom";
-import type { History } from "react-router-dom";
+import type { RouterHistory } from "react-router-dom";
 
 import NProgress from "nprogress";
 
@@ -9,11 +9,11 @@ import { signup } from "../../utils/auth";
 import Header from "../../components/header";
 
 type Props = {
-	history: History
+	history: RouterHistory
 };
 
 type State = {
-	error: ?null
+	error: null | string
 };
 
 class SignUp extends React.PureComponent<Props, State> {
@@ -22,11 +22,9 @@ class SignUp extends React.PureComponent<Props, State> {
 		this.state = {
 			error: null
 		};
-
-		this.submit = this.submit.bind(this);
 	}
 
-	async submit(e) {
+	submit = async e => {
 		e.preventDefault();
 		if (this.formEl.checkValidity() === true) {
 			const firstname = e.target.firstname.value;
@@ -50,16 +48,16 @@ class SignUp extends React.PureComponent<Props, State> {
 			try {
 				await signup(username, password, attributes);
 				this.props.history.push("/verifyemail", { username, password });
-			} catch ({ message }) {
+			} catch (err) {
 				this.setState({
-					error: message
+					error: err.message
 				});
 			}
 			NProgress.done();
 		} else {
 			this.setState({ error: "Please fill all the required fields." });
 		}
-	}
+	};
 
 	render() {
 		return (
@@ -142,7 +140,7 @@ class SignUp extends React.PureComponent<Props, State> {
 						</div>
 					</div>
 					<div
-						className="col-lg-6 col-md-6 col-sm-12 col-xs-1 cafe-bg"
+						className="col-lg-6 col-md-6 col-sm-12 col-xs-12 cafe-bg hidden-mobile"
 						id="noPad"
 					>
 						<div className="overlay" />

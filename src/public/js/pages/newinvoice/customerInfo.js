@@ -36,7 +36,7 @@ const CustomerInfo = ({ type, submit, updateStage }: Props) => (
 			<br />
 			<label htmlFor="c-email">Customer Email</label>
 			<input
-				type="text"
+				type="email"
 				name="customerEmail"
 				placeholder="Customer Email"
 				id="c-email"

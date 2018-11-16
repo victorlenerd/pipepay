@@ -1,7 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import NProgress from "nprogress";
-import { cognitoUser, setAttributes } from "../../utils/auth";
+import { withRouter } from "react-router-dom";
+import { getSession, setAttributes } from "../../utils/auth";
 
 class VerifyBackAccount extends React.PureComponent {
 	constructor() {
@@ -33,32 +34,35 @@ class VerifyBackAccount extends React.PureComponent {
 			.then(res => {
 				NProgress.done();
 				const { success, data: banks } = res;
-				if (success) this.setState({ banks });
+				if (success) this.setState({ banks, bankCode: banks[0].code });
 			});
 	}
 
 	submit = e => {
+		const { user } = this.props;
 		const { bankCode, accountNumber } = this.state;
 		e.preventDefault();
 		NProgress.start();
-		cognitoUser.getSession(async (err, result) => {
-			if (result && result.isValid()) {
-				const attributes = [
-					{ Name: "custom:bank_code", Value: bankCode },
-					{ Name: "custom:account_number", Value: accountNumber }
-				];
+		getSession(user["cognito:username"])
+			.then(async result => {
+				if (result && result.isValid()) {
+					const attributes = [
+						{ Name: "custom:bank_code", Value: bankCode },
+						{ Name: "custom:account_number", Value: accountNumber }
+					];
 
-				try {
-					await setAttributes(attributes);
-					NProgress.done();
-					this.props.history.push("/dashboard");
-				} catch (err) {
-					return this.setState({ error: err.message });
+					try {
+						await setAttributes(attributes);
+						NProgress.done();
+						this.props.history.push("/invoices");
+					} catch (err) {
+						return this.setState({ error: err.message });
+					}
 				}
-			}
-
-			this.setState({ error: err });
-		});
+			})
+			.catch(err => {
+				this.setState({ error: err.message });
+			});
 	};
 
 	setAccountNumber = e => {
@@ -100,75 +104,81 @@ class VerifyBackAccount extends React.PureComponent {
 
 		return (
 			<div id="container">
-				<div className="container">
-					<div className="header">
-						<h1>Set Up Account Details.</h1>
-					</div>
-
-					<div className="form">
-						<form ref={e => (this.formEl = e)} name="account-form">
-							{error !== null && <div className="form-error">{error}</div>}
-							<label htmlFor="bank">Select Bank</label>
-							<div>
-								<select
-									className="text-input"
-									required
-									name="selectbank"
-									onChange={e =>
-										this.setState({
-											bankCode: e.target.value,
-											canSubmit: false,
-											accountName: ""
-										})
-									}
-								>
-									{banks.map((bank, i) => {
-										return (
-											<option
-												value={bank.code}
-												key={bank.code}
-												selected={i === 0}
-											>
-												{bank.name}
-											</option>
-										);
-									})}
-								</select>
+				<div className="container-main">
+					<div className="container">
+						<div className="col-lg-8 col-md-8 col-lg-offset-2 col-md-offset-2 col-sm-12 col-xs-12">
+							<div className="header">
+								<h1>Set Up Account Details.</h1>
 							</div>
 							<br />
-							<label htmlFor="">Account Number</label>
-							<input
-								type="text"
-								name="accountnumber"
-								onChange={this.setAccountNumber}
-								placeholder="Account Number"
-								maxchar="10"
-								className="text-input"
-								required
-							/>
-
-							<label htmlFor="">Account Name</label>
-							<p className="text-input">{accountName}</p>
-
-							{!canSubmit && (
-								<input
-									type="button"
-									id="next-btn"
-									value="VERIFY ACCOUNT NUMBER"
-									onClick={this.next}
-									className="text-submit"
-								/>
-							)}
-							{canSubmit && (
-								<input
-									type="submit"
-									id="submit-btn"
-									value="DONE"
-									onClick={this.submit}
-									className="text-submit"
-								/>
-							)}
-						</form>
+							<br />
+							<div className="form">
+								<form ref={e => (this.formEl = e)} name="account-form">
+									{error !== null && <div className="form-error">{error}</div>}
+									<label htmlFor="bank">Select Bank</label>
+									<div>
+										{banks &&
+											banks.length > 0 && (
+												<select
+													className="text-input"
+													required
+													name="selectbank"
+													onChange={e =>
+														this.setState({
+															bankCode: e.target.value,
+															canSubmit: false,
+															accountName: ""
+														})
+													}
+												>
+													{banks.map((bank, i) => {
+														return (
+															<option value={bank.code} key={bank.code}>
+																{bank.name}
+															</option>
+														);
+													})}
+												</select>
+											)}
+									</div>
+									<br />
+									<label htmlFor="">Account Number</label>
+									<input
+										type="text"
+										name="accountnumber"
+										onChange={this.setAccountNumber}
+										placeholder="Account Number"
+										maxchar="10"
+										className="text-input"
+										required
+									/>
+									<br />
+									<br />
+									{!canSubmit && (
+										<input
+											type="button"
+											id="next-btn"
+											value="VERIFY ACCOUNT NUMBER"
+											onClick={this.next}
+											className="text-submit"
+										/>
+									)}
+									<label htmlFor="">Account Name</label>
+									<p className="text-input">{accountName}</p>
+									<br />
+									<br />
+									{canSubmit && (
+										<input
+											type="submit"
+											id="submit-btn"
+											value="DONE"
+											onClick={this.submit}
+											className="text-submit"
+										/>
+									)}
+								</form>
+							</div>
+						</div>
 					</div>
 				</div>
 			</div>
@@ -177,7 +187,8 @@ class VerifyBackAccount extends React.PureComponent {
 }
 
 VerifyBackAccount.propTypes = {
-	history: PropTypes.object
+	history: PropTypes.object,
+	user: PropTypes.object
 };
 
-export default VerifyBackAccount;
+export default withRouter(VerifyBackAccount);

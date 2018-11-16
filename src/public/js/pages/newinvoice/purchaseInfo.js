@@ -20,7 +20,7 @@ const PurchaseInfo = ({ submit, back }: Props) => (
 			/>
 			<br />
 			<br />
-			<label htmlFor="c-email">Purchase Amount</label>
+			<label htmlFor="c-email">Price Of Good</label>
 			<input
 				type="number"
 				name="purchase_amount"

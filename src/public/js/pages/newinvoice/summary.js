@@ -39,7 +39,7 @@ const Summary = ({ type, data, customerInfo, back, submit }: Props) => (
 					<h3>Purchase Info</h3>
 					<br />
 					<div>
-						<label>Purchase Amount:</label>
+						<label>Price Of Good:</label>
 						<h4>{data.purchase_amount}</h4>
 					</div>
 					<div>
