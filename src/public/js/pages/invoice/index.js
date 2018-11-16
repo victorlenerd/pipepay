@@ -315,6 +315,12 @@ class Invoice extends React.PureComponent<Props, State> {
 									</>
 								)}
 							{invoice.status === "paid" &&
+								invoice.requested === true && (
+									<>
+										<h3>Request Sent</h3>
+									</>
+								)}
+							{invoice.status === "paid" &&
 								invoice.disputed === false && (
 									<>
 										<p className="invoice-action-hint">
