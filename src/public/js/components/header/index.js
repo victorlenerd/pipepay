@@ -1,12 +1,12 @@
 //@flow
 import React from "react";
 import { Link, withRouter } from "react-router-dom";
-import type { Location, History } from "react-router-dom";
+import type { Location, RouterHistory } from "react-router-dom";
 import { Navbar, NavItem, Nav } from "react-bootstrap";
 import { signOut } from "../../utils/auth";
 
 type Props = {
-	history: History,
+	history: RouterHistory,
 	location: Location,
 	user: { name: string, "cognito:username": string },
 	setCurrentUser: () => void,
@@ -50,7 +50,7 @@ class Header extends React.PureComponent<Props, State> {
 			pathname === "/faq" ||
 			pathname === "/terms" ||
 			pathname === "/howitworks" ||
-			pathname === "/privacypolicy" ||
+			pathname === "/privacy" ||
 			pathname === "/forgotpassword" ||
 			pathname === "/resetpassword"
 		);
@@ -97,8 +97,8 @@ class Header extends React.PureComponent<Props, State> {
 									Terms
 								</NavItem>
 								<NavItem
-									active={pathname === "/terms"}
-									onClick={() => history.push("/terms")}
+									active={pathname === "/privacy"}
+									onClick={() => history.push("/privacy")}
 								>
 									Privacy Policy
 								</NavItem>

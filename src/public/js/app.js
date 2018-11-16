@@ -23,6 +23,8 @@ import NewInvoice from "./pages/newinvoice";
 import Settings from "./pages/settings";
 import Confirm from "./pages/confirm";
 import Pricing from "./pages/pricing";
+import Terms from "./pages/terms";
+import Privacy from "./pages/privacy";
 
 import { init, signin, userPool, getSession, signOut } from "./utils/auth";
 import NProgress from "nprogress";
@@ -261,6 +263,8 @@ class App extends Component<Props, State> {
 							}
 						/>
 						<Route path="/confirm/:token" render={() => WithHeader(Confirm)} />
+						<Route path="/terms" render={() => WithHeader(Terms)} />
+						<Route path="/privacy" render={() => WithHeader(Privacy)} />
 					</Switch>
 				</AppContext.Provider>
 			</BrowserRouter>

@@ -35,7 +35,7 @@ connect().catch(err => {
 });
 
 app.get(
-	"(/|/invoices|/invoice/:invoiceId|/signin|/signup|/forgotpassword|/verifyemail|/verifyaccn|/newinvoice|/settings|/request/:invoice|/request/:invoice/:milestoneId|/confirm/:token|/reason|/pricing|/report/:invoiceId)",
+	"(/|/invoices|/invoice/:invoiceId|/signin|/signup|/forgotpassword|/verifyemail|/verifyaccn|/newinvoice|/settings|/request/:invoice|/request/:invoice/:milestoneId|/confirm/:token|/reason|/pricing|/report/:invoiceId|/terms|/privacy)",
 	(req, res) => {
 		res.render("index");
 	}
