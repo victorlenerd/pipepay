@@ -554,7 +554,7 @@ form {
   }
 }
 
-@media screen and (max-width: 360px) {
+@media screen and (max-width: 380px) {
   .spread {
     padding-left: 0px;
     padding-right: 0px;
