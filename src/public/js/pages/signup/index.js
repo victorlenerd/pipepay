@@ -140,7 +140,7 @@ class SignUp extends React.PureComponent<Props, State> {
 						</div>
 					</div>
 					<div
-						className="col-lg-6 col-md-6 col-sm-12 col-xs-12 cafe-bg hidden-mobile"
+						className="col-lg-6 col-md-6 col-sm-12 col-xs-12 cafe-bg hidden-sm hidden-xs"
 						id="noPad"
 					>
 						<div className="overlay" />

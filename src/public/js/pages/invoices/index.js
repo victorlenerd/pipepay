@@ -237,9 +237,9 @@ class Dashboard extends React.PureComponent<Props, State> {
 								</div>
 							</div>
 							<div className="container" style={{ marginTop: 100 }}>
-								<div className="col-lg-8 col-md-8 col-lg-offset-2 col-md-offset-2 col-sm-12 col-xs-12">
+								<div className="col-lg-8 col-md-8 col-lg-offset-2 col-md-offset-2 col-sm-12 col-xs-12 spread">
 									<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
-										<div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">
+										<div className="col-lg-8 col-md-8 col-sm-12 col-xs-8">
 											<input
 												type="text"
 												className="search-invoice"
@@ -247,7 +247,7 @@ class Dashboard extends React.PureComponent<Props, State> {
 												placeholder="Search by name, email or phone number"
 											/>
 										</div>
-										<div className="col-lg-2 col-md-2 col-lg-offset-2 col-md-offset-2 col-sm-2 col-xs-2 col-sm-offset-2">
+										<div className="col-lg-2 col-md-2 col-lg-offset-2 col-md-offset-2 col-sm-12 col-xs-4">
 											<select
 												className="transaction-select"
 												onChange={e => this.setQuery(e.target.value)}

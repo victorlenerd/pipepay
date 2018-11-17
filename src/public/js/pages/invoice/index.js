@@ -29,7 +29,7 @@ type Milestone = {
 };
 
 type State = {
-	invoice: {
+	invoice: null | {
 		_id: string,
 		type: string,
 		customerName: string,
@@ -47,13 +47,19 @@ type State = {
 		whoPaysPipepayFee: boolean,
 		milestones: [Milestone]
 	},
+	requestSentSuccess: boolean,
 	requestError: string,
-	disputeError: string
+	disputeError: string,
+	requestSentSuccessMessage: string
 };
 
 class Invoice extends React.PureComponent<Props, State> {
 	state = {
-		invoice: {}
+		invoice: null,
+		requestSentSuccess: false,
+		disputeError: "",
+		requestError: "",
+		requestSentSuccessMessage: ""
 	};
 
 	componentWillMount() {
@@ -174,7 +180,10 @@ class Invoice extends React.PureComponent<Props, State> {
 							}
 
 							this.setState({
-								invoice: Object.assign({}, this.state.invoice, invoiceUpate)
+								invoice: Object.assign({}, this.state.invoice, invoiceUpate),
+								requestSentSuccess: true,
+								requestSentSuccessMessage: `Request for milestone ${nextMilestonePaymentIndex +
+									1} has been sent!`
 							});
 						} else {
 							this.setState({
@@ -193,7 +202,11 @@ class Invoice extends React.PureComponent<Props, State> {
 	};
 
 	render() {
-		const { invoice } = this.state;
+		const {
+			invoice,
+			requestSentSuccess,
+			requestSentSuccessMessage
+		} = this.state;
 
 		return (
 			<section className="section">
@@ -298,6 +311,12 @@ class Invoice extends React.PureComponent<Props, State> {
 						</div>
 						<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 							{invoice.status === "paid" &&
+								requestSentSuccess && (
+									<div className="alert alert-success text-center">
+										{requestSentSuccessMessage}
+									</div>
+								)}
+							{invoice.status === "paid" &&
 								invoice.requested === false &&
 								invoice.disputed === false && (
 									<>
@@ -317,7 +336,13 @@ class Invoice extends React.PureComponent<Props, State> {
 							{invoice.status === "paid" &&
 								invoice.requested === true && (
 									<>
-										<h3>Request Sent</h3>
+										<h3 className="success-text">Request Sent</h3>
+										<button
+											className="invoice-payment-request-btn"
+											onClick={this.sendRequest}
+										>
+											Re-Send Request Payment
+										</button>
 									</>
 								)}
 							{invoice.status === "paid" &&

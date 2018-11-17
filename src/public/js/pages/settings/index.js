@@ -5,7 +5,9 @@ import VerifyAccountNumberContainer from "../../containers/verify-account-number
 import { changePassword } from "../../utils/auth";
 import AppContext from "../../contexts/app.context";
 
-type Props = {};
+type Props = {
+	user: {}
+};
 
 type State = {
 	error: null | string,
@@ -25,7 +27,7 @@ class Settings extends React.PureComponent<Props, State> {
 	};
 
 	changePassword = (e: any) => {
-		const { oldPassword, newPassword, confirmPassword } = this.state;
+		const { oldPassword, newPassword, confirmPassword, user } = this.state;
 
 		e.preventDefault();
 
@@ -50,6 +52,8 @@ class Settings extends React.PureComponent<Props, State> {
 
 	render() {
 		const { passwordChangeSuccess, error } = this.state;
+		const { user } = this.props;
+
 		return (
 			<AppContext.Consumer>
 				{context => {
@@ -130,6 +134,8 @@ class Settings extends React.PureComponent<Props, State> {
 										<VerifyAccountNumberContainer>
 											{({
 												accountName,
+												accountNumber,
+												bankCode,
 												banks,
 												canSubmit,
 												success,
@@ -154,6 +160,9 @@ class Settings extends React.PureComponent<Props, State> {
 																Could Not Update Account Number {error}
 															</div>
 														)}
+														{error && (
+															<div className="alert alert-danger">{error}</div>
+														)}
 														<label htmlFor="bank">Select Bank</label>
 														<div>
 															<select
@@ -161,6 +170,7 @@ class Settings extends React.PureComponent<Props, State> {
 																required
 																name="selectbank"
 																onChange={e => setBankCode(e.target.value)}
+																defaultValue={bankCode}
 															>
 																{banks.map(bank => {
 																	return (
@@ -177,6 +187,7 @@ class Settings extends React.PureComponent<Props, State> {
 														<input
 															type="text"
 															name="accountnumber"
+															defaultValue={accountNumber}
 															onChange={e => setAccountNumber(e.target.value)}
 															placeholder="Account Number"
 															maxchar="10"

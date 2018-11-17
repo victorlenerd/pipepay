@@ -17,7 +17,7 @@ const Summary = ({ type, data, customerInfo, back, submit }: Props) => (
 	<React.Fragment>
 		<h2 className="section-title">Summary</h2>
 
-		<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+		<div className="col-lg-8 col-md-8 col-lg-offset-2 col-md-offset-2 col-sm-12 col-xs-12">
 			<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 				<h3>Customer Info</h3>
 				<br />

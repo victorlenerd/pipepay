@@ -5,7 +5,6 @@ import MainRouter from "./api/resources";
 import { connect } from "./db";
 import { getJWT } from "./api/modules/auth";
 import exphbs from "express-handlebars";
-
 const app = express();
 
 getJWT();

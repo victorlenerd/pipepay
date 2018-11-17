@@ -85,11 +85,16 @@ class VerifyBackAccount extends React.PureComponent {
 			.then(res => res.json())
 			.then(res => {
 				NProgress.done();
-				const {
-					success,
-					data: { account_name: accountName }
-				} = res;
-				if (success) this.setState({ accountName, canSubmit: true });
+				const { success } = res;
+
+				if (success) {
+					this.setState({
+						accountName: res.data.account_name,
+						canSubmit: true
+					});
+				} else {
+					this.setState({ error: res.error.message, canSubmit: false });
+				}
 			})
 			.catch(() => {
 				NProgress.done();

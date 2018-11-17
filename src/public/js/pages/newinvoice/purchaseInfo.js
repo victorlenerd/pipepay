@@ -17,6 +17,7 @@ const PurchaseInfo = ({ submit, back }: Props) => (
 				className="text-input area"
 				placeholder="Tell us something about the purchased good"
 				required
+				autoFocus
 			/>
 			<br />
 			<br />

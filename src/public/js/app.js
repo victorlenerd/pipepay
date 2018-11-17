@@ -32,6 +32,7 @@ import NProgress from "nprogress";
 type State = {
 	signedIn: boolean,
 	user: any,
+	error: null | string,
 	confirmPassword: () => void,
 	confirmPasswordCallback: () => void,
 	setCurrentUser: (user: any) => void
@@ -47,6 +48,7 @@ class App extends Component<Props, State> {
 	state = {
 		signedIn: false,
 		user: null,
+		error: null,
 		confirmPassword: () => {},
 		confirmPasswordCallback: () => {},
 		updateSession: () => {},
@@ -87,25 +89,29 @@ class App extends Component<Props, State> {
 	};
 
 	loginAgain = async () => {
-		await signin(
-			this.state.user["cognito:username"],
-			this.confirmPasswordEl.value
-		);
-		const cognitoUser = userPool.getCurrentUser();
-		cognitoUser.getSession((err, result) => {
-			if (result && result.isValid()) {
-				NProgress.done();
-				const { idToken } = result;
+		try {
+			await signin(
+				this.state.user["cognito:username"],
+				this.confirmPasswordEl.value
+			);
+			const cognitoUser = userPool.getCurrentUser();
+			cognitoUser.getSession((err, result) => {
+				if (result && result.isValid()) {
+					NProgress.done();
+					const { idToken } = result;
 
-				const { payload, jwtToken } = idToken;
-				payload.token = jwtToken;
-				this.state.setCurrentUser(payload);
-				$("#confirm-password-modal").modal("hide");
-				return this.state.confirmPasswordCallback();
-			}
+					const { payload, jwtToken } = idToken;
+					payload.token = jwtToken;
+					this.state.setCurrentUser(payload);
+					$("#confirm-password-modal").modal("hide");
+					return this.state.confirmPasswordCallback();
+				}
 
+				this.setState({ error: err.message });
+			});
+		} catch (err) {
 			this.setState({ error: err.message });
-		});
+		}
 	};
 
 	updateSession = (callback: () => void) => {
@@ -128,7 +134,7 @@ class App extends Component<Props, State> {
 	};
 
 	render() {
-		const { signedIn } = this.state;
+		const { signedIn, error } = this.state;
 
 		return (
 			<BrowserRouter>
@@ -156,6 +162,7 @@ class App extends Component<Props, State> {
 									</h4>
 								</div>
 								<div className="modal-body">
+									{error && <div className="alert aler-danger">{error}</div>}
 									<input
 										type="password"
 										className="form-control"

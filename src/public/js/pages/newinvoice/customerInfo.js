@@ -20,6 +20,7 @@ const CustomerInfo = ({ type, submit, updateStage }: Props) => (
 				id="c-name"
 				className="text-input"
 				required
+				autoFocus
 			/>
 			<br />
 			<br />

@@ -80,8 +80,12 @@ class Confirm extends React.Component<Props, State> {
 									{this.state.status === "accepted" &&
 										this.state.type === "good" && (
 											<div id="text-center">
-												<h1>Thank you for you response</h1>
-												<p>The payment has been transfered successfully</p>
+												<h1 className="text-center">
+													Thank you for you response
+												</h1>
+												<p className="text-center">
+													The payment has been transfered successfully
+												</p>
 												<Status status={true} hideBack={true} back={() => {}} />
 											</div>
 										)}

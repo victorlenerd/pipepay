@@ -27,7 +27,9 @@ Router.route("/verify/:bank_code/:account_number").get(async (req, res) => {
 			res.send({ success: true, data });
 		})
 		.catch(err => {
-			res.status(400).send({ success: false, err });
+			res
+				.status(400)
+				.send({ success: false, error: JSON.parse(err.response.text) });
 		});
 });
 

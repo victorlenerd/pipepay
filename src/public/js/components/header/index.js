@@ -51,6 +51,7 @@ class Header extends React.PureComponent<Props, State> {
 			pathname === "/terms" ||
 			pathname === "/howitworks" ||
 			pathname === "/privacy" ||
+			pathname === "/pricing" ||
 			pathname === "/forgotpassword" ||
 			pathname === "/resetpassword"
 		);
@@ -72,6 +73,12 @@ class Header extends React.PureComponent<Props, State> {
 					<Navbar.Collapse>
 						{this.canShowOtherMenus() && (
 							<Nav pullLeft>
+								<NavItem
+									active={pathname === "/"}
+									onClick={() => this.props.history.push("/")}
+								>
+									Home
+								</NavItem>
 								<NavItem
 									active={pathname === "/pricing"}
 									onClick={() => this.props.history.push("/pricing")}

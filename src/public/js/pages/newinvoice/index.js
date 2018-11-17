@@ -21,14 +21,15 @@ type State = {
 	stage: number,
 	submitted: boolean,
 	canSubmit: boolean,
-	type: ?null,
-	whoPaysDeliveryFee: ?null,
-	whoPaysPipepayFee: ?null,
-	delivery_fee: ?null,
-	description: ?null,
-	purchase_amount: ?null,
-	customerInfo: ?null,
-	status: ?null,
+	type: null | string,
+	submittingInvoice: boolean,
+	whoPaysDeliveryFee: null | string,
+	whoPaysPipepayFee: null | string,
+	delivery_fee: null | string,
+	description: null | string,
+	purchase_amount: null | string,
+	customerInfo: null | string,
+	status: null | string,
 	milestones: [
 		{
 			description: string,
@@ -56,17 +57,8 @@ class NewInvoice extends React.Component<Props, State> {
 		purchase_amount: null,
 		customerInfo: null,
 		status: null,
+		submittingInvoice: false,
 		milestones: [
-			{
-				description: "",
-				amount: "",
-				dueDate: ""
-			},
-			{
-				description: "",
-				amount: "",
-				dueDate: ""
-			},
 			{
 				description: "",
 				amount: "",
@@ -89,16 +81,10 @@ class NewInvoice extends React.Component<Props, State> {
 	submitDeliveryType = e => {
 		e.preventDefault();
 		const whoPaysDeliveryFee = e.target.who_pays_delivery_fee.value;
-		if (e.target.checkValidity()) {
-			this.setState({ whoPaysDeliveryFee, stage: 3 });
-		}
-	};
-
-	submitPipepayType = e => {
-		e.preventDefault();
 		const whoPaysPipepayFee = e.target.who_pays_pipepay_fee.value;
+
 		if (e.target.checkValidity()) {
-			this.setState({ whoPaysPipepayFee, stage: 4 });
+			this.setState({ whoPaysDeliveryFee, whoPaysPipepayFee, stage: 4 });
 		}
 	};
 
@@ -114,7 +100,7 @@ class NewInvoice extends React.Component<Props, State> {
 		}
 	};
 
-	submitCustomerInfo = e => {
+	submitCustomerInfo = (e: { preventDefault: () => void, target: any }) => {
 		e.preventDefault();
 
 		const customerName = e.target.customerName.value;
@@ -171,20 +157,13 @@ class NewInvoice extends React.Component<Props, State> {
 
 		if (stage === 1)
 			return (
-				<WhoPaysFee
-					type="Delivery"
-					submit={this.submitDeliveryType}
-					back={() => this.setState({ stage: 0 })}
-				/>
-			);
-
-		if (stage === 3)
-			return (
-				<WhoPaysFee
-					type="PipePay"
-					submit={this.submitPipepayType}
-					back={() => this.setState({ stage: 1 })}
-				/>
+				<>
+					<WhoPaysFee
+						type="Delivery"
+						submit={this.submitDeliveryType}
+						back={() => this.setState({ stage: 0 })}
+					/>
+				</>
 			);
 
 		if (stage === 4)
@@ -254,6 +233,7 @@ class NewInvoice extends React.Component<Props, State> {
 			data.description = milestones[0].description;
 			data.milestones = milestones;
 		}
+		this.setState({ submittingInvoice: true });
 		NProgress.start();
 		fetch("/api/invoice", {
 			method: "POST",
@@ -266,7 +246,11 @@ class NewInvoice extends React.Component<Props, State> {
 			.then(res => res.json())
 			.then(({ success }) => {
 				NProgress.done();
-				this.setState({ submitted: true, status: success });
+				this.setState({
+					submittingInvoice: false,
+					submitted: true,
+					status: success
+				});
 			});
 	};
 
@@ -282,6 +266,7 @@ class NewInvoice extends React.Component<Props, State> {
 			milestones,
 			canSubmit,
 			status,
+			submittingInvoice,
 			submitted
 		} = this.state;
 
@@ -296,6 +281,7 @@ class NewInvoice extends React.Component<Props, State> {
 									back={this.cancelSubmit}
 									submit={() => this.submitInvoice()}
 									customerInfo={customerInfo}
+									disabled={submittingInvoice}
 									data={
 										type === "service"
 											? { milestones }

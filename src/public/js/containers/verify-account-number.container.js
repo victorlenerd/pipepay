@@ -19,6 +19,8 @@ type State = {
 };
 
 class VerifyAccountNumberContainer extends React.PureComponent<Props, State> {
+	appContext: any;
+
 	constructor() {
 		super();
 		this.state = {
@@ -36,7 +38,7 @@ class VerifyAccountNumberContainer extends React.PureComponent<Props, State> {
 		this.fetchBanks();
 	}
 
-	async fetchBanks() {
+	fetchBanks = async () => {
 		nprogress.start();
 		fetch("/api/banks", {
 			method: "GET",
@@ -48,9 +50,14 @@ class VerifyAccountNumberContainer extends React.PureComponent<Props, State> {
 			.then(res => {
 				nprogress.done();
 				const { success, data: banks } = res;
-				if (success) this.setState({ banks, bankCode: banks[0].code });
+				if (success)
+					this.setState({
+						banks,
+						accountNumber: this.appContext.user["custom:account_number"],
+						bankCode: this.appContext.user["custom:bank_code"]
+					});
 			});
-	}
+	};
 
 	setAccountNumber = (accountNumber: string) => {
 		this.setState({
@@ -66,7 +73,8 @@ class VerifyAccountNumberContainer extends React.PureComponent<Props, State> {
 			bankCode,
 			canSubmit: false,
 			success: null,
-			accountName: ""
+			accountName: "",
+			accountNumber: ""
 		});
 	};
 
@@ -84,11 +92,16 @@ class VerifyAccountNumberContainer extends React.PureComponent<Props, State> {
 				.then(res => res.json())
 				.then(res => {
 					nprogress.done();
-					const {
-						success,
-						data: { account_name: accountName }
-					} = res;
-					if (success) this.setState({ accountName, canSubmit: true });
+					const { success } = res;
+
+					if (success) {
+						this.setState({
+							accountName: res.data.account_name,
+							canSubmit: true
+						});
+					} else {
+						this.setState({ error: res.error.message, canSubmit: false });
+					}
 				})
 				.catch(err => {
 					nprogress.done();
@@ -113,7 +126,7 @@ class VerifyAccountNumberContainer extends React.PureComponent<Props, State> {
 					try {
 						await setAttributes(
 							attributes,
-							this.context.user["cognito:username"]
+							this.appContext.user["cognito:username"]
 						);
 						nprogress.done();
 						this.setState({ success: true });
@@ -129,7 +142,7 @@ class VerifyAccountNumberContainer extends React.PureComponent<Props, State> {
 		return (
 			<AppContext.Consumer>
 				{context => {
-					this.context = context;
+					this.appContext = context;
 					return this.props.children({
 						...this.state,
 						setBankCode: this.setBankCode,

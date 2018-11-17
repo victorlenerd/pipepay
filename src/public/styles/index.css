@@ -408,6 +408,13 @@ form {
   animation: dash-check .9s .35s ease-in-out forwards;
 }
 
+.success-text {
+  text-align: center;
+  color: #2ecb72;
+  text-transform: uppercase;
+  margin: 30px 0px;
+}
+
 @-webkit-keyframes dash {
   0% {
     stroke-dashoffset: 1000;
@@ -544,5 +551,16 @@ form {
     -webkit-transform: scale(1) rotate(0);
     -ms-transform: scale(1) rotate(0);
     transform: scale(1) rotate(0);
+  }
+}
+
+@media screen and (max-width: 360px) {
+  .spread {
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+
+  .transaction-select {
+    width: 80px;
   }
 }
