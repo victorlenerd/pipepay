@@ -9,8 +9,8 @@ type Props = {
 };
 
 type State = {
-	submitted: ?null,
-	success: ?null
+	submitted: null | boolean,
+	success: null | boolean
 };
 
 class Report extends React.PureComponent<Props, State> {

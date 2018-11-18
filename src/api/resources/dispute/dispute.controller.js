@@ -21,19 +21,12 @@ const DisputeController = generateController(DisputeModel, {
 	},
 	createOne: (req, res) => {
 		const body = req.body;
-		const {
-			marchantEmail,
-			customerEmail,
-			customerName,
-			marchantName,
-			_id,
-			status
-		} = req.invoice;
+		const { _id, status } = req.invoice;
 
 		body.status = "open";
 		body.invoiceId = _id;
 
-		if (status === "paid") {
+		if (status !== "sent" && status !== "approved") {
 			InvoiceModel.findOneAndUpdate(
 				{
 					_id
@@ -49,21 +42,12 @@ const DisputeController = generateController(DisputeModel, {
 							error: err
 						});
 					try {
-						await sendDisputeMail(
-							marchantEmail,
-							customerEmail,
-							customerName,
-							marchantName,
-							body.reason,
-							body.from
-						);
+						await sendDisputeMail(req.invoice, body.reason, body.from);
 
 						res.send({
-							data: doc,
 							success: true
 						});
 					} catch (err) {
-						console.log("err", err);
 						return res.status(400).send({
 							error: {
 								message: "Could not send mail"

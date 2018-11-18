@@ -71,43 +71,196 @@ export const sendReceiptMail = (
 			text: `${customerName} made payment of ${amount}`
 		};
 		Promise.race([
-			sendTo({ ...mailOption, to: customerEmail }),
-			sendTo({ ...mailOption, to: marchantEmail })
+			sendTo({
+				...mailOption,
+				to: customerEmail
+			}),
+			sendTo({
+				...mailOption,
+				to: marchantEmail
+			})
 		])
 			.then(resolve)
 			.catch(reject);
 	});
 
-export const sendTransferMail = (customerEmail, marchantEmail) =>
-	new Promise((esolve, reject) => {});
+const makeDisputeMail = (invoice, reason) => {
+	const main = `
+			<p>Hello</p>
 
-export const sendDisputeMail = (
-	marchantEmail,
-	customerEmail,
-	customerName,
-	marchantName,
-	reason,
-	disputeFrom,
-	supportEmail = "support@pipepay.zohodesk.com"
-) =>
+			<p>${invoice.customerName} opened a dispute in respect to invoice with id <b>${
+		invoice._id
+	}</b> from ${invoice.marchantName}.</p>
+
+			<h5>Reason For Dispute</h5> 
+			<p>${reason}</p>
+		`;
+
+	if (invoice.type === "good") {
+		return `		
+			${main}
+
+			<table>
+				<thead>
+					<tr>
+						<td>Type</td>
+						<td>Description</td>
+						<td>Who Paid Pipepay Fee</td>
+						<td>Who Paid Delivery Fee</td>
+						<td>Price Of Good</td>
+						<td>Delivery Fee</td>
+						<td>Bank Charges</td>
+						<td>Pipepay Fee</td>
+						<td>Matchant ID</td>
+						<td>Customer Name</td>
+						<td>Customer Email</td>
+						<td>Customer Phone</td>
+						<td>Marchant Account Number</td>
+						<td>Marchant Bank Code</td>
+					</tr>
+				</thead>
+				<tbody>
+					<tr>
+						<td>${invoice.type}</td>
+						<td>${invoice.description}</td>
+						<td>${invoice.whoPaysPipepayFee}</td>
+						<td>${invoice.whoPaysDeliveryFee}</td>
+						<td>${invoice.purchaseAmount}</td>
+						<td>${invoice.deliveryAmount}</td>
+						<td>${invoice.bankCharges}</td>
+						<td>${invoice.pipePayFee}</td>
+						<td>${invoice.userId}</td>
+						<td>${invoice.customerName}</td>
+						<td>${invoice.customerEmail}</td>
+						<td>${invoice.customerPhone}</td>
+						<td>${invoice.marchantAccountNumber}</td>
+						<td>${invoice.marchantBankCode}</td>
+					</tr>
+				</tbody>
+			</table>
+			`;
+	} else {
+		let milestonesBody = "";
+
+		invoice.milestones.forEach(milestone => {
+			milestonesBody += `
+					<tr>
+						<td>${milestone.amount}</td>
+						<td>${milestone.description}</td>
+						<td>${milestone.dueDate}</td>
+						<td>${milestone.paid}</td>
+						<td>${milestone.requested}</td>
+					</tr>
+				`;
+		});
+
+		return `
+			${main}
+
+			<table>
+			<thead>
+				<tr>
+					<td>Type</td>
+					<td>Description</td>
+					<td>Price Of Good</td>
+					<td>Bank Charges</td>
+					<td>Pipepay Fee</td>
+					<td>Matchant ID</td>
+					<td>Customer Name</td>
+					<td>Customer Email</td>
+					<td>Customer Phone</td>
+					<td>Marchant Account Number</td>
+					<td>Marchant Bank Code</td>
+				</tr>
+			</thead>
+			<tbody>
+				<tr>
+					<td>${invoice.type}</td>
+					<td>${invoice.description}</td>
+					<td>${invoice.purchaseAmount}</td>
+					<td>${invoice.bankCharges}</td>
+					<td>${invoice.pipePayFee}</td>
+					<td>${invoice.userId}</td>
+					<td>${invoice.customerName}</td>
+					<td>${invoice.customerEmail}</td>
+					<td>${invoice.customerPhone}</td>
+					<td>${invoice.marchantAccountNumber}</td>
+					<td>${invoice.marchantBankCode}</td>
+				</tr>
+			</tbody>
+		</table>	
+		<table>
+			<thead>
+				<tr>
+					<td>Amount</td>
+					<td>Description</td>
+					<td>Due Date</td>
+					<td>Paid</td>
+					<td>Requested</td>
+				</tr>
+			</thead>
+			<tbody>
+				${milestonesBody}
+			</tbody>
+		</table>					
+		`;
+	}
+};
+
+export const sendDisputeMail = (invoice, reason, disputeFrom) =>
 	new Promise(async (resolve, reject) => {
+		const {
+			marchantEmail,
+			customerEmail,
+			customerName,
+			marchantName,
+			_id,
+			type
+		} = invoice;
+
 		let mailOption = {
-			from: "hello@pipepay.africa",
+			from: "hello@pipepay.africa <hello@pipepay.africa>",
 			subject: "PipePay Payment Dispute"
 		};
 
 		try {
-			if (disputeFrom !== "marchant") {
+			if (disputeFrom === "customer") {
 				await Promise.all([
 					sendTo({
 						...mailOption,
 						to: "hello@pipepay.africa",
-						text: `New dispute from ${customerEmail} reason being that: "${reason}" marchant email is ${marchantEmail}`
+						html: makeDisputeMail(invoice, reason)
+					}),
+					sendTo({
+						...mailOption,
+						to: customerEmail,
+						html: `
+							<p>Hello ${customerName}</p>
+								
+							<p>Our agents would be in touch with you very soon concerning your dispute with ${marchantName}</p>
+
+							<p>
+								Thanks,
+								Your friends at PipePay
+							</p>
+						`
 					}),
 					sendTo({
 						...mailOption,
 						to: marchantEmail,
-						text: `New dispute from ${customerName} reason being that: "${reason}"`
+						html: `
+							<p>Hello ${marchantName}</p>
+
+							<p>${customerName} opened a dispute concerning payment for "${
+							invoice.description
+						}"</p>
+							<p>Our agents would be in touch with you very soon</p>
+
+							<p>
+								Thanks,
+								Your friends at PipePay
+							</p>
+						`
 					})
 				]);
 			} else {
@@ -115,12 +268,38 @@ export const sendDisputeMail = (
 					sendTo({
 						...mailOption,
 						to: "hello@pipepay.africa",
-						text: `New dispute from ${marchantEmail} reason being that: "${reason}" customer email is ${customerEmail}`
+						html: makeDisputeMail(invoice, reason)
+					}),
+					sendTo({
+						...mailOption,
+						to: marchantEmail,
+						html: `
+							<p>Hello ${marchantName}</p>
+								
+							<p>Our agents would be in touch with you very soon concerning your dispute with ${customerName}</p>
+
+							<p>
+								Thanks,
+								Your friends at PipePay
+							</p>
+						`
 					}),
 					sendTo({
 						...mailOption,
 						to: customerEmail,
-						text: `New dispute from ${customerName} reason being that: "${reason}"`
+						html: `
+							<p>Hello ${customerName}</p>
+								
+							<p>${marchantName} opened a dispute concerning payment for "${
+							invoice.description
+						}"</p>
+							<p>Our agents would be in touch with you very soon</p>
+
+							<p>
+								Thanks,
+								Your friends at PipePay
+							</p>
+						`
 					})
 				]);
 			}
@@ -140,7 +319,10 @@ export const sendCustormerVerificationCode = (customerEmail, code) =>
 		};
 
 		try {
-			await sendTo({ ...mailOption, to: customerEmail });
+			await sendTo({
+				...mailOption,
+				to: customerEmail
+			});
 			resolve();
 		} catch (err) {
 			reject(err);
@@ -191,7 +373,10 @@ export const sendPaymentRequest = (
 		};
 
 		try {
-			await sendTo({ ...mailOption, to: customerEmail });
+			await sendTo({
+				...mailOption,
+				to: customerEmail
+			});
 			resolve();
 		} catch (err) {
 			reject(err);
