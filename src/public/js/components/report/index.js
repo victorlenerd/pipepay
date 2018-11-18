@@ -59,7 +59,7 @@ class Report extends React.PureComponent<Props, State> {
 		return (
 			<section className="section">
 				<div className="container">
-					<div>
+					<div className="col-lg-8 col-lg-offset-2 col-md-8 col-md-offset-2 col-sm-12 col-xs-12">
 						{submitted === null ? (
 							<form name="report" onSubmit={this.submit}>
 								<label>Select Dispute Case</label>
