@@ -66,7 +66,7 @@ class Header extends React.PureComponent<Props, State> {
 				<div className="container">
 					<Navbar.Header>
 						<Link to="/" className="navbar-brand">
-							PipePay.Africa
+							Pipepay
 						</Link>
 						<Navbar.Toggle />
 					</Navbar.Header>

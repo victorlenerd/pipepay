@@ -101,7 +101,7 @@ class Home extends React.PureComponent {
 						<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 noPad shrink">
 							<div className="contact-info">
 								<h5>Address:</h5>
-								<p>Akoka, Lagos, Nigeria.</p>
+								<p>Lagos, Nigeria.</p>
 							</div>
 						</div>
 					</div>

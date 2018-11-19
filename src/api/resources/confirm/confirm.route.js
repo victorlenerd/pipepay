@@ -27,6 +27,12 @@ ConfirmRouter.route("/:token").get((req, res) => {
 			if (err || doc === null || doc === undefined)
 				return res.status(400).send({ success: false, error: err });
 
+			if (status === "rejected") {
+				return res
+					.status(200)
+					.send({ success: true, data: { _id: invoiceId, type, status } });
+			}
+
 			if (doc.status === "paid" && doc.type === "good") {
 				InvoiceModel.findOneAndUpdate(
 					{ _id: invoiceId },

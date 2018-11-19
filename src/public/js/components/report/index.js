@@ -10,12 +10,14 @@ type Props = {
 
 type State = {
 	submitted: null | boolean,
+	disputeType: null | string,
 	success: null | boolean
 };
 
 class Report extends React.PureComponent<Props, State> {
 	state = {
 		submitted: null,
+		disputeType: null,
 		success: null
 	};
 
@@ -29,6 +31,7 @@ class Report extends React.PureComponent<Props, State> {
 				method: "POST",
 				body: JSON.stringify({
 					from: this.props.from,
+					disputeType: this.state.disputeType,
 					reason: e.target.description.value
 				}),
 				headers: {
@@ -69,15 +72,18 @@ class Report extends React.PureComponent<Props, State> {
 										name="reason"
 										className="transaction-select"
 										style={{ height: 40, minWidth: 400 }}
+										onChange={e =>
+											this.setState({ disputeType: e.target.value })
+										}
 										required
 									>
-										<option value="marchant_case_1">
+										<option value="Marchandise has been delivered buyer is not responding">
 											Marchandise has been delivered buyer is not responding
 										</option>
-										<option value="marchant_case_2">
+										<option value="Milestone has been completed buyer is not responding">
 											Milestone has been completed buyer is not responding
 										</option>
-										<option value="marchant_case_3">Other</option>
+										<option value="Other">Other</option>
 									</select>
 								)}
 								{from === "customer" && (
@@ -85,15 +91,18 @@ class Report extends React.PureComponent<Props, State> {
 										name="reason"
 										className="transaction-select"
 										style={{ height: 40, minWidth: 400 }}
+										onChange={e =>
+											this.setState({ disputeType: e.target.value })
+										}
 										required
 									>
-										<option value="customer_case_1">
+										<option value="What I got was not what was advertised">
 											What I got was not what was advertised
 										</option>
-										<option value="customer_case_2">
+										<option value="I do not want the product anymore">
 											I do not want the product anymore
 										</option>
-										<option value="customer_case_3">Other</option>
+										<option value="Other">Other</option>
 									</select>
 								)}
 								<br />

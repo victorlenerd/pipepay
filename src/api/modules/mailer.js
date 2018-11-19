@@ -84,10 +84,11 @@ export const sendReceiptMail = (
 			.catch(reject);
 	});
 
-const makeDisputeMail = (invoice, reason) => {
+const makeDisputeMail = (invoice, disputeType, reason) => {
 	const main = `
 			<p>Hello</p>
 
+			<p>${disputeType}</p>
 			<p>${invoice.customerName} opened a dispute in respect to invoice with id <b>${
 		invoice._id
 	}</b> from ${invoice.marchantName}.</p>
@@ -207,7 +208,7 @@ const makeDisputeMail = (invoice, reason) => {
 	}
 };
 
-export const sendDisputeMail = (invoice, reason, disputeFrom) =>
+export const sendDisputeMail = (invoice, disputeType, reason, disputeFrom) =>
 	new Promise(async (resolve, reject) => {
 		const {
 			marchantEmail,
@@ -229,7 +230,7 @@ export const sendDisputeMail = (invoice, reason, disputeFrom) =>
 					sendTo({
 						...mailOption,
 						to: "hello@pipepay.africa",
-						html: makeDisputeMail(invoice, reason)
+						html: makeDisputeMail(invoice, disputeType, reason)
 					}),
 					sendTo({
 						...mailOption,
@@ -268,7 +269,7 @@ export const sendDisputeMail = (invoice, reason, disputeFrom) =>
 					sendTo({
 						...mailOption,
 						to: "hello@pipepay.africa",
-						html: makeDisputeMail(invoice, reason)
+						html: makeDisputeMail(invoice, disputeType, reason)
 					}),
 					sendTo({
 						...mailOption,
@@ -305,7 +306,6 @@ export const sendDisputeMail = (invoice, reason, disputeFrom) =>
 			}
 			resolve();
 		} catch (err) {
-			console.log("err", err);
 			reject(err);
 		}
 	});

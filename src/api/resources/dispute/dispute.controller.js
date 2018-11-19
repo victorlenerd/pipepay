@@ -42,7 +42,12 @@ const DisputeController = generateController(DisputeModel, {
 							error: err
 						});
 					try {
-						await sendDisputeMail(req.invoice, body.reason, body.from);
+						await sendDisputeMail(
+							req.invoice,
+							body.disputeType,
+							body.reason,
+							body.from
+						);
 
 						res.send({
 							success: true
