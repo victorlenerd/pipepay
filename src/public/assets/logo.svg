@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="1024px" height="1024px" viewBox="0 0 1024 1024" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Generator: Sketch 51.3 (57544) - http://www.bohemiancoding.com/sketch -->
+    <title>PipePay - Logo</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+        <linearGradient x1="84.7770383%" y1="9.46278888%" x2="18.6704478%" y2="100%" id="linearGradient-1">
+            <stop stop-color="#FED86D" offset="0%"></stop>
+            <stop stop-color="#CBDFA2" offset="78.3321637%"></stop>
+            <stop stop-color="#7CC99D" offset="100%"></stop>
+        </linearGradient>
+    </defs>
+    <g id="PipePay---Logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <rect fill="#FFFFFF" x="0" y="0" width="1024" height="1024"></rect>
+        <path d="M477,411.607148 L477,887 C477,926.212217 445.212217,958 406,958 C366.787783,958 335,926.212217 335,887 L335,259.543559 C334.338978,253.450707 334,247.264008 334,241 C334,144.902454 413.779621,67 512.192771,67 C610.605921,67 690.385542,144.902454 690.385542,241 C690.385542,337.097546 610.605921,415 512.192771,415 C500.145209,415 488.376892,413.832537 477,411.607148 Z M512,278 C531.882251,278 548,261.658393 548,241.5 C548,221.341607 531.882251,205 512,205 C492.117749,205 476,221.341607 476,241.5 C476,261.658393 492.117749,278 512,278 Z" id="Combined-Shape" fill="url(#linearGradient-1)"></path>
+    </g>
+</svg>
