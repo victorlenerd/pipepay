@@ -105,9 +105,11 @@ class Home extends React.PureComponent {
 					</div>
 					<br />
 					<br />
-					<p className="text-center">
-						© Pipepay.africa {new Date().getFullYear()}
-					</p>
+					<div className="container">
+						<p className="text-center" id="copy-p">
+							© Pipepay.africa {new Date().getFullYear()}
+						</p>
+					</div>
 				</section>
 			</React.Fragment>
 		);
