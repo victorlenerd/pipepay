@@ -1,5 +1,7 @@
 import request from "superagent";
 import express from "express";
+const Sentry = require("@sentry/node");
+
 const secret = process.env.PAYSTACK_SECRET;
 const Router = express.Router();
 
@@ -9,7 +11,10 @@ Router.route("/").get(async (req, res) => {
 		.set("Content-Type", "application/json")
 		.set("Authorization", `Bearer ${secret}`)
 		.end((err, { body: { data } }) => {
-			if (err) res.status(400).send({ success: false, err });
+			if (err) {
+				Sentry.captureException(err);
+				res.status(400).send({ success: false, err });
+			}
 			res.send({ success: true, data });
 		});
 });
@@ -27,6 +32,7 @@ Router.route("/verify/:bank_code/:account_number").get(async (req, res) => {
 			res.send({ success: true, data });
 		})
 		.catch(err => {
+			Sentry.captureException(err);
 			res
 				.status(400)
 				.send({ success: false, error: JSON.parse(err.response.text) });

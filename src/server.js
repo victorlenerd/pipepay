@@ -5,9 +5,17 @@ import MainRouter from "./api/resources";
 import { connect } from "./db";
 import { getJWT } from "./api/modules/auth";
 import exphbs from "express-handlebars";
+
+const Sentry = require("@sentry/node");
+Sentry.init({
+	dsn: "https://34c300355f66498a8e7a7b21df7fadbd@sentry.io/1315245"
+});
+
 const app = express();
 
 getJWT();
+
+app.use(Sentry.Handlers.requestHandler());
 setupMiddleware(app);
 
 app.set("views", path.join(__dirname, "views"));
@@ -41,5 +49,6 @@ app.get(
 );
 
 app.use("/api", MainRouter);
+app.use(Sentry.Handlers.errorHandler());
 
 export default app;

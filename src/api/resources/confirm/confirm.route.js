@@ -6,6 +6,8 @@ import DisputeController from "../dispute/dispute.controller";
 import InvoiceController from "../invoice/invoice.controller";
 import jwt from "jsonwebtoken";
 
+const Sentry = require("@sentry/node");
+
 const JWT_SECRET = process.env.JWT_SECRET;
 
 const ConfirmRouter = express.Router();
@@ -15,17 +17,21 @@ ConfirmRouter.param("invoiceId", DisputeController.getInvoiceId);
 ConfirmRouter.route("/:token").get((req, res) => {
 	const token = req.params.token;
 	jwt.verify(token, JWT_SECRET, (err, decoded) => {
-		if (err)
-			return res
+		if (err) {
+			Sentry.captureException(err);
+			res
 				.status(200)
 				.send({ success: false, error: "Token expired or incorrect" });
+		}
 
 		const { type, action, customerEmail, invoiceId } = decoded;
 		const status = action === "accept" ? "accepted" : "rejected";
 
 		InvoiceModel.findOne({ _id: invoiceId }, (err, doc) => {
-			if (err || doc === null || doc === undefined)
+			if (err || doc === null || doc === undefined) {
+				Sentry.captureException(err);
 				return res.status(400).send({ success: false, error: err });
+			}
 
 			if (status === "rejected") {
 				return res
@@ -39,7 +45,11 @@ ConfirmRouter.route("/:token").get((req, res) => {
 					{ $set: { status } },
 					{ new: true },
 					async (error, doc) => {
-						if (error) return res.status(400).send({ success: false, error });
+						if (error) {
+							Sentry.captureException(err);
+							res.status(400).send({ success: false, error });
+						}
+
 						const {
 							_id,
 							type,
@@ -79,6 +89,7 @@ ConfirmRouter.route("/:token").get((req, res) => {
 									amount
 								);
 							} catch (err) {
+								Sentry.captureException(err);
 								res.status(400).send({ success: false, error: err });
 							}
 						}
@@ -135,11 +146,11 @@ ConfirmRouter.route("/:token").get((req, res) => {
 							}
 						);
 					})
-					.catch(() => {
-						if (err)
-							res
-								.status(400)
-								.send({ success: false, error: "Failed to make transfer" });
+					.catch(err => {
+						Sentry.captureException(err);
+						res
+							.status(400)
+							.send({ success: false, error: "Failed to make transfer" });
 					});
 			} else {
 				res

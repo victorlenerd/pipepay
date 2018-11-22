@@ -3,6 +3,7 @@ import recode from "../../modules/recode";
 import generateController from "../../modules/generateController";
 import { CreateInvoice } from "../../modules/invoice";
 import { getTime, format, subHours } from "date-fns";
+const Sentry = require("@sentry/node");
 
 const QUERY_PARAMS =
 	"_id type deliveryAmount customerName customerPhone customerEmail created_at purchaseAmount totalPrice whoPaysDeliveryFee whoPaysPipepayFee milestones pipePayFee bankCharges status requested disputed";
@@ -88,45 +89,45 @@ export default generateController(InvoiceModel, {
 			line_items.push({ name: "PipePay Fee", amount: body.pipePayFee * 100 });
 		}
 
-		try {
-			const {
-				data: { request_code }
-			} = await CreateInvoice(
-				{
-					email: body.customerEmail,
-					name: body.customerName,
-					phone: body.customerPhone
-				},
-				customerTotalAmount * 100,
-				body.description,
-				line_items
-			);
-			body.invoice_code = request_code;
-			body.status = "sent";
-			body.requested = false;
-			body.disputed = false;
-
-			InvoiceModel.create(body, async (err, doc) => {
-				if (err) {
-					return res.status(400).send({
-						error: { message: "Could not create the invoice" },
-						success: false
-					});
-				}
-				delete doc.verifyCode;
-				doc.status = "sent";
-				doc.save();
-				res.send({ data: doc, success: true });
+		CreateInvoice(
+			{
+				email: body.customerEmail,
+				name: body.customerName,
+				phone: body.customerPhone
+			},
+			customerTotalAmount * 100,
+			body.description,
+			line_items
+		)
+			.then(({ data: { request_code } }) => {
+				//TODO: Update Email Status to sent
+				body.invoice_code = request_code;
+			})
+			.catch(err => {
+				Sentry.captureException(err);
 			});
-		} catch (err) {
-			return res.status(400).send({ err, success: false });
-		}
+
+		body.status = "processing";
+		body.requested = false;
+		body.disputed = false;
+
+		InvoiceModel.create(body, async (err, doc) => {
+			if (err) {
+				Sentry.captureException(err);
+				res.status(400).send({
+					error: { message: "Could not create the invoice" },
+					success: false
+				});
+			}
+			delete doc.verifyCode;
+			doc.status = "sent";
+			doc.save();
+			res.send({ data: doc, success: true });
+		});
 	},
 	getAll: async (req, res) => {
 		if (!req.user)
-			return res
-				.status(403)
-				.send({ success: false, error: "Invalid auth token" });
+			res.status(403).send({ success: false, error: "Invalid auth token" });
 
 		const userId = req.user.sub;
 		const page = req.query.page;
@@ -151,21 +152,25 @@ export default generateController(InvoiceModel, {
 			const invoices = await InvoiceModel.paginate(query, options);
 			const { docs, total, limit, page } = invoices;
 
-			return res
+			res
 				.status(200)
 				.send({ data: { invoices: docs, total, limit, page }, success: true });
 		} catch (err) {
-			return res.status(400).send({ err, success: false });
+			Sentry.captureException(err);
+			res.status(400).send({ err, success: false });
 		}
 	},
 	getOne: (req, res) => {
 		var id = req.docId || req.params.invoiceId;
 
 		InvoiceModel.findOne({ _id: id }, QUERY_PARAMS, function(err, doc) {
-			if (err)
-				return res.status(400).send({ success: false, error: { ...err } });
+			if (err) {
+				Sentry.captureException(err);
+				res.status(400).send({ success: false, error: { ...err } });
+			}
+
 			if (!doc)
-				return res.status(400).send({
+				res.status(400).send({
 					success: false,
 					error: { message: "Invoice does not exist" }
 				});

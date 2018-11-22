@@ -5,6 +5,8 @@ import * as mailer from "../../modules/mailer";
 import generateController from "../../modules/generateController";
 import Transfer from "../../modules/transfer";
 
+const Sentry = require("@sentry/node");
+
 const secret = process.env.PAYSTACK_SECRET;
 
 export default generateController(PaymentModel, {
@@ -31,6 +33,7 @@ export default generateController(PaymentModel, {
 				{ new: true },
 				async (err, doc) => {
 					if (err) {
+						Sentry.captureException(err);
 						return res
 							.status(400)
 							.send({ error: new Error(err), status: false });
@@ -60,7 +63,8 @@ export default generateController(PaymentModel, {
 
 						res.status(200).send({ success: true });
 					} catch (err) {
-						return res.status(400).send({
+						Sentry.captureException(err);
+						res.status(400).send({
 							error: { message: "Could not send mail" },
 							success: false
 						});
@@ -74,7 +78,11 @@ export default generateController(PaymentModel, {
 	getOne: (req, res) => {
 		var id = req.params.invoiceId;
 		PaymentModel.findOne({ invoiceId: id }, function(err, doc) {
-			if (err) res.status(401).send({ success: false, error: { ...err } });
+			if (err) {
+				Sentry.captureException(err);
+				res.status(401).send({ success: false, error: { ...err } });
+			}
+
 			res.status(200).send({ success: true, data: doc });
 		});
 	}

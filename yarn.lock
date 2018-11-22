@@ -794,51 +794,57 @@
   dependencies:
     any-observable "^0.3.0"
 
-"@sentry/core@4.2.4":
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/@sentry/core/-/core-4.2.4.tgz#e4a331512a4db149f14a2976b75a5b3c8ef47f87"
+"@sentry/core@4.3.4":
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/@sentry/core/-/core-4.3.4.tgz#414e050b9e963ac7f839331ad33590e59d883988"
   dependencies:
-    "@sentry/hub" "4.2.4"
-    "@sentry/minimal" "4.2.4"
-    "@sentry/types" "4.2.4"
-    "@sentry/utils" "4.2.4"
+    "@sentry/hub" "4.3.4"
+    "@sentry/minimal" "4.3.4"
+    "@sentry/types" "4.3.4"
+    "@sentry/utils" "4.3.4"
+    tslib "^1.9.3"
 
-"@sentry/hub@4.2.4":
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/@sentry/hub/-/hub-4.2.4.tgz#0248ad50e3a3e248a2086612a19914838694314c"
+"@sentry/hub@4.3.4":
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/@sentry/hub/-/hub-4.3.4.tgz#48915f5867e8ef1d964c89394e8500d1d050719b"
   dependencies:
-    "@sentry/types" "4.2.4"
-    "@sentry/utils" "4.2.4"
+    "@sentry/types" "4.3.4"
+    "@sentry/utils" "4.3.4"
+    tslib "^1.9.3"
 
-"@sentry/minimal@4.2.4":
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/@sentry/minimal/-/minimal-4.2.4.tgz#6d7fc8a06395176be53d0941244b8e4a3d74a802"
+"@sentry/minimal@4.3.4":
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/@sentry/minimal/-/minimal-4.3.4.tgz#8375c3d040621dd30eeddaebf4ef1bf22be0f643"
   dependencies:
-    "@sentry/hub" "4.2.4"
-    "@sentry/types" "4.2.4"
+    "@sentry/hub" "4.3.4"
+    "@sentry/types" "4.3.4"
+    tslib "^1.9.3"
 
-"@sentry/node@^4.2.4":
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/@sentry/node/-/node-4.2.4.tgz#0ae4b6c7303a941fcafa066702ab0b3272d61c1e"
+"@sentry/node@^4.3.4":
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/@sentry/node/-/node-4.3.4.tgz#627b75114c4ac3dcc63db0a9257d852ffd0aaaa7"
   dependencies:
-    "@sentry/core" "4.2.4"
-    "@sentry/hub" "4.2.4"
-    "@sentry/types" "4.2.4"
-    "@sentry/utils" "4.2.4"
+    "@sentry/core" "4.3.4"
+    "@sentry/hub" "4.3.4"
+    "@sentry/types" "4.3.4"
+    "@sentry/utils" "4.3.4"
+    "@types/stack-trace" "0.0.29"
     cookie "0.3.1"
     lsmod "1.0.0"
     md5 "2.2.1"
     stack-trace "0.0.10"
+    tslib "^1.9.3"
 
-"@sentry/types@4.2.4":
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-4.2.4.tgz#c77f5ecdbe38cc826451b11746cde9faf50cb40f"
+"@sentry/types@4.3.4":
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/@sentry/types/-/types-4.3.4.tgz#563f9def51da301cfd474ecf35ae4d97847aed61"
 
-"@sentry/utils@4.2.4":
-  version "4.2.4"
-  resolved "https://registry.yarnpkg.com/@sentry/utils/-/utils-4.2.4.tgz#6e5f49d8a67b109c48fbe9762e793c8f453513b2"
+"@sentry/utils@4.3.4":
+  version "4.3.4"
+  resolved "https://registry.yarnpkg.com/@sentry/utils/-/utils-4.3.4.tgz#4473d9f4d1b909e51b6aea7051ebe1bd838d56e9"
   dependencies:
-    "@sentry/types" "4.2.4"
+    "@sentry/types" "4.3.4"
+    tslib "^1.9.3"
 
 "@sheerun/mutationobserver-shim@^0.3.2":
   version "0.3.2"
@@ -853,6 +859,10 @@
   resolved "https://registry.yarnpkg.com/@types/babylon/-/babylon-6.16.3.tgz#c2937813a89fcb5e79a00062fc4a8b143e7237bb"
   dependencies:
     "@types/babel-types" "*"
+
+"@types/stack-trace@0.0.29":
+  version "0.0.29"
+  resolved "https://registry.yarnpkg.com/@types/stack-trace/-/stack-trace-0.0.29.tgz#eb7a7c60098edb35630ed900742a5ecb20cfcb4d"
 
 "@webassemblyjs/ast@1.7.8":
   version "1.7.8"
@@ -7577,7 +7587,7 @@ trim-right@^1.0.1:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/trim-right/-/trim-right-1.0.1.tgz#cb2e1203067e0c8de1f614094b9fe45704ea6003"
 
-tslib@^1.9.0:
+tslib@^1.9.0, tslib@^1.9.3:
   version "1.9.3"
   resolved "https://registry.yarnpkg.com/tslib/-/tslib-1.9.3.tgz#d7e4dd79245d85428c4d7e4822a79917954ca286"
 
