@@ -31,7 +31,7 @@ export default generateController(PaymentModel, {
 				{ status: "paid" },
 				{ new: true },
 				async (err, doc) => {
-					if (err) {
+					if (err && doc === null) {
 						Sentry.captureException(err);
 						return res
 							.status(400)
