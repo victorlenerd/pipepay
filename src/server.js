@@ -38,7 +38,7 @@ app.use(function(req, res, next) {
 });
 
 connect().catch(err => {
-	console.error("DB error", err);
+	Sentry.captureException(err);
 });
 
 app.get(

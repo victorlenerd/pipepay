@@ -1,7 +1,7 @@
 import express from "express";
 import InvoiceModel, { MilestoneSchema } from "../invoice/invoice.model";
 import Transfer from "../../modules/transfer";
-
+import { sendTransefConfirm } from "../../modules/mailer";
 import DisputeController from "../dispute/dispute.controller";
 import InvoiceController from "../invoice/invoice.controller";
 import jwt from "jsonwebtoken";
@@ -57,6 +57,8 @@ ConfirmRouter.route("/:token").get((req, res) => {
 							marchantName,
 							marchantAccountNumber,
 							marchantBankCode,
+							customerName,
+							marchantEmail,
 							purchaseAmount,
 							pipePayFee,
 							deliveryAmount
@@ -86,6 +88,13 @@ ConfirmRouter.route("/:token").get((req, res) => {
 									marchantName,
 									marchantAccountNumber,
 									marchantBankCode,
+									amount
+								);
+								sendTransefConfirm(
+									customerName,
+									customerEmail,
+									marchantName,
+									marchantEmail,
 									amount
 								);
 							} catch (err) {

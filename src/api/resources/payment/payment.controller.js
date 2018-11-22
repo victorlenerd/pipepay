@@ -1,7 +1,6 @@
 import crypto from "crypto";
 import PaymentModel from "./payment.model";
 import InvoiceModel from "../invoice/invoice.model";
-import * as mailer from "../../modules/mailer";
 import generateController from "../../modules/generateController";
 import Transfer from "../../modules/transfer";
 
@@ -60,7 +59,6 @@ export default generateController(PaymentModel, {
 							deliveryAmount,
 							invoiceId: _id
 						});
-
 						res.status(200).send({ success: true });
 					} catch (err) {
 						Sentry.captureException(err);

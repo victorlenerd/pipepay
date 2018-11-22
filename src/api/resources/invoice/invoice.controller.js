@@ -2,6 +2,7 @@ import InvoiceModel from "./invoice.model";
 import recode from "../../modules/recode";
 import generateController from "../../modules/generateController";
 import { CreateInvoice } from "../../modules/invoice";
+import { sendInvoiceConfirmSent } from "../../modules/mailer";
 import { getTime, format, subHours } from "date-fns";
 const Sentry = require("@sentry/node");
 
@@ -89,29 +90,12 @@ export default generateController(InvoiceModel, {
 			line_items.push({ name: "PipePay Fee", amount: body.pipePayFee * 100 });
 		}
 
-		CreateInvoice(
-			{
-				email: body.customerEmail,
-				name: body.customerName,
-				phone: body.customerPhone
-			},
-			customerTotalAmount * 100,
-			body.description,
-			line_items
-		)
-			.then(({ data: { request_code } }) => {
-				//TODO: Update Email Status to sent
-				body.invoice_code = request_code;
-			})
-			.catch(err => {
-				Sentry.captureException(err);
-			});
-
 		body.status = "processing";
 		body.requested = false;
 		body.disputed = false;
+		body.invoice_code = recode();
 
-		InvoiceModel.create(body, async (err, doc) => {
+		InvoiceModel.create(body, (err, doc) => {
 			if (err) {
 				Sentry.captureException(err);
 				res.status(400).send({
@@ -119,8 +103,38 @@ export default generateController(InvoiceModel, {
 					success: false
 				});
 			}
+
+			CreateInvoice(
+				{
+					email: body.customerEmail,
+					name: body.customerName,
+					phone: body.customerPhone
+				},
+				customerTotalAmount * 100,
+				body.description,
+				line_items
+			)
+				.then(({ data: { request_code: invoice_code } }) => {
+					InvoiceModel.findOneAndUpdate(
+						{ _id: doc._id },
+						{ $set: { invoice_code, status: "sent" } },
+						err => {
+							if (err) Sentry.captureException(err);
+							sendInvoiceConfirmSent(
+								body.marchantName,
+								body.marchantEmail,
+								body.customerName,
+								body.customerEmail,
+								`https://paystack.com/pay/${invoice_code}`
+							);
+						}
+					);
+				})
+				.catch(err => {
+					Sentry.captureException(err);
+				});
+
 			delete doc.verifyCode;
-			doc.status = "sent";
 			doc.save();
 			res.send({ data: doc, success: true });
 		});

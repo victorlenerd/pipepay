@@ -225,7 +225,6 @@ input {
 
 form {
   width: 100%;
-  display: table;
 }
 
 .container-main {
@@ -263,6 +262,7 @@ form {
   color: #61C89E;
 }
 
+
 .invoice-price.rejected {
   background: #e74c3c;
 }
@@ -277,6 +277,10 @@ form {
 
 .invoice-price.sent {
   background: #bdc3c7;
+}
+
+.invoice-price.processing {
+  background: #2c3e50;
 }
 
 .invoice-timeago {
@@ -415,6 +419,18 @@ form {
   color: #2ecb72;
   text-transform: uppercase;
   margin: 30px 0px;
+}
+
+.card-box {
+  background-color: #fff;
+  padding: 10px;
+  box-shadow: 2px 0px 2px rgba(0, 0, 0, 0.1), -2px 0px 2px rgba(0, 0, 0, 0.1);
+  margin: 10px 0px;
+  cursor: pointer;
+}
+
+.card-box p {
+  margin-left: 20px;
 }
 
 @-webkit-keyframes dash {

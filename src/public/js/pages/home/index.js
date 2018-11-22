@@ -1,7 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import Header from "../../components/header";
-
+import Footer from "../../components/footer";
 // <div className="col-lg-6 col-md-6 col-sm-12 col-12">
 // <div className="rate-container">
 // 	<div className="rate-info">
@@ -51,10 +51,9 @@ class Home extends React.PureComponent {
 				<section className="howItWorks">
 					<div className="green-green">
 						<div className="pay-services-container" />
-						<div className="pay-goods-container" />
 					</div>
 					<div className="container">
-						<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+						<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 							<div className="pay-goods">
 								<p>Complete protection for merchandise transactions</p>
 								<ol className="ol">
@@ -62,18 +61,6 @@ class Home extends React.PureComponent {
 									<li>Buyer pays PipePay.africa</li>
 									<li>Seller ships the merchandise</li>
 									<li>Buyer inspects & approves goods</li>
-									<li>PipePay.africa pays the seller</li>
-								</ol>
-							</div>
-						</div>
-						<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-							<div className="pay-services">
-								<p>Complete protection for milestone transactions.</p>
-								<ol className="ol">
-									<li>Buyer and seller agree on terms</li>
-									<li>Buyer pays PipePay.africa</li>
-									<li>Seller provides the service</li>
-									<li>Buyer approves the milestone</li>
 									<li>PipePay.africa pays the seller</li>
 								</ol>
 							</div>
@@ -91,8 +78,6 @@ class Home extends React.PureComponent {
 								<h5>Mail:</h5>
 								<p>hello@pippay.africa</p>
 							</div>
-						</div>
-						<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 noPad shrink">
 							<div className="contact-info">
 								<h5>Phone:</h5>
 								<p>+234 909 861 2833</p>
@@ -103,8 +88,26 @@ class Home extends React.PureComponent {
 								<h5>Address:</h5>
 								<p>Lagos, Nigeria.</p>
 							</div>
+							<div className="contact-info">
+								<h5>Phone:</h5>
+								<p>+234 815 050 1601</p>
+							</div>
+						</div>
+						<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 noPad shrink">
+							<h4>Pipepay</h4>
+							<p>
+								We Help marchants not miss any sale, by proving an easy escrow
+								service for their customers
+							</p>
+							<br />
+							<Footer />
 						</div>
 					</div>
+					<br />
+					<br />
+					<p className="text-center">
+						© Pipepay.africa {new Date().getFullYear()}
+					</p>
 				</section>
 			</React.Fragment>
 		);

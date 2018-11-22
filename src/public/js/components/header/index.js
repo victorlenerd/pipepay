@@ -71,47 +71,39 @@ class Header extends React.PureComponent<Props, State> {
 						<Navbar.Toggle />
 					</Navbar.Header>
 					<Navbar.Collapse>
-						{this.canShowOtherMenus() && (
-							<Nav pullLeft>
+						<Nav pullRight>
+							{!signedIn && (
 								<NavItem
 									active={pathname === "/"}
 									onClick={() => this.props.history.push("/")}
 								>
 									Home
 								</NavItem>
-								<NavItem
-									active={pathname === "/pricing"}
-									onClick={() => this.props.history.push("/pricing")}
-								>
-									Pricing
-								</NavItem>
+							)}
+							{!signedIn && (
 								<NavItem
 									active={pathname === "/howitworks"}
 									onClick={() => this.props.history.push("/howitworks")}
 								>
 									How It Works
 								</NavItem>
+							)}
+							{!signedIn && (
 								<NavItem
 									active={pathname === "/faq"}
-									onClick={() => history.push("/faq")}
+									onClick={() => this.props.history.push("/faq")}
 								>
 									F.A.Q
 								</NavItem>
+							)}
+							{!signedIn && (
 								<NavItem
-									active={pathname === "/terms"}
-									onClick={() => history.push("/terms")}
+									active={pathname === "/pricing"}
+									onClick={() => this.props.history.push("/pricing")}
 								>
-									Terms
+									Pricing
 								</NavItem>
-								<NavItem
-									active={pathname === "/privacy"}
-									onClick={() => history.push("/privacy")}
-								>
-									Privacy Policy
-								</NavItem>
-							</Nav>
-						)}
-						<Nav pullRight>
+							)}
 							{signedIn && (
 								<NavItem
 									active={pathname === "/invoices"}
