@@ -1,4 +1,15 @@
 
+li a {
+    color: #fff;
+}
+
+li a:hover {
+    color: initial;
+}
+
+li a:visited {
+    color: inherit;
+}
 
 .ol {
     margin-top: 30px;
@@ -43,21 +54,29 @@
 
 .image-holder {
     width: 100%;
-    min-height: 450px;
-    background-image: url('../assets/construct.png');
+    min-height: 400px;
+    background-color: rgba(111, 180, 170, 1);
     background-size: cover;
     background-repeat: no-repeat;
 }
 
 .intro-content-container {
     width: 100%;
-    min-height: 500px;
-    background-color: rgba(0, 0, 0, 0.60);
+    min-height: 400px;
+    background-color: #20232a;
     color: #fff;
-    padding: 40px 60px;
-    display: flex;
+    /* display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
+    position: relative;
+}
+
+.intro-content-container .particles-js-canvas-el {
+    position: absolute;
+}
+
+.intro-content-container .container {
+    position: relative;
 }
 
 .heading {
@@ -110,6 +129,7 @@
 .signIn {
     background-color: #fff;
     color: #6FB28D;
+    margin: 0px auto;
 }
 
 .rate-cotainer {
@@ -149,7 +169,7 @@
 }
 
 .pay-goods-container {
-    width: 50%;
+    width: 100%;
     background-color: #82D0A5;
     float: left;
     position: relative;
@@ -232,6 +252,10 @@
 }
 
 .howItWorks {
+    background-color: rgba(111, 180, 170, 1);
+}
+
+.howItWorks, .howItWorks .container {
     position: relative;
 }
 
@@ -251,6 +275,47 @@
 .navbar-toggle .icon-bar {
     width: 32px;
     height: 5px;
+}
+
+.home-card-box {
+    border-radius: 100px;
+    margin-bottom: 50px;
+    padding: 20px;
+    box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.1), 
+                -5px 0px 5px rgba(0, 0, 0, 0.1);
+
+    background-color: #fff;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.home-section-title, .home-section-title-inverse{
+    color: #fff;
+    text-align: center;
+    margin: 50px 0px;
+}
+
+.home-section-title-inverse {
+    color: #2C3E50;
+}
+
+.howitworks-part {
+    max-width: 80%;
+}
+
+.whyuse-p {
+    font-size: 16px;
+    color: #2C3E50 !important;
+}
+
+.jumbo {
+    padding: 80px 0px;
+}
+
+#whyuse {
+    padding-bottom: 50px;
 }
 
 #footer-links {
@@ -282,7 +347,45 @@
     padding-top: 50px;
 }
 
+.home-icon {
+    width: 100px;
+    height: 100px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-right: 20px;
+}
+
+.icon-box {
+    background-image: url('../assets/box.svg');
+}
+
+.icon-send {
+    background-image: url('../assets/send.svg');
+}
+
+.icon-pay-per-click {
+    background-image: url('../assets/pay-per-click.svg');
+}
+
+.accordion__body {
+    background-color: #fff;
+    font-size: 16px;
+}
+
+.faq {
+    padding-bottom: 50px;
+    background: #20232a;
+}
+
+.accordion__title, .other-title {
+    color: #2C3E50 !important;
+}
+
 @media screen and (max-width: 768px) {
+    .howitworks-part {
+        max-width: 70%;
+    }
+
     .description {
         margin: 20px;
     }
@@ -321,8 +424,9 @@
 }
 
 @media screen and (max-width: 500px) {
-    .intro-content-container {
-        padding: 10px;
+    .home-card-box {
+        border-radius: 50px;
+        flex-direction: column;
     }
 
     .sign-button {

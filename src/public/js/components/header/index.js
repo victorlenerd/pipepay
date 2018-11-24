@@ -1,6 +1,7 @@
 //@flow
 import React from "react";
-import { Link, withRouter } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
 import type { Location, RouterHistory } from "react-router-dom";
 import { Navbar, NavItem, Nav } from "react-bootstrap";
 import { signOut } from "../../utils/auth";
@@ -81,27 +82,18 @@ class Header extends React.PureComponent<Props, State> {
 								</NavItem>
 							)}
 							{!signedIn && (
-								<NavItem
-									active={pathname === "/howitworks"}
-									onClick={() => this.props.history.push("/howitworks")}
-								>
-									How It Works
+								<NavItem active={pathname === "/#howitworks"}>
+									<Link to="/#howitworks">How It Works</Link>
 								</NavItem>
 							)}
 							{!signedIn && (
-								<NavItem
-									active={pathname === "/faq"}
-									onClick={() => this.props.history.push("/faq")}
-								>
-									F.A.Q
+								<NavItem active={pathname === "/#pricing"}>
+									<Link to="/#pricing">Pricing</Link>
 								</NavItem>
 							)}
 							{!signedIn && (
-								<NavItem
-									active={pathname === "/pricing"}
-									onClick={() => this.props.history.push("/pricing")}
-								>
-									Pricing
+								<NavItem active={pathname === "/#faq"}>
+									<Link to="/#faq">F.A.Q</Link>
 								</NavItem>
 							)}
 							{signedIn && (
