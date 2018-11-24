@@ -1,3 +1,5 @@
+const Sentry = require("@sentry/node");
+
 import express from "express";
 import InvoiceModel, { MilestoneSchema } from "../invoice/invoice.model";
 import Transfer from "../../modules/transfer";
@@ -5,8 +7,16 @@ import { sendTransefConfirm } from "../../modules/mailer";
 import DisputeController from "../dispute/dispute.controller";
 import InvoiceController from "../invoice/invoice.controller";
 import jwt from "jsonwebtoken";
+import AWS from "aws-sdk";
 
-const Sentry = require("@sentry/node");
+const { AWS_ACCESS_KEY_ID, AWS_SECRET_KEY, COGNITO_USER_POOL_ID } = process.env;
+
+const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider({
+	accessKeyId: AWS_ACCESS_KEY_ID,
+	secretAccessKey: AWS_SECRET_KEY,
+	region: "us-east-2",
+	apiVersion: "2016-04-18"
+});
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -39,73 +49,103 @@ ConfirmRouter.route("/:token").get((req, res) => {
 					.send({ success: true, data: { _id: invoiceId, type, status } });
 			}
 
-			if (doc.status === "paid" && doc.type === "good") {
-				InvoiceModel.findOneAndUpdate(
-					{ _id: invoiceId },
-					{ $set: { status } },
-					{ new: true },
-					async (error, doc) => {
-						if (error) {
+			if (
+				doc.status === "paid" &&
+				doc.type === "good" &&
+				status === "accepted"
+			) {
+				const {
+					_id,
+					type,
+					marchantName,
+					marchantUsername,
+					customerName,
+					marchantEmail,
+					purchaseAmount,
+					pipePayFee,
+					deliveryAmount
+				} = doc;
+
+				var params = {
+					UserPoolId: COGNITO_USER_POOL_ID,
+					Username: marchantUsername
+				};
+
+				let amount = purchaseAmount;
+
+				if (doc.whoPaysPipepayFee === "seller") {
+					amount -= pipePayFee;
+				}
+
+				if (doc.whoPaysPipepayFee === "both") {
+					amount -= pipePayFee / 2;
+				}
+
+				if (doc.whoPaysDeliveryFee === "both") {
+					amount += deliveryAmount / 2;
+				}
+
+				if (doc.whoPaysDeliveryFee === "seller") {
+					amount += deliveryAmount;
+				}
+
+				cognitoidentityserviceprovider.adminGetUser(
+					params,
+					async (err, data) => {
+						if (err || data === null) {
 							Sentry.captureException(err);
-							res.status(400).send({ success: false, error });
+							return res.status(400).send({ success: false, error: err });
 						}
 
-						const {
-							_id,
-							type,
-							status,
-							marchantName,
-							marchantAccountNumber,
-							marchantBankCode,
-							customerName,
-							marchantEmail,
-							purchaseAmount,
-							pipePayFee,
-							deliveryAmount
-						} = doc;
+						let marchantAccountNumber = null;
+						let marchantBankCode = null;
 
-						if (status === "accepted") {
-							try {
-								let amount = purchaseAmount;
+						for (let attr of data.UserAttributes) {
+							if (attr.Name === "custom:account_number") {
+								marchantAccountNumber = attr.Value;
+							}
 
-								if (doc.whoPaysPipepayFee === "seller") {
-									amount -= pipePayFee;
-								}
-
-								if (doc.whoPaysPipepayFee === "both") {
-									amount -= pipePayFee / 2;
-								}
-
-								if (doc.whoPaysDeliveryFee === "both") {
-									amount += deliveryAmount / 2;
-								}
-
-								if (doc.whoPaysDeliveryFee === "seller") {
-									amount += deliveryAmount;
-								}
-
-								await Transfer(
-									marchantName,
-									marchantAccountNumber,
-									marchantBankCode,
-									amount
-								);
-								sendTransefConfirm(
-									customerName,
-									customerEmail,
-									marchantName,
-									marchantEmail,
-									amount
-								);
-							} catch (err) {
-								Sentry.captureException(err);
-								res.status(400).send({ success: false, error: err });
+							if (attr.Name === "custom:bank_code") {
+								marchantBankCode = attr.Value;
 							}
 						}
 
-						res
-							.status(200)
-							.send({ success: true, data: { _id, type, status } });
+						try {
+							await Transfer(
+								marchantName,
+								marchantAccountNumber,
+								marchantBankCode,
+								amount
+							);
+
+							sendTransefConfirm(
+								customerName,
+								customerEmail,
+								marchantName,
+								marchantEmail,
+								amount
+							);
+
+							InvoiceModel.findOneAndUpdate(
+								{ _id: invoiceId },
+								{ $set: { status } },
+								{ new: true },
+								(error, doc) => {
+									if (error) {
+										Sentry.captureException(err);
+										res.status(400).send({ success: false, error });
+									}
+
+									res.status(200).send({
+										success: true,
+										data: { _id: doc._id, type, status }
+									});
+								}
+							);
+						} catch (err) {
+							Sentry.captureException(err);
+							res.status(400).send({ success: false, error: err });
+						}
 					}
 				);
 			} else if (doc.status === "paid" && doc.type === "service") {

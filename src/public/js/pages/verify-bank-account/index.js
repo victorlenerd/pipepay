@@ -39,7 +39,7 @@ class VerifyBackAccount extends React.PureComponent {
 	}
 
 	submit = e => {
-		const { user } = this.props;
+		const { user, setCurrentUser } = this.props;
 		const { bankCode, accountNumber } = this.state;
 		e.preventDefault();
 		NProgress.start();
@@ -53,6 +53,12 @@ class VerifyBackAccount extends React.PureComponent {
 
 					try {
 						await setAttributes(attributes);
+						setCurrentUser(
+							Object.assign({}, user, {
+								"custom:bank_code": bankCode,
+								"custom:account_number": accountNumber
+							})
+						);
 						NProgress.done();
 						this.props.history.push("/invoices");
 					} catch (err) {
@@ -193,7 +199,8 @@ class VerifyBackAccount extends React.PureComponent {
 
 VerifyBackAccount.propTypes = {
 	history: PropTypes.object,
-	user: PropTypes.object
+	user: PropTypes.object,
+	setCurrentUser: PropTypes.function
 };
 
 export default withRouter(VerifyBackAccount);

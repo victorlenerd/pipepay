@@ -135,7 +135,6 @@ export const getSession = Username =>
 			Username,
 			Pool: userPool
 		};
-		console.log("Username", Username);
 		cognitoUser = new CognitoUser(userData);
 		cognitoUser.getSession((err, session) => {
 			if (err) {

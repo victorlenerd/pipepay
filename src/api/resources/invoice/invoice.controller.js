@@ -14,10 +14,9 @@ export default generateController(InvoiceModel, {
 		var body = req.body;
 
 		body.userId = req.user.sub;
+		body.marchantUsername = req.user["cognito:username"];
 		body.marchantEmail = req.user.email;
 		body.marchantName = req.user.name;
-		body.marchantAccountNumber = req.user["custom:account_number"];
-		body.marchantBankCode = req.user["custom:bank_code"];
 
 		body.verifyCode = recode();
 
@@ -25,7 +24,7 @@ export default generateController(InvoiceModel, {
 			body.purchaseAmount = Number(body.purchaseAmount);
 			body.deliveryAmount = Number(body.deliveryAmount);
 
-			body.bankCharges = 100;
+			body.bankCharges = 50;
 			body.pipePayFee =
 				Math.min((body.purchaseAmount * 5) / 100, 5000) + body.bankCharges;
 			body.totalPrice =
@@ -96,7 +95,7 @@ export default generateController(InvoiceModel, {
 		body.invoice_code = recode();
 
 		InvoiceModel.create(body, (err, doc) => {
-			if (err) {
+			if (err || doc === null) {
 				Sentry.captureException(err);
 				res.status(400).send({
 					error: { message: "Could not create the invoice" },
