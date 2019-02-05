@@ -1,6 +1,7 @@
 // @flow
 import ReactDOM from "react-dom";
 import RDS from "react-dom/server";
+import { hot } from "react-hot-loader";
 import React, { Component } from "react";
 import Loadable from "react-loadable";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
@@ -279,4 +280,4 @@ class App extends Component<Props, State> {
 	}
 }
 
-export default App;
+export default hot(module)(App);

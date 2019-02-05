@@ -1,4 +1,5 @@
 import React from "react";
+import { hot } from "react-hot-loader";
 import { Link } from "react-router-dom";
 import Header from "../../components/header";
 import Footer from "../../components/footer";
@@ -115,6 +116,7 @@ class Home extends React.PureComponent {
 						<h1 className="home-section-title-inverse">Why Use Pipepay</h1>
 						<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 							<div className="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">
+								<img src="./assets/lego.svg" height={80} width={80} />
 								<h3 className="other-title">Simple</h3>
 								<br />
 								<p className="whyuse-p">
@@ -123,6 +125,7 @@ class Home extends React.PureComponent {
 								</p>
 							</div>
 							<div className="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">
+								<img src="./assets/money.svg" height={80} width={80} />
 								<h3 className="other-title">Secure</h3>
 								<br />
 								<p className="whyuse-p">
@@ -130,6 +133,7 @@ class Home extends React.PureComponent {
 								</p>
 							</div>
 							<div className="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">
+								<img src="./assets/law.svg" height={80} width={80} />
 								<h3 className="other-title">Fair</h3>
 								<br />
 								<p className="whyuse-p">
@@ -141,16 +145,11 @@ class Home extends React.PureComponent {
 					</div>
 					<div id="pricing" className="container">
 						<h1 className="home-section-title-inverse">Pricing</h1>
-						<div className="col-lg-6 col-md-6 col-sm-12 col-12">
-							<div className="rate-container">
-								<div className="rate-info">
-									<h2>5%</h2>
-									<p className="trans">Per Transaction.</p>
-									<br />
-									<br />
-									<p>&#x20A6;50 Bank Charges Apply.</p>
-								</div>
+						<div className="col-lg-12 col-md-12 col-sm-12 col-lg-12">
+							<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
+								₦100 For every successful transaction.
 							</div>
+							<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12" />
 						</div>
 					</div>
 				</section>
@@ -210,4 +209,4 @@ class Home extends React.PureComponent {
 	}
 }
 
-export default Home;
+export default hot(module)(Home);
