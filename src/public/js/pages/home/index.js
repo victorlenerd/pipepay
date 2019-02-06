@@ -143,13 +143,29 @@ class Home extends React.PureComponent {
 							</div>
 						</div>
 					</div>
+					<hr />
 					<div id="pricing" className="container">
 						<h1 className="home-section-title-inverse">Pricing</h1>
 						<div className="col-lg-12 col-md-12 col-sm-12 col-lg-12">
-							<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-								₦100 For every successful transaction.
+							<div className="text-center">
+								<h1 className="price-amount">₦1000</h1> Per Successful
+								Transaction.
+								<br />
+								<br />
+								<br />
+								<br />
+								<i>
+									Excluding Paystack Charges{" "}
+									<a
+										href="https://paystack.com/pricing"
+										className="learn-more"
+										target="_blank"
+										rel="noopener noreferrer"
+									>
+										Learn More About Paystack Pricing
+									</a>
+								</i>
 							</div>
-							<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12" />
 						</div>
 					</div>
 				</section>

@@ -8,12 +8,6 @@ const setGlobalMiddleware = app => {
 	app.use(morgan());
 	app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(bodyParser.json());
-	app.use(timeout(120000));
-	app.use(haltOnTimedout);
-
-	function haltOnTimedout(req, res, next) {
-		if (!req.timedout) next();
-	}
 };
 
 export default setGlobalMiddleware;

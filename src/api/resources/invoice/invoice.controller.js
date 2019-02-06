@@ -25,14 +25,14 @@ export default generateController(InvoiceModel, {
 			body.deliveryAmount = Number(body.deliveryAmount);
 
 			body.bankCharges = 50;
-			body.pipePayFee = 100;
+			body.pipePayFee = 1000;
 			body.totalPrice = body.purchaseAmount + body.deliveryAmount;
 		} else {
 			body.bankCharges = body.milestones.length * 50;
 			body.purchaseAmount = body.milestones.reduce((pv, { amount }) => {
 				return Number(amount) + pv;
 			}, 0);
-			body.pipePayFee = 100;
+			body.pipePayFee = 1000;
 			body.deliveryAmount = 0;
 			body.totalPrice = body.purchaseAmount + body.pipePayFee;
 		}
