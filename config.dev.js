@@ -78,7 +78,7 @@ module.exports = [
 				"process.env": envs
 			}),
 			new webpack.BannerPlugin({
-				banner: 'require("source-map-support").install();',
+				banner: "require(\"source-map-support\").install();",
 				raw: true,
 				entryOnly: false
 			})

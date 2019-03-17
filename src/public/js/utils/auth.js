@@ -108,9 +108,9 @@ export const resendVerificationCode = (Username, Password) => new Promise((resol
 
 	cognitoUser.resendConfirmationCode((err, result) => {
 		if (err) {
-			resolve(result)
+			resolve(result);
 		} else {
-			reject(err)
+			reject(err);
 		}
 	});
 });

@@ -136,27 +136,27 @@ class VerifyBackAccount extends React.PureComponent<Props> {
 									<div>
 										{banks &&
 											banks.length > 0 && (
-												<select
-													className="text-input"
-													required
-													name="selectbank"
-													onChange={e =>
-														this.setState({
-															bankCode: e.target.value,
-															canSubmit: false,
-															accountName: ""
-														})
-													}
-												>
-													{banks.map((bank, i) => {
-														return (
-															<option value={bank.code} key={bank.code}>
-																{bank.name}
-															</option>
-														);
-													})}
-												</select>
-											)}
+											<select
+												className="text-input"
+												required
+												name="selectbank"
+												onChange={e =>
+													this.setState({
+														bankCode: e.target.value,
+														canSubmit: false,
+														accountName: ""
+													})
+												}
+											>
+												{banks.map((bank, i) => {
+													return (
+														<option value={bank.code} key={bank.code}>
+															{bank.name}
+														</option>
+													);
+												})}
+											</select>
+										)}
 									</div>
 									<br />
 									<label htmlFor="">Account Number</label>
