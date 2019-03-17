@@ -6,6 +6,7 @@ import NProgress from "nprogress";
 
 import {
 	confirmRegistration,
+	resendVerificationCode,
 	signin,
 	userPool,
 	getSession
@@ -71,6 +72,22 @@ class VerifyAccount extends React.PureComponent<Props, State> {
 		}
 	};
 
+	resend = async e => {
+		e.preventDefault();
+		const { location, history } = this.props;
+		const { username, password } = location.state;
+
+		NProgress.start();
+
+		try {
+			await resendVerificationCode(username, password);
+			NProgress.done();
+		} catch (err) {
+			this.setState({ error: err });
+			NProgress.done();
+		}
+	};
+
 	render() {
 		return (
 			<div id="container">
@@ -101,12 +118,21 @@ class VerifyAccount extends React.PureComponent<Props, State> {
 								/>
 								<br />
 								<br />
-								<input
-									type="submit"
-									name="sign up"
-									value="SUBMIT"
-									className="text-submit"
-								/>
+								<div className="flow-button">
+									<input
+										type="submit"
+										name="sign up"
+										value="SUBMIT"
+										className="text-submit"
+									/>
+									<input
+										type="button"
+										name="resend"
+										value="Resend Code"
+										className="text-submit-inverse"
+										onClick={this.resend}
+									/>
+								</div>
 							</form>
 						</div>
 					</div>

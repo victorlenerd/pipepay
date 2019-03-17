@@ -24,6 +24,8 @@ const envs = {
 	AWS_SECRET_KEY: JSON.stringify(process.env.AWS_SECRET_KEY)
 };
 
+
+
 module.exports = [
 	{
 		entry: ["./src/index"],
@@ -133,7 +135,7 @@ module.exports = [
 		plugins: [
 			new CleanPlugin(path.resolve(__dirname, "src/public/assets/js/")),
 			new webpack.DefinePlugin({
-				NODE_ENV: "development"
+				"process.env": envs
 			}),
 			new webpack.optimize.OccurrenceOrderPlugin(),
 			new webpack.HotModuleReplacementPlugin(),

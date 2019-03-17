@@ -1,10 +1,16 @@
+// @flow
+
 import React from "react";
-import PropTypes from "prop-types";
 import NProgress from "nprogress";
 import { withRouter } from "react-router-dom";
 import { getSession, setAttributes } from "../../utils/auth";
 
-class VerifyBackAccount extends React.PureComponent {
+type Props = {
+	user: any,
+	setCurrentUser: (user: any) => void
+};
+
+class VerifyBackAccount extends React.PureComponent<Props> {
 	constructor() {
 		super();
 		this.state = {
@@ -196,11 +202,5 @@ class VerifyBackAccount extends React.PureComponent {
 		);
 	}
 }
-
-VerifyBackAccount.propTypes = {
-	history: PropTypes.object,
-	user: PropTypes.object,
-	setCurrentUser: PropTypes.function
-};
 
 export default withRouter(VerifyBackAccount);

@@ -212,13 +212,7 @@ class App extends Component<Props, State> {
 						/>
 						<Route
 							path="/verifyemail"
-							render={() =>
-								!signedIn ? (
-									WithHeader(VerifyAccount)
-								) : (
-									<Redirect to="/invoices" />
-								)
-							}
+							render={() => WithHeader(VerifyAccount)}
 						/>
 						<Route
 							path="/resetpassword"
@@ -232,13 +226,7 @@ class App extends Component<Props, State> {
 						/>
 						<Route
 							path="/verifyaccn"
-							render={() =>
-								signedIn ? (
-									WithHeader(VerifyBankAccount)
-								) : (
-									<Redirect to="/invoices" />
-								)
-							}
+							render={() => WithHeader(VerifyBankAccount)}
 						/>
 						<Route
 							path="/invoice/:invoiceId"

@@ -1,8 +1,7 @@
 import axios from "axios";
 import jwt from "jsonwebtoken";
 const aaud = process.env.COGNITO_AUD;
-const tokenUrl =
-	"https://cognito-idp.us-east-2.amazonaws.com/us-east-2_ZAwetvcgl/.well-known/jwks.json";
+const tokenUrl = `https://cognito-idp.us-east-2.amazonaws.com/${process.env.COGNITO_USER_POOL_ID}/.well-known/jwks.json`;
 
 let tokenKeys = null;
 
