@@ -2,6 +2,8 @@ const webpack = require("webpack");
 const path = require("path");
 const nodeExternals = require("webpack-node-externals");
 const StartServerPlugin = require("start-server-webpack-plugin");
+const CleanPlugin = require("clean-webpack-plugin");
+
 require("dotenv").config();
 
 const envs = {
@@ -22,9 +24,11 @@ const envs = {
 	AWS_SECRET_KEY: JSON.stringify(process.env.AWS_SECRET_KEY)
 };
 
+
+
 module.exports = [
 	{
-		entry: ["webpack/hot/poll?1000", "./src/index"],
+		entry: ["./src/index"],
 		watch: true,
 		mode: "development",
 		devtool: "sourcemap",
@@ -58,6 +62,10 @@ module.exports = [
 						}
 					],
 					exclude: /node_modules/
+				},
+				{
+					test: /\.css$/,
+					use: ["style-loader", "css-loader"]
 				}
 			]
 		},
@@ -70,24 +78,33 @@ module.exports = [
 				"process.env": envs
 			}),
 			new webpack.BannerPlugin({
-				banner: 'require("source-map-support").install();',
+				banner: "require(\"source-map-support\").install();",
 				raw: true,
 				entryOnly: false
 			})
 		],
-		output: { path: path.join(__dirname, "dist"), filename: "server.js" }
+		output: { path: path.resolve(__dirname, "dist"), filename: "server.js" }
 	},
 	{
-		entry: "./src/public/js/index.js",
+		entry: [
+			"webpack-hot-middleware/client?path=http://localhost:4545/__webpack_hmr",
+			"./src/public/js/index.js"
+		],
 		watch: true,
 		mode: "development",
-		devtool: "sourcemap",
 		target: "web",
+		devtool: "cheap-module-eval-source-map",
+		// resolve: {
+		// 	alias: {
+		// 		"react-dom": "@hot-loader/react-dom"
+		// 	},
+		// },
 		module: {
 			rules: [
 				{
 					test: /\.js?$/,
 					use: [
+						"react-hot-loader/webpack",
 						{
 							loader: "babel-loader",
 							options: {
@@ -98,6 +115,7 @@ module.exports = [
 									"@babel/preset-flow"
 								],
 								plugins: [
+									"react-hot-loader/babel",
 									"transform-regenerator",
 									"@babel/plugin-syntax-dynamic-import",
 									["@babel/plugin-transform-runtime", { useESModules: true }],
@@ -115,13 +133,17 @@ module.exports = [
 			]
 		},
 		plugins: [
+			new CleanPlugin(path.resolve(__dirname, "src/public/assets/js/")),
 			new webpack.DefinePlugin({
-				NODE_ENV: "development"
-			})
+				"process.env": envs
+			}),
+			new webpack.optimize.OccurrenceOrderPlugin(),
+			new webpack.HotModuleReplacementPlugin(),
+			new webpack.NoEmitOnErrorsPlugin()
 		],
-
 		output: {
-			path: path.join(__dirname, "src/public/dist"),
+			publicPath: path.resolve(__dirname, "src/public/"),
+			path: path.resolve(__dirname, "src/public/assets/js/"),
 			filename: "bundle.js"
 		}
 	}

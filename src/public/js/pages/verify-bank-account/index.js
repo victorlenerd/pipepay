@@ -1,10 +1,16 @@
+// @flow
+
 import React from "react";
-import PropTypes from "prop-types";
 import NProgress from "nprogress";
 import { withRouter } from "react-router-dom";
 import { getSession, setAttributes } from "../../utils/auth";
 
-class VerifyBackAccount extends React.PureComponent {
+type Props = {
+	user: any,
+	setCurrentUser: (user: any) => void
+};
+
+class VerifyBackAccount extends React.PureComponent<Props> {
 	constructor() {
 		super();
 		this.state = {
@@ -130,27 +136,27 @@ class VerifyBackAccount extends React.PureComponent {
 									<div>
 										{banks &&
 											banks.length > 0 && (
-												<select
-													className="text-input"
-													required
-													name="selectbank"
-													onChange={e =>
-														this.setState({
-															bankCode: e.target.value,
-															canSubmit: false,
-															accountName: ""
-														})
-													}
-												>
-													{banks.map((bank, i) => {
-														return (
-															<option value={bank.code} key={bank.code}>
-																{bank.name}
-															</option>
-														);
-													})}
-												</select>
-											)}
+											<select
+												className="text-input"
+												required
+												name="selectbank"
+												onChange={e =>
+													this.setState({
+														bankCode: e.target.value,
+														canSubmit: false,
+														accountName: ""
+													})
+												}
+											>
+												{banks.map((bank, i) => {
+													return (
+														<option value={bank.code} key={bank.code}>
+															{bank.name}
+														</option>
+													);
+												})}
+											</select>
+										)}
 									</div>
 									<br />
 									<label htmlFor="">Account Number</label>
@@ -196,11 +202,5 @@ class VerifyBackAccount extends React.PureComponent {
 		);
 	}
 }
-
-VerifyBackAccount.propTypes = {
-	history: PropTypes.object,
-	user: PropTypes.object,
-	setCurrentUser: PropTypes.function
-};
 
 export default withRouter(VerifyBackAccount);

@@ -2,7 +2,9 @@
 
 # dependencies
 node_modules/
-
+data/
+flow-typed/
+cypress/
 src/public/assets/js/
 
 # testing

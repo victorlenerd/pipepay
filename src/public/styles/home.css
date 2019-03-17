@@ -126,6 +126,10 @@ li a:visited {
     color: #71CA99;
 }
 
+.price-amount {
+    color: #71CA99;
+}
+
 .signIn {
     background-color: #fff;
     color: #6FB28D;
@@ -277,6 +281,26 @@ li a:visited {
     height: 5px;
 }
 
+.learn-more {
+    color: black;
+    text-decoration: underline;
+}
+
+.learn-more:active {
+    color: black;
+    text-decoration: underline;
+}
+
+.learn-more:visited {
+    color: black;
+    text-decoration: underline;
+}
+
+.learn-more:hover {
+    color: black;
+    text-decoration: underline;
+}
+
 .home-card-box {
     border-radius: 100px;
     margin-bottom: 50px;
@@ -306,7 +330,7 @@ li a:visited {
 }
 
 .whyuse-p {
-    font-size: 16px;
+    font-size: 18px;
     color: #2C3E50 !important;
 }
 
