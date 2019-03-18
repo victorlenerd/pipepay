@@ -53,7 +53,7 @@
     "react-accessible-accordion": "^2.4.5",
     "react-bootstrap": "^0.32.4",
     "react-dom": "^16.5.2",
-    "react-hot-loader": "^nex",
+    "react-hot-loader": "next",
     "react-loadable": "^5.5.0",
     "react-router-dom": "^4.3.1",
     "react-router-hash-link": "^1.2.1",
@@ -61,18 +61,6 @@
     "superagent": "^3.8.3",
     "webpack-dev-middleware": "^3.5.1",
     "whatwg-fetch": "^3.0.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged"
-    }
-  },
-  "lint-staged": {
-    "*.js": [
-      "yarn run lint",
-      "yarn run format",
-      "git add"
-    ]
   },
   "devDependencies": {
     "@babel/core": "^7.1.2",
