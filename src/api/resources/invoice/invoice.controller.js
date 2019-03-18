@@ -2,7 +2,9 @@ import InvoiceModel from "./invoice.model";
 import recode from "../../modules/recode";
 import generateController from "../../modules/generateController";
 import { CreateInvoice } from "../../modules/invoice";
+import { sendInvoiceConfirmSent } from "../../modules/mailer";
 import { getTime, format, subHours } from "date-fns";
+const Sentry = require("@sentry/node");
 
 const QUERY_PARAMS =
 	"_id type deliveryAmount customerName customerPhone customerEmail created_at purchaseAmount totalPrice whoPaysDeliveryFee whoPaysPipepayFee milestones pipePayFee bankCharges status requested disputed";
@@ -12,10 +14,9 @@ export default generateController(InvoiceModel, {
 		var body = req.body;
 
 		body.userId = req.user.sub;
+		body.marchantUsername = req.user["cognito:username"];
 		body.marchantEmail = req.user.email;
 		body.marchantName = req.user.name;
-		body.marchantAccountNumber = req.user["custom:account_number"];
-		body.marchantBankCode = req.user["custom:bank_code"];
 
 		body.verifyCode = recode();
 
@@ -23,18 +24,15 @@ export default generateController(InvoiceModel, {
 			body.purchaseAmount = Number(body.purchaseAmount);
 			body.deliveryAmount = Number(body.deliveryAmount);
 
-			body.bankCharges = 100;
-			body.pipePayFee =
-				Math.min((body.purchaseAmount * 5) / 100, 5000) + body.bankCharges;
-			body.totalPrice =
-				body.purchaseAmount + body.deliveryAmount + body.pipePayFee;
+			body.bankCharges = 50;
+			body.pipePayFee = 1000;
+			body.totalPrice = body.purchaseAmount + body.deliveryAmount;
 		} else {
 			body.bankCharges = body.milestones.length * 50;
 			body.purchaseAmount = body.milestones.reduce((pv, { amount }) => {
 				return Number(amount) + pv;
 			}, 0);
-			body.pipePayFee =
-				Math.min((body.purchaseAmount * 5) / 100, 5000) + body.bankCharges;
+			body.pipePayFee = 1000;
 			body.deliveryAmount = 0;
 			body.totalPrice = body.purchaseAmount + body.pipePayFee;
 		}
@@ -88,10 +86,21 @@ export default generateController(InvoiceModel, {
 			line_items.push({ name: "PipePay Fee", amount: body.pipePayFee * 100 });
 		}
 
-		try {
-			const {
-				data: { request_code }
-			} = await CreateInvoice(
+		body.status = "processing";
+		body.requested = false;
+		body.disputed = false;
+		body.invoice_code = recode();
+
+		InvoiceModel.create(body, (err, doc) => {
+			if (err || doc === null) {
+				Sentry.captureException(err);
+				res.status(400).send({
+					error: { message: "Could not create the invoice" },
+					success: false
+				});
+			}
+
+			CreateInvoice(
 				{
 					email: body.customerEmail,
 					name: body.customerName,
@@ -100,33 +109,35 @@ export default generateController(InvoiceModel, {
 				customerTotalAmount * 100,
 				body.description,
 				line_items
-			);
-			body.invoice_code = request_code;
-			body.status = "sent";
-			body.requested = false;
-			body.disputed = false;
+			)
+				.then(({ data: { request_code: invoice_code } }) => {
+					InvoiceModel.findOneAndUpdate(
+						{ _id: doc._id },
+						{ $set: { invoice_code, status: "sent" } },
+						err => {
+							if (err) Sentry.captureException(err);
+							sendInvoiceConfirmSent(
+								body.marchantName,
+								body.marchantEmail,
+								body.customerName,
+								body.customerEmail,
+								`https://paystack.com/pay/${invoice_code}`
+							);
+						}
+					);
+				})
+				.catch(err => {
+					Sentry.captureException(err);
+				});
 
-			InvoiceModel.create(body, async (err, doc) => {
-				if (err) {
-					return res.status(400).send({
-						error: { message: "Could not create the invoice" },
-						success: false
-					});
-				}
-				delete doc.verifyCode;
-				doc.status = "sent";
-				doc.save();
-				res.send({ data: doc, success: true });
-			});
-		} catch (err) {
-			return res.status(400).send({ err, success: false });
-		}
+			delete doc.verifyCode;
+			doc.save();
+			res.send({ data: doc, success: true });
+		});
 	},
 	getAll: async (req, res) => {
 		if (!req.user)
-			return res
-				.status(403)
-				.send({ success: false, error: "Invalid auth token" });
+			res.status(403).send({ success: false, error: "Invalid auth token" });
 
 		const userId = req.user.sub;
 		const page = req.query.page;
@@ -151,21 +162,25 @@ export default generateController(InvoiceModel, {
 			const invoices = await InvoiceModel.paginate(query, options);
 			const { docs, total, limit, page } = invoices;
 
-			return res
+			res
 				.status(200)
 				.send({ data: { invoices: docs, total, limit, page }, success: true });
 		} catch (err) {
-			return res.status(400).send({ err, success: false });
+			Sentry.captureException(err);
+			res.status(400).send({ err, success: false });
 		}
 	},
 	getOne: (req, res) => {
 		var id = req.docId || req.params.invoiceId;
 
 		InvoiceModel.findOne({ _id: id }, QUERY_PARAMS, function(err, doc) {
-			if (err)
-				return res.status(400).send({ success: false, error: { ...err } });
+			if (err) {
+				Sentry.captureException(err);
+				res.status(400).send({ success: false, error: { ...err } });
+			}
+
 			if (!doc)
-				return res.status(400).send({
+				res.status(400).send({
 					success: false,
 					error: { message: "Invoice does not exist" }
 				});

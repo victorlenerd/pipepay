@@ -1,7 +1,7 @@
 //@flow
 import React from "react";
 import { withRouter, Link } from "react-router-dom";
-import type { RouterHistory } from "react-router-dom";
+import type, { RouterHistory } from "react-router-dom";
 
 import NProgress from "nprogress";
 

@@ -7,8 +7,8 @@ import {
 } from "amazon-cognito-identity-js";
 
 const poolData = {
-	UserPoolId: "us-east-2_ZAwetvcgl",
-	ClientId: "1kim3ke0fq358jrota00sam46r"
+	UserPoolId: process.env.COGNITO_USER_POOL_ID,
+	ClientId: process.env.COGNITO_AUD
 };
 
 export let userPool;
@@ -93,6 +93,28 @@ export const signin = (Username, Password) =>
 		});
 	});
 
+export const resendVerificationCode = (Username, Password) => new Promise((resolve, reject) => {
+	let authenticationData = {
+		Username,
+		Password
+	};
+
+	let userData = {
+		Username,
+		Pool: userPool
+	};
+
+	let cognitoUser = new CognitoUser(userData);
+
+	cognitoUser.resendConfirmationCode((err, result) => {
+		if (err) {
+			resolve(result);
+		} else {
+			reject(err);
+		}
+	});
+});
+
 export const forgotPassword = Username =>
 	new Promise((resolve, reject) => {
 		let userData = {
@@ -135,7 +157,6 @@ export const getSession = Username =>
 			Username,
 			Pool: userPool
 		};
-		console.log("Username", Username);
 		cognitoUser = new CognitoUser(userData);
 		cognitoUser.getSession((err, session) => {
 			if (err) {

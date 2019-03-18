@@ -1,10 +1,16 @@
+// @flow
+
 import React from "react";
-import PropTypes from "prop-types";
 import NProgress from "nprogress";
 import { withRouter } from "react-router-dom";
 import { getSession, setAttributes } from "../../utils/auth";
 
-class VerifyBackAccount extends React.PureComponent {
+type Props = {
+	user: any,
+	setCurrentUser: (user: any) => void
+};
+
+class VerifyBackAccount extends React.PureComponent<Props> {
 	constructor() {
 		super();
 		this.state = {
@@ -39,7 +45,7 @@ class VerifyBackAccount extends React.PureComponent {
 	}
 
 	submit = e => {
-		const { user } = this.props;
+		const { user, setCurrentUser } = this.props;
 		const { bankCode, accountNumber } = this.state;
 		e.preventDefault();
 		NProgress.start();
@@ -53,6 +59,12 @@ class VerifyBackAccount extends React.PureComponent {
 
 					try {
 						await setAttributes(attributes);
+						setCurrentUser(
+							Object.assign({}, user, {
+								"custom:bank_code": bankCode,
+								"custom:account_number": accountNumber
+							})
+						);
 						NProgress.done();
 						this.props.history.push("/invoices");
 					} catch (err) {
@@ -124,27 +136,27 @@ class VerifyBackAccount extends React.PureComponent {
 									<div>
 										{banks &&
 											banks.length > 0 && (
-												<select
-													className="text-input"
-													required
-													name="selectbank"
-													onChange={e =>
-														this.setState({
-															bankCode: e.target.value,
-															canSubmit: false,
-															accountName: ""
-														})
-													}
-												>
-													{banks.map((bank, i) => {
-														return (
-															<option value={bank.code} key={bank.code}>
-																{bank.name}
-															</option>
-														);
-													})}
-												</select>
-											)}
+											<select
+												className="text-input"
+												required
+												name="selectbank"
+												onChange={e =>
+													this.setState({
+														bankCode: e.target.value,
+														canSubmit: false,
+														accountName: ""
+													})
+												}
+											>
+												{banks.map((bank, i) => {
+													return (
+														<option value={bank.code} key={bank.code}>
+															{bank.name}
+														</option>
+													);
+												})}
+											</select>
+										)}
 									</div>
 									<br />
 									<label htmlFor="">Account Number</label>
@@ -190,10 +202,5 @@ class VerifyBackAccount extends React.PureComponent {
 		);
 	}
 }
-
-VerifyBackAccount.propTypes = {
-	history: PropTypes.object,
-	user: PropTypes.object
-};
 
 export default withRouter(VerifyBackAccount);

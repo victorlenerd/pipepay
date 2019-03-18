@@ -51,9 +51,7 @@ const CustomerInfo = ({ type, submit, updateStage }: Props) => (
 					type="button"
 					value="BACK"
 					className="text-submit-inverse"
-					onClick={
-						type === "goods" ? () => updateStage(4) : () => updateStage(0)
-					}
+					onClick={() => updateStage(4)}
 				/>
 				<input
 					type="submit"

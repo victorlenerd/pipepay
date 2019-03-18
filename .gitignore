@@ -3,6 +3,8 @@
 # dependencies
 node_modules/
 
+src/public/assets/js/
+
 # testing
 coverage
 

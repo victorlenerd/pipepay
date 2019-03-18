@@ -28,9 +28,8 @@ const InvoiceSchema = new mongoose.Schema(
 		customerEmail: { type: String, required: true },
 		customerPhone: { type: String, required: true },
 
+		marchantUsername: { type: String, required: true },
 		marchantName: { type: String, required: true },
-		marchantAccountNumber: { type: String, required: true },
-		marchantBankCode: { type: String, required: true },
 		marchantEmail: { type: String, required: true },
 
 		milestones: [MilestoneSchema],
@@ -48,7 +47,7 @@ const InvoiceSchema = new mongoose.Schema(
 
 		status: {
 			type: String,
-			enum: ["sent", "paid", "accepted", "rejected"],
+			enum: ["processing", "sent", "paid", "accepted", "rejected"],
 			required: true
 		}
 	},

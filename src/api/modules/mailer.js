@@ -67,7 +67,7 @@ export const sendReceiptMail = (
 	new Promise(async (resolve, reject) => {
 		let mailOption = {
 			from,
-			subject: "Your Receipt Is Ready",
+			subject: "Pipepay Payment Receipt",
 			text: `${customerName} made payment of ${amount}`
 		};
 		Promise.race([
@@ -341,7 +341,7 @@ export const sendPaymentRequest = (
 	new Promise(async (resolve, reject, url) => {
 		let mailOption = {
 			from,
-			subject: "Payment Request",
+			subject: "Piepay Payment Request",
 			html: `
 			<p>Hey ${customerName}!</p>
 			
@@ -376,6 +376,94 @@ export const sendPaymentRequest = (
 			await sendTo({
 				...mailOption,
 				to: customerEmail
+			});
+			resolve();
+		} catch (err) {
+			reject(err);
+		}
+	});
+
+export const sendInvoiceConfirmSent = (
+	marchantName,
+	marchantEmail,
+	customerName,
+	customerEmail,
+	invoiceLink
+) =>
+	new Promise(async (resolve, reject) => {
+		const body = `
+		<p>Hello ${marchantName}</p>
+
+		<p>Your invoice has been sent to ${customerName}, here's the link to the invoice ${invoiceLink}.</p>
+
+		<p>
+			Thanks,
+			Your friends at PipePay
+		</p>
+	`;
+
+		let mailOption = {
+			from,
+			subject: "Pipepay Invoice Sent",
+			html: body
+		};
+
+		try {
+			await sendTo({
+				...mailOption,
+				to: customerEmail
+			});
+			resolve();
+		} catch (err) {
+			reject(err);
+		}
+	});
+
+export const sendTransefConfirm = (
+	customerName,
+	customerEmail,
+	marchantName,
+	marchantEmail,
+	amount
+) =>
+	new Promise(async (resolve, reject) => {
+		const customerBody = `
+		<p>Hello ${customerName}</p>
+
+		<p>Your payment has successfully been transfered to ${marchantName}</p>
+
+		<p>
+			Thanks,
+			Your friends at PipePay
+		</p>
+	`;
+
+		const marchantBody = `
+		<p>Hello ${marchantName}</p>
+
+		<p>${amount} from ${customerName} has been transfered to your account.</p>
+
+		<p>
+			Thanks,
+			Your friends at Pipepay
+		</p>
+	`;
+
+		let mailOption = {
+			from,
+			subject: "Pipepay Payment Transfer"
+		};
+
+		try {
+			await sendTo({
+				...mailOption,
+				html: customerBody,
+				to: customerEmail
+			});
+			await sendTo({
+				...mailOption,
+				html: marchantBody,
+				to: marchantEmail
 			});
 			resolve();
 		} catch (err) {

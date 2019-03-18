@@ -46,10 +46,10 @@ type Props = {
 
 class NewInvoice extends React.Component<Props, State> {
 	state = {
-		stage: 0,
+		stage: 1,
 		submitted: false,
 		canSubmit: false,
-		type: null,
+		type: "good",
 		whoPaysDeliveryFee: null,
 		whoPaysPipepayFee: null,
 		delivery_fee: null,
@@ -170,7 +170,7 @@ class NewInvoice extends React.Component<Props, State> {
 			return (
 				<PurchaseInfo
 					submit={this.submitPurchaseInfo}
-					back={() => this.setState({ stage: 3 })}
+					back={() => this.setState({ stage: 1 })}
 				/>
 			);
 

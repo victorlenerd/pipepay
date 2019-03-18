@@ -1,7 +1,8 @@
 //@flow
 import React from "react";
-import { Link, withRouter } from "react-router-dom";
-import type { Location, RouterHistory } from "react-router-dom";
+import { withRouter } from "react-router-dom";
+import { HashLink as Link } from "react-router-hash-link";
+import type, { Location, RouterHistory } from "react-router-dom";
 import { Navbar, NavItem, Nav } from "react-bootstrap";
 import { signOut } from "../../utils/auth";
 
@@ -71,47 +72,30 @@ class Header extends React.PureComponent<Props, State> {
 						<Navbar.Toggle />
 					</Navbar.Header>
 					<Navbar.Collapse>
-						{this.canShowOtherMenus() && (
-							<Nav pullLeft>
+						<Nav pullRight>
+							{!signedIn && (
 								<NavItem
 									active={pathname === "/"}
 									onClick={() => this.props.history.push("/")}
 								>
 									Home
 								</NavItem>
-								<NavItem
-									active={pathname === "/pricing"}
-									onClick={() => this.props.history.push("/pricing")}
-								>
-									Pricing
-								</NavItem>
-								<NavItem
-									active={pathname === "/howitworks"}
-									onClick={() => this.props.history.push("/howitworks")}
-								>
-									How It Works
-								</NavItem>
-								<NavItem
-									active={pathname === "/faq"}
-									onClick={() => history.push("/faq")}
-								>
-									F.A.Q
-								</NavItem>
-								<NavItem
-									active={pathname === "/terms"}
-									onClick={() => history.push("/terms")}
-								>
-									Terms
-								</NavItem>
-								<NavItem
-									active={pathname === "/privacy"}
-									onClick={() => history.push("/privacy")}
-								>
-									Privacy Policy
-								</NavItem>
-							</Nav>
-						)}
-						<Nav pullRight>
+							)}
+							{!signedIn && (
+								<li className={pathname === "/#howitworks" ? "active" : ""}>
+									<Link to="/#howitworks">How It Works</Link>
+								</li>
+							)}
+							{!signedIn && (
+								<li className={pathname === "/#pricing" ? "active" : ""}>
+									<Link to="/#pricing">Pricing</Link>
+								</li>
+							)}
+							{!signedIn && (
+								<li className={pathname === "/#faq" ? "active" : ""}>
+									<Link to="/#faq">F.A.Q</Link>
+								</li>
+							)}
 							{signedIn && (
 								<NavItem
 									active={pathname === "/invoices"}

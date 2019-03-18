@@ -8,19 +8,27 @@ type Props = {
 };
 
 const WhoPaysFee = ({ submit, back }: Props) => {
+	let refs = {};
+
 	const formType = type => (
 		<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 			<h3 className="section-title">Who Pays {type} Fee</h3>
-			<div className="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">
+			<div
+				className="col-lg-12 col-md-12 col-sm-12 col-xs-12 card-box"
+				onClick={() =>
+					refs[`who_pays_${type.toLowerCase()}_fee_customer`].click()
+				}
+			>
 				<input
-					id={"who_pays_" + type.toLowerCase() + "_fee_customer"}
+					ref={e => (refs[`who_pays_${type.toLowerCase()}_fee_customer`] = e)}
+					id={`who_pays_${type.toLowerCase()}_fee_customer`}
 					type="radio"
-					name={"who_pays_" + type.toLowerCase() + "_fee"}
+					name={`who_pays_${type.toLowerCase()}_fee`}
 					value="buyer"
 					required
 				/>
 				&nbsp;&nbsp;
-				<label htmlFor={"who_pays_" + type.toLowerCase() + "_fee_customer"}>
+				<label htmlFor={`who_pays_${type.toLowerCase()}_fee_customer`}>
 					Buyer
 				</label>
 				<p>
@@ -28,16 +36,20 @@ const WhoPaysFee = ({ submit, back }: Props) => {
 					would be added to the invoice sent to the customer
 				</p>
 			</div>
-			<div className="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">
+			<div
+				className="col-lg-12 col-md-12 col-sm-12 col-xs-12 card-box"
+				onClick={() => refs[`who_pays_${type.toLowerCase()}_fee_both`].click()}
+			>
 				<input
-					id={"who_pays_" + type.toLowerCase() + "_fee_both"}
+					ref={e => (refs[`who_pays_${type.toLowerCase()}_fee_both`] = e)}
+					id={`who_pays_${type.toLowerCase()}_fee_both`}
 					type="radio"
-					name={"who_pays_" + type.toLowerCase() + "_fee"}
+					name={`who_pays_${type.toLowerCase()}_fee`}
 					value="both"
 					required
 				/>
 				&nbsp;&nbsp;
-				<label htmlFor={"who_pays_" + type.toLowerCase() + "_fee_both"}>
+				<label htmlFor={`who_pays_${type.toLowerCase()}_fee_both`}>
 					Both (50 / 50)
 				</label>
 				<p>
@@ -45,16 +57,22 @@ const WhoPaysFee = ({ submit, back }: Props) => {
 					buyer pays half and the marchant pays the other half
 				</p>
 			</div>
-			<div className="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">
+			<div
+				className="col-lg-12 col-md-12 col-sm-12 col-xs-12 card-box"
+				onClick={() =>
+					refs[`who_pays_${type.toLowerCase()}_fee_marchant`].click()
+				}
+			>
 				<input
-					id={"who_pays_" + type.toLowerCase() + "_fee_marchant"}
+					ref={e => (refs[`who_pays_${type.toLowerCase()}_fee_marchant`] = e)}
+					id={`who_pays_${type.toLowerCase()}_fee_marchant`}
 					type="radio"
-					name={"who_pays_" + type.toLowerCase() + "_fee"}
+					name={`who_pays_${type.toLowerCase()}_fee`}
 					value="seller"
 					required
 				/>
 				&nbsp;&nbsp;
-				<label htmlFor={"who_pays_" + type.toLowerCase() + "_fee_marchant"}>
+				<label htmlFor={`who_pays_${type.toLowerCase()}_fee_marchant`}>
 					Marchant
 				</label>
 				<p>
@@ -74,13 +92,13 @@ const WhoPaysFee = ({ submit, back }: Props) => {
 				{formType("PipePay")}
 				<div className="clearfix" />
 				<div className="form-buttons">
-					<input
+					{/*<input
 						name="back-button"
 						type="button"
 						value="BACK"
 						className="text-submit-inverse"
 						onClick={back}
-					/>
+					/>*/}
 					<input
 						name={"invoice-type-pays-fee"}
 						type="submit"

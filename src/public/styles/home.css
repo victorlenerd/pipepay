@@ -1,3 +1,16 @@
+
+li a {
+    color: #fff;
+}
+
+li a:hover {
+    color: initial;
+}
+
+li a:visited {
+    color: inherit;
+}
+
 .ol {
     margin-top: 30px;
     line-height: 30px;
@@ -41,21 +54,29 @@
 
 .image-holder {
     width: 100%;
-    min-height: 450px;
-    background-image: url('../assets/construct.png');
+    min-height: 400px;
+    background-color: rgba(111, 180, 170, 1);
     background-size: cover;
     background-repeat: no-repeat;
 }
 
 .intro-content-container {
     width: 100%;
-    min-height: 500px;
-    background-color: rgba(0, 0, 0, 0.60);
+    min-height: 400px;
+    background-color: #20232a;
     color: #fff;
-    padding: 40px 60px;
-    display: flex;
+    /* display: flex;
     justify-content: center;
-    align-items: center;
+    align-items: center; */
+    position: relative;
+}
+
+.intro-content-container .particles-js-canvas-el {
+    position: absolute;
+}
+
+.intro-content-container .container {
+    position: relative;
 }
 
 .heading {
@@ -105,9 +126,14 @@
     color: #71CA99;
 }
 
+.price-amount {
+    color: #71CA99;
+}
+
 .signIn {
     background-color: #fff;
     color: #6FB28D;
+    margin: 0px auto;
 }
 
 .rate-cotainer {
@@ -147,7 +173,7 @@
 }
 
 .pay-goods-container {
-    width: 50%;
+    width: 100%;
     background-color: #82D0A5;
     float: left;
     position: relative;
@@ -169,7 +195,7 @@
 }
 
 .pay-services-container {
-    width: 50%;
+    width: 100%;
     background-color: rgba(111, 180, 170, 1);
     color: #fff;
     float: left;
@@ -198,11 +224,11 @@
 
 .icons {
     width: 100%;
-    height: 50px;
+    height: 70px;
     background-image: url(../assets/cards.png);
     background-size: contain;
     background-repeat: no-repeat;
-    margin: 15px;
+    margin-top: 25px;
 }
 
 .contact-info {
@@ -230,6 +256,10 @@
 }
 
 .howItWorks {
+    background-color: rgba(111, 180, 170, 1);
+}
+
+.howItWorks, .howItWorks .container {
     position: relative;
 }
 
@@ -251,7 +281,135 @@
     height: 5px;
 }
 
+.learn-more {
+    color: black;
+    text-decoration: underline;
+}
+
+.learn-more:active {
+    color: black;
+    text-decoration: underline;
+}
+
+.learn-more:visited {
+    color: black;
+    text-decoration: underline;
+}
+
+.learn-more:hover {
+    color: black;
+    text-decoration: underline;
+}
+
+.home-card-box {
+    border-radius: 100px;
+    margin-bottom: 50px;
+    padding: 20px;
+    box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.1), 
+                -5px 0px 5px rgba(0, 0, 0, 0.1);
+
+    background-color: #fff;
+
+    display: flex;
+    justify-content: flex-start;
+    align-items: center;
+}
+
+.home-section-title, .home-section-title-inverse{
+    color: #fff;
+    text-align: center;
+    margin: 50px 0px;
+}
+
+.home-section-title-inverse {
+    color: #2C3E50;
+}
+
+.howitworks-part {
+    max-width: 80%;
+}
+
+.whyuse-p {
+    font-size: 18px;
+    color: #2C3E50 !important;
+}
+
+.jumbo {
+    padding: 80px 0px;
+}
+
+#whyuse {
+    padding-bottom: 50px;
+}
+
+#footer-links {
+    float: right;
+    display: block;
+    list-style: none;
+}
+
+#footer-links a { 
+    color: #2C3E50 !important;
+}
+
+#footer-links a:hover { 
+    color: #2C3E50 !important;
+}
+
+#footer-links a:visited { 
+    color: #2C3E50 !important;
+}
+
+
+#footer-links li {
+    float: left;
+    margin-right: 20px;
+}
+
+#copy-p {
+    border-top: 1px solid rgba(0,0,0,0.1);
+    padding-top: 50px;
+}
+
+.home-icon {
+    width: 100px;
+    height: 100px;
+    background-size: cover;
+    background-repeat: no-repeat;
+    margin-right: 20px;
+}
+
+.icon-box {
+    background-image: url('../assets/box.svg');
+}
+
+.icon-send {
+    background-image: url('../assets/send.svg');
+}
+
+.icon-pay-per-click {
+    background-image: url('../assets/pay-per-click.svg');
+}
+
+.accordion__body {
+    background-color: #fff;
+    font-size: 16px;
+}
+
+.faq {
+    padding-bottom: 50px;
+    background: #20232a;
+}
+
+.accordion__title, .other-title {
+    color: #2C3E50 !important;
+}
+
 @media screen and (max-width: 768px) {
+    .howitworks-part {
+        max-width: 70%;
+    }
+
     .description {
         margin: 20px;
     }
@@ -290,8 +448,9 @@
 }
 
 @media screen and (max-width: 500px) {
-    .intro-content-container {
-        padding: 10px;
+    .home-card-box {
+        border-radius: 50px;
+        flex-direction: column;
     }
 
     .sign-button {

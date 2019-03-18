@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import InvoiceModel from "../invoice/invoice.model";
 import { sendPaymentRequest } from "../../modules/mailer";
 import jwt from "jsonwebtoken";
+const Sentry = require("@sentry/node");
 
 const JWT_SECRET = process.env.JWT_SECRET;
 
@@ -43,7 +44,10 @@ Router.route("/:invoiceId").get(async (req, res) => {
 				{ _id: invoiceId },
 				{ $set: { requested: true } },
 				(err, doc) => {
-					if (err || !doc) res.status().send({ success: true });
+					if (err || !doc) {
+						Sentry.captureException(err);
+						res.status().send({ success: true });
+					}
 					res.status(200).send({ success: true });
 				}
 			);
@@ -54,6 +58,7 @@ Router.route("/:invoiceId").get(async (req, res) => {
 			});
 		}
 	} catch (err) {
+		Sentry.captureException(err);
 		if (err) res.status(400).send({ success: false, error: err });
 	}
 });
@@ -62,7 +67,10 @@ Router.route("/:invoiceId/:milestoneId").get(async (req, res) => {
 	const { invoiceId, milestoneId } = req.params;
 
 	InvoiceModel.findOne({ _id: invoiceId }, (err, doc) => {
-		if (err) res.status(400).send({ success: false, error: err });
+		if (err) {
+			Sentry.captureException(err);
+			res.status(400).send({ success: false, error: err });
+		}
 
 		const {
 			_id,
@@ -149,6 +157,7 @@ Router.route("/:invoiceId/:milestoneId").get(async (req, res) => {
 						},
 						(err, doc) => {
 							if (err || !doc) {
+								Sentry.captureException(err);
 								res.status().send({ success: false, error: err });
 							}
 
@@ -168,7 +177,7 @@ Router.route("/:invoiceId/:milestoneId").get(async (req, res) => {
 				});
 			}
 		} else {
-			return res
+			res
 				.status(400)
 				.send({ success: false, error: "Milestone id is not valid" });
 		}
