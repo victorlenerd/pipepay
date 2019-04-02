@@ -3,7 +3,8 @@ import appConfig from "./config";
 
 mongoose.Promise = global.Promise;
 
-export const connect = (config = appConfig) => mongoose.connect(
-	config.db.url,
-	{ useNewUrlParser: true }
-);
+export const connect = (config = appConfig) =>
+	mongoose.connect(
+		config.db.url,
+		{ useNewUrlParser: true }
+	);

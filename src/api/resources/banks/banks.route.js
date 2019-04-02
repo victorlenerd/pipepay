@@ -23,7 +23,9 @@ Router.route("/verify/:bank_code/:account_number").get(async (req, res) => {
 	const { bank_code, account_number } = req.params;
 
 	request
-		.get(`https://api.paystack.co/bank/resolve?account_number=${account_number}&bank_code=${bank_code}`)
+		.get(
+			`https://api.paystack.co/bank/resolve?account_number=${account_number}&bank_code=${bank_code}`
+		)
 		.set("Content-Type", "application/json")
 		.set("Authorization", `Bearer ${secret}`)
 		.then(({ body: { data } }) => {

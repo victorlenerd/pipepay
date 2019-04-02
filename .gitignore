@@ -3,7 +3,7 @@
 # dependencies
 node_modules/
 
-src/public/assets/js/
+src/public/assets/js/bundle.js
 
 # testing
 coverage
