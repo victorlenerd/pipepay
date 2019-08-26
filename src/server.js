@@ -8,7 +8,6 @@ import MainRouter from "./api/resources";
 import { connect } from "./db";
 import { getJWT } from "./api/modules/auth";
 
-
 const app = express();
 app.engine("handlebars", exphbs());
 app.set("view engine", "handlebars");

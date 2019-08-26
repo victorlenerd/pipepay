@@ -93,27 +93,28 @@ export const signin = (Username, Password) =>
 		});
 	});
 
-export const resendVerificationCode = (Username, Password) => new Promise((resolve, reject) => {
-	let authenticationData = {
-		Username,
-		Password
-	};
+export const resendVerificationCode = (Username, Password) =>
+	new Promise((resolve, reject) => {
+		let authenticationData = {
+			Username,
+			Password
+		};
 
-	let userData = {
-		Username,
-		Pool: userPool
-	};
+		let userData = {
+			Username,
+			Pool: userPool
+		};
 
-	let cognitoUser = new CognitoUser(userData);
+		let cognitoUser = new CognitoUser(userData);
 
-	cognitoUser.resendConfirmationCode((err, result) => {
-		if (err) {
-			resolve(result);
-		} else {
-			reject(err);
-		}
+		cognitoUser.resendConfirmationCode((err, result) => {
+			if (err) {
+				resolve(result);
+			} else {
+				reject(err);
+			}
+		});
 	});
-});
 
 export const forgotPassword = Username =>
 	new Promise((resolve, reject) => {
