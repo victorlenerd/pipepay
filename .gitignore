@@ -21,3 +21,4 @@ dist/
 src/public/dist/
 .nyc_output/
 data/
+.idea/
