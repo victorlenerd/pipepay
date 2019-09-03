@@ -1,34 +1,27 @@
-//@flow
 import React from "react";
 import NProgress from "nprogress";
-import { withRouter } from "react-router-dom";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 
 import { confirmPassword } from "../../utils/auth";
 import BannerFrom from "../../containers/banner-form.container";
 
-type Props = {
-	location: { state: {} },
-	history: { push: () => void }
-};
-
 type State = {
-	error: ?null
+	error ?: string
 };
 
-class ResetPassword extends React.PureComponent<Props, State> {
-	constructor() {
-		super();
-		this.submit = this.submit.bind(this);
-		this.state = {
-			error: null
-		};
-	}
+class ResetPassword extends React.PureComponent<RouteComponentProps, State> {
+
+	state: State = {
+		error: null
+	};
+
+	formEl = React.createRef<HTMLFormElement>();
 
 	async submit(e) {
 		e.preventDefault();
 		const { username } = this.props.location.state;
 
-		if (this.formEl.checkValidity() === true) {
+		if (this.formEl.current.checkValidity() === true) {
 			const password = e.target.password.value;
 			const code = e.target.code.value;
 			NProgress.start();
@@ -40,7 +33,9 @@ class ResetPassword extends React.PureComponent<Props, State> {
 			}
 			NProgress.done();
 		} else {
-			this.setState({ error: "Please fill all the required fields." });
+			this.setState({
+				error: "Please fill all the required fields."
+			});
 		}
 	}
 
@@ -49,7 +44,7 @@ class ResetPassword extends React.PureComponent<Props, State> {
 			<BannerFrom title="Reset Password">
 				<div className="form">
 					<form
-						ref={e => (this.formEl = e)}
+						ref={this.formEl}
 						name="reg-form"
 						onSubmit={this.submit}
 					>

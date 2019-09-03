@@ -1,21 +1,12 @@
-//@flow
 import React from "react";
 import { withRouter } from "react-router-dom";
-import type { RouterHistory } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import nprogess from "nprogress";
 
 import Report from "../../components/report";
 import Status from "../../components/status";
 
-type Props = {
-	match: {
-		params: {
-			token: string
-		}
-	}
-};
-
-type State = {
+type IState = {
 	requesting: boolean,
 	error: boolean,
 	status: string,
@@ -25,8 +16,9 @@ type State = {
 	invoiceId: string
 };
 
-class Confirm extends React.Component<Props, State> {
-	state = {
+class Confirm extends React.Component<RouteComponentProps> {
+
+	state: IState = {
 		requesting: true,
 		error: false,
 		status: "",
@@ -39,6 +31,7 @@ class Confirm extends React.Component<Props, State> {
 	componentWillMount() {
 		const { match } = this.props;
 
+		// @ts-ignore: not sure why params
 		let token = match.params ? match.params.token : null;
 
 		if (token) {
@@ -121,10 +114,7 @@ class Confirm extends React.Component<Props, State> {
 											<p className="text-center">
 												Give us more info to help resolve your dispute
 											</p>
-											<Report
-												from="customer"
-												invoiceId={this.state.invoiceId}
-											/>
+											<Report from="customer"  invoiceId={this.state.invoiceId} />
 										</React.Fragment>
 									)}
 								</React.Fragment>

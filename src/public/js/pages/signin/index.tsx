@@ -1,7 +1,6 @@
-//@flow
 import React from "react";
 import { signin, userPool } from "../../utils/auth";
-import { withRouter, Link } from "react-router-dom";
+import { withRouter, Link, RouteComponentProps } from "react-router-dom";
 import NProgress from "nprogress";
 
 type Props = {
@@ -12,15 +11,17 @@ type State = {
 	error: string
 };
 
-class SignIn extends React.PureComponent<Props, State> {
+class SignIn extends React.PureComponent<Props & RouteComponentProps, State> {
 	state = {
 		error: ""
 	};
 
+	formEl = React.createRef<HTMLFormElement>();
+
 	submit = async e => {
 		const { setCurrentUser, history } = this.props;
 		e.preventDefault();
-		if (this.formEl.checkValidity() === true) {
+		if (this.formEl.current.checkValidity() === true) {
 			const email = e.target.email.value;
 			const password = e.target.password.value;
 			const username = email.split("@")[0];
@@ -82,7 +83,7 @@ class SignIn extends React.PureComponent<Props, State> {
 						<br />
 						<div className="form">
 							<form
-								ref={e => (this.formEl = e)}
+								ref={this.formEl}
 								name="reg-form"
 								onSubmit={this.submit}
 							>

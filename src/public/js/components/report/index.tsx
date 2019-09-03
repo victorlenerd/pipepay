@@ -1,4 +1,3 @@
-//@flow
 import React from "react";
 import nprogress from "nprogress";
 import Status from "../status";

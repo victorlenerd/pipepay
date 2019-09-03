@@ -39,6 +39,7 @@ app.use(
 	webpackDevMiddleware(compiler, {
 		publicPath: config[1].output.publicPath,
 		hot: true,
+		writeToDisk: true,
 		historyApiFallback: true
 	})
 );

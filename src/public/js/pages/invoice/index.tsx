@@ -1,14 +1,10 @@
-//@flow
 import React from "react";
-import PropTypes from "prop-types";
 import { withRouter } from "react-router-dom";
-import type { RouterHistory, Location } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import { distanceInWords } from "date-fns";
 import NProgress from "nprogress";
 
 type Props = {
-	history: RouterHistory,
-	location: Location,
 	user: {
 		token: string
 	},
@@ -53,7 +49,7 @@ type State = {
 	requestSentSuccessMessage: string
 };
 
-class Invoice extends React.PureComponent<Props, State> {
+class Invoice extends React.PureComponent<Props & RouteComponentProps, State> {
 	state = {
 		invoice: null,
 		requestSentSuccess: false,
@@ -369,4 +365,5 @@ class Invoice extends React.PureComponent<Props, State> {
 	}
 }
 
+// @ts-ignore:
 export default withRouter(Invoice);

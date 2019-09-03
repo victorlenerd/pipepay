@@ -4,7 +4,7 @@ import helmet from "helmet";
 
 const setGlobalMiddleware = app => {
 	app.use(helmet());
-	app.use(morgan());
+	app.use(morgan('combined'));
 	app.use(bodyParser.urlencoded({ extended: true }));
 	app.use(bodyParser.json());
 };

@@ -1,8 +1,7 @@
-//@flow
 import React from "react";
 
 import { withRouter } from "react-router-dom";
-import type { RouterHistory } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 
 import NProgress from "nprogress";
 
@@ -41,11 +40,11 @@ type State = {
 
 type Props = {
 	user: {},
-	history: RouterHistory
 };
 
-class NewInvoice extends React.Component<Props, State> {
-	state = {
+class NewInvoice extends React.Component<Props & RouteComponentProps> {
+
+	state: State = {
 		stage: 1,
 		submitted: false,
 		canSubmit: false,
@@ -177,6 +176,7 @@ class NewInvoice extends React.Component<Props, State> {
 		if (stage === 5)
 			return (
 				<CustomerInfo
+					// @ts-ignore:
 					submit={this.submitCustomerInfo}
 					updateStage={stage => this.setState({ stage })}
 				/>
@@ -185,9 +185,11 @@ class NewInvoice extends React.Component<Props, State> {
 		if (stage === 6)
 			return (
 				<Milestones
+					// @ts-ignore:
 					milestones={this.state.milestones}
 					submit={this.submit}
 					back={() => this.setState({ stage: 5 })}
+					// @ts-ignore:
 					addMilestone={this.addMilestone}
 					removeMilestone={this.removeMilestone}
 					updateMilestone={this.updateMilestone}
@@ -203,6 +205,7 @@ class NewInvoice extends React.Component<Props, State> {
 
 	submitInvoice = () => {
 		const {
+			// @ts-ignore:
 			user: { token }
 		} = this.props;
 		const {
@@ -213,6 +216,7 @@ class NewInvoice extends React.Component<Props, State> {
 			description,
 			purchase_amount,
 			milestones,
+			// @ts-ignore:
 			customerInfo: { customerName, customerEmail, customerPhone }
 		} = this.state;
 
@@ -224,13 +228,20 @@ class NewInvoice extends React.Component<Props, State> {
 		};
 
 		if (type === "good") {
+			// @ts-ignore:
 			data.whoPaysPipepayFee = whoPaysPipepayFee;
+			// @ts-ignore:
 			data.whoPaysDeliveryFee = whoPaysDeliveryFee;
+			// @ts-ignore:
 			data.purchaseAmount = purchase_amount;
+			// @ts-ignore:
 			data.deliveryAmount = delivery_fee;
+			// @ts-ignore:
 			data.description = description;
 		} else {
+			// @ts-ignore:
 			data.description = milestones[0].description;
+			// @ts-ignore:
 			data.milestones = milestones;
 		}
 		this.setState({ submittingInvoice: true });
@@ -280,6 +291,7 @@ class NewInvoice extends React.Component<Props, State> {
 									type={type}
 									back={this.cancelSubmit}
 									submit={() => this.submitInvoice()}
+									// @ts-ignore:
 									customerInfo={customerInfo}
 									disabled={submittingInvoice}
 									data={
@@ -299,6 +311,7 @@ class NewInvoice extends React.Component<Props, State> {
 						</div>
 					) : (
 						<Status
+							// @ts-ignore:
 							status={status}
 							back={() => {
 								this.props.history.push("/invoices");

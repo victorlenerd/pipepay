@@ -1,41 +1,38 @@
-//@flow
 import React from "react";
 import { withRouter } from "react-router-dom";
-import type { RouterHistory, Location } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import NProgress from "nprogress";
 
 import {
 	confirmRegistration,
 	resendVerificationCode,
 	signin,
-	userPool,
-	getSession
+	userPool
 } from "../../utils/auth";
 
-type State = {
+interface IState {
 	error: null | string
 };
 
-type Props = {
+interface IProps {
 	location: Location,
-	setCurrentUser: (user: any) => void,
-	history: RouterHistory
+	setCurrentUser: (user: any) => void
 };
 
-class VerifyAccount extends React.PureComponent<Props, State> {
-	constructor() {
-		super();
-		this.state = {
-			error: null
-		};
-	}
+class VerifyAccount extends React.PureComponent<IProps & RouteComponentProps> {
+
+	state: IState = {
+		error: null
+	};
+
+	formEl = React.createRef<HTMLFormElement>();
 
 	submit = async e => {
 		e.preventDefault();
 		const { location, history, setCurrentUser } = this.props;
 		const { username, password } = location.state;
 
-		if (this.formEl.checkValidity() === true) {
+		if (this.formEl.current.checkValidity() === true) {
 			const verifycode = e.target.verifycode.value;
 			NProgress.start();
 			try {
@@ -101,7 +98,7 @@ class VerifyAccount extends React.PureComponent<Props, State> {
 						<br />
 						<div className="form">
 							<form
-								ref={e => (this.formEl = e)}
+								ref={this.formEl}
 								name="reg-form"
 								onSubmit={this.submit}
 							>

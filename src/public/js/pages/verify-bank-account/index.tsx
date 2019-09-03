@@ -1,34 +1,27 @@
-// @flow
-
 import React from "react";
 import NProgress from "nprogress";
-import { withRouter } from "react-router-dom";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import { getSession, setAttributes } from "../../utils/auth";
 
-type Props = {
+interface Props {
 	user: any,
 	setCurrentUser: (user: any) => void
 };
 
-class VerifyBackAccount extends React.PureComponent<Props> {
-	constructor() {
-		super();
-		this.state = {
+class VerifyBackAccount extends React.PureComponent<Props & RouteComponentProps> {
+
+	state = {
 			error: null,
 			canSubmit: false,
 			bankCode: null,
 			banks: [],
 			accountNumber: "",
 			accountName: ""
-		};
+	};
 
-		this.submit = this.submit.bind(this);
-		this.next = this.next.bind(this);
+	formEl = React.createRef<HTMLFormElement>();
 
-		this.fetchBanks();
-	}
-
-	async fetchBanks() {
+	fetchBanks = async () => {
 		NProgress.start();
 		fetch("/api/banks", {
 			method: "GET",
@@ -42,7 +35,7 @@ class VerifyBackAccount extends React.PureComponent<Props> {
 				const { success, data: banks } = res;
 				if (success) this.setState({ banks, bankCode: banks[0].code });
 			});
-	}
+	};
 
 	submit = e => {
 		const { user, setCurrentUser } = this.props;
@@ -130,7 +123,7 @@ class VerifyBackAccount extends React.PureComponent<Props> {
 							<br />
 							<br />
 							<div className="form">
-								<form ref={e => (this.formEl = e)} name="account-form">
+								<form ref={this.formEl} name="account-form">
 									{error !== null && <div className="form-error">{error}</div>}
 									<label htmlFor="bank">Select Bank</label>
 									<div>
@@ -165,7 +158,6 @@ class VerifyBackAccount extends React.PureComponent<Props> {
 										name="accountnumber"
 										onChange={this.setAccountNumber}
 										placeholder="Account Number"
-										maxchar="10"
 										className="text-input"
 										required
 									/>

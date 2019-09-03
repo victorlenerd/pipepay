@@ -1,32 +1,26 @@
-//@flow
 import React from "react";
 import { withRouter, Link } from "react-router-dom";
-import type, { RouterHistory } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 
 import NProgress from "nprogress";
 
 import { signup } from "../../utils/auth";
-import Header from "../../components/header";
 
-type Props = {
-	history: RouterHistory
-};
-
-type State = {
+type IState = {
 	error: null | string
 };
 
-class SignUp extends React.PureComponent<Props, State> {
-	constructor() {
-		super();
-		this.state = {
-			error: null
-		};
-	}
+class SignUp extends React.PureComponent<RouteComponentProps> {
+
+	formEl = React.createRef<HTMLFormElement>();
+
+	state: IState = {
+		error: null
+	};
 
 	submit = async e => {
 		e.preventDefault();
-		if (this.formEl.checkValidity() === true) {
+		if (this.formEl.current.checkValidity() === true) {
 			const firstname = e.target.firstname.value;
 			const lastname = e.target.lastname.value;
 			const email = e.target.email.value;
@@ -72,7 +66,7 @@ class SignUp extends React.PureComponent<Props, State> {
 							<br />
 							<div className="form">
 								<form
-									ref={e => (this.formEl = e)}
+									ref={this.formEl}
 									name="reg-form"
 									onSubmit={this.submit}
 								>

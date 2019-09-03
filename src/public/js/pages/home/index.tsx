@@ -1,7 +1,6 @@
 import React from "react";
 import { hot } from "react-hot-loader";
 import { Link } from "react-router-dom";
-import Header from "../../components/header";
 import Footer from "../../components/footer";
 import FAQ from "../../components/faq";
 
@@ -9,17 +8,22 @@ import "react-accessible-accordion/dist/fancy-example.css";
 
 class Home extends React.PureComponent {
 	componentDidMount() {
+		// @ts-ignore:
 		window.particlesJS.load("particles-js", "assets/particles.json");
 		$(function() {
 			$("a[href*=\\#]:not([href=\\#])").click(function() {
 				if (
 					location.pathname.replace(/^\//, "") ==
-						this.pathname.replace(/^\//, "") &&
+					// @ts-ignore:
+					this.pathname.replace(/^\//, "") &&
+					// @ts-ignore:
 					location.hostname == this.hostname
 				) {
+					// @ts-ignore:
 					var target = $(this.hash);
 					target = target.length
 						? target
+						// @ts-ignore:
 						: $("[name=" + this.hash.slice(1) + "]");
 					if (target.length) {
 						$("html,body").animate(

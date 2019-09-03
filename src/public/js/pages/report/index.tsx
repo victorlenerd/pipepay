@@ -1,29 +1,21 @@
-//@flow
 import React from "react";
 import { withRouter } from "react-router-dom";
-import type { RouterHistory } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import ReportComponent from "../../components/report";
 
-type Props = {
-	match: {
-		params: {
-			invoiceId: string
-		}
-	}
-};
-
-type State = {
+type IState = {
 	invoiceId: string
 };
 
-class Report extends React.PureComponent<Props, State> {
-	state = {
+class Report extends React.PureComponent<RouteComponentProps> {
+	state: IState = {
 		invoiceId: ""
 	};
 
 	componentWillMount() {
 		const {
 			match: {
+				// @ts-ignore: Match
 				params: { invoiceId }
 			}
 		} = this.props;

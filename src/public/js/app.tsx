@@ -1,4 +1,3 @@
-// @flow
 import { hot } from "react-hot-loader";
 import React, { Component } from "react";
 import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
@@ -27,31 +26,28 @@ import Privacy from "./pages/privacy";
 import { init, signin, userPool, getSession, signOut } from "./utils/auth";
 import NProgress from "nprogress";
 
-type State = {
-	signedIn: boolean,
-	user: any,
-	error: null | string,
-	confirmPassword: () => void,
-	confirmPasswordCallback: () => void,
+interface IState {
+	signedIn: boolean
+	user: any
+	error: null | string
+	confirmPassword: () => void
+	confirmPasswordCallback: () => void
 	setCurrentUser: (user: any) => void
-};
+	updateSession: (callback: () => void) => void
+}
 
-type Props = {};
+class App extends Component {
 
-class App extends Component<Props, State> {
-	confirmPassword: () => void;
-	setState: any => void;
-	confirmPasswordEl: any;
+	confirmPasswordEl = React.createRef<HTMLInputElement>();
 
-	state = {
+	state: IState = {
 		signedIn: false,
 		user: null,
 		error: null,
 		confirmPassword: () => {},
 		confirmPasswordCallback: () => {},
 		updateSession: () => {},
-		setCurrentUser: (user: {} | null) =>
-			this.setState({ user, signedIn: user !== null })
+		setCurrentUser: (user: {} | null) => this.setState({ user, signedIn: user !== null })
 	};
 
 	componentWillMount() {
@@ -59,6 +55,7 @@ class App extends Component<Props, State> {
 			init()
 				.getCurrentUser()
 				.getSession(async (err, result) => {
+					console.log({ err, result });
 					if (result && result.isValid()) {
 						const { idToken } = result;
 						const { payload, jwtToken } = idToken;
@@ -69,6 +66,7 @@ class App extends Component<Props, State> {
 					}
 				});
 		} catch (err) {
+			console.log({ err });
 			this.state.setCurrentUser(null);
 		}
 
@@ -79,6 +77,7 @@ class App extends Component<Props, State> {
 	}
 
 	confirmPassword = (callback: () => void): void => {
+		// @ts-ignore: Modal is from bootstrap
 		$("#confirm-password-modal").modal({
 			backdrop: "static",
 			keyboard: false
@@ -90,7 +89,7 @@ class App extends Component<Props, State> {
 		try {
 			await signin(
 				this.state.user["cognito:username"],
-				this.confirmPasswordEl.value
+				this.confirmPasswordEl.current.value
 			);
 			const cognitoUser = userPool.getCurrentUser();
 			cognitoUser.getSession((err, result) => {
@@ -101,6 +100,7 @@ class App extends Component<Props, State> {
 					const { payload, jwtToken } = idToken;
 					payload.token = jwtToken;
 					this.state.setCurrentUser(payload);
+					// @ts-ignore: Modal is from bootstrap
 					$("#confirm-password-modal").modal("hide");
 					return this.state.confirmPasswordCallback();
 				}
@@ -140,7 +140,7 @@ class App extends Component<Props, State> {
 					<div
 						id="confirm-password-modal"
 						className="modal fade bs-example-modal-sm"
-						tabIndex="-1"
+						tabIndex={-1}
 						role="dialog"
 						aria-labelledby="mySmallModalLabel"
 					>
@@ -164,7 +164,7 @@ class App extends Component<Props, State> {
 									<input
 										type="password"
 										className="form-control"
-										ref={e => (this.confirmPasswordEl = e)}
+										ref={this.confirmPasswordEl}
 									/>
 								</div>
 								<div className="modal-footer">

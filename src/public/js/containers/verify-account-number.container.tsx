@@ -1,16 +1,15 @@
-//@flow
 import * as React from "react";
 import AppContext from "../contexts/app.context";
 import nprogress from "nprogress";
 import { setAttributes } from "../utils/auth";
 
-type Props = {
-	children: any => React.Node
+interface IProps {
+	children: (any) => React.ReactNode
 };
 
-type State = {
+interface IState {
 	banks: Array<any>,
-	error: ?null,
+	error ?: null,
 	success: boolean | null,
 	canSubmit: boolean,
 	bankCode: string,
@@ -18,21 +17,18 @@ type State = {
 	accountName: string
 };
 
-class VerifyAccountNumberContainer extends React.PureComponent<Props, State> {
+class VerifyAccountNumberContainer extends React.PureComponent<IProps> {
 	appContext: any;
 
-	constructor() {
-		super();
-		this.state = {
-			error: null,
-			canSubmit: false,
-			bankCode: "",
-			success: null,
-			banks: [],
-			accountNumber: "",
-			accountName: ""
-		};
-	}
+	state: IState ={
+		error: null,
+		canSubmit: false,
+		bankCode: "",
+		success: null,
+		banks: [],
+		accountNumber: "",
+		accountName: ""
+	};
 
 	componentDidMount() {
 		this.fetchBanks();

@@ -1,18 +1,12 @@
-//@flow
 import React from "react";
-import PropTypes from "prop-types";
-import { Link, withRouter } from "react-router-dom";
-import type { RouterHistory } from "react-router-dom";
-import { StickyContainer, Sticky } from "react-sticky";
+import { withRouter, RouteComponentProps } from "react-router-dom";
 import { subHours, distanceInWords } from "date-fns";
 import NProgress from "nprogress";
-import debounce from "lodash.debounce";
 import AppContext from "../../contexts/app.context";
 
 require("intersection-observer");
 
 type Props = {
-	history: RouterHistory,
 	user: {
 		token: string
 	}
@@ -31,8 +25,8 @@ type State = {
 	pending: number,
 	accepted: number,
 	sent: number,
-	from: ?null,
-	to: ?null,
+	from ?: null,
+	to ?: null,
 	limit: number,
 	page: number,
 	total: number,
@@ -40,8 +34,9 @@ type State = {
 	invoices: Array<Invoice>
 };
 
-class Dashboard extends React.PureComponent<Props, State> {
-	state = {
+class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
+
+	state: State = {
 		from: null,
 		to: null,
 		query: "",
@@ -64,8 +59,10 @@ class Dashboard extends React.PureComponent<Props, State> {
 			threshold: 1.0
 		};
 
+		// @ts-ignore:
 		this.listInvoices = [];
 
+		// @ts-ignore:
 		this.observer = new IntersectionObserver(
 			this.handleObserver.bind(this), //callback
 			options
@@ -128,6 +125,7 @@ class Dashboard extends React.PureComponent<Props, State> {
 				NProgress.done();
 				if (success) {
 					const { invoices, total } = data;
+					// @ts-ignore:
 					this.listInvoices = [];
 					this.setState(
 						{
@@ -148,9 +146,12 @@ class Dashboard extends React.PureComponent<Props, State> {
 									}, 0)
 								},
 								() => {
+									// @ts-ignore:
 									this.observer.disconnect();
+									// @ts-ignore:
 									const el = this.listInvoices[this.listInvoices.length - 1];
 									if (el) {
+										// @ts-ignore:
 										this.observer.observe(el);
 									}
 								}
@@ -168,8 +169,11 @@ class Dashboard extends React.PureComponent<Props, State> {
 	};
 
 	setSearchQuery = query => {
+		// @ts-ignore:
 		if (this.handle) clearTimeout(this.handle);
+		// @ts-ignore:
 		this.handle = setTimeout(() => {
+			// @ts-ignore:
 			clearTimeout(this.handle);
 			this.setState({ query, invoices: [], page: 1 }, () => {
 				this.fetchInvoices();
@@ -209,6 +213,7 @@ class Dashboard extends React.PureComponent<Props, State> {
 		return (
 			<AppContext>
 				{context => {
+					// @ts-ignore:
 					this.appContext = context;
 
 					return (
@@ -218,6 +223,7 @@ class Dashboard extends React.PureComponent<Props, State> {
 									<p>Sent</p>
 									<h3 className="pending-transactions-amount">
 										&#x20A6;
+										// @ts-ignore:
 										{this.abbreviate_number(this.state.sent)}
 									</h3>
 								</div>
@@ -225,6 +231,7 @@ class Dashboard extends React.PureComponent<Props, State> {
 									<p>Paid</p>
 									<h3 className="pending-transactions-amount">
 										&#x20A6;
+										// @ts-ignore:
 										{this.abbreviate_number(this.state.pending)}
 									</h3>
 								</div>
@@ -232,6 +239,7 @@ class Dashboard extends React.PureComponent<Props, State> {
 									<p>Approved</p>
 									<h3 className="pending-transactions-amount">
 										&#x20A6;
+										// @ts-ignore:
 										{this.abbreviate_number(this.state.accepted)}
 									</h3>
 								</div>
@@ -261,11 +269,13 @@ class Dashboard extends React.PureComponent<Props, State> {
 										</div>
 									</div>
 									<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+										// @ts-ignore:
 										<ul className="invoices" type="none">
 											{this.state.invoices.length > 0 ? (
 												this.state.invoices.map((invoice, i) => {
 													return (
 														<li
+															// @ts-ignore:
 															ref={r => (this.listInvoices[i] = r)}
 															key={i}
 															onClick={() => this.openInvoice(invoice)}
@@ -308,4 +318,5 @@ class Dashboard extends React.PureComponent<Props, State> {
 	}
 }
 
+// @ts-ignore:
 export default withRouter(Dashboard);

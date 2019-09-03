@@ -1,31 +1,28 @@
-//@flow
+
 import React from "react";
 import NProgress from "nprogress";
 import { withRouter } from "react-router-dom";
-import type { RouterHistory, Location } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 
 import { forgotPassword } from "../../utils/auth";
 import BannerFrom from "../../containers/banner-form.container";
 
-type Props = {
-	history: RouterHistory
-};
 
 type State = {
-	error: ?null
+	error ?: null
 };
 
-class ForgotPassword extends React.PureComponent<Props, State> {
-	constructor() {
-		super();
-		this.state = {
-			error: null
-		};
-	}
+class ForgotPassword extends React.PureComponent<RouteComponentProps> {
+
+	state: State = {
+		error: null
+	};
+
+	formEl = React.createRef<HTMLFormElement>();
 
 	submit = async e => {
 		e.preventDefault();
-		if (this.formEl.checkValidity() === true) {
+		if (this.formEl.current.checkValidity() === true) {
 			const username = e.target.email.value.split("@")[0];
 
 			try {
@@ -46,7 +43,7 @@ class ForgotPassword extends React.PureComponent<Props, State> {
 			<BannerFrom title="Forgot Password">
 				<div className="form">
 					<form
-						ref={e => (this.formEl = e)}
+						ref={this.formEl}
 						name="reg-form"
 						onSubmit={this.submit}
 					>

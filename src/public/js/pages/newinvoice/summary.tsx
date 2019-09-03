@@ -1,4 +1,3 @@
-//@flow
 import React from "react";
 
 type Props = {
@@ -40,18 +39,22 @@ const Summary = ({ type, data, customerInfo, back, submit }: Props) => (
 					<br />
 					<div>
 						<label>Price Of Good:</label>
+						// @ts-ignore:
 						<h4>{data.purchase_amount}</h4>
 					</div>
 					<div>
 						<label>Delivery Fee:</label>
+						// @ts-ignore:
 						<h4>{data.delivery_fee}</h4>
 					</div>
 					<div>
 						<label>Who Pays Delivery Fee</label>
+						// @ts-ignore:
 						<h4>{data.whoPaysDeliveryFee}</h4>
 					</div>
 					<div>
 						<label>Who Pays PipePay Fee</label>
+						// @ts-ignore:
 						<h4>{data.whoPaysPipepayFee}</h4>
 					</div>
 				</div>
@@ -71,6 +74,7 @@ const Summary = ({ type, data, customerInfo, back, submit }: Props) => (
 						</div>
 					</div>
 					<br />
+					// @ts-ignore:
 					{data.milestones.map(({ amount, description, dueDate }, i) => (
 						<div
 							key={i}

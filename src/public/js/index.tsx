@@ -2,7 +2,6 @@ import React from "react";
 import ReactDOM from "react-dom";
 
 import App from "./app";
-import { AppContainer } from "react-hot-loader";
 
 import * as Sentry from "@sentry/browser";
 
@@ -11,14 +10,13 @@ Sentry.init({
 });
 
 const render = Component => {
-	ReactDOM.render(<App />, document.getElementById("main"));
+	ReactDOM.render(<Component />, document.getElementById("main"));
 };
 
-window.onload = render;
+window.onload = () => render(App);
 
 if (module.hot) {
 	module.hot.accept("./app", () => {
-		const NewApp = render(require("./app")).default;
-		ReactDOM.render(<NewApp />, document.getElementById("main"));
+		const NewApp = render(require("./app").default);
 	});
 }

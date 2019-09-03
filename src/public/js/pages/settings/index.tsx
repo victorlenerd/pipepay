@@ -1,4 +1,3 @@
-//@flow
 import React from "react";
 import NProgress from "nprogress";
 import VerifyAccountNumberContainer from "../../containers/verify-account-number.container";
@@ -26,12 +25,16 @@ class Settings extends React.PureComponent<Props, State> {
 		confirmPassword: ""
 	};
 
+	formEl = React.createRef<HTMLFormElement>();
+
+	appContext: any;
+
 	changePassword = (e: any) => {
 		const { oldPassword, newPassword, confirmPassword, user } = this.state;
 
 		e.preventDefault();
 
-		if (newPassword === confirmPassword) {
+		if (newPassword === confirmPassword)	 {
 			NProgress.start();
 			changePassword(
 				this.appContext.user["cognito:username"],
@@ -147,7 +150,7 @@ class Settings extends React.PureComponent<Props, State> {
 											}) => {
 												return (
 													<form
-														ref={e => (this.formEl = e)}
+														ref={this.formEl}
 														name="account-form"
 													>
 														{success === true && (
@@ -190,7 +193,6 @@ class Settings extends React.PureComponent<Props, State> {
 															defaultValue={accountNumber}
 															onChange={e => setAccountNumber(e.target.value)}
 															placeholder="Account Number"
-															maxchar="10"
 															className="text-input"
 															required
 														/>

@@ -24,11 +24,9 @@ const envs = {
 	AWS_SECRET_KEY: JSON.stringify(process.env.AWS_SECRET_KEY)
 };
 
-
-
 module.exports = [
 	{
-		entry: ["./src/index"],
+		entry: ["./src/index.ts"],
 		watch: true,
 		mode: "development",
 		devtool: "sourcemap",
@@ -41,22 +39,22 @@ module.exports = [
 		module: {
 			rules: [
 				{
-					test: /\.js?$/,
+					test: /\.(js|ts)x?$/,
 					use: [
 						{
 							loader: "babel-loader",
 							options: {
 								babelrc: false,
 								presets: [
-									["@babel/preset-env", { modules: "auto" }],
+									["@babel/preset-env"],
 									"@babel/preset-react",
-									"@babel/preset-flow"
+									"@babel/preset-typescript"
 								],
 								plugins: [
-									"transform-regenerator",
-									"@babel/plugin-syntax-dynamic-import",
+									"@babel/transform-regenerator",
 									"@babel/plugin-transform-runtime",
-									"transform-class-properties"
+									"transform-class-properties",
+									"react-hot-loader/babel"
 								]
 							}
 						}
@@ -66,6 +64,10 @@ module.exports = [
 				{
 					test: /\.css$/,
 					use: ["style-loader", "css-loader"]
+				},
+				{
+					test: /\.(png|jpg|gif|svg)$/,
+					loader: 'url-loader'
 				}
 			]
 		},
@@ -83,26 +85,28 @@ module.exports = [
 				entryOnly: false
 			})
 		],
+		resolve: {
+			extensions: ['.ts', '.tsx', '.js', '.jsx'],
+			modules: [
+				path.resolve( __dirname, 'src'),
+				'node_modules'
+			]
+		},
 		output: { path: path.resolve(__dirname, "dist"), filename: "server.js" }
 	},
 	{
 		entry: [
 			"webpack-hot-middleware/client?path=http://localhost:4545/__webpack_hmr",
-			"./src/public/js/index.js"
+			"./src/public/js/index.tsx"
 		],
 		watch: true,
 		mode: "development",
 		target: "web",
 		devtool: "cheap-module-eval-source-map",
-		// resolve: {
-		// 	alias: {
-		// 		"react-dom": "@hot-loader/react-dom"
-		// 	},
-		// },
 		module: {
 			rules: [
 				{
-					test: /\.js?$/,
+					test: /\.(js|ts)x?$/,
 					use: [
 						"react-hot-loader/webpack",
 						{
@@ -112,11 +116,11 @@ module.exports = [
 								presets: [
 									"@babel/preset-env",
 									"@babel/preset-react",
-									"@babel/preset-flow"
+									"@babel/preset-typescript"
 								],
 								plugins: [
 									"react-hot-loader/babel",
-									"transform-regenerator",
+									"@babel/transform-regenerator",
 									"@babel/plugin-syntax-dynamic-import",
 									["@babel/plugin-transform-runtime", { useESModules: true }],
 									"transform-class-properties"
@@ -141,8 +145,15 @@ module.exports = [
 			new webpack.HotModuleReplacementPlugin(),
 			new webpack.NoEmitOnErrorsPlugin()
 		],
+		resolve: {
+			extensions: ['.ts', '.tsx', '.js', '.jsx'],
+			modules: [
+				path.resolve( __dirname, 'src'),
+				'node_modules'
+			]
+		},
 		output: {
-			publicPath: path.resolve(__dirname, "src/public/"),
+			publicPath: "/public/",
 			path: path.resolve(__dirname, "src/public/assets/js/"),
 			filename: "bundle.js"
 		}

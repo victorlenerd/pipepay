@@ -41,6 +41,7 @@ const Milestones = ({
 									className="text-input"
 									onChange={e => {
 										milestones[i].amount = Number(e.target.value);
+										// @ts-ignore:
 										updateMilestone(milestones);
 									}}
 									required
@@ -57,6 +58,7 @@ const Milestones = ({
 									className="text-input"
 									onChange={e => {
 										milestones[i].description = e.target.value;
+										// @ts-ignore:
 										updateMilestone(milestones);
 									}}
 									required
@@ -73,6 +75,7 @@ const Milestones = ({
 									className="text-input"
 									onChange={e => {
 										milestones[i].dueDate = e.target.value;
+										// @ts-ignore:
 										updateMilestone(milestones);
 									}}
 									required

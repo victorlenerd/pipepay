@@ -1,9 +1,9 @@
-//@flow
 import React from "react";
 import Header from "../components/header";
 
-type Props = { title: string, children?: React.Node };
+type Props = { title: string, children?: React.ReactNode };
 
+// @ts-ignore:
 const BannerForm = ({ title, children }: Props) => (
 	<React.Fragment>
 		<Header />

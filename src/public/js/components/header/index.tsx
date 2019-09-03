@@ -2,15 +2,16 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { HashLink as Link } from "react-router-hash-link";
-import type, { Location, RouterHistory } from "react-router-dom";
+import { RouteComponentProps } from "react-router-dom";
 import { Navbar, NavItem, Nav } from "react-bootstrap";
 import { signOut } from "../../utils/auth";
 
-type Props = {
-	history: RouterHistory,
-	location: Location,
-	user: { name: string, "cognito:username": string },
-	setCurrentUser: () => void,
+interface IProps {
+	user: {
+		name: string,
+		"cognito:username": string
+	},
+	setCurrentUser: (user: any) => void,
 	signedIn: boolean
 };
 
@@ -18,7 +19,7 @@ type State = {
 	pathname: String
 };
 
-class Header extends React.PureComponent<Props, State> {
+class Header extends React.PureComponent<IProps & RouteComponentProps, State> {
 	state = {
 		pathname: ""
 	};
