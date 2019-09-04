@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 import Footer from "../../components/footer";
 import FAQ from "../../components/faq";
 
-import "react-accessible-accordion/dist/fancy-example.css";
-
 class Home extends React.PureComponent {
 	componentDidMount() {
 		// @ts-ignore:

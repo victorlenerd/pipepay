@@ -1,8 +1,8 @@
 import React from "react";
 import ReactDOM from "react-dom";
-
+import serverStyleCleanup from 'node-style-loader/clientCleanup';
 import App from "./app";
-
+import { BrowserRouter } from "react-router-dom";
 import * as Sentry from "@sentry/browser";
 
 Sentry.init({
@@ -10,13 +10,19 @@ Sentry.init({
 });
 
 const render = Component => {
-	ReactDOM.render(<Component />, document.getElementById("main"));
+	ReactDOM.hydrate(
+		<BrowserRouter>
+			<Component />
+		</BrowserRouter>, document.getElementById("main"));
 };
 
-window.onload = () => render(App);
+if (window) {
+	window.onload = () => render(App);
+	serverStyleCleanup();
+}
 
 if (module.hot) {
 	module.hot.accept("./app", () => {
-		const NewApp = render(require("./app").default);
+		render(require("./app").default);
 	});
 }

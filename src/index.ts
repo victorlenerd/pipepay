@@ -1,7 +1,6 @@
 import http from "http";
 import app from "./server";
 import config from "./config";
-
 const server = http.createServer(app);
 let currentApp = app;
 

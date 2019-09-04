@@ -4,8 +4,6 @@ import { subHours, distanceInWords } from "date-fns";
 import NProgress from "nprogress";
 import AppContext from "../../contexts/app.context";
 
-require("intersection-observer");
-
 type Props = {
 	user: {
 		token: string
@@ -62,11 +60,16 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 		// @ts-ignore:
 		this.listInvoices = [];
 
-		// @ts-ignore:
-		this.observer = new IntersectionObserver(
-			this.handleObserver.bind(this), //callback
-			options
-		);
+
+		if (window) {
+			import('intersection-observer').then(() => {
+				// @ts-ignore:
+				this.observer = new IntersectionObserver(
+					this.handleObserver.bind(this), //callback
+					options
+				);
+			});
+		}
 	}
 
 	handleObserver(entities, observer) {
@@ -147,12 +150,18 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 								},
 								() => {
 									// @ts-ignore:
-									this.observer.disconnect();
+									if (this.observer) {
+										// @ts-ignore:
+										this.observer.disconnect();
+									}
 									// @ts-ignore:
 									const el = this.listInvoices[this.listInvoices.length - 1];
 									if (el) {
 										// @ts-ignore:
-										this.observer.observe(el);
+										if (this.observer) {
+											// @ts-ignore:
+											this.observer.observe(el);
+										}
 									}
 								}
 							);
@@ -223,7 +232,6 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 									<p>Sent</p>
 									<h3 className="pending-transactions-amount">
 										&#x20A6;
-										// @ts-ignore:
 										{this.abbreviate_number(this.state.sent)}
 									</h3>
 								</div>
@@ -231,7 +239,6 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 									<p>Paid</p>
 									<h3 className="pending-transactions-amount">
 										&#x20A6;
-										// @ts-ignore:
 										{this.abbreviate_number(this.state.pending)}
 									</h3>
 								</div>
@@ -239,7 +246,6 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 									<p>Approved</p>
 									<h3 className="pending-transactions-amount">
 										&#x20A6;
-										// @ts-ignore:
 										{this.abbreviate_number(this.state.accepted)}
 									</h3>
 								</div>
@@ -269,13 +275,11 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 										</div>
 									</div>
 									<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-										// @ts-ignore:
 										<ul className="invoices" type="none">
 											{this.state.invoices.length > 0 ? (
 												this.state.invoices.map((invoice, i) => {
 													return (
 														<li
-															// @ts-ignore:
 															ref={r => (this.listInvoices[i] = r)}
 															key={i}
 															onClick={() => this.openInvoice(invoice)}

@@ -63,7 +63,15 @@ module.exports = [
 				},
 				{
 					test: /\.css$/,
-					use: ["style-loader", "css-loader"]
+					loader: 'style-loader'
+				},
+				{
+					test: /\.css$/,
+					loader: 'css-loader',
+					query: {
+						modules: true,
+						localIdentName: '[name]__[local]___[hash:base64:5]'
+					}
 				},
 				{
 					test: /\.(png|jpg|gif|svg)$/,
@@ -86,7 +94,7 @@ module.exports = [
 			})
 		],
 		resolve: {
-			extensions: ['.ts', '.tsx', '.js', '.jsx'],
+			extensions: ['.ts', '.tsx', '.js', '.jsx', '.css'],
 			modules: [
 				path.resolve( __dirname, 'src'),
 				'node_modules'
@@ -132,7 +140,15 @@ module.exports = [
 				},
 				{
 					test: /\.css$/,
-					use: ["style-loader", "css-loader"]
+					loader: 'style-loader'
+				},
+				{
+					test: /\.css$/,
+					loader: 'css-loader',
+					query: {
+						modules: true,
+						localIdentName: '[name]__[local]___[hash:base64:5]'
+					}
 				}
 			]
 		},
@@ -146,7 +162,7 @@ module.exports = [
 			new webpack.NoEmitOnErrorsPlugin()
 		],
 		resolve: {
-			extensions: ['.ts', '.tsx', '.js', '.jsx'],
+			extensions: ['.ts', '.tsx', '.js', '.jsx', '.css'],
 			modules: [
 				path.resolve( __dirname, 'src'),
 				'node_modules'

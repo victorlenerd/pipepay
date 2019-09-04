@@ -1,6 +1,6 @@
 import { hot } from "react-hot-loader";
 import React, { Component } from "react";
-import { BrowserRouter, Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect } from "react-router-dom";
 
 import WithHeader from "./containers/header.container";
 
@@ -66,7 +66,6 @@ class App extends Component {
 					}
 				});
 		} catch (err) {
-			console.log({ err });
 			this.state.setCurrentUser(null);
 		}
 
@@ -135,7 +134,6 @@ class App extends Component {
 		const { signedIn, error } = this.state;
 
 		return (
-			<BrowserRouter>
 				<AppContext.Provider value={this.state}>
 					<div
 						id="confirm-password-modal"
@@ -260,7 +258,6 @@ class App extends Component {
 						<Route path="/privacy" render={() => WithHeader(Privacy)} />
 					</Switch>
 				</AppContext.Provider>
-			</BrowserRouter>
 		);
 	}
 }

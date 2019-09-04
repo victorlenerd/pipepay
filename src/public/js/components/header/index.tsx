@@ -153,4 +153,4 @@ class Header extends React.PureComponent<IProps & RouteComponentProps, State> {
 	}
 }
 
-export default withRouter(Header);
+export default withRouter(Header) as React.ComponentType;
