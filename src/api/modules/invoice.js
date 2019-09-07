@@ -1,5 +1,5 @@
 import request from "superagent";
-import addDays from "date-fns/add_days";
+import { addDays } from "date-fns";
 const secret = process.env.PAYSTACK_SECRET;
 
 const CreateCustomer = ({ name, email, phone }) =>

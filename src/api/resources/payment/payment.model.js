@@ -2,7 +2,7 @@ import mongoose from "mongoose";
 
 const PaymentSchema = new mongoose.Schema(
 	{
-		marchantEmail: String,
+		merchantEmail: String,
 		customerEmail: String,
 		amount: Number,
 		invoiceId: String,

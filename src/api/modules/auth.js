@@ -21,7 +21,6 @@ export const getJWT = () =>
 export const verifyToken = (req, res, next) => {
 	const bearerLength = "Bearer ".length;
 	const authorization = req.headers.authorization;
-
 	if (authorization && authorization.length > bearerLength) {
 		const token = authorization.slice(bearerLength);
 		const tokenData = jwt.decode(token, { complete: true });

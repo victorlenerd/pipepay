@@ -61,7 +61,7 @@ const sendTo = mailOption =>
 export const sendReceiptMail = (
 	customerName,
 	customerEmail,
-	marchantEmail,
+	merchantEmail,
 	amount
 ) =>
 	new Promise(async (resolve, reject) => {
@@ -77,7 +77,7 @@ export const sendReceiptMail = (
 			}),
 			sendTo({
 				...mailOption,
-				to: marchantEmail
+				to: merchantEmail
 			})
 		])
 			.then(resolve)
@@ -91,7 +91,7 @@ const makeDisputeMail = (invoice, disputeType, reason) => {
 			<p>${disputeType}</p>
 			<p>${invoice.customerName} opened a dispute in respect to invoice with id <b>${
 		invoice._id
-	}</b> from ${invoice.marchantName}.</p>
+	}</b> from ${invoice.merchantName}.</p>
 
 			<h5>Reason For Dispute</h5> 
 			<p>${reason}</p>
@@ -116,8 +116,8 @@ const makeDisputeMail = (invoice, disputeType, reason) => {
 						<td>Customer Name</td>
 						<td>Customer Email</td>
 						<td>Customer Phone</td>
-						<td>Marchant Account Number</td>
-						<td>Marchant Bank Code</td>
+						<td>merchant Account Number</td>
+						<td>merchant Bank Code</td>
 					</tr>
 				</thead>
 				<tbody>
@@ -134,8 +134,8 @@ const makeDisputeMail = (invoice, disputeType, reason) => {
 						<td>${invoice.customerName}</td>
 						<td>${invoice.customerEmail}</td>
 						<td>${invoice.customerPhone}</td>
-						<td>${invoice.marchantAccountNumber}</td>
-						<td>${invoice.marchantBankCode}</td>
+						<td>${invoice.merchantAccountNumber}</td>
+						<td>${invoice.merchantBankCode}</td>
 					</tr>
 				</tbody>
 			</table>
@@ -170,8 +170,8 @@ const makeDisputeMail = (invoice, disputeType, reason) => {
 					<td>Customer Name</td>
 					<td>Customer Email</td>
 					<td>Customer Phone</td>
-					<td>Marchant Account Number</td>
-					<td>Marchant Bank Code</td>
+					<td>merchant Account Number</td>
+					<td>merchant Bank Code</td>
 				</tr>
 			</thead>
 			<tbody>
@@ -185,8 +185,8 @@ const makeDisputeMail = (invoice, disputeType, reason) => {
 					<td>${invoice.customerName}</td>
 					<td>${invoice.customerEmail}</td>
 					<td>${invoice.customerPhone}</td>
-					<td>${invoice.marchantAccountNumber}</td>
-					<td>${invoice.marchantBankCode}</td>
+					<td>${invoice.merchantAccountNumber}</td>
+					<td>${invoice.merchantBankCode}</td>
 				</tr>
 			</tbody>
 		</table>	
@@ -211,10 +211,10 @@ const makeDisputeMail = (invoice, disputeType, reason) => {
 export const sendDisputeMail = (invoice, disputeType, reason, disputeFrom) =>
 	new Promise(async (resolve, reject) => {
 		const {
-			marchantEmail,
+			merchantEmail,
 			customerEmail,
 			customerName,
-			marchantName,
+			merchantName,
 			_id,
 			type
 		} = invoice;
@@ -238,7 +238,7 @@ export const sendDisputeMail = (invoice, disputeType, reason, disputeFrom) =>
 						html: `
 							<p>Hello ${customerName}</p>
 								
-							<p>Our agents would be in touch with you very soon concerning your dispute with ${marchantName}</p>
+							<p>Our agents would be in touch with you very soon concerning your dispute with ${merchantName}</p>
 
 							<p>
 								Thanks,
@@ -248,9 +248,9 @@ export const sendDisputeMail = (invoice, disputeType, reason, disputeFrom) =>
 					}),
 					sendTo({
 						...mailOption,
-						to: marchantEmail,
+						to: merchantEmail,
 						html: `
-							<p>Hello ${marchantName}</p>
+							<p>Hello ${merchantName}</p>
 
 							<p>${customerName} opened a dispute concerning payment for "${
 							invoice.description
@@ -273,9 +273,9 @@ export const sendDisputeMail = (invoice, disputeType, reason, disputeFrom) =>
 					}),
 					sendTo({
 						...mailOption,
-						to: marchantEmail,
+						to: merchantEmail,
 						html: `
-							<p>Hello ${marchantName}</p>
+							<p>Hello ${merchantName}</p>
 								
 							<p>Our agents would be in touch with you very soon concerning your dispute with ${customerName}</p>
 
@@ -291,7 +291,7 @@ export const sendDisputeMail = (invoice, disputeType, reason, disputeFrom) =>
 						html: `
 							<p>Hello ${customerName}</p>
 								
-							<p>${marchantName} opened a dispute concerning payment for "${
+							<p>${merchantName} opened a dispute concerning payment for "${
 							invoice.description
 						}"</p>
 							<p>Our agents would be in touch with you very soon</p>
@@ -333,7 +333,7 @@ export const sendPaymentRequest = (
 	type,
 	customerEmail,
 	customerName,
-	marchantName,
+	merchantName,
 	acceptToken,
 	rejectToken,
 	milestoneIndex
@@ -346,7 +346,7 @@ export const sendPaymentRequest = (
 			<p>Hey ${customerName}!</p>
 			
 			<p>
-				${marchantName}
+				${merchantName}
 				${
 					type === "good"
 						? "requested for transfer of payment you made"
@@ -358,12 +358,12 @@ export const sendPaymentRequest = (
 			<p>If you're satisfied with ${
 				type === "good" ? "good" : "service"
 			} please click this link to transfer 
-				<a href="${host}/${acceptToken}">I AM SATISFIED PAY ${marchantName}</a>
+				<a href="${host}/${acceptToken}">I AM SATISFIED PAY ${merchantName}</a>
 			</p>
 
 			<p>
 				On the other hand if you're not satisfied  click here to open a disputes 
-				<a href="${host}/${rejectToken}">I AM NOT SATISFIED I WANT TO OPEN A DISPUTE ${marchantName}</a> 
+				<a href="${host}/${rejectToken}">I AM NOT SATISFIED I WANT TO OPEN A DISPUTE ${merchantName}</a> 
 			</p>
 
 			<p>
@@ -384,15 +384,15 @@ export const sendPaymentRequest = (
 	});
 
 export const sendInvoiceConfirmSent = (
-	marchantName,
-	marchantEmail,
+	merchantName,
+	merchantEmail,
 	customerName,
 	customerEmail,
 	invoiceLink
 ) =>
 	new Promise(async (resolve, reject) => {
 		const body = `
-		<p>Hello ${marchantName}</p>
+		<p>Hello ${merchantName}</p>
 
 		<p>Your invoice has been sent to ${customerName}, here's the link to the invoice ${invoiceLink}.</p>
 
@@ -422,15 +422,15 @@ export const sendInvoiceConfirmSent = (
 export const sendTransefConfirm = (
 	customerName,
 	customerEmail,
-	marchantName,
-	marchantEmail,
+	merchantName,
+	merchantEmail,
 	amount
 ) =>
 	new Promise(async (resolve, reject) => {
 		const customerBody = `
 		<p>Hello ${customerName}</p>
 
-		<p>Your payment has successfully been transfered to ${marchantName}</p>
+		<p>Your payment has successfully been transfered to ${merchantName}</p>
 
 		<p>
 			Thanks,
@@ -438,8 +438,8 @@ export const sendTransefConfirm = (
 		</p>
 	`;
 
-		const marchantBody = `
-		<p>Hello ${marchantName}</p>
+		const merchantBody = `
+		<p>Hello ${merchantName}</p>
 
 		<p>${amount} from ${customerName} has been transfered to your account.</p>
 
@@ -462,8 +462,8 @@ export const sendTransefConfirm = (
 			});
 			await sendTo({
 				...mailOption,
-				html: marchantBody,
-				to: marchantEmail
+				html: merchantBody,
+				to: merchantEmail
 			});
 			resolve();
 		} catch (err) {

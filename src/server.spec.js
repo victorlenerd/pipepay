@@ -198,9 +198,9 @@ describe("Server Operations", () => {
 			.post(`/api/dispute/${invoiceId}`)
 			.send({
 				customerEmail: "nvonweb@outlook.com",
-				marchantEmail: "vnwaokocha@gmail.com",
+				merchantEmail: "vnwaokocha@gmail.com",
 				category: "",
-				from: "marchant",
+				from: "merchant",
 				reason: "I don't want anymore"
 			})
 			.end((err, res) => {

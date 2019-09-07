@@ -28,9 +28,9 @@ const InvoiceSchema = new mongoose.Schema(
 		customerEmail: { type: String, required: true },
 		customerPhone: { type: String, required: true },
 
-		marchantUsername: { type: String, required: true },
-		marchantName: { type: String, required: true },
-		marchantEmail: { type: String, required: true },
+		merchantUsername: { type: String, required: true },
+		merchantName: { type: String, required: true },
+		merchantEmail: { type: String, required: true },
 
 		milestones: [MilestoneSchema],
 

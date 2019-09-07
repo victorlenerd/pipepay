@@ -1,8 +1,9 @@
 const username = process.env.DB_USER;
 const password = process.env.DB_PASSWORD;
+const host = process.env.DB_HOST;
 
 export const config = {
 	db: {
-		url: "mongodb://127.0.0.1:27017/pipepay"
+		url: (username.trim().length > 0 && password.trim().length > 0) ? `mongodb://${username}:${password}@${host}` : `mongodb://${host}`,
 	}
 };

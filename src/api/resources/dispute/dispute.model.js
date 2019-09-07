@@ -3,7 +3,7 @@ import mongoose from "mongoose";
 const DisputeSchema = new mongoose.Schema(
 	{
 		customerEmail: String,
-		marchantEmail: String,
+		merchantEmail: String,
 		from: String,
 		reason: String,
 		category: String,

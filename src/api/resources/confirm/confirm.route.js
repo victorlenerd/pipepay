@@ -57,10 +57,10 @@ ConfirmRouter.route("/:token").get((req, res) => {
 				const {
 					_id,
 					type,
-					marchantName,
-					marchantUsername,
+					merchantName,
+					merchantUsername,
 					customerName,
-					marchantEmail,
+					merchantEmail,
 					purchaseAmount,
 					pipePayFee,
 					deliveryAmount
@@ -68,7 +68,7 @@ ConfirmRouter.route("/:token").get((req, res) => {
 
 				var params = {
 					UserPoolId: COGNITO_USER_POOL_ID,
-					Username: marchantUsername
+					Username: merchantUsername
 				};
 
 				let amount = purchaseAmount;
@@ -97,32 +97,32 @@ ConfirmRouter.route("/:token").get((req, res) => {
 							return res.status(400).send({ success: false, error: err });
 						}
 
-						let marchantAccountNumber = null;
-						let marchantBankCode = null;
+						let merchantAccountNumber = null;
+						let merchantBankCode = null;
 
 						for (let attr of data.UserAttributes) {
 							if (attr.Name === "custom:account_number") {
-								marchantAccountNumber = attr.Value;
+								merchantAccountNumber = attr.Value;
 							}
 
 							if (attr.Name === "custom:bank_code") {
-								marchantBankCode = attr.Value;
+								merchantBankCode = attr.Value;
 							}
 						}
 
 						try {
 							await Transfer(
-								marchantName,
-								marchantAccountNumber,
-								marchantBankCode,
+								merchantName,
+								merchantAccountNumber,
+								merchantBankCode,
 								amount
 							);
 
 							sendTransefConfirm(
 								customerName,
 								customerEmail,
-								marchantName,
-								marchantEmail,
+								merchantName,
+								merchantEmail,
 								amount
 							);
 
@@ -162,9 +162,9 @@ ConfirmRouter.route("/:token").get((req, res) => {
 				});
 
 				Transfer(
-					doc.marchantName,
-					doc.marchantAccountNumber,
-					doc.marchantBankCode,
+					doc.merchantName,
+					doc.merchantAccountNumber,
+					doc.merchantBankCode,
 					milestone.amount
 				)
 					.then(() => {

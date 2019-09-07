@@ -1,10 +1,14 @@
 import merge from "lodash.merge";
+
 const env = process.env.NODE_ENV;
+const username = process.env.DB_USER;
+const password = process.env.DB_PASSWORD;
+const host = process.env.DB_HOST;
 
 const baseConfig = {
 	port: 4545,
 	db: {
-		url: ""
+		url: `mongodb://${username}:${password}@${host}`,
 	}
 };
 
@@ -20,7 +24,7 @@ switch (env) {
 		envConfig = require("./test").config;
 		break;
 	case "staging":
-	case "stge":
+	case "stage":
 		envConfig = require("./stage").config;
 		break;
 	case "prod":

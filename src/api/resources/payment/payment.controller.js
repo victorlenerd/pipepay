@@ -44,17 +44,17 @@ export default generateController(PaymentModel, {
 						whoPaysDeliveryFee,
 						customerName,
 						customerEmail,
-						marchantName,
-						marchantEmail,
-						marchantBankCode,
+						merchantName,
+						merchantEmail,
+						merchantBankCode,
 						deliveryAmount,
-						marchantAccountNumber
+						merchantAccountNumber
 					} = doc;
 
 					try {
 						await PaymentModel.create({
 							customerEmail,
-							marchantEmail,
+							merchantEmail,
 							reference,
 							deliveryAmount,
 							invoiceId: _id
