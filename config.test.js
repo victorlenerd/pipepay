@@ -16,8 +16,8 @@ const envs = {
 	DB_USER: JSON.stringify(process.env.DB_USER),
 	DB_PASSWORD: JSON.stringify(process.env.DB_PASSWORD),
 	JWT_SECRET: JSON.stringify(process.env.JWT_SECRET),
-	AWS_ACCESS_KEY_ID: JSON.stringify(process.env.AWS_ACCESS_KEY_ID),
-	AWS_SECRET_KEY: JSON.stringify(process.env.AWS_SECRET_KEY)
+	ACCESS_KEY_ID: JSON.stringify(process.env.ACCESS_KEY_ID),
+	SECRET_KEY: JSON.stringify(process.env.SECRET_KEY)
 };
 
 module.exports = {
