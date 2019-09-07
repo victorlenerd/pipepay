@@ -53,30 +53,30 @@ const WhoPaysFee = ({ submit, back }: Props) => {
 					Both (50 / 50)
 				</label>
 				<p>
-					The {type} fee would be split between the marchant and buyer. The
-					buyer pays half and the marchant pays the other half
+					The {type} fee would be split between the merchant and buyer. The
+					buyer pays half and the merchant pays the other half
 				</p>
 			</div>
 			<div
 				className="col-lg-12 col-md-12 col-sm-12 col-xs-12 card-box"
 				onClick={() =>
-					refs[`who_pays_${type.toLowerCase()}_fee_marchant`].click()
+					refs[`who_pays_${type.toLowerCase()}_fee_merchant`].click()
 				}
 			>
 				<input
-					ref={e => (refs[`who_pays_${type.toLowerCase()}_fee_marchant`] = e)}
-					id={`who_pays_${type.toLowerCase()}_fee_marchant`}
+					ref={e => (refs[`who_pays_${type.toLowerCase()}_fee_merchant`] = e)}
+					id={`who_pays_${type.toLowerCase()}_fee_merchant`}
 					type="radio"
 					name={`who_pays_${type.toLowerCase()}_fee`}
 					value="seller"
 					required
 				/>
 				&nbsp;&nbsp;
-				<label htmlFor={`who_pays_${type.toLowerCase()}_fee_marchant`}>
-					Marchant
+				<label htmlFor={`who_pays_${type.toLowerCase()}_fee_merchant`}>
+					merchant
 				</label>
 				<p>
-					As the marchant the {type} fee would be deducted from the purchase
+					As the merchant the {type} fee would be deducted from the purchase
 					amount.
 				</p>
 			</div>

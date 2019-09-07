@@ -30,6 +30,7 @@ ul {
 }
 
 #navbar-default {
+  min-height: fit-content;
   background-color: #20232a;
   border: 0px;
 }

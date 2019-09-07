@@ -73,55 +73,23 @@ class Header extends React.PureComponent<IProps & RouteComponentProps, State> {
 						<Navbar.Toggle />
 					</Navbar.Header>
 					<Navbar.Collapse>
-						<Nav pullRight>
-							{!signedIn && (
+						{!signedIn && (
+							<Nav pullRight>
 								<NavItem
 									active={pathname === "/"}
 									onClick={() => this.props.history.push("/")}
 								>
 									Home
 								</NavItem>
-							)}
-							{!signedIn && (
 								<li className={pathname === "/#howitworks" ? "active" : ""}>
 									<Link to="/#howitworks">How It Works</Link>
 								</li>
-							)}
-							{!signedIn && (
 								<li className={pathname === "/#pricing" ? "active" : ""}>
 									<Link to="/#pricing">Pricing</Link>
 								</li>
-							)}
-							{!signedIn && (
 								<li className={pathname === "/#faq" ? "active" : ""}>
 									<Link to="/#faq">F.A.Q</Link>
 								</li>
-							)}
-							{signedIn && (
-								<NavItem
-									active={pathname === "/invoices"}
-									onClick={() => history.push("/invoices")}
-								>
-									Invoices
-								</NavItem>
-							)}
-							{signedIn && (
-								<NavItem
-									active={pathname === "/newinvoice"}
-									onClick={() => history.push("/newinvoice")}
-								>
-									New Invoice
-								</NavItem>
-							)}
-							{signedIn && (
-								<NavItem
-									active={pathname === "/settings"}
-									onClick={() => history.push("/settings")}
-								>
-									Settings
-								</NavItem>
-							)}
-							{!signedIn && (
 								<NavItem
 									active={pathname === "/signup"}
 									onClick={() => history.push("/signup")}
@@ -130,8 +98,6 @@ class Header extends React.PureComponent<IProps & RouteComponentProps, State> {
 								>
 									Register
 								</NavItem>
-							)}
-							{!signedIn && (
 								<NavItem
 									active={pathname === "/signin"}
 									onClick={() => history.push("/signin")}
@@ -139,13 +105,29 @@ class Header extends React.PureComponent<IProps & RouteComponentProps, State> {
 								>
 									Login
 								</NavItem>
-							)}
-							{signedIn && (
-								<NavItem onClick={() => this.signOut()}>
+						</Nav>
+						)}
+						{signedIn && (
+							<Nav pullRight>
+								<li className={pathname === "/invoices" ? "active" : ""}>
+									<Link to="/invoices">Invoices</Link>
+								</li>
+								<li className={pathname === "/newinvoice" ? "active" : ""}>
+									<Link to="/newinvoice">Send Invoice</Link>
+								</li>
+								<NavItem
+									key='/settings'
+									active={pathname === "/settings"}
+									onClick={() => history.push("/settings")}
+								>
+									Settings
+								</NavItem>
+								<NavItem
+									key='/signout'
+									onClick={() => this.signOut()}>
 									Sign Out ({user.name})
 								</NavItem>
-							)}
-						</Nav>
+						</Nav>)}
 					</Navbar.Collapse>
 				</div>
 			</Navbar>

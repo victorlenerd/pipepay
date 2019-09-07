@@ -24,7 +24,7 @@ class Report extends React.PureComponent<RouteComponentProps> {
 	}
 
 	render() {
-		return <ReportComponent from="marchant" invoiceId={this.state.invoiceId} />;
+		return <ReportComponent from="merchant" invoiceId={this.state.invoiceId} />;
 	}
 }
 

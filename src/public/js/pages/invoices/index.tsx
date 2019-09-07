@@ -1,6 +1,6 @@
 import React from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import { subHours, distanceInWords } from "date-fns";
+import { subHours, formatDistanceToNow } from "date-fns";
 import NProgress from "nprogress";
 import AppContext from "../../contexts/app.context";
 
@@ -292,10 +292,6 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 															</div>
 															<div className="pull-right">
 																<div className="invoice-timeago">
-																	{distanceInWords(
-																		invoice.created_at,
-																		new Date()
-																	)}
 																</div>
 																<div
 																	className={`invoice-price ${invoice.status}`}

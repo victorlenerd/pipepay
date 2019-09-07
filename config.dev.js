@@ -2,7 +2,7 @@ const webpack = require("webpack");
 const path = require("path");
 const nodeExternals = require("webpack-node-externals");
 const StartServerPlugin = require("start-server-webpack-plugin");
-const CleanPlugin = require("clean-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 require("dotenv").config();
 
@@ -17,6 +17,7 @@ const envs = {
 	COGNITO_USER_POOL_ID: JSON.stringify(process.env.COGNITO_USER_POOL_ID),
 	ZOHO_EMAIL: JSON.stringify(process.env.ZOHO_EMAIL),
 	ZOHO_PASSWORD: JSON.stringify(process.env.ZOHO_PASSWORD),
+	DB_HOST: JSON.stringify(process.env.DB_HOST),
 	DB_USER: JSON.stringify(process.env.DB_USER),
 	DB_PASSWORD: JSON.stringify(process.env.DB_PASSWORD),
 	JWT_SECRET: JSON.stringify(process.env.JWT_SECRET),
@@ -153,7 +154,7 @@ module.exports = [
 			]
 		},
 		plugins: [
-			new CleanPlugin(path.resolve(__dirname, "src/public/assets/js/")),
+			new CleanWebpackPlugin(),
 			new webpack.DefinePlugin({
 				"process.env": envs
 			}),

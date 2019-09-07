@@ -18,7 +18,7 @@ Router.route("/:invoiceId").get(async (req, res) => {
 			type,
 			customerEmail,
 			customerName,
-			marchantName,
+			merchantName,
 			status
 		} = await InvoiceModel.findOne({ _id: invoiceId });
 
@@ -36,7 +36,7 @@ Router.route("/:invoiceId").get(async (req, res) => {
 				type,
 				customerEmail,
 				customerName,
-				marchantName,
+				merchantName,
 				acceptToken,
 				rejectToken
 			);
@@ -78,7 +78,7 @@ Router.route("/:invoiceId/:milestoneId").get(async (req, res) => {
 			milestones,
 			customerEmail,
 			customerName,
-			marchantName,
+			merchantName,
 			status
 		} = doc;
 
@@ -141,7 +141,7 @@ Router.route("/:invoiceId/:milestoneId").get(async (req, res) => {
 						type,
 						customerEmail,
 						customerName,
-						marchantName,
+						merchantName,
 						acceptToken,
 						rejectToken,
 						nextMilestonePaymentIndex

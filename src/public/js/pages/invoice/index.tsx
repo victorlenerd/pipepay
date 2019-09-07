@@ -1,7 +1,7 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
-import { distanceInWords } from "date-fns";
+import { formatDistanceToNow } from "date-fns";
 import NProgress from "nprogress";
 
 type Props = {
@@ -218,7 +218,6 @@ class Invoice extends React.PureComponent<Props & RouteComponentProps, State> {
 								</div>
 								<div className="pull-right">
 									<div className="invoice-timeago">
-										{distanceInWords(invoice.created_at, new Date())}
 									</div>
 									<div className={`invoice-price ${invoice.status}`}>
 										{invoice.status}
@@ -318,7 +317,7 @@ class Invoice extends React.PureComponent<Props & RouteComponentProps, State> {
 									<>
 										<p className="invoice-action-hint">
 											Once the marchandise as been delivered. Click this button
-											to have the marchant confirm satisfaction and have the
+											to have the merchant confirm satisfaction and have the
 											purchase amount sent to you.
 										</p>
 										<button

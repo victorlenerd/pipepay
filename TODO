@@ -1,5 +1,5 @@
-[] Marchant should be able to open dispute if customers has not responded after 15 days of product delivery.
+[] merchant should be able to open dispute if customers has not responded after 15 days of product delivery.
 [] Support agents should be able to close disputes.
-    [] Send money to marchant.
+    [] Send money to merchant.
     [] Send money to customer.
-    [] Spilt money between marchant and customer.
+    [] Spilt money between merchant and customer.

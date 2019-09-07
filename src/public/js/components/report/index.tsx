@@ -66,7 +66,7 @@ class Report extends React.PureComponent<Props, State> {
 							<form name="report" onSubmit={this.submit}>
 								<label>Select Dispute Case</label>
 								<br />
-								{from === "marchant" && (
+								{from === "merchant" && (
 									<select
 										name="reason"
 										className="transaction-select"

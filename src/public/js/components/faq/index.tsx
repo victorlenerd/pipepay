@@ -2,59 +2,59 @@ import React from "react";
 import {
 	Accordion,
 	AccordionItem,
-	AccordionItemTitle,
-	AccordionItemBody
+	AccordionItemHeading,
+	AccordionItemPanel
 } from "react-accessible-accordion";
 
 const FAQ = () => (
 	<Accordion>
 		<AccordionItem>
-			<AccordionItemTitle>
-				<h3>How long does it take to transfer payment to marchant</h3>
-			</AccordionItemTitle>
-			<AccordionItemBody>
+			<AccordionItemHeading>
+				How long does it take to transfer payment to merchant
+			</AccordionItemHeading>
+			<AccordionItemPanel>
 				<p>Body Content</p>
-			</AccordionItemBody>
+			</AccordionItemPanel>
 		</AccordionItem>
 		<AccordionItem>
-			<AccordionItemTitle>
-				<h3>When should marchant send the good</h3>
-			</AccordionItemTitle>
-			<AccordionItemBody>
+			<AccordionItemHeading>
+				<h3>When should merchant send the good</h3>
+			</AccordionItemHeading>
+			<AccordionItemPanel>
 				<p>Body Content</p>
-			</AccordionItemBody>
+			</AccordionItemPanel>
 		</AccordionItem>
 		<AccordionItem>
-			<AccordionItemTitle>
+			<AccordionItemHeading>
 				<h3>What if the good is delivered and buyer stops responding</h3>
-			</AccordionItemTitle>
-			<AccordionItemBody>
+			</AccordionItemHeading>
+			<AccordionItemPanel>
 				<p>Body content</p>
-			</AccordionItemBody>
+			</AccordionItemPanel>
 		</AccordionItem>
 		<AccordionItem>
-			<AccordionItemTitle>
-				<h3>What if marchant does not accept refunds</h3>
-			</AccordionItemTitle>
-			<AccordionItemBody>
+			<AccordionItemHeading>
+				<h3>What if merchant does not accept refunds</h3>
+			</AccordionItemHeading>
+			<AccordionItemPanel>
 				<p>Body content</p>
-			</AccordionItemBody>
+			</AccordionItemPanel>
 		</AccordionItem>
 		<AccordionItem>
-			<AccordionItemTitle>
+			<AccordionItemHeading>
 				<h3>What if good is damaged before it gets delivered to buyer</h3>
-			</AccordionItemTitle>
-			<AccordionItemBody>
+			</AccordionItemHeading>
+			<AccordionItemPanel>
 				<p>Body content</p>
-			</AccordionItemBody>
+			</AccordionItemPanel>
 		</AccordionItem>
 		<AccordionItem>
-			<AccordionItemTitle>
+			<AccordionItemHeading>
 				<h3>How long does it take to resolve dispute</h3>
-			</AccordionItemTitle>
-			<AccordionItemBody>
+			</AccordionItemHeading>
+			<AccordionItemPanel>
 				<p>Body content</p>
-			</AccordionItemBody>
+			</AccordionItemPanel>
 		</AccordionItem>
 	</Accordion>
 );

@@ -11,6 +11,7 @@ import { verifyToken } from "../modules/auth";
 
 const MainRouter = express.Router();
 
+
 MainRouter.use("/verify", VerifyRoute);
 MainRouter.use("/banks", BanksRoute);
 MainRouter.use("/confirm", ConfirmRoute);

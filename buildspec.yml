@@ -23,6 +23,7 @@ phases:
           --build-arg COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID\
           --build-arg ZOHO_EMAIL=$ZOHO_EMAIL\
           --build-arg ZOHO_PASSWORD=$ZOHO_PASSWORD\
+          --build-arg DB_HOST=$DB_HOST\
           --build-arg DB_USER=$DB_USER\
           --build-arg DB_PASSWORD=$DB_PASSWORD\
           --build-arg JWT_SECRET=$JWT_SECRET\

@@ -14,9 +14,9 @@ export default generateController(InvoiceModel, {
 		var body = req.body;
 
 		body.userId = req.user.sub;
-		body.marchantUsername = req.user["cognito:username"];
-		body.marchantEmail = req.user.email;
-		body.marchantName = req.user.name;
+		body.merchantUsername = req.user["cognito:username"];
+		body.merchantEmail = req.user.email;
+		body.merchantName = req.user.name;
 
 		body.verifyCode = recode();
 
@@ -117,8 +117,8 @@ export default generateController(InvoiceModel, {
 						err => {
 							if (err) Sentry.captureException(err);
 							sendInvoiceConfirmSent(
-								body.marchantName,
-								body.marchantEmail,
+								body.merchantName,
+								body.merchantEmail,
 								body.customerName,
 								body.customerEmail,
 								`https://paystack.com/pay/${invoice_code}`
@@ -136,6 +136,7 @@ export default generateController(InvoiceModel, {
 		});
 	},
 	getAll: async (req, res) => {
+
 		if (!req.user)
 			res.status(403).send({ success: false, error: "Invalid auth token" });
 

@@ -39,7 +39,7 @@ class Home extends React.PureComponent {
 
 	render() {
 		return (
-			<React.Fragment>
+			<>
 				<section className="intro">
 					<div className="image-holder">
 						<div className="intro-content-container">
@@ -53,7 +53,7 @@ class Home extends React.PureComponent {
 											</div>
 											<div className="about">
 												<p>
-													Pipepay helps online marchants increase sales and
+													Pipepay helps online merchants increase sales and
 													conversion rate and at the same protects the buyers
 													interest.
 												</p>
@@ -150,23 +150,7 @@ class Home extends React.PureComponent {
 						<h1 className="home-section-title-inverse">Pricing</h1>
 						<div className="col-lg-12 col-md-12 col-sm-12 col-lg-12">
 							<div className="text-center">
-								<h1 className="price-amount">₦1000</h1> Per Successful
-								Transaction.
-								<br />
-								<br />
-								<br />
-								<br />
-								<i>
-									Excluding Paystack Charges{" "}
-									<a
-										href="https://paystack.com/pricing"
-										className="learn-more"
-										target="_blank"
-										rel="noopener noreferrer"
-									>
-										Learn More About Paystack Pricing
-									</a>
-								</i>
+								<h1 className="price-amount">2.5% + ₦100</h1>
 							</div>
 						</div>
 					</div>
@@ -175,7 +159,6 @@ class Home extends React.PureComponent {
 					<div className="container">
 						<h1 className="home-section-title">Frequently Asked Questions</h1>
 						<div className="col-lg-8 col-md-8 col-lg-offset-2 col-md-offset-2 col-sm-12 col-xs-12">
-							<FAQ />
 						</div>
 					</div>
 				</section>
@@ -207,7 +190,7 @@ class Home extends React.PureComponent {
 						<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 noPad shrink">
 							<h4 className="other-title">Pipepay</h4>
 							<p className="whyuse-p">
-								Simple escrow solution designed to help marchants easily
+								Simple escrow solution designed to help merchants easily
 								increase conversion rate and protect buyers interest.
 							</p>
 							<br />
@@ -222,9 +205,9 @@ class Home extends React.PureComponent {
 						</p>
 					</div>
 				</section>
-			</React.Fragment>
+			</>
 		);
 	}
 }
 
-export default hot(module)(Home);
+export default Home;

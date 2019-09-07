@@ -15,7 +15,6 @@ export let userPool;
 export let cognitoUser;
 
 export const init = () => {
-	console.log('init')
 	userPool = new CognitoUserPool(poolData);
 	return userPool;
 };

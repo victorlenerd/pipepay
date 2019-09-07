@@ -14,8 +14,7 @@ const reactDOMServer = require('react-dom/server');
 
 const app = express();
 
-const config = require("../config.dev.js");
-const compiler = webpack(config[1]);
+const isDev = process.env.NODE_ENV === 'development';
 
 getJWT();
 
@@ -32,9 +31,13 @@ app.use(function(req, res, next) {
 	next();
 });
 
-connect().catch(err => {
-	throw err;
-});
+connect()
+	.then(() => {
+		console.log('DB Connected!');
+	})
+	.catch(err => {
+		throw err;
+	});
 
 const initialStyleTag = collect.collectInitial();
 const HTML = (body) => `
@@ -70,10 +73,14 @@ const HTML = (body) => `
 		</html>
 )`;
 
+
+const config = require(isDev ? "../config.dev.js" : "../config.stage.js");
+const compiler = webpack(config[1]);
+
 app.use(
 	webpackDevMiddleware(compiler, {
 		publicPath: config[1].output.publicPath,
-		hot: true,
+		hot: isDev,
 		writeToDisk: true,
 		historyApiFallback: true
 	})
@@ -94,7 +101,7 @@ app.get(
 	}
 );
 
-if (process.env.NODE_ENV === "PROD") {
+if (!isDev) {
 	const Sentry = require("@sentry/node");
 
 	Sentry.init({
