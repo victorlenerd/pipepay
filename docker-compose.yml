@@ -17,8 +17,8 @@ services:
         - ZOHO_EMAIL=hello@pipepay.africa
         - ZOHO_PASSWORD=WebWizard#1
         - JWT_SECRET=secret
-        - AWS_ACCESS_KEY_ID=AKIA2FQCSKOO7VFCTTYV
-        - AWS_SECRET_KEY=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
+        - ACCESS_KEY_ID=AKIA2FQCSKOO7VFCTTYV
+        - SECRET_KEY=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
     ports:
       - "4545:4545"
     volumes:

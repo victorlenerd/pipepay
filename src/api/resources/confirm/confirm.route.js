@@ -9,11 +9,11 @@ import InvoiceController from "../invoice/invoice.controller";
 import jwt from "jsonwebtoken";
 import AWS from "aws-sdk";
 
-const { AWS_ACCESS_KEY_ID, AWS_SECRET_KEY, COGNITO_USER_POOL_ID } = process.env;
+const { ACCESS_KEY_ID, SECRET_KEY, COGNITO_USER_POOL_ID } = process.env;
 
 const cognitoidentityserviceprovider = new AWS.CognitoIdentityServiceProvider({
-	accessKeyId: AWS_ACCESS_KEY_ID,
-	secretAccessKey: AWS_SECRET_KEY,
+	accessKeyId: ACCESS_KEY_ID,
+	secretAccessKey: SECRET_KEY,
 	region: "us-east-2",
 	apiVersion: "2016-04-18"
 });
