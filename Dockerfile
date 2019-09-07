@@ -8,7 +8,6 @@ COPY package.json /usr/src/pipepay/
 RUN npm install
 
 # Bundle app source
-COPY .env /usr/src/pipepay/
 COPY src /usr/src/pipepay/src
 COPY config.stage.js /usr/src/pipepay/
 COPY config.dev.js /usr/src/pipepay/
