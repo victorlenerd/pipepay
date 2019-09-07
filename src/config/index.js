@@ -8,7 +8,7 @@ const host = process.env.DB_HOST;
 const baseConfig = {
 	port: 4545,
 	db: {
-		url: `mongodb://${username}:${password}@${host}:27017/pipepay`,
+		url: `mongodb://${username}:${password}@${host}`,
 	}
 };
 

@@ -4,6 +4,6 @@ const host = process.env.DB_HOST;
 
 export const config = {
 	db: {
-		url: (username.trim().length > 0 && password.trim().length > 0) ? `mongodb://${username}:${password}@${host}:27017/pipepay` : `mongodb://${host}:27017/pipepay`,
+		url: (username.trim().length > 0 && password.trim().length > 0) ? `mongodb://${username}:${password}@${host}` : `mongodb://${host}`,
 	}
 };

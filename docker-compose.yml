@@ -9,7 +9,7 @@ services:
       args:
         - NODE_ENV=staging
         - PORT=4545
-        - DB_HOST=mongodb
+        - DB_HOST=mongodb:27017/pipepay
         - PAYSTACK_SECRET=sk_test_ef208dee35b39342cf35bf961ec6cb19ebc2f94c
         - PAYSTACK_PUBLIC_KEY=pk_test_255dd0432fd98c3983285837334c8a4f002b6f31
         - COGNITO_AUD=4dmr7et8m2ii9490eh8lh3kk70
