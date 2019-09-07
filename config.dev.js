@@ -2,7 +2,7 @@ const webpack = require("webpack");
 const path = require("path");
 const nodeExternals = require("webpack-node-externals");
 const StartServerPlugin = require("start-server-webpack-plugin");
-const CleanPlugin = require("clean-webpack-plugin");
+const { CleanWebpackPlugin } = require("clean-webpack-plugin");
 
 require("dotenv").config();
 
@@ -17,18 +17,17 @@ const envs = {
 	COGNITO_USER_POOL_ID: JSON.stringify(process.env.COGNITO_USER_POOL_ID),
 	ZOHO_EMAIL: JSON.stringify(process.env.ZOHO_EMAIL),
 	ZOHO_PASSWORD: JSON.stringify(process.env.ZOHO_PASSWORD),
+	DB_HOST: JSON.stringify(process.env.DB_HOST),
 	DB_USER: JSON.stringify(process.env.DB_USER),
 	DB_PASSWORD: JSON.stringify(process.env.DB_PASSWORD),
 	JWT_SECRET: JSON.stringify(process.env.JWT_SECRET),
-	AWS_ACCESS_KEY_ID: JSON.stringify(process.env.AWS_ACCESS_KEY_ID),
-	AWS_SECRET_KEY: JSON.stringify(process.env.AWS_SECRET_KEY)
+	ACCESS_KEY_ID: JSON.stringify(process.env.ACCESS_KEY_ID),
+	SECRET_KEY: JSON.stringify(process.env.SECRET_KEY)
 };
-
-
 
 module.exports = [
 	{
-		entry: ["./src/index"],
+		entry: ["./src/index.ts"],
 		watch: true,
 		mode: "development",
 		devtool: "sourcemap",
@@ -41,22 +40,22 @@ module.exports = [
 		module: {
 			rules: [
 				{
-					test: /\.js?$/,
+					test: /\.(js|ts)x?$/,
 					use: [
 						{
 							loader: "babel-loader",
 							options: {
 								babelrc: false,
 								presets: [
-									["@babel/preset-env", { modules: "auto" }],
+									["@babel/preset-env"],
 									"@babel/preset-react",
-									"@babel/preset-flow"
+									"@babel/preset-typescript"
 								],
 								plugins: [
-									"transform-regenerator",
-									"@babel/plugin-syntax-dynamic-import",
+									"@babel/transform-regenerator",
 									"@babel/plugin-transform-runtime",
-									"transform-class-properties"
+									"transform-class-properties",
+									"react-hot-loader/babel"
 								]
 							}
 						}
@@ -65,7 +64,19 @@ module.exports = [
 				},
 				{
 					test: /\.css$/,
-					use: ["style-loader", "css-loader"]
+					loader: 'style-loader'
+				},
+				{
+					test: /\.css$/,
+					loader: 'css-loader',
+					query: {
+						modules: true,
+						localIdentName: '[name]__[local]___[hash:base64:5]'
+					}
+				},
+				{
+					test: /\.(png|jpg|gif|svg)$/,
+					loader: 'url-loader'
 				}
 			]
 		},
@@ -83,26 +94,28 @@ module.exports = [
 				entryOnly: false
 			})
 		],
+		resolve: {
+			extensions: ['.ts', '.tsx', '.js', '.jsx', '.css'],
+			modules: [
+				path.resolve( __dirname, 'src'),
+				'node_modules'
+			]
+		},
 		output: { path: path.resolve(__dirname, "dist"), filename: "server.js" }
 	},
 	{
 		entry: [
 			"webpack-hot-middleware/client?path=http://localhost:4545/__webpack_hmr",
-			"./src/public/js/index.js"
+			"./src/public/js/index.tsx"
 		],
 		watch: true,
 		mode: "development",
 		target: "web",
 		devtool: "cheap-module-eval-source-map",
-		// resolve: {
-		// 	alias: {
-		// 		"react-dom": "@hot-loader/react-dom"
-		// 	},
-		// },
 		module: {
 			rules: [
 				{
-					test: /\.js?$/,
+					test: /\.(js|ts)x?$/,
 					use: [
 						"react-hot-loader/webpack",
 						{
@@ -112,11 +125,11 @@ module.exports = [
 								presets: [
 									"@babel/preset-env",
 									"@babel/preset-react",
-									"@babel/preset-flow"
+									"@babel/preset-typescript"
 								],
 								plugins: [
 									"react-hot-loader/babel",
-									"transform-regenerator",
+									"@babel/transform-regenerator",
 									"@babel/plugin-syntax-dynamic-import",
 									["@babel/plugin-transform-runtime", { useESModules: true }],
 									"transform-class-properties"
@@ -128,12 +141,20 @@ module.exports = [
 				},
 				{
 					test: /\.css$/,
-					use: ["style-loader", "css-loader"]
+					loader: 'style-loader'
+				},
+				{
+					test: /\.css$/,
+					loader: 'css-loader',
+					query: {
+						modules: true,
+						localIdentName: '[name]__[local]___[hash:base64:5]'
+					}
 				}
 			]
 		},
 		plugins: [
-			new CleanPlugin(path.resolve(__dirname, "src/public/assets/js/")),
+			new CleanWebpackPlugin(),
 			new webpack.DefinePlugin({
 				"process.env": envs
 			}),
@@ -141,8 +162,15 @@ module.exports = [
 			new webpack.HotModuleReplacementPlugin(),
 			new webpack.NoEmitOnErrorsPlugin()
 		],
+		resolve: {
+			extensions: ['.ts', '.tsx', '.js', '.jsx', '.css'],
+			modules: [
+				path.resolve( __dirname, 'src'),
+				'node_modules'
+			]
+		},
 		output: {
-			publicPath: path.resolve(__dirname, "src/public/"),
+			publicPath: "/public/",
 			path: path.resolve(__dirname, "src/public/assets/js/"),
 			filename: "bundle.js"
 		}

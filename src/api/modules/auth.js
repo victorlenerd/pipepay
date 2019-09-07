@@ -1,9 +1,7 @@
 import axios from "axios";
 import jwt from "jsonwebtoken";
 const aaud = process.env.COGNITO_AUD;
-const tokenUrl = `https://cognito-idp.us-east-2.amazonaws.com/${
-	process.env.COGNITO_USER_POOL_ID
-}/.well-known/jwks.json`;
+const tokenUrl = `https://cognito-idp.us-east-2.amazonaws.com/${process.env.COGNITO_USER_POOL_ID}/.well-known/jwks.json`;
 
 let tokenKeys = null;
 
@@ -23,7 +21,6 @@ export const getJWT = () =>
 export const verifyToken = (req, res, next) => {
 	const bearerLength = "Bearer ".length;
 	const authorization = req.headers.authorization;
-
 	if (authorization && authorization.length > bearerLength) {
 		const token = authorization.slice(bearerLength);
 		const tokenData = jwt.decode(token, { complete: true });

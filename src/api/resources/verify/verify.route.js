@@ -11,6 +11,7 @@ Router.route("/:invoiceId").get(async (req, res) => {
 	const { customerEmail, verifyCode } = req.invoice;
 
 	try {
+		console.log('Sending mail');
 		await sendCustormerVerificationCode(customerEmail, verifyCode);
 		res.send({ success: true });
 	} catch (error) {
