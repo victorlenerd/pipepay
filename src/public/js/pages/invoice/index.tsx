@@ -58,7 +58,7 @@ class Invoice extends React.PureComponent<Props & RouteComponentProps, State> {
 		requestSentSuccessMessage: ""
 	};
 
-	componentWillMount() {
+	componentDidMount() {
 		const {
 			history,
 			location,

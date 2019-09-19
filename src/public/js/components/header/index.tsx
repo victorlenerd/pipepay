@@ -24,7 +24,7 @@ class Header extends React.PureComponent<IProps & RouteComponentProps, State> {
 		pathname: ""
 	};
 
-	componentWillMount() {
+	componentDidMount() {
 		const { location } = this.props;
 		if (location) {
 			this.setState({ pathname: location.pathname });

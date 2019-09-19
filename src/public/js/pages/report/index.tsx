@@ -12,7 +12,7 @@ class Report extends React.PureComponent<RouteComponentProps> {
 		invoiceId: ""
 	};
 
-	componentWillMount() {
+	componentDidMount() {
 		const {
 			match: {
 				// @ts-ignore: Match

@@ -50,7 +50,7 @@ class App extends Component {
 		setCurrentUser: (user: {} | null) => this.setState({ user, signedIn: user !== null })
 	};
 
-	componentWillMount() {
+	componentDidMount() {
 		try {
 			init()
 				.getCurrentUser()
