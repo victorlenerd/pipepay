@@ -148,7 +148,7 @@ input {
   height: 40px;
   margin: 0px auto;
   border-radius: 3px;
-  background: linear-gradient(241.41deg, #9AE6CD 0%, #96E3C9 7.62%, #95E3C9 8.96%, #80D8B7 45.82%, #61C89E 100%);
+  background: #80D8B7;
   color: #FFFFFF;
   font-weight: bold;
   display: block;
@@ -180,7 +180,7 @@ input {
   border: none;
   cursor: pointer;
   border-radius: 5px;
-  background: linear-gradient(241.41deg, #9AE6CD 0%, #96E3C9 7.62%, #95E3C9 8.96%, #80D8B7 45.82%, #61C89E 100%);
+  background: #96E3C9 7.62%;
   color: #FFFFFF;
   font-weight: bold;
   margin-bottom: 21px;
