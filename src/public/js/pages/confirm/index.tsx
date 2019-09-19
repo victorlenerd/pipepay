@@ -28,7 +28,7 @@ class Confirm extends React.Component<RouteComponentProps> {
 		invoiceId: ""
 	};
 
-	componentWillMount() {
+	componentDidMount() {
 		const { match } = this.props;
 
 		// @ts-ignore: not sure why params
