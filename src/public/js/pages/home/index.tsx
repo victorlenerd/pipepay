@@ -150,7 +150,8 @@ class Home extends React.PureComponent {
 						<h1 className="home-section-title-inverse">Pricing</h1>
 						<div className="col-lg-12 col-md-12 col-sm-12 col-lg-12">
 							<div className="text-center">
-								<h1 className="price-amount">2.5% + ₦100</h1>
+								<h1 className="price-amount">5% + ₦100</h1>
+								<p>Capped at ₦5000</p>
 							</div>
 						</div>
 					</div>
