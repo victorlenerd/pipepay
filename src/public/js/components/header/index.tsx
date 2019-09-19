@@ -68,7 +68,7 @@ class Header extends React.PureComponent<IProps & RouteComponentProps, State> {
 				<div className="container">
 					<Navbar.Header>
 						<Link to="/" className="navbar-brand">
-							Pipepay
+							PipePay
 						</Link>
 						<Navbar.Toggle />
 					</Navbar.Header>

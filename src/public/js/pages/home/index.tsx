@@ -49,11 +49,11 @@ class Home extends React.PureComponent {
 									<div className="col-lg-8 col-md-8 col-lg-offset-2 col-md-offset-2 col-sm-12 col-12 text-center">
 										<div className="description">
 											<div className="warning">
-												<h2>Pipepay is a simple escrow service.</h2>
+												<h2>PipePay is a simple escrow service.</h2>
 											</div>
 											<div className="about">
 												<p>
-													Pipepay helps online merchants increase sales and
+													PipePay helps online merchants increase sales and
 													conversion rate and at the same protects the buyers
 													interest.
 												</p>
@@ -81,7 +81,7 @@ class Home extends React.PureComponent {
 									<h3 className="other-title">Send Invoice</h3>
 									<p className="whyuse-p">
 										Send an invoice to your buyers email from your dashboard.
-										You can split the payment of the delivery fee and pipepay
+										You can split the payment of the delivery fee and PipePay
 										fee with the buyer.
 									</p>
 								</div>
@@ -115,7 +115,7 @@ class Home extends React.PureComponent {
 				</section>
 				<section id="whyuse" className="whyuse">
 					<div className="container">
-						<h1 className="home-section-title-inverse">Why Use Pipepay</h1>
+						<h1 className="home-section-title-inverse">Why Use PipePay</h1>
 						<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 							<div className="col-lg-4 col-md-4 col-sm-4 col-xs-12 text-center">
 								<img src="./assets/lego.svg" height={80} width={80} />
@@ -189,7 +189,7 @@ class Home extends React.PureComponent {
 							</div>
 						</div>
 						<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 noPad shrink">
-							<h4 className="other-title">Pipepay</h4>
+							<h4 className="other-title">PipePay</h4>
 							<p className="whyuse-p">
 								Simple escrow solution designed to help merchants easily
 								increase conversion rate and protect buyers interest.
@@ -202,7 +202,7 @@ class Home extends React.PureComponent {
 					<br />
 					<div className="container">
 						<p className="text-center" id="copy-p">
-							© Pipepay.africa {new Date().getFullYear()}
+							© Pipepay.co {new Date().getFullYear()}
 						</p>
 					</div>
 				</section>

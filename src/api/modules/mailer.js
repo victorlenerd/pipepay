@@ -28,7 +28,7 @@ const transporter = nodemailer.createTransport({
 	}
 });
 
-const from = "Pipepay <hello@pipepay.africa>";
+const from = "PipePay <hello@pipepay.africa>";
 
 export const sendInvoiceMail = ({ customerEmail, totalPrice }) =>
 	new Promise((resolve, reject) => {
@@ -67,7 +67,7 @@ export const sendReceiptMail = (
 	new Promise(async (resolve, reject) => {
 		let mailOption = {
 			from,
-			subject: "Pipepay Payment Receipt",
+			subject: "PipePay Payment Receipt",
 			text: `${customerName} made payment of ${amount}`
 		};
 		Promise.race([
@@ -106,13 +106,13 @@ const makeDisputeMail = (invoice, disputeType, reason) => {
 					<tr>
 						<td>Type</td>
 						<td>Description</td>
-						<td>Who Paid Pipepay Fee</td>
+						<td>Who Paid PipePay Fee</td>
 						<td>Who Paid Delivery Fee</td>
 						<td>Price Of Good</td>
 						<td>Delivery Fee</td>
 						<td>Bank Charges</td>
-						<td>Pipepay Fee</td>
-						<td>Matchant ID</td>
+						<td>PipePay Fee</td>
+						<td>Merchant ID</td>
 						<td>Customer Name</td>
 						<td>Customer Email</td>
 						<td>Customer Phone</td>
@@ -165,8 +165,8 @@ const makeDisputeMail = (invoice, disputeType, reason) => {
 					<td>Description</td>
 					<td>Price Of Good</td>
 					<td>Bank Charges</td>
-					<td>Pipepay Fee</td>
-					<td>Matchant ID</td>
+					<td>PipePay Fee</td>
+					<td>Merchant ID</td>
 					<td>Customer Name</td>
 					<td>Customer Email</td>
 					<td>Customer Phone</td>
@@ -404,7 +404,7 @@ export const sendInvoiceConfirmSent = (
 
 		let mailOption = {
 			from,
-			subject: "Pipepay Invoice Sent",
+			subject: "PipePay Invoice Sent",
 			html: body
 		};
 
@@ -445,13 +445,13 @@ export const sendTransefConfirm = (
 
 		<p>
 			Thanks,
-			Your friends at Pipepay
+			Your friends at PipePay
 		</p>
 	`;
 
 		let mailOption = {
 			from,
-			subject: "Pipepay Payment Transfer"
+			subject: "PipePay Payment Transfer"
 		};
 
 		try {
