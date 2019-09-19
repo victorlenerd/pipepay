@@ -204,6 +204,8 @@ class Invoice extends React.PureComponent<Props & RouteComponentProps, State> {
 			requestSentSuccessMessage
 		} = this.state;
 
+		if (!invoice) return null;
+
 		return (
 			<section className="section">
 				<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
