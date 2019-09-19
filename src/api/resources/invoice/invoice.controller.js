@@ -24,15 +24,15 @@ export default generateController(InvoiceModel, {
 			body.purchaseAmount = Number(body.purchaseAmount);
 			body.deliveryAmount = Number(body.deliveryAmount);
 
-			body.bankCharges = 50;
-			body.pipePayFee = 1000;
-			body.totalPrice = body.purchaseAmount + body.deliveryAmount;
+			body.bankCharges = 100;
+			body.pipePayFee = Math.min((body.purchaseAmount * 5) / 100, 5000) + body.bankCharges;
+			body.totalPrice = body.purchaseAmount + body.deliveryAmount + body.pipePayFee;
 		} else {
 			body.bankCharges = body.milestones.length * 50;
 			body.purchaseAmount = body.milestones.reduce((pv, { amount }) => {
 				return Number(amount) + pv;
 			}, 0);
-			body.pipePayFee = 1000;
+			body.pipePayFee = Math.min((body.purchaseAmount * 5) / 100, 5000) + body.bankCharges;
 			body.deliveryAmount = 0;
 			body.totalPrice = body.purchaseAmount + body.pipePayFee;
 		}
