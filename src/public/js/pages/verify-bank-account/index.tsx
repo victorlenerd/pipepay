@@ -21,6 +21,10 @@ class VerifyBackAccount extends React.PureComponent<Props & RouteComponentProps>
 
 	formEl = React.createRef<HTMLFormElement>();
 
+	async componentDidMount() {
+		await this.fetchBanks()
+	}
+
 	fetchBanks = async () => {
 		NProgress.start();
 		fetch("/api/banks", {
