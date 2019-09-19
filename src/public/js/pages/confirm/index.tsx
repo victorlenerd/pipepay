@@ -34,31 +34,33 @@ class Confirm extends React.Component<RouteComponentProps> {
 		// @ts-ignore: not sure why params
 		let token = match.params ? match.params.token : null;
 
-		if (token) {
-			nprogess.start();
-			fetch(`/api/confirm/${token}`, {
-				method: "GET",
-				headers: {
-					"Content-Type": "application/javascript"
-				}
-			})
-				.then(res => res.json())
-				.then(res => {
-					if (res.success) {
-						this.setState({
-							status: res.data.status,
-							invoiceId: res.data._id,
-							type: res.data.type
-						});
-					} else {
-						this.setState({ error: true, errorMessage: res.error });
+		if (window) {
+			if (token) {
+				nprogess.start();
+				fetch(`/api/confirm/${token}`, {
+					method: "GET",
+					headers: {
+						"Content-Type": "application/javascript"
 					}
+				})
+					.then(res => res.json())
+					.then(res => {
+						if (res.success) {
+							this.setState({
+								status: res.data.status,
+								invoiceId: res.data._id,
+								type: res.data.type
+							});
+						} else {
+							this.setState({ error: true, errorMessage: res.error });
+						}
 
-					this.setState({ requesting: false });
-					nprogess.done();
-				});
-		} else {
-			this.setState({ error: true });
+						this.setState({ requesting: false });
+						nprogess.done();
+					});
+			} else {
+				this.setState({ error: true });
+			}
 		}
 	}
 
