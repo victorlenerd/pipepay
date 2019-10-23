@@ -305,7 +305,7 @@ li a:visited {
     border-radius: 100px;
     margin-bottom: 50px;
     padding: 20px;
-    box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.1), 
+    box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.1),
                 -5px 0px 5px rgba(0, 0, 0, 0.1);
 
     background-color: #fff;
@@ -348,15 +348,15 @@ li a:visited {
     list-style: none;
 }
 
-#footer-links a { 
+#footer-links a {
     color: #2C3E50 !important;
 }
 
-#footer-links a:hover { 
+#footer-links a:hover {
     color: #2C3E50 !important;
 }
 
-#footer-links a:visited { 
+#footer-links a:visited {
     color: #2C3E50 !important;
 }
 
@@ -399,6 +399,11 @@ li a:visited {
 .faq {
     padding-bottom: 50px;
     background: #20232a;
+}
+
+.faq-title {
+    color: #ffffff;
+    text-transform: uppercase;
 }
 
 .accordion__title, .other-title {

@@ -2,8 +2,8 @@ import http from "http";
 import app from "./server";
 import config from "./config";
 const server = http.createServer(app);
-let currentApp = app;
 
+let currentApp = app;
 const port = config.port;
 
 server.listen(port, () => {

@@ -73,7 +73,7 @@ const WhoPaysFee = ({ submit, back }: Props) => {
 				/>
 				&nbsp;&nbsp;
 				<label htmlFor={`who_pays_${type.toLowerCase()}_fee_merchant`}>
-					merchant
+					Merchant
 				</label>
 				<p>
 					As the merchant the {type} fee would be deducted from the purchase
