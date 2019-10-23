@@ -24,8 +24,6 @@ const envs = {
 	SECRET_KEY: JSON.stringify(process.env.SECRET_KEY)
 };
 
-console.log({ envs });
-
 module.exports = [
 	{
 		entry: ["./src/index.ts"],
@@ -54,8 +52,7 @@ module.exports = [
 								plugins: [
 									"@babel/transform-regenerator",
 									"@babel/plugin-transform-runtime",
-									"transform-class-properties",
-									"react-hot-loader/babel"
+									"transform-class-properties"
 								]
 							}
 						}
@@ -102,7 +99,7 @@ module.exports = [
 	{
 		entry: ["./src/public/js/index.tsx"],
 		watch: false,
-		mode: "production",
+		mode: "development",
 		devtool: "sourcemap",
 		target: "web",
 		module: {

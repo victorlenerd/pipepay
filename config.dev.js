@@ -64,15 +64,7 @@ module.exports = [
 				},
 				{
 					test: /\.css$/,
-					loader: 'style-loader'
-				},
-				{
-					test: /\.css$/,
-					loader: 'css-loader',
-					query: {
-						modules: true,
-						localIdentName: '[name]__[local]___[hash:base64:5]'
-					}
+					loader: 'node-style-loader!css-loader',
 				},
 				{
 					test: /\.(png|jpg|gif|svg)$/,
@@ -81,7 +73,10 @@ module.exports = [
 			]
 		},
 		plugins: [
-			new StartServerPlugin("server.js"),
+			new StartServerPlugin({
+				name: "server.js",
+				nodeArgs: ['--inspect=0.0.0.0']
+			}),
 			new webpack.NamedModulesPlugin(),
 			new webpack.HotModuleReplacementPlugin(),
 			new webpack.NoEmitOnErrorsPlugin(),
@@ -141,15 +136,7 @@ module.exports = [
 				},
 				{
 					test: /\.css$/,
-					loader: 'style-loader'
-				},
-				{
-					test: /\.css$/,
-					loader: 'css-loader',
-					query: {
-						modules: true,
-						localIdentName: '[name]__[local]___[hash:base64:5]'
-					}
+					use: ["style-loader", "css-loader"]
 				}
 			]
 		},

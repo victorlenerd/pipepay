@@ -19,7 +19,6 @@ import Report from "./pages/report";
 import NewInvoice from "./pages/newinvoice";
 import Settings from "./pages/settings";
 import Confirm from "./pages/confirm";
-import Pricing from "./pages/pricing";
 import Terms from "./pages/terms";
 import Privacy from "./pages/privacy";
 
@@ -178,7 +177,6 @@ class App extends Component {
 					</div>
 					<Switch>
 						<Route exact path="/" render={() => WithHeader(Home)} />
-						<Route exact path="/pricing" render={() => WithHeader(Pricing)} />
 						<Route
 							path="/signin"
 							render={() =>
