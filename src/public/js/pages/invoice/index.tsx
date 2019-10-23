@@ -354,7 +354,7 @@ class Invoice extends React.PureComponent<Props & RouteComponentProps, State> {
 											className="invoice-payment-report-btn"
 											onClick={this.openReport}
 										>
-											Report Issue
+											Open Dispute
 										</button>
 									</>
 								)}

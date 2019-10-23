@@ -76,11 +76,8 @@ class Report extends React.PureComponent<Props, State> {
 										}
 										required
 									>
-										<option value="Marchandise has been delivered buyer is not responding">
-											Marchandise has been delivered buyer is not responding
-										</option>
-										<option value="Milestone has been completed buyer is not responding">
-											Milestone has been completed buyer is not responding
+										<option value="Buyer is not responding after delivery.">
+												Buyer is not responding after delivery.
 										</option>
 										<option value="Other">Other</option>
 									</select>

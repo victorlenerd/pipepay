@@ -68,6 +68,13 @@ const DisputeController = generateController(DisputeModel, {
 					}
 				}
 			);
+		} else {
+			res.status(400).send({
+				success: false,
+				error: {
+					message: "Invoice has not being paid for"
+				}
+			});
 		}
 	}
 });
