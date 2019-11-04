@@ -51,7 +51,7 @@ const FAQ = () => (
 			<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 				<h3 className="faq-title">What If there is dispute?</h3>
 				<p className="faq-body">
-					We carefully assess the situation and consider who's
+					If there is dispute during the transaction process i.e "The goods the buyer received is not what they ordered", the buyer has the option to open a dispute which causes the transaction to go into an inspection period. During the inspection period both the buyer and seller are to resolve the cause of dispute within 72 hours. if a resolution is not met within 72 hours a PipePay agent shall step in and resolve the dispute fairly and promptly.
 				</p>
 			</div>
 		</div>
