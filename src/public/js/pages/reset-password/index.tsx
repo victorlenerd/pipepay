@@ -17,7 +17,7 @@ class ResetPassword extends React.PureComponent<RouteComponentProps, State> {
 
 	formEl = React.createRef<HTMLFormElement>();
 
-	async submit(e) {
+	submit = async (e) => {
 		e.preventDefault();
 		const { username } = this.props.location.state;
 
@@ -37,7 +37,7 @@ class ResetPassword extends React.PureComponent<RouteComponentProps, State> {
 				error: "Please fill all the required fields."
 			});
 		}
-	}
+	};
 
 	render() {
 		return (

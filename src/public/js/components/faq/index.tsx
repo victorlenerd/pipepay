@@ -27,13 +27,14 @@ const FAQ = () => (
 			<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 				<h3 className="faq-title">Who Can Create A Transaction?</h3>
 				<p className="faq-body">
-					At this point only sellers can create transactions.
+					Only sellers can create transactions.
 				</p>
 			</div>
 			<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 				<h3 className="faq-title">Who Pays For The Transaction?</h3>
 				<p className="faq-body">
 					The payment for the transaction can be paid by the seller or buyer or it could be shared between both buyer ans seller.
+					The transaction cost is 5% + ₦100 which is capped at 5000.
 				</p>
 			</div>
 		</div>

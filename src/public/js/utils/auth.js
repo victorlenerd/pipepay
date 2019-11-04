@@ -1,5 +1,4 @@
 import {
-	AmazonCognitoIdentity,
 	AuthenticationDetails,
 	CognitoUserPool,
 	CognitoUserAttribute,
