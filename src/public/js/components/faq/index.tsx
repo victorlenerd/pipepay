@@ -27,13 +27,14 @@ const FAQ = () => (
 			<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 				<h3 className="faq-title">Who Can Create A Transaction?</h3>
 				<p className="faq-body">
-					At this point only sellers can create transactions.
+					Only sellers can create transactions.
 				</p>
 			</div>
 			<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 				<h3 className="faq-title">Who Pays For The Transaction?</h3>
 				<p className="faq-body">
 					The payment for the transaction can be paid by the seller or buyer or it could be shared between both buyer ans seller.
+					The transaction cost is 5% + ₦100 which is capped at 5000.
 				</p>
 			</div>
 		</div>
@@ -50,7 +51,7 @@ const FAQ = () => (
 			<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 				<h3 className="faq-title">What If there is dispute?</h3>
 				<p className="faq-body">
-					We carefully assess the situation and consider who's
+					If there is dispute during the transaction process i.e "The goods the buyer received is not what they ordered", the buyer has the option to open a dispute which causes the transaction to go into an inspection period. During the inspection period both the buyer and seller are to resolve the cause of dispute within 72 hours. if a resolution is not met within 72 hours a PipePay agent shall step in and resolve the dispute fairly and promptly.
 				</p>
 			</div>
 		</div>

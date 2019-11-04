@@ -119,6 +119,11 @@ class Home extends React.PureComponent {
 						<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 							<FAQ />
 						</div>
+						<div className="col-lg-12 col-md-12 col-sm-12 col-lg-12">
+							<div className="text-center">
+								<h1 className="price-amount">All for less than ₦5000</h1>
+							</div>
+						</div>
 					</div>
 				</section>
 
