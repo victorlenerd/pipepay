@@ -3,11 +3,9 @@ import recode from "../../modules/recode";
 import generateController from "../../modules/generateController";
 import { CreateInvoice } from "../../modules/invoice";
 import { sendInvoiceConfirmSent } from "../../modules/mailer";
-import { getTime, format, subHours } from "date-fns";
 const Sentry = require("@sentry/node");
 
-const QUERY_PARAMS =
-	"_id type deliveryAmount customerName customerPhone customerEmail created_at purchaseAmount totalPrice whoPaysDeliveryFee whoPaysPipepayFee milestones pipePayFee bankCharges status requested disputed";
+const QUERY_PARAMS = "_id type deliveryAmount customerName customerPhone customerEmail created_at purchaseAmount totalPrice whoPaysDeliveryFee whoPaysPipepayFee milestones pipePayFee bankCharges status requested disputed";
 
 export default generateController(InvoiceModel, {
 	createOne: async (req, res) => {
@@ -20,19 +18,22 @@ export default generateController(InvoiceModel, {
 
 		body.verifyCode = recode();
 
+		const pipepay_fee_percent = 5;
+		const pipepay_fee_cap = 5000;
+
 		if (body.type === "good") {
 			body.purchaseAmount = Number(body.purchaseAmount);
 			body.deliveryAmount = Number(body.deliveryAmount);
 
-			body.bankCharges = 100;
-			body.pipePayFee = Math.min((body.purchaseAmount * 5) / 100, 5000) + body.bankCharges;
+			body.bankCharges = 150;
+			body.pipePayFee = Math.min((body.purchaseAmount * pipepay_fee_percent) / 100, pipepay_fee_cap) + body.bankCharges;
 			body.totalPrice = body.purchaseAmount + body.deliveryAmount + body.pipePayFee;
 		} else {
-			body.bankCharges = body.milestones.length * 50;
+			body.bankCharges = body.milestones.length * 150;
 			body.purchaseAmount = body.milestones.reduce((pv, { amount }) => {
 				return Number(amount) + pv;
 			}, 0);
-			body.pipePayFee = Math.min((body.purchaseAmount * 5) / 100, 5000) + body.bankCharges;
+			body.pipePayFee = Math.min((body.purchaseAmount * pipepay_fee_percent) / 100, pipepay_fee_cap) + body.bankCharges;
 			body.deliveryAmount = 0;
 			body.totalPrice = body.purchaseAmount + body.pipePayFee;
 		}
