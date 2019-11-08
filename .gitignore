@@ -4,7 +4,7 @@
 node_modules/
 
 
-/src/public/assets/js/bundle.js
+/src/public/assets/js/
 # testing
 coverage
 

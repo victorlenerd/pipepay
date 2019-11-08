@@ -51,6 +51,7 @@ class ForgotPassword extends React.PureComponent<RouteComponentProps> {
 							<div className="form-error">{this.state.error}</div>
 						)}
 						<input
+							required
 							type="email"
 							name="email"
 							placeholder="Email"

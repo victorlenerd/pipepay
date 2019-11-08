@@ -125,7 +125,7 @@ class SignIn extends React.PureComponent<Props & RouteComponentProps, State> {
 								<br />
 								<br />
 								<div id="have-account">
-									<Link className="text-centr" to="signup">
+									<Link className="text-centr" to="register">
 										I haven't created an account
 									</Link>
 								</div>
