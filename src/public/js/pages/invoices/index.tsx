@@ -1,6 +1,6 @@
 import React from "react";
 import { withRouter, RouteComponentProps } from "react-router-dom";
-import { subHours, formatDistanceToNow } from "date-fns";
+import { subHours } from "date-fns";
 import NProgress from "nprogress";
 import AppContext from "../../contexts/app.context";
 
@@ -82,7 +82,7 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 		this.setState({ prevY: y });
 	}
 
-	abbreviate_number = function(num, fixed) {
+	abbreviate_number = function(num, fixed ?: number) {
 		if (num === null) {
 			return null;
 		} // terminate early
@@ -251,7 +251,7 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 								</div>
 							</div>
 							<div className="container" style={{ marginTop: 100 }}>
-								<div className="col-lg-8 col-md-8 col-lg-offset-2 col-md-offset-2 col-sm-12 col-xs-12 spread">
+								<div className="col-lg-8 col-md-8 col-sm-12 col-xs-12 spread">
 									<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
 										<div className="col-lg-8 col-md-8 col-sm-12 col-xs-8">
 											<input
@@ -275,11 +275,11 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 										</div>
 									</div>
 									<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-										<ul className="invoices" type="none">
-											{this.state.invoices.length > 0 ? (
-												this.state.invoices.map((invoice, i) => {
+										<ul className="invoices" list-type="none">
+											{this.state.invoices.length > 0 ? (this.state.invoices.map((invoice, i) => {
 													return (
 														<li
+															// @ts-ignore:
 															ref={r => (this.listInvoices[i] = r)}
 															key={i}
 															onClick={() => this.openInvoice(invoice)}

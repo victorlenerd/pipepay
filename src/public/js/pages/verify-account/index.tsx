@@ -50,7 +50,7 @@ class VerifyAccount extends React.PureComponent<IProps & RouteComponentProps> {
 						setCurrentUser(payload);
 
 						NProgress.done();
-						history.push("/verifyaccn");
+						history.push("/verify-account");
 						return;
 					} else {
 						this.setState({

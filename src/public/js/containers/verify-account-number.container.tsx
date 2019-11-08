@@ -30,8 +30,8 @@ class VerifyAccountNumberContainer extends React.PureComponent<IProps> {
 		accountName: ""
 	};
 
-	componentDidMount() {
-		this.fetchBanks();
+	async componentDidMount() {
+		await this.fetchBanks();
 	}
 
 	fetchBanks = async () => {
@@ -110,7 +110,7 @@ class VerifyAccountNumberContainer extends React.PureComponent<IProps> {
 		e.preventDefault();
 		const { accountNumber, bankCode } = this.state;
 
-		this.context.confirmPassword(
+		this.appContext.confirmPassword(
 			async (): Promise<void> => {
 				if (accountNumber && bankCode) {
 					nprogress.start();
