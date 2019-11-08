@@ -126,7 +126,7 @@ class SignUp extends React.PureComponent<RouteComponentProps> {
 								</form>
 							</div>
 							<div className="word text-center">
-								<Link to="signin">
+								<Link to="login">
 									<p>I Have An Existing Account</p>
 								</Link>
 							</div>
