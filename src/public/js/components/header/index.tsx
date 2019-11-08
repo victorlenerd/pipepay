@@ -1,9 +1,7 @@
-//@flow
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { HashLink as Link } from "react-router-hash-link";
 import { RouteComponentProps } from "react-router-dom";
-import { Navbar, NavItem, Nav } from "react-bootstrap";
 import { signOut } from "../../utils/auth";
 
 interface IProps {
@@ -31,7 +29,7 @@ class Header extends React.PureComponent<IProps & RouteComponentProps, State> {
 		}
 	}
 
-	componentWillReceiveProps({ location }) {
+	componentDidUpdate({ location }) {
 		this.setState({ pathname: location.pathname });
 	}
 
@@ -47,15 +45,15 @@ class Header extends React.PureComponent<IProps & RouteComponentProps, State> {
 		const { pathname } = this.state;
 		return (
 			pathname === "/" ||
-			pathname === "/signin" ||
-			pathname === "/signup" ||
+			pathname === "/login" ||
+			pathname === "/register" ||
 			pathname === "/faq" ||
 			pathname === "/terms" ||
 			pathname === "/howitworks" ||
 			pathname === "/privacy" ||
 			pathname === "/pricing" ||
-			pathname === "/forgotpassword" ||
-			pathname === "/resetpassword"
+			pathname === "/forgot-password" ||
+			pathname === "/reset-password"
 		);
 	};
 
@@ -64,73 +62,54 @@ class Header extends React.PureComponent<IProps & RouteComponentProps, State> {
 		const { history, signedIn, user } = this.props;
 
 		return (
-			<Navbar fixedTop collapseOnSelect id="navbar-default">
+			<nav className="navbar navbar-default navbar-fixed-top" id="navbar-default">
 				<div className="container">
-					<Navbar.Header>
+					<div className="navbar-header">
 						<Link to="/" className="navbar-brand">
 							PipePay
 						</Link>
-						<Navbar.Toggle />
-					</Navbar.Header>
-					<Navbar.Collapse>
+						<button className="navbar-toggle"/>
+					</div>
+					<div className="navbar-collapse">
 						{!signedIn && (
-							<Nav pullRight>
-								<NavItem
-									active={pathname === "/"}
-									onClick={() => this.props.history.push("/")}
-								>
-									Home
-								</NavItem>
-								<li className={pathname === "/#howitworks" ? "active" : ""}>
+							<ul className="nav navbar-nav navbar-right">
+								<li>
+									<Link to="/">Home</Link>
+								</li>
+								<li>
 									<Link to="/#howitworks">How It Works</Link>
 								</li>
-								<li className={pathname === "/#pricing" ? "active" : ""}>
-									<Link to="/#pricing">Pricing</Link>
-								</li>
-								<li className={pathname === "/#faq" ? "active" : ""}>
+								<li>
 									<Link to="/#faq">F.A.Q</Link>
 								</li>
-								<NavItem
-									active={pathname === "/signup"}
-									onClick={() => history.push("/signup")}
-									id="register-btn-link"
-									className="action-header register-btn"
-								>
-									Register
-								</NavItem>
-								<NavItem
-									active={pathname === "/signin"}
-									onClick={() => history.push("/signin")}
-									className="action-header login-btn"
-								>
-									Login
-								</NavItem>
-						</Nav>
+								<li>
+									<Link to="/register">Register</Link>
+								</li>
+								<li>
+									<Link to="/login">Login</Link>
+								</li>
+						</ul>
 						)}
 						{signedIn && (
-							<Nav pullRight>
-								<li className={pathname === "/invoices" ? "active" : ""}>
+							<ul className="nav navbar-nav navbar-right">
+								<li>
 									<Link to="/invoices">Invoices</Link>
 								</li>
-								<li className={pathname === "/newinvoice" ? "active" : ""}>
-									<Link to="/newinvoice">Send Invoice</Link>
+								<li>
+									<Link to="/new-invoice">Send Invoice</Link>
 								</li>
-								<NavItem
-									key='/settings'
-									active={pathname === "/settings"}
-									onClick={() => history.push("/settings")}
-								>
-									Settings
-								</NavItem>
-								<NavItem
+								<li>
+									<Link to="/setting">Send Invoice</Link>
+								</li>
+								<li
 									key='/signout'
 									onClick={() => this.signOut()}>
 									Sign Out ({user.name})
-								</NavItem>
-						</Nav>)}
-					</Navbar.Collapse>
+								</li>
+						</ul>)}
+					</div>
 				</div>
-			</Navbar>
+			</nav>
 		);
 	}
 }

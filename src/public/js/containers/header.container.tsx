@@ -4,14 +4,14 @@ import Header from "../components/header";
 import AppContext from "../contexts/app.context";
 
 const WithHeader = Comp => (
-	<AppContext>
+	<AppContext.Consumer>
 		{values => (
 			<React.Fragment>
 				<Header {...values} />
 				<Comp {...values} />
 			</React.Fragment>
 		)}
-	</AppContext>
+	</AppContext.Consumer>
 );
 
 export default WithHeader;

@@ -30,14 +30,7 @@ const DisputeController = generateController(DisputeModel, {
 		body.invoiceId = _id;
 
 		if (status !== "sent" && status !== "approved") {
-			InvoiceModel.findOneAndUpdate(
-				{
-					_id
-				},
-				{
-					disputed: true,
-					status: "rejected"
-				},
+			InvoiceModel.findOneAndUpdate({ _id }, { disputed: true,  status: "rejected" },
 				async (err, doc) => {
 					if (err) {
 						Sentry.captureException(err);

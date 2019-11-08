@@ -29,7 +29,7 @@ class ForgotPassword extends React.PureComponent<RouteComponentProps> {
 				NProgress.start();
 				await forgotPassword(username);
 				NProgress.done();
-				this.props.history.push("/resetpassword", { username });
+				this.props.history.push("/reset-password", { username });
 			} catch (err) {
 				this.setState({ error: err.message });
 			}
