@@ -58,7 +58,7 @@ class Home extends React.PureComponent {
 												</p>
 											</div>
 											<div className="sign-buttons text-center">
-												<Link to="/signup" className="sign-button signIn">
+												<Link to="register" className="sign-button signIn">
 													Get Started
 												</Link>
 											</div>
@@ -118,11 +118,6 @@ class Home extends React.PureComponent {
 						<h1 className="home-section-title">Frequently Asked Questions</h1>
 						<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 							<FAQ />
-						</div>
-						<div className="col-lg-12 col-md-12 col-sm-12 col-lg-12">
-							<div className="text-center">
-								<h1 className="price-amount">All for less than ₦5000</h1>
-							</div>
 						</div>
 					</div>
 				</section>
