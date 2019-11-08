@@ -2,7 +2,6 @@ import crypto from "crypto";
 import PaymentModel from "./payment.model";
 import InvoiceModel from "../invoice/invoice.model";
 import generateController from "../../modules/generateController";
-import Transfer from "../../modules/transfer";
 
 const Sentry = require("@sentry/node");
 
@@ -40,15 +39,9 @@ export default generateController(PaymentModel, {
 
 					const {
 						_id,
-						type,
-						whoPaysDeliveryFee,
-						customerName,
 						customerEmail,
-						merchantName,
 						merchantEmail,
-						merchantBankCode,
-						deliveryAmount,
-						merchantAccountNumber
+						deliveryAmount
 					} = doc;
 
 					try {
@@ -74,7 +67,8 @@ export default generateController(PaymentModel, {
 		}
 	},
 	getOne: (req, res) => {
-		var id = req.params.invoiceId;
+		const id = req.params.invoiceId;
+
 		PaymentModel.findOne({ invoiceId: id }, function(err, doc) {
 			if (err) {
 				Sentry.captureException(err);

@@ -30,7 +30,7 @@ class Settings extends React.PureComponent<Props, State> {
 	appContext: any;
 
 	changePassword = (e: any) => {
-		const { oldPassword, newPassword, confirmPassword, user } = this.state;
+		const { oldPassword, newPassword, confirmPassword } = this.state;
 
 		e.preventDefault();
 
@@ -88,7 +88,7 @@ class Settings extends React.PureComponent<Props, State> {
 													type="password"
 													className="text-input"
 													id="old-password"
-													name="oldpassword"
+													name="old-password"
 													onChange={e =>
 														this.setState({ oldPassword: e.target.value })
 													}
@@ -101,7 +101,7 @@ class Settings extends React.PureComponent<Props, State> {
 													type="password"
 													className="text-input"
 													id="new-password"
-													name="newpassword"
+													name="new-password"
 													onChange={e =>
 														this.setState({ newPassword: e.target.value })
 													}
@@ -114,7 +114,7 @@ class Settings extends React.PureComponent<Props, State> {
 													type="password"
 													className="text-input"
 													id="confirm-password"
-													name="confirmpassword"
+													name="confirm-password"
 													onChange={e =>
 														this.setState({ confirmPassword: e.target.value })
 													}
@@ -171,7 +171,7 @@ class Settings extends React.PureComponent<Props, State> {
 															<select
 																className="text-input"
 																required
-																name="selectbank"
+																name="select-bank"
 																onChange={e => setBankCode(e.target.value)}
 																defaultValue={bankCode}
 															>
@@ -189,7 +189,7 @@ class Settings extends React.PureComponent<Props, State> {
 														<label htmlFor="">Account Number</label>
 														<input
 															type="text"
-															name="accountnumber"
+															name="account-number"
 															defaultValue={accountNumber}
 															onChange={e => setAccountNumber(e.target.value)}
 															placeholder="Account Number"

@@ -7,8 +7,8 @@ import WithHeader from "./containers/header.container";
 import AppContext from "./contexts/app.context";
 
 import Home from "./pages/home";
-import SignIn from "./pages/signin";
-import CreateAccount from "./pages/signup";
+import SignIn from "./pages/login";
+import CreateAccount from "./pages/register";
 import ForgotPassword from "./pages/forgot-password";
 import VerifyAccount from "./pages/verify-account";
 import ResetPassword from "./pages/reset-password";
@@ -24,6 +24,7 @@ import Privacy from "./pages/privacy";
 
 import { init, signin, userPool, getSession, signOut } from "./utils/auth";
 import NProgress from "nprogress";
+import ReAuthModal from "./components/modal/reauth";
 
 interface IState {
 	signedIn: boolean
@@ -54,7 +55,6 @@ class App extends Component {
 			init()
 				.getCurrentUser()
 				.getSession(async (err, result) => {
-					console.log({ err, result });
 					if (result && result.isValid()) {
 						const { idToken } = result;
 						const { payload, jwtToken } = idToken;
@@ -83,7 +83,9 @@ class App extends Component {
 		this.setState({ confirmPasswordCallback: callback });
 	};
 
-	loginAgain = async () => {
+	loginAgain = async (e) => {
+		e.preventDefault();
+
 		try {
 			await signin(
 				this.state.user["cognito:username"],
@@ -134,123 +136,24 @@ class App extends Component {
 
 		return (
 				<AppContext.Provider value={this.state}>
-					<div
-						id="confirm-password-modal"
-						className="modal fade bs-example-modal-sm"
-						tabIndex={-1}
-						role="dialog"
-						aria-labelledby="mySmallModalLabel"
-					>
-						<div className="modal-dialog modal-sm" role="document">
-							<div className="modal-content">
-								<div className="modal-header">
-									<button
-										type="button"
-										className="close"
-										data-dismiss="modal"
-										aria-label="Close"
-									>
-										<span aria-hidden="true">&times;</span>
-									</button>
-									<h4 className="modal-title" id="myModalLabel">
-										Enter Password
-									</h4>
-								</div>
-								<div className="modal-body">
-									{error && <div className="alert aler-danger">{error}</div>}
-									<input
-										type="password"
-										className="form-control"
-										ref={this.confirmPasswordEl}
-									/>
-								</div>
-								<div className="modal-footer">
-									<input
-										type="button"
-										className="btn btn-small btn-primary"
-										value="Submit"
-										onClick={this.loginAgain}
-									/>
-								</div>
-							</div>
-						</div>
-					</div>
+					<ReAuthModal
+						error={error}
+						loginAgain={this.loginAgain}
+						confirmPasswordEl={this.confirmPasswordEl}
+					/>
 					<Switch>
 						<Route exact path="/" render={() => WithHeader(Home)} />
-						<Route
-							path="/signin"
-							render={() =>
-								!signedIn ? WithHeader(SignIn) : <Redirect to="/invoices" />
-							}
-						/>
-						<Route
-							path="/signup"
-							render={() =>
-								!signedIn ? (
-									WithHeader(CreateAccount)
-								) : (
-									<Redirect to="/invoices" />
-								)
-							}
-						/>
-						<Route
-							path="/forgotpassword"
-							render={() =>
-								!signedIn ? (
-									WithHeader(ForgotPassword)
-								) : (
-									<Redirect to="/invoices" />
-								)
-							}
-						/>
-						<Route
-							path="/verifyemail"
-							render={() => WithHeader(VerifyAccount)}
-						/>
-						<Route
-							path="/resetpassword"
-							render={() =>
-								!signedIn ? (
-									WithHeader(ResetPassword)
-								) : (
-									<Redirect to="/invoices" />
-								)
-							}
-						/>
-						<Route
-							path="/verifyaccn"
-							render={() => WithHeader(VerifyBankAccount)}
-						/>
-						<Route
-							path="/invoice/:invoiceId"
-							render={() =>
-								signedIn ? WithHeader(Invoice) : <Redirect to="/" />
-							}
-						/>
-						<Route
-							path="/invoices"
-							render={() =>
-								signedIn ? WithHeader(Invoices) : <Redirect to="/" />
-							}
-						/>
-						<Route
-							path="/report/:invoiceId"
-							render={() =>
-								signedIn ? WithHeader(Report) : <Redirect to="/" />
-							}
-						/>
-						<Route
-							path="/newinvoice"
-							render={() =>
-								signedIn ? WithHeader(NewInvoice) : <Redirect to="/" />
-							}
-						/>
-						<Route
-							path="/settings"
-							render={() =>
-								SignIn ? WithHeader(Settings) : <Redirect to="/" />
-							}
-						/>
+						<Route path="/login" render={() => !signedIn ? WithHeader(SignIn) : <Redirect to="/invoices" /> } />
+						<Route path="/register" render={() => !signedIn ? (WithHeader(CreateAccount)) : (<Redirect to="/invoices" />)} />
+						<Route path="/forgot-password" render={() => !signedIn ? (WithHeader(ForgotPassword)) : (<Redirect to="/invoices" />)} />
+						<Route path="/verify-email" render={() => WithHeader(VerifyAccount)} />
+						<Route path="/reset-password" render={() => !signedIn ? (WithHeader(ResetPassword)) : (<Redirect to="/invoices" />)} />
+						<Route path="/verify-account" render={() => WithHeader(VerifyBankAccount)} />
+						<Route path="/invoice/:invoiceId" render={() => signedIn ? WithHeader(Invoice) : <Redirect to="/" />}/>
+						<Route path="/invoices" render={() => signedIn ? WithHeader(Invoices) : <Redirect to="/" />}/>
+						<Route path="/report/:invoiceId" render={() => signedIn ? WithHeader(Report) : <Redirect to="/" />} />
+						<Route path="/new-invoice" render={() => signedIn ? WithHeader(NewInvoice) : <Redirect to="/" />}/>
+						<Route path="/settings" render={() => SignIn ? WithHeader(Settings) : <Redirect to="/" />}/>
 						<Route path="/confirm/:token" render={() => WithHeader(Confirm)} />
 						<Route path="/terms" render={() => WithHeader(Terms)} />
 						<Route path="/privacy" render={() => WithHeader(Privacy)} />

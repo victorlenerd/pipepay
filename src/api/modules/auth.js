@@ -19,8 +19,10 @@ export const getJWT = () =>
 	});
 
 export const verifyToken = (req, res, next) => {
+
 	const bearerLength = "Bearer ".length;
 	const authorization = req.headers.authorization;
+
 	if (authorization && authorization.length > bearerLength) {
 		const token = authorization.slice(bearerLength);
 		const tokenData = jwt.decode(token, { complete: true });
@@ -45,6 +47,8 @@ export const verifyToken = (req, res, next) => {
 	if (
 		(req.originalUrl.match("/api/payment") !== null &&
 			req.method.toLowerCase() === "post") ||
+		(req.originalUrl.match("/api/seller") !== null &&
+			req.method.toLowerCase() === "post") ||
 		(req.originalUrl.match("/api/payment") !== null &&
 			req.method.toLowerCase() === "get") ||
 		(req.originalUrl.match("/api/banks") !== null &&
@@ -60,6 +64,5 @@ export const verifyToken = (req, res, next) => {
 		return;
 	}
 
-	res.status(403).send({ success: false, error: "Invalid auth token" });
-	return;
+	return res.status(403).send({ success: false, error: "Invalid auth token" });
 };
