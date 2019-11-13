@@ -57,7 +57,7 @@ class SignUp extends React.PureComponent<RouteComponentProps> {
 		return (
 			<React.Fragment>
 				<div id="container">
-					<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 left-from-content">
+					<div className="col-lg-8 col-md-8 col-lg-offset-2 col-md-offset-2 col-sm-12 col-xs-12">
 						<div className="container-main">
 							<div className="header">
 								<h1>Create An Account.</h1>
@@ -118,7 +118,7 @@ class SignUp extends React.PureComponent<RouteComponentProps> {
 									<input
 										type="submit"
 										name="sign up"
-										value="SIGN UP"
+										value="Register"
 										className="text-submit"
 									/>
 									<br />
@@ -134,12 +134,6 @@ class SignUp extends React.PureComponent<RouteComponentProps> {
 								<p>By signing up, you agree to our terms and conditions.</p>
 							</div>
 						</div>
-					</div>
-					<div
-						className="col-lg-6 col-md-6 col-sm-12 col-xs-12 cafe-bg hidden-sm hidden-xs"
-						id="noPad"
-					>
-						<div className="overlay" />
 					</div>
 				</div>
 			</React.Fragment>

@@ -68,9 +68,9 @@ class Header extends React.PureComponent<IProps & RouteComponentProps, State> {
 						<Link to="/" className="navbar-brand">
 							PipePay
 						</Link>
-						<button className="navbar-toggle"/>
+						<button className="navbar-toggle" value="MENU"/>
 					</div>
-					<div className="navbar-collapse">
+					<div className="navbar-collapse collapse">
 						{!signedIn && (
 							<ul className="nav navbar-nav navbar-right">
 								<li>
@@ -99,12 +99,14 @@ class Header extends React.PureComponent<IProps & RouteComponentProps, State> {
 									<Link to="/new-invoice">Send Invoice</Link>
 								</li>
 								<li>
-									<Link to="/setting">Send Invoice</Link>
+									<Link to="/settings">Settings</Link>
 								</li>
 								<li
 									key='/signout'
 									onClick={() => this.signOut()}>
-									Sign Out ({user.name})
+										<a>
+											Sign Out ({user.name})
+										</a>
 								</li>
 						</ul>)}
 					</div>
@@ -114,4 +116,4 @@ class Header extends React.PureComponent<IProps & RouteComponentProps, State> {
 	}
 }
 
-export default withRouter(Header) as React.ComponentType;
+export default withRouter(Header) as React.ComponentType<any>;

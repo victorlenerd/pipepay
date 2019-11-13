@@ -10,13 +10,14 @@ import Home from "./pages/home";
 import SignIn from "./pages/login";
 import CreateAccount from "./pages/register";
 import ForgotPassword from "./pages/forgot-password";
-import VerifyAccount from "./pages/verify-account";
+import VerifyEmail from "./pages/verify-email";
 import ResetPassword from "./pages/reset-password";
 import Invoices from "./pages/invoices";
-import VerifyBankAccount from "./pages/verify-bank-account";
+import VerifyBankAccount from "./pages/verify-account";
 import Invoice from "./pages/invoice";
 import Report from "./pages/report";
-import NewInvoice from "./pages/newinvoice";
+import NewInvoice from "./pages/new-invoice";
+import BusinessInfo from "./pages/business-info";
 import Settings from "./pages/settings";
 import Confirm from "./pages/confirm";
 import Terms from "./pages/terms";
@@ -50,7 +51,7 @@ class App extends Component {
 		setCurrentUser: (user: {} | null) => this.setState({ user, signedIn: user !== null })
 	};
 
-	componentDidMount() {
+	async componentDidMount() {
 		try {
 			init()
 				.getCurrentUser()
@@ -59,6 +60,8 @@ class App extends Component {
 						const { idToken } = result;
 						const { payload, jwtToken } = idToken;
 						payload.token = jwtToken;
+						const userId = payload.sub;
+						payload.sellerInfo = await this.getSellerInfo(userId, jwtToken);
 						this.state.setCurrentUser(payload);
 					} else {
 						this.state.setCurrentUser(null);
@@ -112,23 +115,42 @@ class App extends Component {
 		}
 	};
 
-	updateSession = (callback: () => void) => {
-		getSession(this.state.user["congito:username"])
-			.then(result => {
-				if (result && result.isValid()) {
-					NProgress.done();
-					const { idToken } = result;
+	updateSession = async (callback: () => void) => {
+		const session = await getSession(this.state.user["congito:username"]);
+		if (session && session.isValid()) {
+			NProgress.done();
+			const { idToken } = session;
+			const { payload, jwtToken } = idToken;
+			payload.token = jwtToken;
+			const userId = payload.sub;
+			payload.sellerInfo = await this.getSellerInfo(userId, jwtToken);
+			this.state.setCurrentUser(payload);
+			callback();
+		}
 
-					const { payload, jwtToken } = idToken;
-					payload.token = jwtToken;
-					this.state.setCurrentUser(payload);
-					callback();
-				}
-			})
-			.catch(() => {
-				signOut();
-				this.state.setCurrentUser(null);
-			});
+		await signOut();
+		this.state.setCurrentUser(null);
+	};
+
+	getSellerInfo = async (userId, jwtToken) => {
+		const res = await fetch(`/api/seller/${userId}`, {
+			method: "GET",
+			body: null,
+			headers: {
+				"Content-Type": "application/json",
+				Authorization: `Bearer ${jwtToken}`
+			}
+		});
+
+		const body = await res.json();
+
+		// @ts-ignore: status is involved
+		if (body.status) {
+			// @ts-ignore: status is involved
+			return body.sellerInfo;
+		}
+
+		return null
 	};
 
 	render() {
@@ -146,9 +168,10 @@ class App extends Component {
 						<Route path="/login" render={() => !signedIn ? WithHeader(SignIn) : <Redirect to="/invoices" /> } />
 						<Route path="/register" render={() => !signedIn ? (WithHeader(CreateAccount)) : (<Redirect to="/invoices" />)} />
 						<Route path="/forgot-password" render={() => !signedIn ? (WithHeader(ForgotPassword)) : (<Redirect to="/invoices" />)} />
-						<Route path="/verify-email" render={() => WithHeader(VerifyAccount)} />
+						<Route path="/verify-email" render={() => WithHeader(VerifyEmail)} />
 						<Route path="/reset-password" render={() => !signedIn ? (WithHeader(ResetPassword)) : (<Redirect to="/invoices" />)} />
 						<Route path="/verify-account" render={() => WithHeader(VerifyBankAccount)} />
+						<Route path="/business-info" render={() => WithHeader(BusinessInfo)} />
 						<Route path="/invoice/:invoiceId" render={() => signedIn ? WithHeader(Invoice) : <Redirect to="/" />}/>
 						<Route path="/invoices" render={() => signedIn ? WithHeader(Invoices) : <Redirect to="/" />}/>
 						<Route path="/report/:invoiceId" render={() => signedIn ? WithHeader(Report) : <Redirect to="/" />} />

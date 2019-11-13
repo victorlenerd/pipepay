@@ -101,13 +101,11 @@ export default generateController(InvoiceModel, {
 				});
 			}
 
-			CreateInvoice(
-				{
+			CreateInvoice({
 					email: body.customerEmail,
 					name: body.customerName,
 					phone: body.customerPhone
-				},
-				customerTotalAmount * 100,
+				}, customerTotalAmount * 100,
 				body.description,
 				line_items
 			)

@@ -1,146 +1,203 @@
 import React from "react";
-import { withRouter } from "react-router-dom";
-import { RouteComponentProps } from "react-router-dom";
 import NProgress from "nprogress";
+import { withRouter, RouteComponentProps } from "react-router-dom";
+import { getSession, setAttributes } from "../../utils/auth";
 
-import {
-	confirmRegistration,
-	resendVerificationCode,
-	signin,
-	userPool
-} from "../../utils/auth";
-
-interface IState {
-	error: null | string
-}
-
-interface IProps {
-	location: Location,
+interface Props {
+	user: any,
 	setCurrentUser: (user: any) => void
-}
+};
 
-class VerifyAccount extends React.PureComponent<IProps & RouteComponentProps> {
+class VerifyBackAccount extends React.PureComponent<Props & RouteComponentProps> {
 
-	state: IState = {
-		error: null
+	state = {
+			error: null,
+			canSubmit: false,
+			bankCode: null,
+			banks: [],
+			accountNumber: "",
+			accountName: ""
 	};
 
 	formEl = React.createRef<HTMLFormElement>();
 
-	submit = async e => {
-		e.preventDefault();
-		const { location, history, setCurrentUser } = this.props;
-		const { username, password } = location.state;
+	async componentDidMount() {
+		await this.fetchBanks()
+	}
 
-		if (this.formEl.current.checkValidity() === true) {
-			const verifycode = e.target.verifycode.value;
-			NProgress.start();
-			try {
-				await confirmRegistration(username, verifycode);
-				await signin(username, password);
-
-				const cognitoUser = userPool.getCurrentUser();
-
-				cognitoUser.getSession((err, result) => {
-					if (result && result.isValid()) {
-						const { idToken } = result;
-
-						const { payload, jwtToken } = idToken;
-						payload.token = jwtToken;
-
-						setCurrentUser(payload);
-
-						NProgress.done();
-						history.push("/verify-account");
-						return;
-					} else {
-						this.setState({
-							error: err.message
-						});
-					}
-				});
-			} catch (err) {
-				this.setState({
-					error: err.message
-				});
-				NProgress.done();
+	fetchBanks = async () => {
+		NProgress.start();
+		fetch("/api/banks", {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
 			}
-		} else {
-			this.setState({ error: "Please fill all the required fields." });
-		}
+		})
+			.then(res => res.json())
+			.then(res => {
+				NProgress.done();
+				const { success, data: banks } = res;
+				if (success) this.setState({ banks, bankCode: banks[0].code });
+			});
 	};
 
-	resend = async e => {
+	submit = e => {
+		const { user, setCurrentUser } = this.props;
+		const { bankCode, accountNumber, accountName } = this.state;
 		e.preventDefault();
-		const { location, history } = this.props;
-		const { username, password } = location.state;
-
 		NProgress.start();
+		getSession(user["cognito:username"])
+			.then(async result => {
+				if (result && result.isValid()) {
+					const attributes = [
+						{ Name: "custom:bank_code", Value: bankCode },
+						{ Name: "custom:account_number", Value: accountNumber },
+						{ Name: "custom:account_name", Value: accountName }
+					];
 
-		try {
-			await resendVerificationCode(username, password);
-			NProgress.done();
-		} catch (err) {
-			this.setState({ error: err });
-			NProgress.done();
-		}
+					try {
+						await setAttributes(attributes);
+						setCurrentUser(
+							Object.assign({}, user, {
+								"custom:bank_code": bankCode,
+								"custom:account_number": accountNumber
+							})
+						);
+						NProgress.done();
+						this.props.history.push("/invoices");
+					} catch (err) {
+						return this.setState({ error: err.message });
+					}
+				}
+			})
+			.catch(err => {
+				this.setState({ error: err.message });
+			});
+	};
+
+	setAccountNumber = e => {
+		this.setState({
+			accountNumber: e.target.value,
+			canSubmit: false,
+			accountName: ""
+		});
+	};
+
+	next = () => {
+		const { accountNumber, bankCode } = this.state;
+		NProgress.start();
+		fetch(`/api/banks/verify/${bankCode}/${accountNumber}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(res => res.json())
+			.then(res => {
+				NProgress.done();
+				const { success } = res;
+
+				if (success) {
+					this.setState({
+						accountName: res.data.account_name,
+						canSubmit: true
+					});
+				} else {
+					this.setState({ error: res.error.message, canSubmit: false });
+				}
+			})
+			.catch(() => {
+				NProgress.done();
+				this.setState({
+					error: "Cannot resolve account number"
+				});
+			});
 	};
 
 	render() {
+		const { banks, error, canSubmit, accountName } = this.state;
+
 		return (
 			<div id="container">
-				<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
-					<div className="container-main">
-						<div className="header">
-							<h1>Verify Your Email.</h1>
-							<p>Please enter the verification code sent to your mail.</p>
-						</div>
-						<br />
-						<br />
-						<div className="form">
-							<form
-								ref={this.formEl}
-								name="reg-form"
-								onSubmit={this.submit}
-							>
-								{this.state.error !== null && (
-									<div className="form-error">{this.state.error}</div>
-								)}
-								<label htmlFor="firstname">Verification Code</label>
-								<input
-									type="text"
-									name="verifycode"
-									placeholder="Enter your code"
-									className="text-input"
-									required
-								/>
-								<br />
-								<br />
-								<div className="flow-button">
+				<div className="container-main">
+					<div className="container">
+						<div className="col-lg-8 col-md-8 col-lg-offset-2 col-md-offset-2 col-sm-12 col-xs-12">
+							<div className="header">
+								<h1>Set Up Account Details.</h1>
+							</div>
+							<br />
+							<br />
+							<div className="form">
+								<form ref={this.formEl} name="account-form">
+									{error !== null && <div className="form-error">{error}</div>}
+									<label htmlFor="bank">Select Bank</label>
+									<div>
+										{banks &&
+											banks.length > 0 && (
+												<select
+													className="text-input"
+													required
+													name="selectbank"
+													onChange={e =>
+														this.setState({
+															bankCode: e.target.value,
+															canSubmit: false,
+															accountName: ""
+														})
+													}
+												>
+													{banks.map((bank, i) => {
+														return (
+															<option value={bank.code} key={bank.code}>
+																{bank.name}
+															</option>
+														);
+													})}
+												</select>
+											)}
+									</div>
+									<br />
+									<label htmlFor="">Account Number</label>
 									<input
-										type="submit"
-										name="sign up"
-										value="SUBMIT"
-										className="text-submit"
+										type="text"
+										name="accountnumber"
+										onChange={this.setAccountNumber}
+										placeholder="Account Number"
+										className="text-input"
+										required
 									/>
-									<input
-										type="button"
-										name="resend"
-										value="Resend Code"
-										className="text-submit-inverse"
-										onClick={this.resend}
-									/>
-								</div>
-							</form>
+									<br />
+									<br />
+									{!canSubmit && (
+										<input
+											type="button"
+											id="next-btn"
+											value="VERIFY ACCOUNT NUMBER"
+											onClick={this.next}
+											className="text-submit"
+										/>
+									)}
+									<label htmlFor="">Account Name</label>
+									<p className="text-input">{accountName}</p>
+									<br />
+									<br />
+									{canSubmit && (
+										<input
+											type="submit"
+											id="submit-btn"
+											value="DONE"
+											onClick={this.submit}
+											className="text-submit"
+										/>
+									)}
+								</form>
+							</div>
 						</div>
 					</div>
-				</div>
-				<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 cafe-bg hidden-sm hidden-xs" id="noPad">
-					<div className="overlay" />
 				</div>
 			</div>
 		);
 	}
 }
 
-export default withRouter(VerifyAccount);
+export default withRouter(VerifyBackAccount);

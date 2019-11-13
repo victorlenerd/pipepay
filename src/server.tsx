@@ -8,6 +8,7 @@ import { connect } from "./db";
 import { getJWT } from "./api/modules/auth";
 const collect = require('node-style-loader/collect');
 import ReactApp from './public/js/app';
+import CategoryModel from "./api/resources/categories/categories.model";
 const React = require('react');
 const StaticRouter = require('react-router-dom').StaticRouter;
 const reactDOMServer = require('react-dom/server');
@@ -40,7 +41,7 @@ connect()
 	});
 
 const initialStyleTag = collect.collectInitial();
-const HTML = (body) => `
+const HTML = (body, data) => `
 	<!DOCTYPE html>
 	<html lang="en">
 	<head>
@@ -49,17 +50,35 @@ const HTML = (body) => `
 		<meta name="description" content="Flexible and secure deferred payments for online markets.">
 		<meta name="keywords" content="escrow, payment, nigeria, africa, payment, online, deferred, money, buy, online">
 		
-		<link href="https://stackpath.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous" />
 		<link href="https://fonts.googleapis.com/css?family=Karla:400,400i,700,700i" rel="stylesheet">
 		<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-		<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>
-		<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
+		<script src="https://code.jquery.com/jquery-1.12.4.min.js" integrity="sha256-ZosEbRLbNQzLpnKIkEdrPv7lOy9C27hHQ+Xp8a4MxAQ=" crossorigin="anonymous"></script>	
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha384-HSMxcRTRxnN+Bdg0JdbxYKrThecOKuH5zCYotlSAcp1+c8xmyTe9GYg1l9a69psu" crossorigin="anonymous">
+		<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap-theme.min.css" integrity="sha384-6pzBo3FDv/PJ8r2KRkGHifhEocL+1X2rVCTTkUfGk7/0pbek5mMa1upzvWbrUbOZ" crossorigin="anonymous">
+		<script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha384-aJ21OjlMXNL5UyIl/XNwTMqvzeRMZH2w8c5cRVpzpU8Y5bApTppSuUkhZXN0VxHd" crossorigin="anonymous"></script>
 		
 		<link type="text/css" href="../styles/index.css" rel="stylesheet"  />
 		<link type="text/css" href="../styles/home.css" rel="stylesheet"  />
 		<link type="text/css" href="../styles/nprogress.css" rel="stylesheet"  />
-		
+			
 		<title>PipePay</title>
+		
+		<script type="text/javascript">
+			(function() {
+			  window.__initial_data__ = ${JSON.stringify(data)};
+			})()
+		</script>
+		
+		<!-- Global site tag (gtag.js) - Google Analytics -->
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-151883141-1"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag(){dataLayer.push(arguments);}
+			gtag('js', new Date());
+		
+			gtag('config', 'UA-151883141-1');
+		</script>
+		
 		${initialStyleTag}
 	</head>
 	<body>
@@ -90,15 +109,18 @@ app.use(require("webpack-hot-middleware")(compiler));
 
 app.use("/api", MainRouter);
 
-app.get("(/|/invoices|/invoice/:invoiceId|/login|/register|/forgot-password|/verify-email|/verify-account|/new-invoice|/settings|/request/:invoice|/request/:invoice/:milestoneId|/confirm/:token|/reason|/pricing|/report/:invoiceId|/terms|/privacy)",
-	(req, res) => {
+app.get("(/|/invoices|/invoice/:invoiceId|/login|/register|/forgot-password|/verify-email|/verify-account|/business-info|/new-invoice|/settings|/request/:invoice|/request/:invoice/:milestoneId|/confirm/:token|/reason|/pricing|/report/:invoiceId|/terms|/privacy)",
+	async (req, res) => {
+
+		const categories = await CategoryModel.find({});
+		const data = { categories };
 
 		const html = reactDOMServer.renderToString(
-			<StaticRouter location={req.url} context={{}}>
+			<StaticRouter location={req.url}>
 				<ReactApp />
 			</StaticRouter>);
 
-		return res.send(HTML(html));
+		return res.send(HTML(html, data));
 	});
 
 if (!isDev) {

@@ -315,7 +315,7 @@ export const sendCustormerVerificationCode = (customerEmail, code) =>
 		let mailOption = {
 			from,
 			subject: "Invoice Mail Verification",
-			text: `Your invoice verfication code is ${code}`
+			text: `Your invoice verification code is ${code}`
 		};
 
 		try {
@@ -341,7 +341,7 @@ export const sendPaymentRequest = (
 	new Promise(async (resolve, reject, url) => {
 		let mailOption = {
 			from,
-			subject: "Piepay Payment Request",
+			subject: "PipePay Payment Request",
 			html: `
 			<p>Hey ${customerName}!</p>
 			

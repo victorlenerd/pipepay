@@ -52,9 +52,8 @@ class Home extends React.PureComponent {
 											</div>
 											<div className="about">
 												<p>
-													PipePay helps online merchants increase sales and
-													conversion rate and at the same protects the buyers
-													interest.
+													PipePay helps online merchants increase sales and conversion rate.
+													PipePay protects buyers and sellers from fraudulent transactions.
 												</p>
 											</div>
 											<div className="sign-buttons text-center">
