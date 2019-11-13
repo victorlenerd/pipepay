@@ -1,5 +1,5 @@
 import React from "react";
-import { withRouter, RouteComponentProps } from "react-router-dom";
+import { withRouter, RouteComponentProps, Link } from "react-router-dom";
 import { subHours } from "date-fns";
 import NProgress from "nprogress";
 import AppContext from "../../contexts/app.context";
@@ -59,7 +59,6 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 
 		// @ts-ignore:
 		this.listInvoices = [];
-
 
 		if (window) {
 			import('intersection-observer').then(() => {
@@ -220,10 +219,13 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 
 	render() {
 		return (
-			<AppContext>
-				{context => {
+			<AppContext.Consumer>
+				{	context => {
 					// @ts-ignore:
 					this.appContext = context;
+
+					// @ts-ignore:
+					const { user: { sellerInfo } } = context;
 
 					return (
 						<section className="section">
@@ -252,6 +254,13 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 							</div>
 							<div className="container" style={{ marginTop: 100 }}>
 								<div className="col-lg-8 col-md-8 col-sm-12 col-xs-12 spread">
+									{!sellerInfo && (
+											<Link to="business-info">
+												<div className="alert alert-info" role="alert">
+													<strong>Heads up!</strong> Tell's more about your business here
+												</div>
+										</Link>
+									)}
 									<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
 										<div className="col-lg-8 col-md-8 col-sm-12 col-xs-8">
 											<input
@@ -275,7 +284,7 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 										</div>
 									</div>
 									<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-										<ul className="invoices" list-type="none">
+										<ul className="invoices">
 											{this.state.invoices.length > 0 ? (this.state.invoices.map((invoice, i) => {
 													return (
 														<li
@@ -309,11 +318,26 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 										</ul>
 									</div>
 								</div>
+								<div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
+									{sellerInfo && <div className="text-center">
+										<br />
+											<h1 className="pending-transactions-amount">
+												&#x20A6;{sellerInfo.balance}
+											</h1>
+										<br />
+										<input
+											disabled={sellerInfo.balance < 1}
+											type="button"
+											value="Withdraw Balance"
+											className={"text-submit"}
+										/>
+										</div>}
+								</div>
 							</div>
 						</section>
 					);
 				}}
-			</AppContext>
+			</AppContext.Consumer>
 		);
 	}
 }

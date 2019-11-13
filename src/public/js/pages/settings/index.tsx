@@ -2,11 +2,10 @@ import React from "react";
 import NProgress from "nprogress";
 import VerifyAccountNumberContainer from "../../containers/verify-account-number.container";
 import { changePassword } from "../../utils/auth";
+import BusinessInfo from "../../components/business-info";
 import AppContext from "../../contexts/app.context";
 
-type Props = {
-	user: {}
-};
+type Props = {};
 
 type State = {
 	error: null | string,
@@ -53,14 +52,15 @@ class Settings extends React.PureComponent<Props, State> {
 		}
 	};
 
+
 	render() {
 		const { passwordChangeSuccess, error } = this.state;
-		const { user } = this.props;
 
 		return (
 			<AppContext.Consumer>
 				{context => {
 					this.appContext = context;
+					const { user } = context;
 
 					return (
 						<section className="section">
@@ -88,6 +88,7 @@ class Settings extends React.PureComponent<Props, State> {
 													type="password"
 													className="text-input"
 													id="old-password"
+													autoComplete="old-password"
 													name="old-password"
 													onChange={e =>
 														this.setState({ oldPassword: e.target.value })
@@ -101,6 +102,7 @@ class Settings extends React.PureComponent<Props, State> {
 													type="password"
 													className="text-input"
 													id="new-password"
+													autoComplete="new-password"
 													name="new-password"
 													onChange={e =>
 														this.setState({ newPassword: e.target.value })
@@ -114,6 +116,7 @@ class Settings extends React.PureComponent<Props, State> {
 													type="password"
 													className="text-input"
 													id="confirm-password"
+													autoComplete="confirm-password"
 													name="confirm-password"
 													onChange={e =>
 														this.setState({ confirmPassword: e.target.value })
@@ -126,7 +129,7 @@ class Settings extends React.PureComponent<Props, State> {
 												type="submit"
 												name="submit"
 												className="text-submit text-submit-remove-margin"
-												value="Update Password"
+												value="UPDATE PASSWORD"
 											/>
 										</form>
 									</div>
@@ -226,6 +229,14 @@ class Settings extends React.PureComponent<Props, State> {
 												);
 											}}
 										</VerifyAccountNumberContainer>
+									</div>
+									<div className="form-setting-section">
+										<h2>Business Info</h2>
+										<br />
+										<br />
+										<div className="form-setting-section">
+											<BusinessInfo updateMode />
+										</div>
 									</div>
 								</div>
 							</div>

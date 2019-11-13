@@ -5,9 +5,6 @@ import { RouteComponentProps } from "react-router-dom";
 
 import NProgress from "nprogress";
 
-import AppContext from "../../contexts/app.context";
-import WithHeader from "../../containers/header.container";
-
 import WhoPaysFee from "./whoPaysFee";
 import ChooseType from "./chooseType";
 import Milestones from "./milestones";
@@ -21,6 +18,7 @@ type State = {
 	submitted: boolean,
 	canSubmit: boolean,
 	type: null | string,
+	category: string;
 	submittingInvoice: boolean,
 	whoPaysDeliveryFee: null | string,
 	whoPaysPipepayFee: null | string,
@@ -49,6 +47,7 @@ class NewInvoice extends React.Component<Props & RouteComponentProps> {
 		submitted: false,
 		canSubmit: false,
 		type: "good",
+		category: null,
 		whoPaysDeliveryFee: null,
 		whoPaysPipepayFee: null,
 		delivery_fee: null,
@@ -90,12 +89,19 @@ class NewInvoice extends React.Component<Props & RouteComponentProps> {
 	submitPurchaseInfo = e => {
 		e.preventDefault();
 
+		const category = e.target.category.value;
 		const purchase_amount = e.target.purchase_amount.value;
 		const delivery_fee = e.target.delivery_fee.value;
 		const description = e.target.description.value;
 
 		if (e.target.checkValidity()) {
-			this.setState({ delivery_fee, description, purchase_amount, stage: 5 });
+			this.setState({
+				category,
+				delivery_fee,
+				description,
+				purchase_amount,
+				stage: 5
+			});
 		}
 	};
 
@@ -210,6 +216,7 @@ class NewInvoice extends React.Component<Props & RouteComponentProps> {
 		} = this.props;
 		const {
 			type,
+			category,
 			whoPaysPipepayFee,
 			whoPaysDeliveryFee,
 			delivery_fee,
@@ -222,6 +229,7 @@ class NewInvoice extends React.Component<Props & RouteComponentProps> {
 
 		const data = {
 			type,
+			category,
 			customerName,
 			customerEmail,
 			customerPhone
@@ -296,6 +304,7 @@ class NewInvoice extends React.Component<Props & RouteComponentProps> {
 									disabled={submittingInvoice}
 									data={
 										type === "service"
+											// @ts-ignore:
 											? { milestones }
 											: {
 													purchase_amount,

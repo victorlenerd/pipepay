@@ -1,23 +1,22 @@
 import mongoose from "mongoose";
 import mongoosePaginate from "mongoose-paginate";
 
-export const MilestoneSchema = new mongoose.Schema(
-	{
+export const MilestoneSchema = new mongoose.Schema({
 		amount: { type: Number, required: true },
 		description: { type: String, required: true },
 		dueDate: { type: Date },
+
 		requested: { type: Boolean, default: false },
 		paid: { type: Boolean, required: true, default: false }
-	},
-	{ timestamps: { createdAt: "created_at" } }
-);
+	}, { timestamps: { createdAt: "created_at" }
+});
 
 const InvoiceSchema = new mongoose.Schema(
 	{
 		userId: { type: String, required: true },
 		type: { type: String, enum: ["service", "good"], required: true },
 		description: { type: String, required: true },
-
+		category: { type: String, required: true },
 		deliveryAmount: { type: Number, required: true },
 		purchaseAmount: { type: Number, required: true },
 		pipePayFee: { type: Number, required: true },

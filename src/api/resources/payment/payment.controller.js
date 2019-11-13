@@ -13,6 +13,7 @@ export default generateController(PaymentModel, {
 			.createHmac("sha512", secret)
 			.update(JSON.stringify(req.body))
 			.digest("hex");
+
 		const {
 			event,
 			data: { reference, amount, metadata }

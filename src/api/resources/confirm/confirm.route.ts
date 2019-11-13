@@ -2,6 +2,7 @@ const Sentry = require("@sentry/node");
 
 import express from "express";
 import InvoiceModel from "../invoice/invoice.model";
+import SellerModel from "../seller/seller.model";
 import { sendTransefConfirm } from "../../modules/mailer";
 import DisputeController from "../dispute/dispute.controller";
 import jwt from "jsonwebtoken";
@@ -83,11 +84,16 @@ ConfirmRouter.route("/:token").get((req, res) => {
 						{ _id: invoiceId },
 						{ $set: { status } },
 						{ new: true },
-						(error, doc) => {
+						async (error, doc) => {
 							if (error) {
 								Sentry.captureException(err);
 								res.status(400).send({ success: false, error });
 							}
+
+							// @ts-ignore:
+							const seller = await SellerModel.findOne({ userId: doc.userId });
+							// @ts-ignore:
+							SellerModel.updateOne({ userId: doc.userId }, { $set: { balance: amount + seller.balance } });
 
 							res.status(200).send({
 								success: true,

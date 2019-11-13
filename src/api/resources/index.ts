@@ -6,6 +6,8 @@ import PaymentRoute from "./payment/payment.route";
 import DisputeRoute from "./dispute/dispute.route";
 import ConfirmRoute from "./confirm/confirm.route";
 import BanksRoute from "./banks/banks.route";
+import SellerRoute from "./seller/seller.route";
+import CategoryRoute from "./categories/categories.route";
 
 import { verifyToken } from "../modules/auth";
 
@@ -15,6 +17,9 @@ MainRouter.use("/verify", VerifyRoute);
 MainRouter.use("/banks", BanksRoute);
 MainRouter.use("/confirm", ConfirmRoute);
 MainRouter.use("/dispute", DisputeRoute);
+
+MainRouter.use("/seller", verifyToken, SellerRoute);
+MainRouter.use("/categories", verifyToken, CategoryRoute);
 MainRouter.use("/request", verifyToken, RequestRoute);
 MainRouter.use("/invoice", verifyToken, InvoiceRouter);
 MainRouter.use("/payment", verifyToken, PaymentRoute);

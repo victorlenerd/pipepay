@@ -32,7 +32,7 @@ ul {
 
 #navbar-default {
   min-height: fit-content;
-  background-color: #20232a;
+  background: #20232a;
   border: 0px;
 }
 
@@ -145,15 +145,20 @@ input {
 .add-milestone-btn {
   border: none;
   cursor: pointer;
-  width: 200px;
-  height: 40px;
+  min-width: 200px;
+  max-width: 300px;
+  height: 45px;
   margin: 0px auto;
   border-radius: 3px;
-  background: #80D8B7;
+  background: #189c6b;
   color: #FFFFFF;
   font-weight: bold;
   display: block;
   margin-bottom: 21px;
+}
+
+.text-submit:disabled {
+  opacity: 0.5;
 }
 
 .text-submit-remove-margin {
@@ -308,6 +313,7 @@ form {
 .invoices {
   width: 100%;
   display: table;
+  list-style-type: none;
 }
 
 .invoices li, .form-setting-section {
@@ -353,7 +359,8 @@ form {
 .invoice-payment-request-btn,
 .invoice-payment-report-btn {
   width: 100%;
-  max-width: 200px;
+  min-width: 200px;
+  max-width: 300px;
   display: block;
   margin: 20px auto;
   height: 40px;
