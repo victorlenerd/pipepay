@@ -7,7 +7,7 @@ const DisputeSchema = new mongoose.Schema(
 		from: String,
 		reason: String,
 		category: String,
-		invoiceId: { type: String, unique: true },
+		invoiceId: { type: mongoose.Types.ObjectId, unique: true },
 		status: String
 	},
 	{ timestamps: { createdAt: "created_at" } }

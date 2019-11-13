@@ -47,8 +47,6 @@ export const verifyToken = (req, res, next) => {
 	if (
 		(req.originalUrl.match("/api/payment") !== null &&
 			req.method.toLowerCase() === "post") ||
-		(req.originalUrl.match("/api/seller") !== null &&
-			req.method.toLowerCase() === "post") ||
 		(req.originalUrl.match("/api/payment") !== null &&
 			req.method.toLowerCase() === "get") ||
 		(req.originalUrl.match("/api/banks") !== null &&

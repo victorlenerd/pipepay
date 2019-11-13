@@ -1,7 +1,6 @@
 import React from "react";
 import { withRouter } from "react-router-dom";
 import { RouteComponentProps } from "react-router-dom";
-import { formatDistanceToNow } from "date-fns";
 import NProgress from "nprogress";
 
 type Props = {

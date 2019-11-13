@@ -5,7 +5,7 @@ const PaymentSchema = new mongoose.Schema(
 		merchantEmail: String,
 		customerEmail: String,
 		amount: Number,
-		invoiceId: String,
+		invoiceId: mongoose.Types.ObjectId,
 		reference: String
 	},
 	{ timestamps: { createdAt: "created_at" } }

@@ -5,12 +5,14 @@ import AppContext from "../contexts/app.context";
 
 const WithHeader = Comp => (
 	<AppContext.Consumer>
-		{values => (
-			<React.Fragment>
-				<Header {...values} />
-				<Comp {...values} />
-			</React.Fragment>
-		)}
+		{values => {
+			return (
+				<React.Fragment>
+					<Header {...values} />
+					<Comp {...values} />
+				</React.Fragment>
+			)
+		}}
 	</AppContext.Consumer>
 );
 

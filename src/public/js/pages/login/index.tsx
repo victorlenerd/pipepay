@@ -30,7 +30,7 @@ class SignIn extends React.PureComponent<Props & RouteComponentProps, State> {
 				NProgress.start();
 				await signin(username, password);
 				const cognitoUser = userPool.getCurrentUser();
-				cognitoUser.getSession((err, result) => {
+				cognitoUser.getSession(async (err, result) => {
 					if (result && result.isValid()) {
 						NProgress.done();
 						const { idToken } = result;
@@ -39,16 +39,29 @@ class SignIn extends React.PureComponent<Props & RouteComponentProps, State> {
 						payload.token = jwtToken;
 						setCurrentUser(payload);
 
-						if (
-							payload["custom:account_number"] &&
-							payload["custom:bank_code"]
-						) {
-							history.push("/invoices");
-						} else {
-							history.push("/verify-account");
+						if (!Boolean(payload["custom:account_number"])) {
+							return history.push("/verify-account");
 						}
 
-						return;
+						const body = await fetch(`/api/seller/${payload.sub}`, {
+							method: "GET",
+							body: null,
+							headers: {
+								"Content-Type": "application/json",
+								Authorization: `Bearer ${jwtToken}`
+							}
+						}).then((res) => res.json());
+
+						const { sellerInfo = null } = body;
+
+						if  (!sellerInfo) {
+							return history.push("/business-info");
+						}
+
+						payload.sellerInfo = sellerInfo;
+						setCurrentUser(payload);
+
+						return history.push("/invoices");
 					}
 
 					this.setState({ error: err.message });
@@ -68,13 +81,7 @@ class SignIn extends React.PureComponent<Props & RouteComponentProps, State> {
 	render() {
 		return (
 			<React.Fragment>
-				<div
-					className="col-lg-6 col-md-6 col-sm-12 cloths-bg hidden-sm hidden-xs"
-					id="noPad"
-				>
-					<div className="overlay" />
-				</div>
-				<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12 left-from-content">
+				<div className="col-lg-8 col-md-8 col-lg-offset-2 col-md-offset-2 col-sm-12 col-xs-12">
 					<div className="container-main">
 						<div className="header">
 							<h1>Sign In.</h1>
@@ -119,7 +126,7 @@ class SignIn extends React.PureComponent<Props & RouteComponentProps, State> {
 								<input
 									type="submit"
 									name="sign-in"
-									value="SIGN IN"
+									value="Login"
 									className="text-submit"
 								/>
 								<br />

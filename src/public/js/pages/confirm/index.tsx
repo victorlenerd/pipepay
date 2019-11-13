@@ -79,7 +79,7 @@ class Confirm extends React.Component<RouteComponentProps> {
 													Thank you for you response
 												</h1>
 												<p className="text-center">
-													The payment has been transfered successfully
+													The payment has been transferred successfully
 												</p>
 												<Status status={true} hideBack={true} back={() => {}} />
 											</div>
@@ -91,7 +91,7 @@ class Confirm extends React.Component<RouteComponentProps> {
 													Thank you for you response
 												</h1>
 												<p className="text-center">
-													The payment for the milestone has been transfered
+													The payment for the milestone has been transferred
 													successfully
 												</p>
 												<Status status={true} hideBack={true} back={() => {}} />
@@ -104,7 +104,7 @@ class Confirm extends React.Component<RouteComponentProps> {
 													Thank you for you response
 												</h1>
 												<p className="text-center">
-													The payment for the last milestone has been transfered
+													The payment for the last milestone has been transferred
 													successfully
 												</p>
 												<Status status={true} hideBack={true} back={() => {}} />
@@ -122,7 +122,7 @@ class Confirm extends React.Component<RouteComponentProps> {
 								</React.Fragment>
 							) : (
 								<React.Fragment>
-									<h1 className="text-center">An Error Occured</h1>
+									<h1 className="text-center">An Error Occurred</h1>
 									<p className="text-center">{this.state.errorMessage}</p>
 									<Status status={false} hideBack={true} back={() => {}} />
 								</React.Fragment>

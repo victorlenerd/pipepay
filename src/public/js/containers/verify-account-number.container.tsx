@@ -50,7 +50,8 @@ class VerifyAccountNumberContainer extends React.PureComponent<IProps> {
 					this.setState({
 						banks,
 						accountNumber: this.appContext.user["custom:account_number"],
-						bankCode: this.appContext.user["custom:bank_code"]
+						bankCode: this.appContext.user["custom:bank_code"],
+						accountName: this.appContext.user["custom:account_name"]
 					});
 			});
 	};
@@ -108,7 +109,7 @@ class VerifyAccountNumberContainer extends React.PureComponent<IProps> {
 
 	updateAccountNumber = (e: any): void => {
 		e.preventDefault();
-		const { accountNumber, bankCode } = this.state;
+		const { accountNumber, bankCode, accountName } = this.state;
 
 		this.appContext.confirmPassword(
 			async (): Promise<void> => {
@@ -116,7 +117,8 @@ class VerifyAccountNumberContainer extends React.PureComponent<IProps> {
 					nprogress.start();
 					const attributes = [
 						{ Name: "custom:bank_code", Value: bankCode },
-						{ Name: "custom:account_number", Value: accountNumber }
+						{ Name: "custom:account_number", Value: accountNumber },
+						{ Name: "custom:account_name", Value: accountName },
 					];
 
 					try {
