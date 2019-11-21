@@ -29,7 +29,7 @@ const DisputeController = generateController(DisputeModel, {
 		body.status = "open";
 		body.invoiceId = _id;
 
-		if (status !== "sent" && status !== "approved") {
+		if (status !== "sent" && status !== "accepted") {
 			InvoiceModel.findOneAndUpdate({ _id }, { disputed: true,  status: "rejected" },
 				async (err, doc) => {
 					if (err) {
