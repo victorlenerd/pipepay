@@ -33,7 +33,13 @@ ConfirmRouter.route("/:token").get((req, res) => {
 				return res.status(400).send({ success: false, error: err });
 			}
 
-			if (status === "rejected") {
+			if (doc.status === "accepted" || doc.status === "rejected") {
+				return res
+					.status(200)
+					.send({ success: false, error: "Cannot update the status of this invoice." });
+			}
+
+			if (doc.status === "paid" && doc.type === "good" && status === "rejected") {
 				return res
 					.status(200)
 					.send({ success: true, data: { _id: invoiceId, type, status } });
@@ -41,11 +47,8 @@ ConfirmRouter.route("/:token").get((req, res) => {
 
 			if (doc.status === "paid" && doc.type === "good" && status === "accepted") {
 				const {
-					_id,
 					type,
 					merchantName,
-					merchantUsername,
-					userId,
 					customerName,
 					merchantEmail,
 					purchaseAmount,
@@ -72,26 +75,22 @@ ConfirmRouter.route("/:token").get((req, res) => {
 				}
 
 				try {
-					sendTransefConfirm(
-						customerName,
-						customerEmail,
-						merchantName,
-						merchantEmail,
-						amount
-					);
+					sendTransefConfirm(customerName, customerEmail, merchantName, merchantEmail, amount);
 
 					InvoiceModel.findOneAndUpdate(
 						{ _id: invoiceId },
 						{ $set: { status } },
 						{ new: true },
 						async (error, doc) => {
+
 							if (error) {
 								Sentry.captureException(err);
 								res.status(400).send({ success: false, error });
 							}
 
 							// @ts-ignore:
-							const seller = await SellerModel.findOne({ userId: doc.userId });
+							const seller = await SellerModel.findOneAndUpdate({ userId: doc.userId });
+							console.log("seller", seller);
 							// @ts-ignore:
 							SellerModel.updateOne({ userId: doc.userId }, { $set: { balance: amount + seller.balance } });
 
