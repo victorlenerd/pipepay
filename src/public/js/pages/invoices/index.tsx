@@ -320,9 +320,10 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 								</div>
 								<div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
 									{sellerInfo && <div className="text-center">
+										<p style={{ fontSize: '0.9em', color: 'rgba(0,0,0, 0.4)' }}>Your balance will be transferred <br /> to your account in less than 24 hours.</p>
 										<br />
 											<h1 className="pending-transactions-amount">
-												&#x20A6;{sellerInfo.balance}
+												&#x20A6;{this.abbreviate_number(sellerInfo.balance)}
 											</h1>
 										<br />
 										<input
