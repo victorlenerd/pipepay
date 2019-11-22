@@ -61,7 +61,7 @@ const FAQ = () => {
 				<h3 className="faq-title" onClick={() => openFaQ(4)}>Who Can Use PipePay?</h3>
 				<p className="faq-body" style={faqs.includes(4) ? { display: "none" } : { display: "block" }}>
 					PipePay can be used by buyers to protect against loss of fund and by sellers to
-					prevent loss of property. pipepay offers both parties involved in a transaction a stress free way to ensure
+					prevent loss of property. PipePay offers both parties involved in a transaction a stress free way to ensure
 					that their money or property is safe and secure when engaging in transactions with unknown individuals.
 				</p>
 			</div>
@@ -77,8 +77,7 @@ const FAQ = () => {
 				<h3 className="faq-title" onClick={() => openFaQ(6)}>Who Pays For The Transaction?</h3>
 				<p className="faq-body" style={faqs.includes(6) ? { display: "none" } : { display: "block" }}>
 					The payment for the transaction can be paid by the seller or buyer or it could be shared between both buyer
-					ans seller.
-					The transaction cost is 5% + ₦100 which is capped at 5000.
+					ans seller. The transaction cost is 5% + ₦150 which is capped at 5000.
 				</p>
 			</div>
 
