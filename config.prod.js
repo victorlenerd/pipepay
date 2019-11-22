@@ -14,8 +14,6 @@ const envs = {
 	PAYSTACK_PUBLIC_KEY: JSON.stringify(process.env.PAYSTACK_PUBLIC_KEY),
 	COGNITO_AUD: JSON.stringify(process.env.COGNITO_AUD),
 	COGNITO_USER_POOL_ID: JSON.stringify(process.env.COGNITO_USER_POOL_ID),
-	ZOHO_EMAIL: JSON.stringify(process.env.ZOHO_EMAIL),
-	ZOHO_PASSWORD: JSON.stringify(process.env.ZOHO_PASSWORD),
 	DB_HOST: JSON.stringify(process.env.DB_HOST),
 	DB_USER: JSON.stringify(process.env.DB_USER),
 	DB_PASSWORD: JSON.stringify(process.env.DB_PASSWORD),
