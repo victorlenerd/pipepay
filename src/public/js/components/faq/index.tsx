@@ -82,7 +82,7 @@ const FAQ = () => {
 				<p className="faq-body" style={faqs.includes(6) ? { display: "none" } : { display: "block" }}>
 					<p>The payment for the transaction can be paid by the seller or buyer or it could be shared between both buyer
 						and seller.
-						<br />
+						<br /><br />
 						<p>The transaction cost is <strong>3.5% + ₦150 which is capped at 5000</strong>.</p>
 					</p>
 				</p>
@@ -95,7 +95,7 @@ const FAQ = () => {
 					<p>The seller get's an email notification that the buyer has paid and they're required to ship the item to the buyer.</p>
 					<p>When the item is delivered to the buyer, the seller makes a request for the funds to be transferred to their account.</p>
 					<p>The buyer has to either open a dispute or approve that the funds get transferred to the seller.</p>
-					<p>The funds could be transferred to the seller if buyer does not respond within 48hrs, if the seller opens a dispute.</p>
+					<p>The funds could be transferred to the seller if buyer does not respond within 48hrs, but only if the seller opens a dispute.</p>
 				</p>
 			</div>
 
