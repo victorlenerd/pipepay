@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 const Sentry = require("@sentry/node");
 
-const key = require('./key.json');
+const key = require('./keys.json');
 
 const transporter = nodemailer.createTransport({
 	host: "smtp.gmail.com",
@@ -15,29 +15,10 @@ const transporter = nodemailer.createTransport({
 	}
 });
 
-const from = "PipePay Team <hello@pipepay.co>";
+const from = "PipePay Team <hello@PipePay.co>";
 
 export const sendTo = mailOption => transporter.sendMail({ ...mailOption, from }, (error, info) => {
 		if (error) {
 			return Sentry.captureException(error);
 		}
 });
-
-export const sendCustormerVerificationCode = (customerEmail, code) =>
-	new Promise(async (resolve, reject) => {
-		let mailOption = {
-			from,
-			subject: "Invoice Mail Verification",
-			text: `Your invoice verification code is ${code}`
-		};
-
-		try {
-			await sendTo({
-				...mailOption,
-				to: customerEmail
-			});
-			resolve();
-		} catch (err) {
-			reject(err);
-		}
-	});
