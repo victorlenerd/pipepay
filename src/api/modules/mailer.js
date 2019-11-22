@@ -10,8 +10,6 @@ fs.readFile(path.join(__dirname, "keys.txt"), "utf8", (err, data) => {
 		throw err;
 	}
 
-	console.log("data", `${data}`);
-
 	const keys = JSON.parse(`${data}`);
 
 	transporter = nodemailer.createTransport({
