@@ -14,7 +14,11 @@ const Withdraw = (props: IProps) => {
 
 	return (
 		<div className="text-center">
-			<p style={{ fontSize: '0.9em', color: 'rgba(0,0,0, 0.4)' }}>Your balance will be transferred <br /> to your account in less than 24 hours.</p>
+			<p style={{ fontSize: '0.9em', color: 'rgba(0,0,0, 0.4)' }}>
+				Your balance will be transferred <br />
+				to your account in less than 24 hours <br />
+				when you make a withdraw.
+			</p>
 			<br />
 			<h1 className="pending-transactions-amount">
 				&#x20A6;{abbreviate_number(sellerInfo.balance)}

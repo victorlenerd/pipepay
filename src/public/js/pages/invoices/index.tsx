@@ -238,7 +238,10 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 								</div>
 							</div>
 							<div className="container" style={{ marginTop: 100 }}>
-								<div className="col-lg-8 col-md-8 col-sm-12 col-xs-12 spread">
+								<div className="col-lg-4 col-md-4 col-sm-4 col-xs-12 withdraw-side">
+									<Withdraw sellerInfo={sellerInfo} />
+								</div>
+								<div className="col-lg-8 col-md-8 col-sm-8 col-xs-12 spread">
 									{!sellerInfo && (
 											<Link to="business-info">
 												<div className="alert alert-info" role="alert">
@@ -298,13 +301,12 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 													);
 												})
 											) : (
-												<h3>You have not sent out any invoices yet</h3>
+												<>
+													<h3 style={{ textAlign: "center", marginTop: '50px', color: 'rgba(0,0,0, 0.5)' }}>You have not sent out any invoices yet</h3>
+												</>
 											)}
 										</ul>
 									</div>
-								</div>
-								<div className="col-lg-4 col-md-4 hidden-sm hidden-xs withdraw-side">
-									<Withdraw sellerInfo={sellerInfo} />
 								</div>
 							</div>
 						</section>

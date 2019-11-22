@@ -123,24 +123,24 @@ class Home extends React.PureComponent {
 
 				<section className="contacts">
 					<div className="container">
-						<div className="col-lg-3 col-md-4 col-sm-6 col-xs-12 noPad shrink">
+						<div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 noPad shrink">
 							<div className="icons" />
 						</div>
-						<div className="col-lg-3 col-md-4 col-sm-6 col-xs-12 noPad shrink">
+						<div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 noPad shrink">
 							<div className="contact-info">
 								<h5>Mail:</h5>
 								<p>hello@pipepay.co</p>
 							</div>
 						</div>
-						<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 noPad shrink">
+						<div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 noPad shrink">
 							<div className="contact-info">
-								<h5>Address:</h5>
+								<h5>Location:</h5>
 								<p>Lagos, Nigeria.</p>
 							</div>
 						</div>
-						<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 noPad shrink">
+						<div className="col-lg-3 col-md-3 col-sm-3 col-xs-12 noPad shrink">
 							<h4 className="other-title">Our Mission</h4>
-							<p className="whyuse-p" style={{ fontSize: '14px' }}>
+							<p style={{ fontSize: '14px' }}>
 								PipePay protects buyers and sellers from fraudulent transactions.
 							</p>
 							<br />
