@@ -1,7 +1,7 @@
 import nodemailer from "nodemailer";
 const Sentry = require("@sentry/node");
 
-const key = require('./keys.json');
+console.log("process.env.MAILER_PRIVATE_KEY", process.env.MAILER_PRIVATE_KEY);
 
 const transporter = nodemailer.createTransport({
 	host: "smtp.gmail.com",
@@ -10,8 +10,8 @@ const transporter = nodemailer.createTransport({
 	auth: {
 		type: "OAuth2",
 		user: "hello@pipepay.co",
-		serviceClient: key.client_id,
-		privateKey: key.private_key
+		serviceClient: process.env.MAILER_CLIENT_ID,
+		privateKey: process.env.MAILER_PRIVATE_KEY
 	}
 });
 

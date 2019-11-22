@@ -23,8 +23,8 @@ ARG DB_HOST
 ARG DB_PASSWORD
 ARG DB_USER
 ARG MAIL_KEYS
-
-RUN echo ${MAIL_KEYS} >> /usr/src/pipepay/src/modules/keys.json
+ARG MAILER_CLIENT_ID
+ARG MAILER_PRIVATE_KEY
 
 RUN npm run stage
 
