@@ -11,7 +11,8 @@ export const connect = (config = appConfig) => {
 		{
 			useNewUrlParser: true,
 			useCreateIndex: true,
-			useFindAndModify: true
+			useFindAndModify: true,
+			useUnifiedTopology: true
 		}
 	);
 };
