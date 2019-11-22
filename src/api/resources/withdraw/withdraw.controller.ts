@@ -15,20 +15,18 @@ export default generateController(WithdrawModel, {
 		const merchantBankAccountNumber = req.user["custom:account_number"];
 		const merchantBankAccountName = req.user["custom:account_name"];
 
-		const withdrawAmount: number = req.body.amount;
-
 		try {
 			const seller = await SellerModel.findOne({ userId }) as any as ISellerModel;
-			const remainder = seller.balance - withdrawAmount;
+			const withdrawAmount = seller.balance;
 
-			if (remainder < 0) {
+			if (withdrawAmount < 1) {
 				return res.status(400).send({
 					status: false,
-					error: "Withdraw amount is less than seller's balance"
+					error: "Sellers balance is less than one"
 				});
 			}
 
-			await SellerModel.findOneAndUpdate({ _id: seller._id }, { amount: remainder });
+			await SellerModel.findOneAndUpdate({ _id: seller._id }, { balance: 0 });
 			await WithdrawModel.create({ userId, amount: withdrawAmount, sent: false });
 
 			sendTo({
@@ -39,7 +37,7 @@ export default generateController(WithdrawModel, {
 
 			sendTo({
 				to: merchantEmail,
-				subject: `Withdraw of request received`,
+				subject: `Withdraw Request Received`,
 				html: sellerWithdrawConfirmationMail(merchantName, withdrawAmount,merchantBankAccountName, merchantBankAccountNumber)
 			});
 

@@ -239,7 +239,7 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 							</div>
 							<div className="container" style={{ marginTop: 100 }}>
 								<div className="col-lg-4 col-md-4 col-sm-4 col-xs-12 withdraw-side">
-									<Withdraw sellerInfo={sellerInfo} />
+									<Withdraw  />
 								</div>
 								<div className="col-lg-8 col-md-8 col-sm-8 col-xs-12 spread">
 									{!sellerInfo && (

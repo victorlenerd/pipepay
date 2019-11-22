@@ -15,10 +15,10 @@ const BusinessInfo = (props: IProps & IWithAppContext) => {
 		return null;
 	}
 
-	// @ts-ignore:
 	let { sub: userId, token = null, sellerInfo } = user;
 
-	if (!sellerInfo) {
+	if (!Boolean(sellerInfo)) {
+		// @ts-ignore:
 		sellerInfo = {};
 	}
 

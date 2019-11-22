@@ -2,7 +2,15 @@ import React from "react";
 
 interface IAppContext {
 	signedIn: boolean
-	user: unknown | null
+	user: {
+		sellerInfo: {
+			address: string,
+			facebook_username: string,
+			instagram_username: string,
+			twitter_username: string,
+			website_url: string,
+			balance: number
+		}, sub, token } | null
 	error: unknown | null,
 	confirmPassword: () => void,
 	confirmPasswordCallback: () => void,
