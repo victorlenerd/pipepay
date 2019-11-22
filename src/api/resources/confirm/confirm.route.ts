@@ -82,13 +82,13 @@ ConfirmRouter.route("/:token").get((req, res) => {
 					sendTo({
 						to: merchantEmail,
 						subject: "Funds Received",
-						text: sellerPaymentReceivedConfirmation(merchantName, amount, customerName),
+						html: sellerPaymentReceivedConfirmation(merchantName, amount, customerName),
 					});
 
 					sendTo({
 						to: customerEmail,
 						subject: "Funds Transferred",
-						text: buyerPaymentTransferMail(customerName, amount, merchantName),
+						html: buyerPaymentTransferMail(customerName, amount, merchantName),
 					});
 
 					InvoiceModel.findOneAndUpdate(

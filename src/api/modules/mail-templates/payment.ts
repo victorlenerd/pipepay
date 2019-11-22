@@ -1,11 +1,11 @@
 export function sellerPaymentReceivedMail (sellerName, amount, customerName) {
 	return `
-		Hello ${sellerName}
+		<p>Hello ${sellerName}</p>
 		
-		${customerName} made a payment of ${amount} to our account. 
-		Now you can go ahead to make the shipment.
+		<p>${customerName} made a payment of ${amount} to our account.</p>
+		<p>Now you can go ahead to make the shipment.</p>
 		
-		Thank you.
-		PipePay Team.
+		<p>Thank you.</p>
+		<p>PipePay Team.</p>
 	`;
 }

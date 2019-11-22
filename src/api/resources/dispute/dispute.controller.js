@@ -48,21 +48,21 @@ const DisputeController = generateController(DisputeModel, {
 						sendTo({
 							to: "disputes@pipepay.co",
 							subject: "New Dispute From A "+from,
-							text: internalPipePayDisputeMail(customerName, customerEmail, disputeType, _id, merchantName, merchantEmail, reason)
+							html: internalPipePayDisputeMail(customerName, customerEmail, disputeType, _id, merchantName, merchantEmail, reason)
 						});
 
 						if (from === "customer") {
 							sendTo({
 								to: merchantEmail,
 								subject: "New Dispute From "+customerName,
-								text: buyerDisputeToSellerMail(merchantName, customerName)
+								html: buyerDisputeToSellerMail(merchantName, customerName)
 							});
 						} else {
 							sendTo({
 								to:
 								customerEmail,
 								subject: "New Dispute From "+merchantName,
-								text: sellerDisputeToBuyerMail(customerName, merchantName)
+								html: sellerDisputeToBuyerMail(customerName, merchantName)
 							});
 						}
 

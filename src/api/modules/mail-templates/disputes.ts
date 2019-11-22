@@ -1,33 +1,33 @@
 export function internalPipePayDisputeMail(customerName, CustomerEmail, disputeType, invoiceId, merchantName, merchantEmail, reason) {
 	return `
-		Dispute From ${customerName} (${CustomerEmail})
+		<p>Dispute From ${customerName} (${CustomerEmail})</p>
 		
-		Type: ${disputeType}
-		Invoice: ${invoiceId}
-		Merchant Name: ${merchantName} (${merchantEmail})
-		Reason: ${reason}
+		<p>Type: ${disputeType}</p>
+		<p>Invoice: ${invoiceId}</p>
+		<p>Merchant Name: ${merchantName} (${merchantEmail})</p>
+		<p>Reason: ${reason}</p>
 	`;
 }
 
 
 export function sellerDisputeToBuyerMail(buyerName, sellerName) {
 	return `
-		Hello ${buyerName}
+		<p>Hello ${buyerName}</p>
 
-		${sellerName} opened a dispute.
+		<p>${sellerName} opened a dispute.</p>
 
-		Thank you.
-		PipePay Team.
+		<p>Thank you.</p>
+		<p>PipePay Team.</p>
 	`
 }
 
 export function buyerDisputeToSellerMail(sellerName, buyerName) {
 	return `
-		Hello ${sellerName}
+		<p>Hello ${sellerName}</p>
 
-		${buyerName} opened a dispute.
+		<p>${buyerName} opened a dispute.</p>
 
-		Thank you.
-		PipePay Team.
+		<p>Thank you.</p>
+		<p>PipePay Team.</p>
 	`
 }

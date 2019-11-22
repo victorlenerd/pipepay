@@ -284,11 +284,11 @@ class Invoice extends React.PureComponent<Props & RouteComponentProps, State> {
 								<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12 invoice-left">
 										<label>Who Pays Delivery Fee</label>
-										<h4>{invoice.whoPaysDeliveryFee}</h4>
+										<h4>{invoice.whoPaysDeliveryFee.toUpperCase()}</h4>
 									</div>
 									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 										<label>Who Pays PipePay Fee</label>
-										<h4>{invoice.whoPaysPipepayFee}</h4>
+										<h4>{invoice.whoPaysPipePayFee.toUpperCase()}</h4>
 									</div>
 								</div>
 						</div>

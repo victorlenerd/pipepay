@@ -15,7 +15,7 @@ const transporter = nodemailer.createTransport({
 	}
 });
 
-const from = "PipePay Team <hello@PipePay.co>";
+const from = "PipePay Team <hello@pipepay.co>";
 
 export const sendTo = mailOption => {
 	transporter.verify();

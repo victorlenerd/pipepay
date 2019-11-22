@@ -1,21 +1,21 @@
 export function buyerPaymentTransferMail(customerName, amount, sellerName) {
 	return `
-		Hello ${customerName}
+		<p>Hello ${customerName}</p>
 		
-		Your payment of ${amount} has been transferred to ${sellerName}.
+		<p>Your payment of ${amount} has been transferred to ${sellerName}.</p>
 		
-		Thank you.
-		PipePay Team.
+		<p>Thank you.</p>
+		<p>PipePay Team.</p>
 	`
 }
 
 export function sellerPaymentReceivedConfirmation(sellerName, amount, customerName) {
 	return `
-		Hello ${sellerName}
+		<p>Hello ${sellerName}</p>
 		
-		A payment of ${amount} from ${customerName} has been received.
+		<p>A payment of ${amount} from ${customerName} has been received.</p>
 		
-		Thank you.
-		PipePay Team.
+		<p>Thank you.</p>
+		<p>PipePay Team.</p>
  	`;
 }

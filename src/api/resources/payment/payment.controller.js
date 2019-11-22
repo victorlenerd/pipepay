@@ -49,7 +49,7 @@ export default generateController(PaymentModel, {
 
 					try {
 						await PaymentModel.create({ customerEmail, merchantEmail, reference,  deliveryAmount, invoiceId: _id });
-						sendTo({ to: merchantEmail, subject: `${amount} Payment Received`, text: sellerPaymentReceivedMail() });
+						sendTo({ to: merchantEmail, subject: `${amount} Payment Received`, html: sellerPaymentReceivedMail() });
 						return res.status(200).send({ success: true });
 					} catch (err) {
 						Sentry.captureException(err);

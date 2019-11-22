@@ -34,13 +34,13 @@ export default generateController(WithdrawModel, {
 			sendTo({
 				to: "withdraw@pipepay.co",
 				subject: `Withdraw of ${withdrawAmount} from ${merchantName}`,
-				text: internalPipePayWithdrawNotificationMail(merchantName, withdrawAmount,merchantBankAccountName, merchantBankAccountNumber, merchantBankName)
+				html: internalPipePayWithdrawNotificationMail(merchantName, withdrawAmount,merchantBankAccountName, merchantBankAccountNumber, merchantBankName)
 			});
 
 			sendTo({
 				to: merchantEmail,
 				subject: `Withdraw of request received`,
-				text: sellerWithdrawConfirmationMail(merchantName, withdrawAmount,merchantBankAccountName, merchantBankAccountNumber)
+				html: sellerWithdrawConfirmationMail(merchantName, withdrawAmount,merchantBankAccountName, merchantBankAccountNumber)
 			});
 
 			res.status(200).send({ status: true });

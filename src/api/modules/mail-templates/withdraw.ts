@@ -1,28 +1,28 @@
 export function sellerWithdrawConfirmationMail(sellerName, amount, accountName, accountNumber) {
 	return `
-		Hello ${sellerName}
+		<p>Hello ${sellerName}</p>
 		
-		We've received your request to transfer the sum of ${amount} to your bank account with the following details: 
+		<p>We've received your request to transfer the sum of ${amount} to your bank account with the following details:</p> 
 		
-		Account Name: ${accountName}
-		Account Number: ${accountNumber}
+		<p>Account Name: ${accountName}</p>
+		<p>Account Number: ${accountNumber}</p>
 				
-		Thank you.
-		PipePay Team.
+		<p>Thank you.</p>
+		<p>PipePay Team.</p>
 	`
 }
 
 export function internalPipePayWithdrawNotificationMail(sellerName, amount, accountName, accountNumber, bankCode) {
 	return `
-		Hello ${sellerName}
+		<p>Hello ${sellerName}</p>
 		
-		Requested payment of ${amount}:
+		<p>Requested payment of ${amount}:</p>
 		
-		Account Name: ${accountName}
-		Account Number: ${accountNumber}
-		Bank Code: ${bankCode}
+		<p>Account Name: ${accountName}</p>
+		<p>Account Number: ${accountNumber}</p>
+		<p>Bank Code: ${bankCode}</p>
 		
-		Thank you.
-		PipePay Team.
+		<p>Thank you.</p>
+		<p>PipePay Team.</p>
 	`
 }
