@@ -16,7 +16,7 @@ export function sellerFundsTransferRequestMail(customerName, merchantName, accep
 		
 		<p>
 			Note that you cannot change your mind, once you click on any of the options. 
-			Also, the funds would be automatically transferred to the seller if you don't respond within 48hrs.
+			Also, the funds could be transferred to the seller if you don't respond within 48hrs.
 		</p>
 		
 		<p>
