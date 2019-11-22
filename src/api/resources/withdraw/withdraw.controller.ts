@@ -32,7 +32,7 @@ export default generateController(WithdrawModel, {
 			await WithdrawModel.create({ userId, amount: withdrawAmount, sent: false });
 
 			sendTo({
-				to: "withdraw@pipepay.co",
+				to: "hello@pipepay.co",
 				subject: `Withdraw of ${withdrawAmount} from ${merchantName}`,
 				html: internalPipePayWithdrawNotificationMail(merchantName, withdrawAmount,merchantBankAccountName, merchantBankAccountNumber, merchantBankName)
 			});

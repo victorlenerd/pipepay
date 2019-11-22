@@ -46,7 +46,7 @@ const DisputeController = generateController(DisputeModel, {
 						const { _id, customerEmail, customerName, merchantEmail, merchantName } = req.invoice;
 
 						sendTo({
-							to: "disputes@pipepay.co",
+							to: "hello@pipepay.co",
 							subject: "New Dispute From A "+from,
 							html: internalPipePayDisputeMail(customerName, customerEmail, disputeType, _id, merchantName, merchantEmail, reason)
 						});

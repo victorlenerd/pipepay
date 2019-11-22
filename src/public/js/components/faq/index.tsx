@@ -77,17 +77,16 @@ const FAQ = () => {
 				<h3 className="faq-title" onClick={() => openFaQ(6)}>Who Pays For The Transaction?</h3>
 				<p className="faq-body" style={faqs.includes(6) ? { display: "none" } : { display: "block" }}>
 					The payment for the transaction can be paid by the seller or buyer or it could be shared between both buyer
-					ans seller. The transaction cost is 5% + ₦150 which is capped at 5000.
+					ans seller. The transaction cost is <strong>3.5% + ₦150 which is capped at 5000</strong>.
 				</p>
 			</div>
 
 			<div className="row">
 				<h3 className="faq-title" onClick={() => openFaQ(7)}>What Is The Process Like?</h3>
 				<p className="faq-body" style={faqs.includes(7) ? { display: "none" } : { display: "block" }}>
-					The seller creates the transaction and the buyer receives a confirmation email along with the link to the
-					invoice.
-					The seller get's a notification that the buyer has paid and is required to ship the item to the buyer.
-					We automatically request that the payment get's transferred to the seller when the inspection date elapse.
+					The seller creates the transaction and the buyer receives a confirmation email along with the link to the invoice.
+					The seller get's an email notification that the buyer has paid and they're required to ship the item to the buyer.
+					When the item is delivered to the buyer, the seller makes a request for the funds to be transferred to their account.
 					The buyer has to either open a dispute or approve that the funds get transferred to the seller.
 				</p>
 			</div>
@@ -96,8 +95,8 @@ const FAQ = () => {
 				<h3 className="faq-title" onClick={() => openFaQ(8)}>What If there is dispute?</h3>
 				<p className="faq-body" style={faqs.includes(8) ? { display: "none" } : { display: "block" }}>
 					If there is dispute during the transaction process i.e "The goods the buyer received is not what they
-					ordered", or "the buyer doesn't respond after receiving the goods" the buyer or seller has the option to
-					open a dispute, we shall step in and resolve the dispute fairly and promptly.
+					ordered", or "the buyer doesn't respond after receiving the goods".
+					We investigate what went wrong in the transaction and resolve the dispute fairly and promptly.
 				</p>
 			</div>
 
