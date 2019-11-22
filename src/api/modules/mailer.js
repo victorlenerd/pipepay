@@ -1,8 +1,6 @@
 import nodemailer from "nodemailer";
 const Sentry = require("@sentry/node");
 
-console.log("process.env.MAILER_PRIVATE_KEY", process.env.MAILER_PRIVATE_KEY);
-
 const transporter = nodemailer.createTransport({
 	host: "smtp.gmail.com",
 	port: 465,
