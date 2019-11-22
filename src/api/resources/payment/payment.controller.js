@@ -42,14 +42,20 @@ export default generateController(PaymentModel, {
 
 					const {
 						_id,
+						customerName,
 						customerEmail,
+						merchantName,
 						merchantEmail,
 						deliveryAmount
 					} = doc;
 
 					try {
 						await PaymentModel.create({ customerEmail, merchantEmail, reference,  deliveryAmount, invoiceId: _id });
-						sendTo({ to: merchantEmail, subject: `${amount} Payment Received`, html: sellerPaymentReceivedMail() });
+						sendTo({
+							to: merchantEmail,
+							subject: `${amount} Payment Received`,
+							html: sellerPaymentReceivedMail(merchantName, amount, customerName)
+						});
 						return res.status(200).send({ success: true });
 					} catch (err) {
 						Sentry.captureException(err);

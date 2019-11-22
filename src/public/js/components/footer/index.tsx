@@ -4,7 +4,7 @@ import { Link } from "react-router-dom";
 const Footer = () => (
 	<ul id="footer-links">
 		<li>
-			<Link to="/terms">Terms</Link>
+			<Link to="/terms">Terms Of Use</Link>
 		</li>
 		<li>
 			<Link to="/privacy">Privacy Policy</Link>

@@ -342,23 +342,24 @@ li a:visited {
 }
 
 #footer-links {
-    float: right;
     display: block;
     list-style: none;
 }
 
 #footer-links a {
     color: #2C3E50 !important;
+    text-decoration: underline !important;;
 }
 
 #footer-links a:hover {
     color: #2C3E50 !important;
+    text-decoration: underline !important;;
 }
 
 #footer-links a:visited {
     color: #2C3E50 !important;
+    text-decoration: underline !important;;
 }
-
 
 #footer-links li {
     float: left;
