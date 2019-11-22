@@ -1,5 +1,17 @@
 import mongoose from "mongoose";
 
+export interface ISellerModel {
+	_id: string
+	userId: string
+	address: string
+	balance: number
+	facebook_username: string
+	instagram_username: string
+	twitter_username: string
+	website_url: string
+ 	createdAt: string
+}
+
 const SellerSchema = new mongoose.Schema({
 	userId: { type: String, required: true },
 	address: { type: String, required: true },

@@ -1,7 +1,12 @@
 import DisputeModel from "./dispute.model";
 import InvoiceModel from "../invoice/invoice.model";
 import generateController from "../../modules/generateController";
-import { sendDisputeMail } from "../../modules/mailer";
+import {
+	internalPipePayDisputeMail,
+	sellerDisputeToBuyerMail,
+	buyerDisputeToSellerMail
+} from "../../modules/mail-templates/disputes"
+import { sendTo } from "../../modules/mailer";
 const Sentry = require("@sentry/node");
 
 const DisputeController = generateController(DisputeModel, {
@@ -34,35 +39,42 @@ const DisputeController = generateController(DisputeModel, {
 				async (err, doc) => {
 					if (err) {
 						Sentry.captureException(err);
-						res.status(400).send({
-							success: false,
-							error: err
-						});
+						return res.status(400).send({ success: false, error: err });
 					}
 					try {
-						await sendDisputeMail(
-							req.invoice,
-							body.disputeType,
-							body.reason,
-							body.from
-						);
+						const { from, disputeType, reason } = body;
+						const { _id, customerEmail, customerName, merchantEmail, merchantName } = req.invoice;
 
-						res.send({
-							success: true
+						sendTo({
+							to: "disputes@pipepay.co",
+							subject: "New Dispute From A "+from,
+							text: internalPipePayDisputeMail(customerName, customerEmail, disputeType, _id, merchantName, merchantEmail, reason)
 						});
+
+						if (from === "customer") {
+							sendTo({
+								to: merchantEmail,
+								subject: "New Dispute From "+customerName,
+								text: buyerDisputeToSellerMail(merchantName, customerName)
+							});
+						} else {
+							sendTo({
+								to:
+								customerEmail,
+								subject: "New Dispute From "+merchantName,
+								text: sellerDisputeToBuyerMail(customerName, merchantName)
+							});
+						}
+
+						return res.send({ success: true });
 					} catch (err) {
 						Sentry.captureException(err);
-						res.status(400).send({
-							error: {
-								message: "Could not send mail"
-							},
-							success: false
-						});
+						return res.status(400).send({ error: err.message, success: false });
 					}
 				}
 			);
 		} else {
-			res.status(400).send({
+			return res.status(400).send({
 				success: false,
 				error: {
 					message: "Invoice has not being paid for"

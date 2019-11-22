@@ -3,7 +3,11 @@ const Sentry = require("@sentry/node");
 import express from "express";
 import InvoiceModel from "../invoice/invoice.model";
 import SellerModel from "../seller/seller.model";
-import { sendTransefConfirm } from "../../modules/mailer";
+import { sendTo } from "../../modules/mailer";
+import {
+	sellerPaymentReceivedConfirmation,
+	buyerPaymentTransferMail
+} from "../../modules/mail-templates/transfer";
 import DisputeController from "../dispute/dispute.controller";
 import jwt from "jsonwebtoken";
 
@@ -75,7 +79,17 @@ ConfirmRouter.route("/:token").get((req, res) => {
 				}
 
 				try {
-					sendTransefConfirm(customerName, customerEmail, merchantName, merchantEmail, amount);
+					sendTo({
+						to: merchantEmail,
+						subject: "Funds Received",
+						text: sellerPaymentReceivedConfirmation(merchantName, amount, customerName),
+					});
+
+					sendTo({
+						to: customerEmail,
+						subject: "Funds Transferred",
+						text: buyerPaymentTransferMail(customerName, amount, merchantName),
+					});
 
 					InvoiceModel.findOneAndUpdate(
 						{ _id: invoiceId },

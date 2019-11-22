@@ -1,5 +1,5 @@
 export default function(model, overrides) {
-	var controller = {
+	const controller = {
 		findByParam: function(req, res, next, id) {
 			model.findById(id, function(err, doc) {
 				if (err)

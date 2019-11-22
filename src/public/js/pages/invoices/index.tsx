@@ -3,6 +3,10 @@ import { withRouter, RouteComponentProps, Link } from "react-router-dom";
 import { subHours } from "date-fns";
 import NProgress from "nprogress";
 import AppContext from "../../contexts/app.context";
+import Withdraw from "../../components/withdraw/withdraw";
+import { abbreviate_number } from "../../helpers";
+
+import "./index.css";
 
 type Props = {
 	user: {
@@ -80,25 +84,6 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 
 		this.setState({ prevY: y });
 	}
-
-	abbreviate_number = function(num, fixed ?: number) {
-		if (num === null) {
-			return null;
-		} // terminate early
-		if (num === 0) {
-			return "0";
-		} // terminate early
-		fixed = !fixed || fixed < 0 ? 0 : fixed; // number of decimal places to show
-		var b = num.toPrecision(2).split("e"), // get power
-			k = b.length === 1 ? 0 : Math.floor(Math.min(b[1].slice(1), 14) / 3), // floor at decimals, ceiling at trillions
-			c =
-				k < 1
-					? num.toFixed(0 + fixed)
-					: (num / Math.pow(10, k * 3)).toFixed(1 + fixed), // divide by power
-			d = c < 0 ? c : Math.abs(c), // enforce -0 is 0
-			e = d + ["", "K", "M", "B", "T"][k]; // append power
-		return e;
-	};
 
 	fetchInvoices = () => {
 		const { user } = this.props;
@@ -234,21 +219,21 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 									<p>Sent</p>
 									<h3 className="pending-transactions-amount">
 										&#x20A6;
-										{this.abbreviate_number(this.state.sent)}
+										{abbreviate_number(this.state.sent)}
 									</h3>
 								</div>
 								<div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 									<p>Paid</p>
 									<h3 className="pending-transactions-amount">
 										&#x20A6;
-										{this.abbreviate_number(this.state.pending)}
+										{abbreviate_number(this.state.pending)}
 									</h3>
 								</div>
 								<div className="col-lg-4 col-md-4 col-sm-4 col-xs-4">
 									<p>Approved</p>
 									<h3 className="pending-transactions-amount">
 										&#x20A6;
-										{this.abbreviate_number(this.state.accepted)}
+										{abbreviate_number(this.state.accepted)}
 									</h3>
 								</div>
 							</div>
@@ -262,7 +247,7 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 										</Link>
 									)}
 									<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
-										<div className="col-lg-8 col-md-8 col-sm-12 col-xs-8">
+										<div className="col-lg-8 col-md-8 col-sm-8 col-xs-8">
 											<input
 												type="text"
 												className="search-invoice"
@@ -270,7 +255,7 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 												placeholder="Search by name, email or phone number"
 											/>
 										</div>
-										<div className="col-lg-2 col-md-2 col-lg-offset-2 col-md-offset-2 col-sm-12 col-xs-4">
+										<div className="col-lg-2 col-md-2 col-lg-offset-2 col-md-offset-2 col-sm-4 col-xs-4">
 											<select
 												className="transaction-select"
 												onChange={e => this.setQuery(e.target.value)}
@@ -318,21 +303,8 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 										</ul>
 									</div>
 								</div>
-								<div className="col-lg-4 col-md-4 col-sm-12 col-xs-12">
-									{sellerInfo && <div className="text-center">
-										<p style={{ fontSize: '0.9em', color: 'rgba(0,0,0, 0.4)' }}>Your balance will be transferred <br /> to your account in less than 24 hours.</p>
-										<br />
-											<h1 className="pending-transactions-amount">
-												&#x20A6;{this.abbreviate_number(sellerInfo.balance)}
-											</h1>
-										<br />
-										<input
-											disabled={sellerInfo.balance < 1}
-											type="button"
-											value="Withdraw Balance"
-											className={"text-submit"}
-										/>
-										</div>}
+								<div className="col-lg-4 col-md-4 hidden-sm hidden-xs withdraw-side">
+									<Withdraw sellerInfo={sellerInfo} />
 								</div>
 							</div>
 						</section>

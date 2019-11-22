@@ -41,7 +41,7 @@ const InvoiceSchema = new mongoose.Schema(
 		invoice_code: { type: String, unique: true },
 		verifyCode: { type: String, unique: true },
 
-		whoPaysPipepayFee: { type: String, enum: ["buyer", "seller", "both"] },
+		whoPaysPipePayFee: { type: String, enum: ["buyer", "seller", "both"] },
 		whoPaysDeliveryFee: { type: String, enum: ["buyer", "seller", "both"] },
 
 		status: {
