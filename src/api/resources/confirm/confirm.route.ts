@@ -89,10 +89,14 @@ ConfirmRouter.route("/:token").get((req, res) => {
 							}
 
 							// @ts-ignore:
-							const seller = await SellerModel.findOneAndUpdate({ userId: doc.userId });
-							console.log("seller", seller);
+							const seller = await SellerModel.findOne({ userId: doc.userId });
 							// @ts-ignore:
-							SellerModel.updateOne({ userId: doc.userId }, { $set: { balance: amount + seller.balance } });
+							SellerModel.updateOne({ _id: seller._id }, { balance: amount + seller.balance },
+								(err, doc) => {
+									if (error) {
+										Sentry.captureException(err);
+									}
+								});
 
 							res.status(200).send({
 								success: true,

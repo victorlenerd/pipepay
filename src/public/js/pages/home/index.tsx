@@ -149,8 +149,7 @@ class Home extends React.PureComponent {
 						<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 noPad shrink">
 							<h4 className="other-title">PipePay</h4>
 							<p className="whyuse-p">
-								Simple escrow solution designed to help merchants easily
-								increase conversion rate and protect buyers interest.
+								PipePay protects buyers and sellers from fraudulent transactions.
 							</p>
 							<br />
 							<Footer />
