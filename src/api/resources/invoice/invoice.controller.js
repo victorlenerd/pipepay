@@ -1,50 +1,53 @@
 import InvoiceModel from "./invoice.model";
 import recode from "../../modules/recode";
 import generateController from "../../modules/generateController";
-import { CreateInvoice } from "../../modules/invoice";
-import { sendInvoiceConfirmSent } from "../../modules/mailer";
+import { CreatePayStackInvoice } from "../../modules/invoice";
+
 const Sentry = require("@sentry/node");
 
-const QUERY_PARAMS = "_id type deliveryAmount customerName customerPhone customerEmail created_at purchaseAmount totalPrice whoPaysDeliveryFee whoPaysPipepayFee milestones pipePayFee bankCharges status requested disputed";
+const QUERY_PARAMS = "_id type deliveryAmount customerName customerPhone customerEmail created_at purchaseAmount totalPrice whoPaysDeliveryFee whoPaysPipePayFee milestones pipePayFee bankCharges status requested disputed";
 
 export default generateController(InvoiceModel, {
 	createOne: async (req, res) => {
-		var body = req.body;
+		const newInvoice = {};
 
-		body.userId = req.user.sub;
-		body.merchantUsername = req.user["cognito:username"];
-		body.merchantEmail = req.user.email;
-		body.merchantName = req.user.name;
+		newInvoice.userId = req.user.sub;
+		newInvoice.merchantUsername = req.user["cognito:username"];
+		newInvoice.merchantEmail = req.user.email;
+		newInvoice.merchantName = req.user.name;
 
-		body.verifyCode = recode();
+		newInvoice.category = req.body.category;
+		newInvoice.description = req.body.description;
 
-		const pipepay_fee_percent = 5;
-		const pipepay_fee_cap = 5000;
+		newInvoice.customerName = req.body.customerName;
+		newInvoice.customerEmail = req.body.customerEmail;
+		newInvoice.customerPhone = req.body.customerPhone;
 
-		if (body.type === "good") {
-			body.purchaseAmount = Number(body.purchaseAmount);
-			body.deliveryAmount = Number(body.deliveryAmount);
+		newInvoice.type = req.body.type;
 
-			body.bankCharges = 150;
-			body.pipePayFee = Math.min((body.purchaseAmount * pipepay_fee_percent) / 100, pipepay_fee_cap) + body.bankCharges;
-			body.totalPrice = body.purchaseAmount + body.deliveryAmount + body.pipePayFee;
-		} else {
-			body.bankCharges = body.milestones.length * 150;
-			body.purchaseAmount = body.milestones.reduce((pv, { amount }) => {
-				return Number(amount) + pv;
-			}, 0);
-			body.pipePayFee = Math.min((body.purchaseAmount * pipepay_fee_percent) / 100, pipepay_fee_cap) + body.bankCharges;
-			body.deliveryAmount = 0;
-			body.totalPrice = body.purchaseAmount + body.pipePayFee;
-		}
+		newInvoice.verifyCode = recode();
+
+		const pipePayFeePercent = 3.5;
+		const pipePayFeeCap = 5000;
+
+		newInvoice.purchaseAmount = Number(req.body.purchaseAmount);
+		newInvoice.deliveryAmount = Number(req.body.deliveryAmount);
+
+		newInvoice.bankCharges = 150;
+
+		newInvoice.pipePayFee = Math.min((newInvoice.purchaseAmount * pipePayFeePercent) / 100, pipePayFeeCap) + newInvoice.bankCharges;
+		newInvoice.totalPrice = newInvoice.purchaseAmount + newInvoice.deliveryAmount + newInvoice.pipePayFee;
+
+		newInvoice.whoPaysDeliveryFee = req.body.whoPaysDeliveryFee;
+		newInvoice.whoPaysPipePayFee = req.body.whoPaysPipePayFee;
 
 		let line_items = [];
 
-		let customerTotalAmount = body.purchaseAmount;
+		let customerTotalAmount = newInvoice.purchaseAmount;
 		let customerDeliveryFee = 0;
-		let customPipepayFee = 0;
+		let customPipePayFee = 0;
 
-		const reconciliator = (who, original, fee) => {
+		const balancePayment = (who, original, fee) => {
 			if (who === "both") {
 				return (original += fee / 2);
 			} else if (who === "buyer") {
@@ -54,85 +57,59 @@ export default generateController(InvoiceModel, {
 			}
 		};
 
-		customerDeliveryFee = reconciliator(
-			body.whoPaysDeliveryFee,
-			customerDeliveryFee,
-			body.deliveryAmount
-		);
-		customPipepayFee = reconciliator(
-			body.whoPaysPipepayFee,
-			customPipepayFee,
-			body.pipePayFee
-		);
+		customerDeliveryFee = balancePayment(newInvoice.whoPaysDeliveryFee, customerDeliveryFee,  newInvoice.deliveryAmount);
+		customPipePayFee = balancePayment(newInvoice.whoPaysPipePayFee, customPipePayFee, newInvoice.pipePayFee);
 
-		if (body.type === "good") {
-			line_items = [
-				{ name: "Purchase Price", amount: customerTotalAmount * 100 }
-			];
-			if (customPipepayFee > 0)
-				line_items.push({
-					name: "PipePay Fee",
-					amount: customPipepayFee * 100
-				});
-			if (customerDeliveryFee > 0)
-				line_items.push({
-					name: "Delivery Fee",
-					amount: customerDeliveryFee * 100
-				});
-		} else {
-			line_items = body.milestones.map(({ description, amount }) => ({
-				name: description,
-				amount: amount * 100
-			}));
-			line_items.push({ name: "PipePay Fee", amount: body.pipePayFee * 100 });
+		line_items = [{ name: "Purchase Price", amount: customerTotalAmount * 100 }];
+
+		if (customPipePayFee > 0) {
+			line_items.push({
+				name: "PipePay Fee",
+				amount: customPipePayFee * 100
+			});
 		}
 
-		body.status = "processing";
-		body.requested = false;
-		body.disputed = false;
-		body.invoice_code = recode();
+		if (customerDeliveryFee > 0) {
+			line_items.push({
+				name: "Delivery Fee",
+				amount: customerDeliveryFee * 100
+			});
+		}
 
-		InvoiceModel.create(body, (err, doc) => {
+		newInvoice.status = "processing";
+		newInvoice.requested = false;
+		newInvoice.disputed = false;
+		newInvoice.invoice_code = recode();
+
+		const newInvoiceCallback = async (err, doc) => {
 			if (err || doc === null) {
 				Sentry.captureException(err);
 				res.status(400).send({
-					error: { message: "Could not create the invoice" },
+					error: err,
 					success: false
 				});
 			}
 
-			CreateInvoice({
-					email: body.customerEmail,
-					name: body.customerName,
-					phone: body.customerPhone
-				}, customerTotalAmount * 100,
-				body.description,
-				line_items
-			)
-				.then(({ data: { request_code: invoice_code } }) => {
-					InvoiceModel.findOneAndUpdate(
-						{ _id: doc._id },
-						{ $set: { invoice_code, status: "sent" } },
-						err => {
-							if (err) Sentry.captureException(err);
-							sendInvoiceConfirmSent(
-								body.merchantName,
-								body.merchantEmail,
-								body.customerName,
-								body.customerEmail,
-								`https://paystack.com/pay/${invoice_code}`
-							);
-						}
-					);
-				})
-				.catch(err => {
-					Sentry.captureException(err);
-				});
+			try {
+				const { customerEmail, customerName, customerPhone } = newInvoice;
 
-			delete doc.verifyCode;
-			doc.save();
-			res.send({ data: doc, success: true });
-		});
+				const { data: { request_code: invoice_code } } = await CreatePayStackInvoice({
+					email: customerEmail,
+					name: customerName,
+					phone: customerPhone
+				}, customerTotalAmount * 100, newInvoice.description, line_items);
+				await InvoiceModel.findOneAndUpdate({ _id: doc._id }, { $set: { invoice_code, status: "sent" } });
+				delete doc.verifyCode;
+				doc.save();
+
+				return res.send({ data: doc, success: true });
+			} catch (e) {
+				Sentry.captureException(err);
+				return res.send({ error: err.message, success: false });
+			}
+		};
+
+		return InvoiceModel.create(newInvoice, newInvoiceCallback);
 	},
 	getAll: async (req, res) => {
 
@@ -171,7 +148,7 @@ export default generateController(InvoiceModel, {
 		}
 	},
 	getOne: (req, res) => {
-		var id = req.docId || req.params.invoiceId;
+		const id = req.docId || req.params.invoiceId;
 
 		InvoiceModel.findOne({ _id: id }, QUERY_PARAMS, function(err, doc) {
 			if (err) {

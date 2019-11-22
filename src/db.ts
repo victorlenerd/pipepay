@@ -10,7 +10,8 @@ export const connect = (config = appConfig) => {
 		config.db.url,
 		{
 			useNewUrlParser: true,
-			useCreateIndex: true
+			useCreateIndex: true,
+			useFindAndModify: true
 		}
 	);
 };

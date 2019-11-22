@@ -302,7 +302,6 @@ li a:visited {
 }
 
 .home-card-box {
-    border-radius: 100px;
     margin-bottom: 50px;
     padding: 20px;
     box-shadow: 5px 0px 5px rgba(0, 0, 0, 0.1),
@@ -413,6 +412,10 @@ li a:visited {
 @media screen and (max-width: 768px) {
     .howitworks-part {
         max-width: 70%;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
     .description {
@@ -450,12 +453,22 @@ li a:visited {
         height: 100vh;
         max-height: 100vh !important;
     }
+
+    .open-menu {
+        display: block;
+    }
+
+    .whyuse-p {
+        text-align: center;
+    }
 }
 
 @media screen and (max-width: 500px) {
     .home-card-box {
-        border-radius: 50px;
+        display: flex;
         flex-direction: column;
+        justify-content: center;
+        align-items: center;
     }
 
     .sign-button {

@@ -21,7 +21,7 @@ type State = {
 	category: string;
 	submittingInvoice: boolean,
 	whoPaysDeliveryFee: null | string,
-	whoPaysPipepayFee: null | string,
+	whoPaysPipePayFee: null | string,
 	delivery_fee: null | string,
 	description: null | string,
 	purchase_amount: null | string,
@@ -49,7 +49,7 @@ class NewInvoice extends React.Component<Props & RouteComponentProps> {
 		type: "good",
 		category: null,
 		whoPaysDeliveryFee: null,
-		whoPaysPipepayFee: null,
+		whoPaysPipePayFee: null,
 		delivery_fee: null,
 		description: null,
 		purchase_amount: null,
@@ -79,10 +79,10 @@ class NewInvoice extends React.Component<Props & RouteComponentProps> {
 	submitDeliveryType = e => {
 		e.preventDefault();
 		const whoPaysDeliveryFee = e.target.who_pays_delivery_fee.value;
-		const whoPaysPipepayFee = e.target.who_pays_pipepay_fee.value;
+		const whoPaysPipePayFee = e.target.who_pays_pipepay_fee.value;
 
 		if (e.target.checkValidity()) {
-			this.setState({ whoPaysDeliveryFee, whoPaysPipepayFee, stage: 4 });
+			this.setState({ whoPaysDeliveryFee, whoPaysPipePayFee, stage: 4 });
 		}
 	};
 
@@ -217,7 +217,7 @@ class NewInvoice extends React.Component<Props & RouteComponentProps> {
 		const {
 			type,
 			category,
-			whoPaysPipepayFee,
+			whoPaysPipePayFee,
 			whoPaysDeliveryFee,
 			delivery_fee,
 			description,
@@ -237,7 +237,7 @@ class NewInvoice extends React.Component<Props & RouteComponentProps> {
 
 		if (type === "good") {
 			// @ts-ignore:
-			data.whoPaysPipepayFee = whoPaysPipepayFee;
+			data.whoPaysPipePayFee = whoPaysPipePayFee;
 			// @ts-ignore:
 			data.whoPaysDeliveryFee = whoPaysDeliveryFee;
 			// @ts-ignore:
@@ -278,7 +278,7 @@ class NewInvoice extends React.Component<Props & RouteComponentProps> {
 			purchase_amount,
 			delivery_fee,
 			whoPaysDeliveryFee,
-			whoPaysPipepayFee,
+			whoPaysPipePayFee,
 			customerInfo,
 			stage,
 			type,
@@ -310,7 +310,7 @@ class NewInvoice extends React.Component<Props & RouteComponentProps> {
 													purchase_amount,
 													delivery_fee,
 													whoPaysDeliveryFee,
-													whoPaysPipepayFee
+													whoPaysPipePayFee
 											  }
 									}
 								/>

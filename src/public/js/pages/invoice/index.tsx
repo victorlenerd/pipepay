@@ -39,7 +39,7 @@ type State = {
 		pipePayFee: number,
 		purchaseAmount: number,
 		whoPaysDeliveryFee: boolean,
-		whoPaysPipepayFee: boolean,
+		whoPaysPipePayFee: boolean,
 		milestones: [Milestone]
 	},
 	requestSentSuccess: boolean,
@@ -274,36 +274,23 @@ class Invoice extends React.PureComponent<Props & RouteComponentProps, State> {
 									}
 								>
 									<label>PipePay Fee</label>
-									<p className="hint">(Bank Charges + 5% of Payment)</p>
+									<p className="hint">(Bank Charges + 3.5% of Payment)</p>
 									<h4>{invoice.pipePayFee}</h4>
 								</div>
 							</div>
 							<div className="clearfix" />
 							<br />
 							<br />
-							{invoice.type === "service" ? (
-								<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 invoice-bottom">
-									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12 invoice-left">
-										<label>Total Milestones</label>
-										<h4>{invoice.milestones.length}</h4>
-									</div>
-									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
-										<label>Completed Milestones</label>
-										<h4>{invoice.milestones.filter(i => i.paid).length}</h4>
-									</div>
-								</div>
-							) : (
 								<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
 									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12 invoice-left">
 										<label>Who Pays Delivery Fee</label>
-										<h4>{invoice.whoPaysDeliveryFee}</h4>
+										<h4>{invoice.whoPaysDeliveryFee.toUpperCase()}</h4>
 									</div>
 									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
 										<label>Who Pays PipePay Fee</label>
-										<h4>{invoice.whoPaysPipepayFee}</h4>
+										<h4>{invoice.whoPaysPipePayFee.toUpperCase()}</h4>
 									</div>
 								</div>
-							)}
 						</div>
 						<div className="col-lg-6 col-md-6 col-sm-12 col-xs-12">
 							{invoice.status === "paid" &&
@@ -317,7 +304,7 @@ class Invoice extends React.PureComponent<Props & RouteComponentProps, State> {
 								invoice.disputed === false && (
 									<>
 										<p className="invoice-action-hint">
-											Once the marchandise as been delivered. Click this button
+											Once the merchandise as been delivered. Click this button
 											to have the merchant confirm satisfaction and have the
 											purchase amount sent to you.
 										</p>
@@ -345,7 +332,7 @@ class Invoice extends React.PureComponent<Props & RouteComponentProps, State> {
 								invoice.disputed === false && (
 									<>
 										<p className="invoice-action-hint">
-											Has the marchandise been delivered to the buyer? and the
+											Has the merchandise been delivered to the buyer? and the
 											buyer is yet to respond to the payment request? Report the
 											issue and our agents would investigate.
 										</p>

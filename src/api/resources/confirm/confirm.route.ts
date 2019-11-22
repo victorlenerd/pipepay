@@ -3,7 +3,11 @@ const Sentry = require("@sentry/node");
 import express from "express";
 import InvoiceModel from "../invoice/invoice.model";
 import SellerModel from "../seller/seller.model";
-import { sendTransefConfirm } from "../../modules/mailer";
+import { sendTo } from "../../modules/mailer";
+import {
+	sellerPaymentReceivedConfirmation,
+	buyerPaymentTransferMail
+} from "../../modules/mail-templates/transfer";
 import DisputeController from "../dispute/dispute.controller";
 import jwt from "jsonwebtoken";
 
@@ -75,7 +79,17 @@ ConfirmRouter.route("/:token").get((req, res) => {
 				}
 
 				try {
-					sendTransefConfirm(customerName, customerEmail, merchantName, merchantEmail, amount);
+					sendTo({
+						to: merchantEmail,
+						subject: "Funds Received",
+						html: sellerPaymentReceivedConfirmation(merchantName, amount, customerName),
+					});
+
+					sendTo({
+						to: customerEmail,
+						subject: "Funds Transferred",
+						html: buyerPaymentTransferMail(customerName, amount, merchantName),
+					});
 
 					InvoiceModel.findOneAndUpdate(
 						{ _id: invoiceId },
@@ -89,10 +103,14 @@ ConfirmRouter.route("/:token").get((req, res) => {
 							}
 
 							// @ts-ignore:
-							const seller = await SellerModel.findOneAndUpdate({ userId: doc.userId });
-							console.log("seller", seller);
+							const seller = await SellerModel.findOne({ userId: doc.userId });
 							// @ts-ignore:
-							SellerModel.updateOne({ userId: doc.userId }, { $set: { balance: amount + seller.balance } });
+							SellerModel.updateOne({ _id: seller._id }, { balance: amount + seller.balance },
+								(err, doc) => {
+									if (error) {
+										Sentry.captureException(err);
+									}
+								});
 
 							res.status(200).send({
 								success: true,

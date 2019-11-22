@@ -123,10 +123,10 @@ class Home extends React.PureComponent {
 
 				<section className="contacts">
 					<div className="container">
-						<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 noPad shrink">
+						<div className="col-lg-4 col-md-4 col-sm-6 col-xs-12 noPad shrink">
 							<div className="icons" />
 						</div>
-						<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 noPad shrink">
+						<div className="col-lg-4 col-md-4 col-sm-6 col-xs-12 noPad shrink">
 							<div className="contact-info">
 								<h5>Mail:</h5>
 								<p>hello@pipepay.co</p>
@@ -146,15 +146,14 @@ class Home extends React.PureComponent {
 								<p>+1 431 335 0149</p>
 							</div>
 						</div>
-						<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 noPad shrink">
-							<h4 className="other-title">PipePay</h4>
-							<p className="whyuse-p">
-								Simple escrow solution designed to help merchants easily
-								increase conversion rate and protect buyers interest.
-							</p>
-							<br />
-							<Footer />
-						</div>
+						{/*<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 noPad shrink">*/}
+						{/*	<h4 className="other-title">PipePay</h4>*/}
+						{/*	<p className="whyuse-p">*/}
+						{/*		PipePay protects buyers and sellers from fraudulent transactions.*/}
+						{/*	</p>*/}
+						{/*	<br />*/}
+						{/*	<Footer />*/}
+						{/*</div>*/}
 					</div>
 					<br />
 					<br />
