@@ -17,8 +17,11 @@ const transporter = nodemailer.createTransport({
 
 const from = "PipePay Team <hello@PipePay.co>";
 
-export const sendTo = mailOption => transporter.sendMail({ ...mailOption, from }, (error, info) => {
+export const sendTo = mailOption => {
+	transporter.verify();
+	transporter.sendMail({ ...mailOption, from }, (error, info) => {
 		if (error) {
 			return Sentry.captureException(error);
 		}
-});
+	});
+};

@@ -16,6 +16,15 @@ export default generateController(InvoiceModel, {
 		newInvoice.merchantEmail = req.user.email;
 		newInvoice.merchantName = req.user.name;
 
+		newInvoice.category = req.body.category;
+		newInvoice.description = req.body.description;
+
+		newInvoice.customerName = req.body.customerName;
+		newInvoice.customerEmail = req.body.customerEmail;
+		newInvoice.customerPhone = req.body.customerPhone;
+
+		newInvoice.type = req.body.type;
+
 		newInvoice.verifyCode = recode();
 
 		const pipePayFeePercent = 3.5;
@@ -76,7 +85,7 @@ export default generateController(InvoiceModel, {
 			if (err || doc === null) {
 				Sentry.captureException(err);
 				res.status(400).send({
-					error: { message: "Could not create the invoice" },
+					error: err,
 					success: false
 				});
 			}
