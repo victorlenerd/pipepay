@@ -16,7 +16,8 @@ phases:
     commands:
       - echo Build started on `date`
       - echo Building the Docker image...
-      - docker build --build-arg PORT=$PORT --build-arg PAYSTACK_SECRET=$PAYSTACK_SECRET --build-arg PAYSTACK_PUBLIC_KEY=$PAYSTACK_PUBLIC_KEY --build-arg COGNITO_AUD=$COGNITO_AUD --build-arg COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID --build-arg DB_HOST=$DB_HOST --build-arg DB_USER=$DB_USER --build-arg DB_PASSWORD=$DB_PASSWORD --build-arg JWT_SECRET=$JWT_SECRET --build-arg ACCESS_KEY_ID=$ACCESS_KEY_ID --build-arg SECRET_KEY=$SECRET_KEY --build-arg MAILER_CLIENT_ID=$MAILER_CLIENT_ID -t $REPOSITORY_URI:latest .
+      - echo $KEYS_JSON	> ./src/api/modules/keys.json
+      - docker build --build-arg PORT=$PORT --build-arg PAYSTACK_SECRET=$PAYSTACK_SECRET --build-arg PAYSTACK_PUBLIC_KEY=$PAYSTACK_PUBLIC_KEY --build-arg COGNITO_AUD=$COGNITO_AUD --build-arg COGNITO_USER_POOL_ID=$COGNITO_USER_POOL_ID --build-arg DB_HOST=$DB_HOST --build-arg DB_USER=$DB_USER --build-arg DB_PASSWORD=$DB_PASSWORD --build-arg JWT_SECRET=$JWT_SECRET --build-arg ACCESS_KEY_ID=$ACCESS_KEY_ID --build-arg SECRET_KEY=$SECRET_KEY --build-arg -t $REPOSITORY_URI:latest .
       - docker tag $REPOSITORY_URI:latest $REPOSITORY_URI:$IMAGE_TAG
   post_build:
     commands:

@@ -6,6 +6,7 @@ WORKDIR /usr/src/pipepay
 # Install Modules
 COPY package.json /usr/src/pipepay/
 RUN npm install
+RUN npm audit fix
 
 # Bundle app source
 COPY src /usr/src/pipepay/src
@@ -22,10 +23,6 @@ ARG PAYSTACK_PUBLIC_KEY
 ARG DB_HOST
 ARG DB_PASSWORD
 ARG DB_USER
-ARG MAILER_CLIENT_ID
-
-RUN echo $MAILER_PRIVATE_KEY
-ENV MAILER_PRIVATE_KEY $MAILER_PRIVATE_KEY
 
 RUN npm run stage
 
