@@ -5,14 +5,10 @@ const Sentry = require("@sentry/node");
 
 let transporter = null;
 
-fs.readFile(path.join(__dirname, "keys.txt"), "utf8", (err, data) => {
-	if (err) {
-		throw err;
-	}
+let client_id = process.env.MAILER_CLIENT_ID;
 
-	console.log("data", `"${data}"`);
-
-	const keys = JSON.parse(`"${data}"`);
+fs.readFile(path.join(__dirname, "private_key.txt"), "utf8", (err, private_key) => {
+	if (err) { throw err; }
 
 	transporter = nodemailer.createTransport({
 		host: "smtp.gmail.com",
@@ -21,8 +17,8 @@ fs.readFile(path.join(__dirname, "keys.txt"), "utf8", (err, data) => {
 		auth: {
 			type: "OAuth2",
 			user: "hello@pipepay.co",
-			serviceClient: keys.client_id,
-			privateKey: keys.private_key
+			serviceClient: client_id,
+			privateKey: private_key
 		}
 	});
 

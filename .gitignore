@@ -7,6 +7,7 @@ node_modules/
 /src/public/assets/js/
 # testing
 coverage
+src/api/modules/private_key.txt
 src/api/modules/keys.json
 src/api/modules/keys.txt
 npm-debug.log*

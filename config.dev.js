@@ -21,6 +21,7 @@ const envs = {
 	JWT_SECRET: JSON.stringify(process.env.JWT_SECRET),
 	ACCESS_KEY_ID: JSON.stringify(process.env.ACCESS_KEY_ID),
 	SECRET_KEY: JSON.stringify(process.env.SECRET_KEY),
+	MAILER_CLIENT_ID: JSON.stringify(process.env.MAILER_CLIENT_ID)
 };
 
 module.exports = [
