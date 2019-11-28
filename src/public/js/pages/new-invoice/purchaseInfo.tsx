@@ -55,22 +55,30 @@ const PurchaseInfo = ({ submit, back }: Props) => {
 				<br />
 				<label htmlFor="c-email">Price Of Good</label>
 				<input
-					type="phone"
+					type="number"
 					name="purchase_amount"
+					min={1000}
 					placeholder="What's the total price of the item purchased"
 					className="text-input"
 					required
 				/>
+				<div className="alert alert-info" role="alert">
+						Do not include commas or dots. Simple use numbers e.g 5000 or 700000
+				</div>
 				<br />
 				<br />
 				<label htmlFor="c-email">Delivery Fee</label>
 				<input
-					type="phone"
+					type="number"
 					name="delivery_fee"
 					placeholder="Delivery Price"
 					className="text-input"
+					min={500}
 					required
 				/>
+				<div className="alert alert-info" role="alert">
+					Do not include commas or dots. Simple use numbers e.g 5000 or 700000
+				</div>
 				<br />
 				<br />
 				<div className="clearfix" />

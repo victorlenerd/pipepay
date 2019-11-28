@@ -33,18 +33,23 @@ class PaymentRequest extends React.Component<Props> {
 
 			return (
 				<section className="section">
-					<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+					<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
 
-						<div className="container">
-
-							<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12 invoice-left">
-
-								<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 invoice-bottom">
-									<div className="pull-left">
-										<label>Description</label>
+						<h3 className="text-center" style={{ textDecoration: "underline" }}>
+							PipePay Payment Request
+						</h3>
+						<br/>
+						<br/>
+						<br/>
+						<br/>
+						<div className="container no-padding">
+							<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12  invoice-left">
+								<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding invoice-bottom">
+									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
+										<label>Purchase Description</label>
 										<h4>{invoice.description}</h4>
 									</div>
-									<div className="pull-right">
+									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 										<label>Total Amount</label>
 										<div className="invoice-price-main">
 											&#x20A6; {invoice.totalPrice}
@@ -54,13 +59,12 @@ class PaymentRequest extends React.Component<Props> {
 								<div className="clearfix"/>
 								<br/>
 								<br/>
-
-								<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 invoice-bottom">
-									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+								<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding invoice-bottom">
+									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 										<label>Seller Name</label>
 										<h4>{invoice.merchantName}</h4>
 									</div>
-									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 										<label>Seller Email</label>
 										<h4>{invoice.merchantEmail}</h4>
 									</div>
@@ -68,9 +72,8 @@ class PaymentRequest extends React.Component<Props> {
 								<div className="clearfix"/>
 								<br/>
 								<br/>
-
-								<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+								<div className="col-lg-12 col-md-12 col-sm-12 col-xs-12 no-padding">
+									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 										<label>Seller Social Links</label>
 										<ul style={{ listStyle: "none" }}>
 											{seller.facebook_username && <li>
@@ -91,7 +94,7 @@ class PaymentRequest extends React.Component<Props> {
 											</li>}
 										</ul>
 									</div>
-									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-12">
+									<div className="col-lg-6 col-md-6 col-sm-6 col-xs-6">
 										<label>Seller Address</label>
 										<h4>{seller.address}</h4>
 									</div>
@@ -109,15 +112,14 @@ class PaymentRequest extends React.Component<Props> {
 								{(invoice.status === 'sent') && <div>
 									<input
 										type="submit"
-										value="Make Payment"
+										value="Pay Now"
 										className="text-submit"
 										onClick={this.handleMakePaymentClick}
 									/>
 								</div>}
-								<br />
-								<h3 className="text-center">
+								<h4 className="text-center" style={{ fontSize: "16px", color: "rgba(0,0,0, 0.5)", textTransform: "uppercase" }}>
 									Your money is safe with us.
-								</h3>
+								</h4>
 								<br />
 							</div>
 
