@@ -590,6 +590,24 @@ form {
   }
 }
 
+@media screen and (max-width: 768px) {
+  .invoice-left {
+    border-right: 0px;
+    padding-bottom: 25px;
+    border-bottom:  1px solid rgba(0, 0, 0, 0.1);
+  }
+}
+
+@media screen and (max-width: 568px) {
+  .invoice-left {
+    border-right: 0px;
+  }
+
+  .form-buttons {
+    flex-direction: column;
+  }
+}
+
 @media screen and (max-width: 380px) {
   .spread {
     padding-left: 0px;

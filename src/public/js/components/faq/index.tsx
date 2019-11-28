@@ -45,8 +45,8 @@ const FAQ = () => {
 				<h3 className="faq-title" onClick={() => openFaQ(2)}>Why Use Escrow?</h3>
 				<div className="faq-body" style={faqs.includes(2) ? { display: "none" } : { display: "block" }}>
 					Escrows are necessary in transactions where animosity and unfamiliarity exist between
-					the buyer and seller. It is also advice able to make use of escrow transactions when engaging in foreign and
-					online transactions.
+					the buyer and seller.
+					It is important to make use of escrow transactions when engaging in foreign and online transactions.
 				</div>
 			</div>
 

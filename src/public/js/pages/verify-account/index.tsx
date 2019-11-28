@@ -64,7 +64,7 @@ class VerifyBackAccount extends React.PureComponent<Props & RouteComponentProps>
 							})
 						);
 						NProgress.done();
-						this.props.history.push("/invoices");
+						this.props.history.push("/business-info");
 					} catch (err) {
 						return this.setState({ error: err.message });
 					}

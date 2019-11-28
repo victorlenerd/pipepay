@@ -245,7 +245,7 @@ class Dashboard extends React.PureComponent<Props & RouteComponentProps> {
 									{!sellerInfo && (
 											<Link to="business-info">
 												<div className="alert alert-info" role="alert">
-													<strong>Heads up!</strong> Tell's more about your business here
+													<strong>Heads up!</strong> Tell us more about your business here
 												</div>
 										</Link>
 									)}

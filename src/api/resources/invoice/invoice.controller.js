@@ -1,7 +1,23 @@
 import InvoiceModel from "./invoice.model";
 import recode from "../../modules/recode";
 import generateController from "../../modules/generateController";
-import { CreatePayStackInvoice } from "../../modules/invoice";
+import { buyerPaymentRequestMail } from "../../modules/mail-templates/request";
+import { sendTo } from "../../modules/mailer";
+
+let origin;
+
+if (process.env.NODE_ENV === "staging") {
+	origin = "https://pipepay.africa";
+} else if (process.env.NODE_ENV === "production") {
+	origin = "https://pipepay.co/confirm";
+} else if (
+	process.env.NODE_ENV === "testing" ||
+	process.env.NODE_ENV === "development"
+) {
+	origin = "http://localhost:4545";
+} else {
+	origin = "http://localhost:4545";
+}
 
 const Sentry = require("@sentry/node");
 
@@ -91,14 +107,15 @@ export default generateController(InvoiceModel, {
 			}
 
 			try {
-				const { customerEmail, customerName, customerPhone } = newInvoice;
+				const { customerEmail, customerName, merchantName } = newInvoice;
 
-				const { data: { request_code: invoice_code } } = await CreatePayStackInvoice({
-					email: customerEmail,
-					name: customerName,
-					phone: customerPhone
-				}, customerTotalAmount * 100, newInvoice.description, line_items);
-				await InvoiceModel.findOneAndUpdate({ _id: doc._id }, { $set: { invoice_code, status: "sent" } });
+				sendTo({
+					to: customerEmail,
+					subject: "PipePay Payment Request",
+					html: buyerPaymentRequestMail(customerName, merchantName, `${origin}/payment-request/${doc._id}`)
+				});
+
+				await InvoiceModel.findOneAndUpdate({ _id: doc._id }, { $set: { status: "sent" } });
 				delete doc.verifyCode;
 				doc.save();
 

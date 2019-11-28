@@ -218,8 +218,7 @@ class Invoice extends React.PureComponent<Props & RouteComponentProps, State> {
 									</div>
 								</div>
 								<div className="pull-right">
-									<div className="invoice-timeago">
-									</div>
+									<div className="invoice-timeago"></div>
 									<div className={`invoice-price ${invoice.status}`}>
 										{invoice.status}
 									</div>
@@ -263,7 +262,7 @@ class Invoice extends React.PureComponent<Props & RouteComponentProps, State> {
 										}
 									>
 										<label>Delivery Fee</label>
-										<h4>{invoice.deliveryAmount}</h4>
+										<h4>&#x20A6;{invoice.deliveryAmount}</h4>
 									</div>
 								)}
 								<div
@@ -275,7 +274,7 @@ class Invoice extends React.PureComponent<Props & RouteComponentProps, State> {
 								>
 									<label>PipePay Fee</label>
 									<p className="hint">(Bank Charges + 3.5% of Payment)</p>
-									<h4>{invoice.pipePayFee}</h4>
+									<h4>&#x20A6;{invoice.pipePayFee}</h4>
 								</div>
 							</div>
 							<div className="clearfix" />

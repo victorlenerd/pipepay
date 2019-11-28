@@ -47,11 +47,15 @@ const PurchaseInfo = ({ submit, back }: Props) => {
 					required
 					autoFocus
 				/>
+				<div className="alert alert-info" role="alert">
+					Please ensure you use a clear and straightforward description.
+					This would be important for disputes resolution.
+				</div>
 				<br />
 				<br />
 				<label htmlFor="c-email">Price Of Good</label>
 				<input
-					type="number"
+					type="phone"
 					name="purchase_amount"
 					placeholder="What's the total price of the item purchased"
 					className="text-input"
@@ -61,7 +65,7 @@ const PurchaseInfo = ({ submit, back }: Props) => {
 				<br />
 				<label htmlFor="c-email">Delivery Fee</label>
 				<input
-					type="number"
+					type="phone"
 					name="delivery_fee"
 					placeholder="Delivery Price"
 					className="text-input"
