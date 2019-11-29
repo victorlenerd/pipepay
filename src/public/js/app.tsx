@@ -21,6 +21,7 @@ import BusinessInfo from "./pages/business-info";
 import Settings from "./pages/settings";
 import Confirm from "./pages/confirm";
 import Terms from "./pages/terms";
+import PaymentRequest from "./pages/payment-request";
 import Privacy from "./pages/privacy";
 
 import { init, signin, userPool, getSession, signOut } from "./utils/auth";
@@ -172,6 +173,7 @@ class App extends Component {
 						<Route path="/reset-password" render={() => !signedIn ? (WithHeader(ResetPassword)) : (<Redirect to="/invoices" />)} />
 						<Route path="/verify-account" render={() => WithHeader(VerifyBankAccount)} />
 						<Route path="/business-info" render={() => WithHeader(BusinessInfo)} />
+						<Route path="/payment-request/:invoiceId" render={() => WithHeader(PaymentRequest)} />
 						<Route path="/invoice/:invoiceId" render={() => signedIn ? WithHeader(Invoice) : <Redirect to="/" />}/>
 						<Route path="/invoices" render={() => signedIn ? WithHeader(Invoices) : <Redirect to="/" />}/>
 						<Route path="/report/:invoiceId" render={() => signedIn ? WithHeader(Report) : <Redirect to="/" />} />
@@ -180,10 +182,26 @@ class App extends Component {
 						<Route path="/confirm/:token" render={() => WithHeader(Confirm)} />
 						<Route path="/terms" render={() => WithHeader(Terms)} />
 						<Route path="/privacy" render={() => WithHeader(Privacy)} />
+
+						<Route render={() => (
+								<div style={{
+									width: '100vw',
+									height: '100vh',
+									display: 'flex',
+									justifyContent:'center',
+									alignItems: 'center',
+									flexDirection: 'column'
+								}}>
+									<h1>Not Found</h1>
+									<p>Sorry, that page doesn’t exist!</p>
+								</div>
+						)} />
 					</Switch>
 				</AppContext.Provider>
 		);
 	}
 }
 
-export default hot(module)(App);
+const MainApp = process.env.NODE_ENV === "development" ? hot(module)(App) : App;
+
+export default MainApp;

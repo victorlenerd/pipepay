@@ -9,7 +9,6 @@ SellerRouter.route("/")
 
 SellerRouter.route("/:user_id")
 	.get(SellerController.getOne)
-	.delete(SellerController.deleteOne)
 	.put(SellerController.updateOne);
 
 export default SellerRouter;

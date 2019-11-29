@@ -2,6 +2,8 @@ import crypto from "crypto";
 import PaymentModel from "./payment.model";
 import InvoiceModel from "../invoice/invoice.model";
 import generateController from "../../modules/generateController";
+import { sellerPaymentReceivedMail } from "../../modules/mail-templates/payment";
+import { sendTo } from "../../modules/mailer";
 
 const Sentry = require("@sentry/node");
 
@@ -40,23 +42,24 @@ export default generateController(PaymentModel, {
 
 					const {
 						_id,
+						customerName,
 						customerEmail,
+						merchantName,
 						merchantEmail,
 						deliveryAmount
 					} = doc;
 
 					try {
-						await PaymentModel.create({
-							customerEmail,
-							merchantEmail,
-							reference,
-							deliveryAmount,
-							invoiceId: _id
+						await PaymentModel.create({ customerEmail, merchantEmail, reference,  deliveryAmount, invoiceId: _id });
+						sendTo({
+							to: merchantEmail,
+							subject: `${amount} Payment Received`,
+							html: sellerPaymentReceivedMail(merchantName, amount, customerName)
 						});
-						res.status(200).send({ success: true });
+						return res.status(200).send({ success: true });
 					} catch (err) {
 						Sentry.captureException(err);
-						res.status(400).send({
+						return res.status(400).send({
 							error: { message: "Could not send mail" },
 							success: false
 						});
@@ -64,7 +67,7 @@ export default generateController(PaymentModel, {
 				}
 			);
 		} else {
-			res.status(400).send({ success: false });
+			return res.status(400).send({ success: false });
 		}
 	},
 	getOne: (req, res) => {

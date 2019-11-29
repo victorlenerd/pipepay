@@ -7,7 +7,9 @@ node_modules/
 /src/public/assets/js/
 # testing
 coverage
-
+src/api/modules/private_key.txt
+src/api/modules/keys.json
+src/api/modules/keys.txt
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
@@ -22,3 +24,4 @@ src/public/dist/
 .nyc_output/
 data/
 .idea/
+.DS_Store

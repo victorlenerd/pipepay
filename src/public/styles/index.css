@@ -327,6 +327,7 @@ form {
 }
 
 .transaction-select {
+  width: 100%;
   text-align: center;
   height: 35px;
   border-radius: 0px;
@@ -586,6 +587,24 @@ form {
     -webkit-transform: scale(1) rotate(0);
     -ms-transform: scale(1) rotate(0);
     transform: scale(1) rotate(0);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  .invoice-left {
+    border-right: 0px;
+    padding-bottom: 25px;
+    border-bottom:  1px solid rgba(0, 0, 0, 0.1);
+  }
+}
+
+@media screen and (max-width: 568px) {
+  .invoice-left {
+    border-right: 0px;
+  }
+
+  .form-buttons {
+    flex-direction: column;
   }
 }
 

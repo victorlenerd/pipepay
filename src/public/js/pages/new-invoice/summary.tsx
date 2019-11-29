@@ -13,7 +13,7 @@ type Props = {
 		purchase_amount: number
 		delivery_fee: number
 		whoPaysDeliveryFee: string
-		whoPaysPipepayFee: string
+		whoPaysPipePayFee: string
 	}
 };
 
@@ -56,7 +56,7 @@ const Summary = ({ type, data, customerInfo, back, submit }: Props) => (
 					</div>
 					<div>
 						<label>Who Pays PipePay Fee</label>
-						<h4>{data.whoPaysPipepayFee}</h4>
+						<h4>{data.whoPaysPipePayFee}</h4>
 					</div>
 				</div>
 			) : (

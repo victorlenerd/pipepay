@@ -14,12 +14,14 @@ interface IProps {
 };
 
 type State = {
-	pathname: String
+	pathname: String,
+	menuOpen: boolean
 };
 
 class Header extends React.PureComponent<IProps & RouteComponentProps, State> {
 	state = {
-		pathname: ""
+		pathname: "",
+		menuOpen: false
 	};
 
 	componentDidMount() {
@@ -57,8 +59,15 @@ class Header extends React.PureComponent<IProps & RouteComponentProps, State> {
 		);
 	};
 
+	toggleMenu = () => {
+		this.setState((state) => ({
+			...state,
+			menuOpen: !state.menuOpen,
+		}));
+	};
+
 	render() {
-		const { pathname } = this.state;
+		const { pathname, menuOpen } = this.state;
 		const { history, signedIn, user } = this.props;
 
 		return (
@@ -68,37 +77,41 @@ class Header extends React.PureComponent<IProps & RouteComponentProps, State> {
 						<Link to="/" className="navbar-brand">
 							PipePay
 						</Link>
-						<button className="navbar-toggle" value="MENU"/>
+						<button onClick={this.toggleMenu} className="navbar-toggle collapsed" data-target="#menu-toggle">
+							{!menuOpen ?
+								<img src="/assets/menu.svg" height="22px" /> :
+								<img src="/assets/close.svg" height="22px" />}
+						</button>
 					</div>
-					<div className="navbar-collapse collapse">
+					<div id="menu-toggle" className={!menuOpen ? "navbar-collapse collapse" : "navbar-collapse collapse open-menu"}>
 						{!signedIn && (
 							<ul className="nav navbar-nav navbar-right">
-								<li>
+								<li onClick={this.toggleMenu}>
 									<Link to="/">Home</Link>
 								</li>
-								<li>
+								<li onClick={this.toggleMenu}>
 									<Link to="/#howitworks">How It Works</Link>
 								</li>
-								<li>
+								<li onClick={this.toggleMenu}>
 									<Link to="/#faq">F.A.Q</Link>
 								</li>
-								<li>
+								<li onClick={this.toggleMenu}>
 									<Link to="/register">Register</Link>
 								</li>
-								<li>
+								<li onClick={this.toggleMenu}>
 									<Link to="/login">Login</Link>
 								</li>
 						</ul>
 						)}
 						{signedIn && (
 							<ul className="nav navbar-nav navbar-right">
-								<li>
+								<li onClick={this.toggleMenu}>
 									<Link to="/invoices">Invoices</Link>
 								</li>
-								<li>
+								<li onClick={this.toggleMenu}>
 									<Link to="/new-invoice">Send Invoice</Link>
 								</li>
-								<li>
+								<li onClick={this.toggleMenu}>
 									<Link to="/settings">Settings</Link>
 								</li>
 								<li

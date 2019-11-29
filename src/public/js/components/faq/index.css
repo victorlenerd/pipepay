@@ -3,3 +3,9 @@
     text-align: justify;
     font-size: 1.1em;
 }
+
+.faq-title {
+    padding: 5px 0px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.5);
+    cursor: pointer;
+}

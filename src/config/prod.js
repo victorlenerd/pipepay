@@ -4,6 +4,6 @@ const host = process.env.DB_HOST;
 
 export const config = {
 	db: {
-		url: `mongodb://${username}:${password}@${host}`,
+		url: `mongodb+srv://${username}:${password}@${host}`,
 	}
 };

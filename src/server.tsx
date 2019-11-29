@@ -8,10 +8,17 @@ import { connect } from "./db";
 import { getJWT } from "./api/modules/auth";
 const collect = require('node-style-loader/collect');
 import ReactApp from './public/js/app';
-import CategoryModel from "./api/resources/categories/categories.model";
 const React = require('react');
 const StaticRouter = require('react-router-dom').StaticRouter;
 const reactDOMServer = require('react-dom/server');
+const Sentry = require("@sentry/node");
+
+import request from "superagent";
+const secret = process.env.PAYSTACK_SECRET;
+
+import CategoryModel from "./api/resources/categories/categories.model";
+import InvoiceModel from "./api/resources/invoice/invoice.model";
+import SellerModel from "./api/resources/seller/seller.model";
 
 const app = express();
 
@@ -20,6 +27,13 @@ const isDev = process.env.NODE_ENV === 'development';
 getJWT();
 
 setupMiddleware(app);
+
+Sentry.init({
+	dsn: "https://34c300355f66498a8e7a7b21df7fadbd@sentry.io/1315245"
+});
+
+app.use(Sentry.Handlers.requestHandler());
+app.use(Sentry.Handlers.errorHandler());
 
 app.use(express.static(path.join(__dirname, "public")));
 
@@ -93,7 +107,16 @@ const HTML = (body, data) => `
 `;
 
 
-const config = require(isDev ? "../config.dev.js" : "../config.stage.js");
+let config = require("../config.dev.js");
+
+if (process.env.NODE_ENV === "production") {
+	config = require("../config.prod.js");
+}
+
+if (process.env.NODE_ENV === "staging") {
+	config = require("../config.stage.js");
+}
+
 const compiler = webpack(config[1]);
 
 app.use(
@@ -105,33 +128,98 @@ app.use(
 	})
 );
 
+
 app.use(require("webpack-hot-middleware")(compiler));
 
 app.use("/api", MainRouter);
 
-app.get("(/|/invoices|/invoice/:invoiceId|/login|/register|/forgot-password|/verify-email|/verify-account|/business-info|/new-invoice|/settings|/request/:invoice|/request/:invoice/:milestoneId|/confirm/:token|/reason|/pricing|/report/:invoiceId|/terms|/privacy)",
+app.get("(/|/invoices|/invoice/:invoiceId|/payment-request/:invoiceId|/login|/register|/forgot-password|/verify-email|/verify-account|/business-info|/new-invoice|/settings|/request/:invoice|/request/:invoice/:milestoneId|/confirm/:token|/reason|/pricing|/report/:invoiceId|/terms|/privacy)",
 	async (req, res) => {
 
-		const categories = await CategoryModel.find({});
-		const data = { categories };
+	const data = {
+		categories: [],
+		invoice: null,
+		seller: null
+	};
 
-		const html = reactDOMServer.renderToString(
-			<StaticRouter location={req.url}>
-				<ReactApp />
-			</StaticRouter>);
+	try {
+		const categories = await CategoryModel.find({});
+		data.categories = categories;
+
+		if (req.url.match("payment-request")) {
+			const invoiceId = req.params.invoiceId;
+			const invoice = await InvoiceModel.findOne({ _id: invoiceId }, '_id type description deliveryAmount customerName customerPhone customerEmail created_at purchaseAmount totalPrice whoPaysDeliveryFee whoPaysPipePayFee pipePayFee bankCharges status merchantEmail merchantName userId');
+			data.invoice = invoice;
+			// @ts-ignore:
+			if (invoice && Boolean(invoice.userId)) {
+				// @ts-ignore:
+				const seller = await SellerModel.findOne({  userId: invoice.userId }, '_id address facebook_username instagram_username twitter_username website_url');
+				data.seller = seller
+			}
+		}
+	} catch (e) {
+		res.redirect("/not-found");
+		Sentry.captureException(e);
+	}
+
+	const html = reactDOMServer.renderToString(
+		<StaticRouter location={req.url}>
+			<ReactApp />
+		</StaticRouter>);
 
 		return res.send(HTML(html, data));
 	});
 
-if (!isDev) {
-	const Sentry = require("@sentry/node");
+app.get("/pay-now/:invoiceId",
+	async (req, res) => {
+		try {
+			const invoiceId = req.params.invoiceId;
+			const invoice = await InvoiceModel.findOne({ _id: invoiceId }, '_id type description deliveryAmount customerName customerPhone customerEmail created_at purchaseAmount totalPrice whoPaysDeliveryFee whoPaysPipePayFee pipePayFee bankCharges status merchantEmail merchantName userId');
 
-	Sentry.init({
-		dsn: "https://34c300355f66498a8e7a7b21df7fadbd@sentry.io/1315245"
+			// @ts-ignore:
+			if (invoice.status === "sent") {
+				request
+					.post("https://api.paystack.co/transaction/initialize")
+					.set("Content-Type", "application/json")
+					.set("Cache-Control", "no-cache")
+					.set("Authorization", `Bearer ${secret}`)
+					.send({
+						// @ts-ignore:
+						email: invoice.customerEmail,
+						// @ts-ignore:
+						amount: invoice.totalPrice  * 100
+					})
+					.end((err, { body: { data: { authorization_url = null } } }) => {
+						if (err) {
+							Sentry.captureException(err);
+							return res.status(400).send({
+								success: false
+							});
+						}
+
+						return res.status(200).send({
+							success: true,
+							authorization_url
+						});
+					});
+			} else {
+				return res.send("Quak Quak!");
+			}
+		} catch (e) {
+			res.redirect("/not-found");
+			Sentry.captureException(e);
+		}
+
 	});
 
-	app.use(Sentry.Handlers.requestHandler());
-	app.use(Sentry.Handlers.errorHandler());
-}
+app.use((req, res) => {
+	const html = reactDOMServer.renderToString(
+		<StaticRouter location={req.url}>
+			<ReactApp />
+		</StaticRouter>);
+
+	return res.send(HTML(html, {}));
+});
+
 
 export default app;

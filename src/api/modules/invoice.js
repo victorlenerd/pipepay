@@ -18,7 +18,7 @@ const CreateCustomer = ({ name, email, phone }) =>
 			});
 	});
 
-export const CreateInvoice = (customer, amount, description, line_items = []) =>
+export const CreatePayStackInvoice = (customer, amount, description, line_items = []) =>
 	new Promise(async (resolve, reject) => {
 		const {
 			data: { customer_code }

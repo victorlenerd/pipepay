@@ -123,34 +123,25 @@ class Home extends React.PureComponent {
 
 				<section className="contacts">
 					<div className="container">
-						<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 noPad shrink">
+						<div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 noPad shrink">
 							<div className="icons" />
 						</div>
-						<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 noPad shrink">
+						<div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 noPad shrink">
 							<div className="contact-info">
 								<h5>Mail:</h5>
 								<p>hello@pipepay.co</p>
 							</div>
-							<div className="contact-info">
-								<h5>Phone:</h5>
-								<p>+234 909 861 2833</p>
-							</div>
 						</div>
-						<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 noPad shrink">
+						<div className="col-lg-3 col-md-3 col-sm-3 col-xs-6 noPad shrink">
 							<div className="contact-info">
-								<h5>Address:</h5>
+								<h5>Location:</h5>
 								<p>Lagos, Nigeria.</p>
 							</div>
-							<div className="contact-info">
-								<h5>Phone:</h5>
-								<p>+1 431 335 0149</p>
-							</div>
 						</div>
-						<div className="col-lg-3 col-md-3 col-sm-6 col-xs-12 noPad shrink">
-							<h4 className="other-title">PipePay</h4>
-							<p className="whyuse-p">
-								Simple escrow solution designed to help merchants easily
-								increase conversion rate and protect buyers interest.
+						<div className="col-lg-3 col-md-3 col-sm-3 col-xs-12 noPad shrink">
+							<h4 className="other-title">Our Mission</h4>
+							<p style={{ fontSize: '14px' }}>
+								PipePay protects buyers and sellers from fraudulent transactions.
 							</p>
 							<br />
 							<Footer />

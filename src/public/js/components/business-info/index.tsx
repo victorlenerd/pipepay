@@ -15,10 +15,10 @@ const BusinessInfo = (props: IProps & IWithAppContext) => {
 		return null;
 	}
 
-	// @ts-ignore:
 	let { sub: userId, token = null, sellerInfo } = user;
 
-	if (!sellerInfo) {
+	if (!Boolean(sellerInfo)) {
+		// @ts-ignore:
 		sellerInfo = {};
 	}
 
@@ -63,7 +63,7 @@ const BusinessInfo = (props: IProps & IWithAppContext) => {
 				url += "/" + userId
 			}
 
-			const { body } = await fetch( url, {
+			const body = await fetch( url, {
 				method: updateMode ? "PUT" : "POST",
 				body: JSON.stringify({
 					address,
@@ -76,7 +76,8 @@ const BusinessInfo = (props: IProps & IWithAppContext) => {
 					"Content-Type": "application/json",
 					Authorization: `Bearer ${token}`
 				}
-			});
+			}).then((res) => res.json());
+
 			NProgress.done();
 
 			// @ts-ignore:
