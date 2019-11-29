@@ -273,7 +273,6 @@ class Invoice extends React.PureComponent<Props & RouteComponentProps, State> {
 									}
 								>
 									<label>PipePay Fee</label>
-									<p className="hint">(Bank Charges + 3.5% of Payment)</p>
 									<h4>&#x20A6;{invoice.pipePayFee}</h4>
 								</div>
 							</div>

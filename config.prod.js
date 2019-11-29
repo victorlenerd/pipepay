@@ -21,12 +21,9 @@ const envs = {
 	MAILER_CLIENT_ID: JSON.stringify(process.env.MAILER_CLIENT_ID)
 };
 
-console.log({ envs });
-
 module.exports = [
 	{
 		entry: ["./src/index.ts"],
-		watch: false,
 		mode: "production",
 		devtool: "sourcemap",
 		target: "node",
@@ -52,8 +49,7 @@ module.exports = [
 								plugins: [
 									"@babel/transform-regenerator",
 									"@babel/plugin-transform-runtime",
-									"transform-class-properties",
-									"react-hot-loader/babel"
+									"transform-class-properties"
 								]
 							}
 						}
@@ -62,15 +58,7 @@ module.exports = [
 				},
 				{
 					test: /\.css$/,
-					loader: 'style-loader'
-				},
-				{
-					test: /\.css$/,
-					loader: 'css-loader',
-					query: {
-						modules: true,
-						localIdentName: '[name]__[local]___[hash:base64:5]'
-					}
+					loader: 'node-style-loader!css-loader',
 				},
 				{
 					test: /\.(png|jpg|gif|svg)$/,
@@ -83,7 +71,7 @@ module.exports = [
 				"process.env": envs
 			}),
 			new webpack.BannerPlugin({
-				banner: "require(\"source-map-support\").install();",
+				banner: 'require("source-map-support").install();',
 				raw: true,
 				entryOnly: false
 			})
@@ -95,20 +83,19 @@ module.exports = [
 				'node_modules'
 			]
 		},
-		output: { path: path.resolve(__dirname, "dist"), filename: "server.js" }
+		output: { path: path.join(__dirname, "dist"), filename: "server.js" }
 	},
 	{
 		entry: ["./src/public/js/index.tsx"],
 		watch: false,
 		mode: "production",
+		devtool: "sourcemap",
 		target: "web",
-		devtool: "cheap-module-eval-source-map",
 		module: {
 			rules: [
 				{
 					test: /\.(js|ts)x?$/,
 					use: [
-						"react-hot-loader/webpack",
 						{
 							loader: "babel-loader",
 							options: {
@@ -119,7 +106,6 @@ module.exports = [
 									"@babel/preset-typescript"
 								],
 								plugins: [
-									"react-hot-loader/babel",
 									"@babel/transform-regenerator",
 									"@babel/plugin-syntax-dynamic-import",
 									["@babel/plugin-transform-runtime", { useESModules: true }],
@@ -132,15 +118,7 @@ module.exports = [
 				},
 				{
 					test: /\.css$/,
-					loader: 'style-loader'
-				},
-				{
-					test: /\.css$/,
-					loader: 'css-loader',
-					query: {
-						modules: true,
-						localIdentName: '[name]__[local]___[hash:base64:5]'
-					}
+					use: ["style-loader", "css-loader"]
 				}
 			]
 		},
@@ -148,8 +126,7 @@ module.exports = [
 			new CleanWebpackPlugin(),
 			new webpack.DefinePlugin({
 				"process.env": envs
-			}),
-			new webpack.optimize.OccurrenceOrderPlugin()
+			})
 		],
 		resolve: {
 			extensions: ['.ts', '.tsx', '.js', '.jsx', '.css'],
@@ -165,3 +142,4 @@ module.exports = [
 		}
 	}
 ];
+

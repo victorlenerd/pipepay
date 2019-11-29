@@ -107,7 +107,16 @@ const HTML = (body, data) => `
 `;
 
 
-const config = require(isDev ? "../config.dev.js" : "../config.stage.js");
+let config = require("../config.dev.js");
+
+if (process.env.NODE_ENV === "production") {
+	config = require("../config.prod.js");
+}
+
+if (process.env.NODE_ENV === "staging") {
+	config = require("../config.stage.js");
+}
+
 const compiler = webpack(config[1]);
 
 app.use(
@@ -118,6 +127,7 @@ app.use(
 		historyApiFallback: true
 	})
 );
+
 
 app.use(require("webpack-hot-middleware")(compiler));
 
