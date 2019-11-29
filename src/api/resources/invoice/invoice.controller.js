@@ -9,7 +9,7 @@ let origin;
 if (process.env.NODE_ENV === "staging") {
 	origin = "https://pipepay.africa";
 } else if (process.env.NODE_ENV === "production") {
-	origin = "https://pipepay.co";
+	origin = "https://www.pipepay.co";
 } else if (
 	process.env.NODE_ENV === "testing" ||
 	process.env.NODE_ENV === "development"
