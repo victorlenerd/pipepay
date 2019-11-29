@@ -183,7 +183,7 @@ class App extends Component {
 						<Route path="/terms" render={() => WithHeader(Terms)} />
 						<Route path="/privacy" render={() => WithHeader(Privacy)} />
 
-						<Route render={() => (
+						<Route render={() => WithHeader(() => (
 								<div style={{
 									width: '100vw',
 									height: '100vh',
@@ -195,7 +195,7 @@ class App extends Component {
 									<h1>Not Found</h1>
 									<p>Sorry, that page doesn’t exist!</p>
 								</div>
-						)} />
+						))} />
 					</Switch>
 				</AppContext.Provider>
 		);
