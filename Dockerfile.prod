@@ -10,6 +10,8 @@ RUN npm audit fix
 
 # Bundle app source
 COPY src /usr/src/pipepay/src
+COPY config.dev.js /usr/src/pipepay/
+COPY config.stage.js /usr/src/pipepay/
 COPY config.prod.js /usr/src/pipepay/
 
 ARG COGNITO_AUD
@@ -24,7 +26,7 @@ ARG DB_PASSWORD
 ARG DB_USER
 ARG MAILER_CLIENT_ID
 
-RUN npm run prod
+RUN npm run build
 
 EXPOSE 4545
 
