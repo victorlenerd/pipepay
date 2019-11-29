@@ -24,7 +24,7 @@ ARG DB_PASSWORD
 ARG DB_USER
 ARG MAILER_CLIENT_ID
 
-RUN npm run prod
+RUN npm run build
 
 EXPOSE 4545
 
