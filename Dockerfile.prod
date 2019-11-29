@@ -11,6 +11,7 @@ RUN npm audit fix
 # Bundle app source
 COPY src /usr/src/pipepay/src
 COPY config.dev.js /usr/src/pipepay/
+COPY config.staging.js /usr/src/pipepay/
 COPY config.prod.js /usr/src/pipepay/
 
 ARG COGNITO_AUD
