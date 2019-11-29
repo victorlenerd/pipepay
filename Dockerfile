@@ -12,6 +12,7 @@ RUN npm audit fix
 COPY src /usr/src/pipepay/src
 COPY config.stage.js /usr/src/pipepay/
 COPY config.dev.js /usr/src/pipepay/
+COPY config.prod.js /usr/src/pipepay/
 
 ARG COGNITO_AUD
 ARG COGNITO_USER_POOL_ID

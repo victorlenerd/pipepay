@@ -10,6 +10,8 @@ let client_id = process.env.MAILER_CLIENT_ID;
 fs.readFile(path.join(__dirname, "private_key.txt"), "utf8", (err, private_key) => {
 	if (err) { throw err; }
 
+	console.log({ private_key });
+
 	transporter = nodemailer.createTransport({
 		host: "smtp.gmail.com",
 		port: 465,
